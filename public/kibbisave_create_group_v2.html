@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KibbiSave — Create Group</title>
+  <link rel="stylesheet" href="css/kibbisave-site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
+    <button class="site-menu-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <nav class="site-nav">
+      <a href="kibbisave_home_final.html">Home</a>
+      <a href="kibbisave_groups_v6.html" class="active">Groups</a>
+      <a href="kibbisave_community_explore.html">Community</a>
+      <a href="kibbisave_leaderboard_v5.html">Leaderboard</a>
+      <a href="kibbisave_profile_screen.html">Profile</a>
+      <a href="/login" class="nav-sign-in-mobile">Sign in</a>
+      <a href="kibbisave_deposit_v2.html" class="nav-deposit-mobile">+ Deposit</a>
+    </nav>
+    <div class="site-header-actions">
+      <a href="/login" class="site-auth-btn" data-auth-link>Sign in</a>
+      <a href="kibbisave_deposit_v2.html" class="site-btn-deposit">+ Deposit</a>
+    </div>
+  </div>
+</header>
+<main class="site-main site-main--create">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
+.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
+.phone{width:320px;background:#fff;border-radius:38px;border:2px solid #c8cfe0;overflow:hidden;display:flex;flex-direction:column;}
+.topbar{background:#00008b;padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;}
+.back{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;}
+.tb-title{font-size:15px;font-weight:500;color:#fff;}
+.tb-step{font-size:12px;color:rgba(255,255,255,0.6);}
+.step-bar{background:#00008b;padding:0 18px 16px;}
+.step-track{background:rgba(255,255,255,0.2);border-radius:4px;height:4px;display:flex;gap:4px;}
+.step-seg{flex:1;border-radius:4px;height:4px;}
+.step-seg.done{background:#ffd700;}
+.step-seg.active{background:#fff;}
+.step-seg.todo{background:rgba(255,255,255,0.2);}
+.step-labels{display:flex;justify-content:space-between;margin-top:6px;}
+.step-lbl{font-size:9px;color:rgba(255,255,255,0.5);}
+.step-lbl.active{color:#fff;font-weight:500;}
+.step-lbl.done{color:#ffd700;}
+.body{padding:16px 18px 0;}
+.section-title{font-size:16px;font-weight:500;color:#111;margin-bottom:4px;}
+.section-sub{font-size:12px;color:#7a85a0;margin-bottom:16px;}
+.field{margin-bottom:14px;}
+.field-label{font-size:11px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px;}
+.field-input{width:100%;border:1.5px solid #dde3f0;border-radius:10px;padding:10px 12px;font-size:13px;color:#111;background:#fff;outline:none;}
+.field-input.active-input{border-color:#00008b;background:#f0f2ff;}
+/* WHAT ARE YOU SAVING FOR — text input first */
+.saving-input-wrap{position:relative;margin-bottom:8px;}
+.saving-input{width:100%;border:1.5px solid #00008b;border-radius:10px;padding:10px 12px 10px 36px;font-size:13px;color:#111;background:#f0f2ff;outline:none;}
+.saving-input-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);}
+/* SUGGESTION CHIPS */
+.suggestion-label{font-size:10px;color:#7a85a0;margin-bottom:6px;}
+.suggestion-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.chip{font-size:11px;padding:5px 11px;border-radius:20px;border:1.5px solid #dde3f0;color:#7a85a0;background:#fff;cursor:pointer;display:flex;align-items:center;gap:4px;}
+.chip:hover{border-color:#00008b;color:#00008b;}
+/* CAT GRID */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.cat-opt{border:1.5px solid #dde3f0;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;background:#fff;}
+.cat-opt.selected{border-color:#00008b;background:#f0f2ff;}
+.cat-emoji{font-size:18px;width:28px;text-align:center;}
+.cat-name{font-size:12px;font-weight:500;color:#111;}
+.cat-opt.selected .cat-name{color:#00008b;}
+/* TOGGLES */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border:1.5px solid #dde3f0;border-radius:10px;margin-bottom:10px;}
+.toggle-info{}
+.toggle-title{font-size:13px;font-weight:500;color:#111;}
+.toggle-sub{font-size:10px;color:#7a85a0;margin-top:1px;}
+.toggle{width:38px;height:22px;border-radius:20px;background:#00008b;position:relative;flex-shrink:0;cursor:pointer;}
+.toggle-dot{width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;}
+.toggle.off{background:#dde3f0;}
+.toggle.off .toggle-dot{right:auto;left:2px;}
+.divider{height:0.5px;background:#eef0f8;margin:4px 0 14px;}
+/* MEMBER PREVIEW */
+.member-preview{background:#f7f8fc;border:1px solid #eef0f8;border-radius:10px;padding:10px 12px;margin-bottom:14px;}
+.mp-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.mp-title{font-size:11px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.07em;}
+.mp-count{font-size:11px;font-weight:500;color:#00008b;}
+.mp-slots{display:flex;gap:5px;flex-wrap:wrap;}
+.slot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;}
+.slot.filled{color:#fff;}
+.slot.empty{background:#eef0f8;border:1.5px dashed #c8cfe0;}
+.slot.empty-plus{background:#e8eaf8;border:1.5px solid #b0b8e8;color:#00008b;font-size:13px;}
+/* SUMMARY */
+.summary-card{background:#f7f8fc;border:1px solid #dde3f0;border-radius:12px;overflow:hidden;margin-bottom:14px;}
+.sc-head{background:#00008b;padding:10px 14px;display:flex;align-items:center;gap:8px;}
+.sc-emoji{font-size:20px;}
+.sc-head-info{}
+.sc-name{font-size:14px;font-weight:500;color:#fff;}
+.sc-cat{font-size:10px;color:rgba(255,255,255,0.6);}
+.sc-rows{padding:10px 14px;}
+.sc-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px solid #eef0f8;}
+.sc-row:last-child{border-bottom:none;}
+.sc-lbl{font-size:11px;color:#7a85a0;}
+.sc-val{font-size:11px;font-weight:500;color:#111;}
+.sc-val.red{color:#c0392b;}
+.sc-val.blue{color:#00008b;}
+.cta-section{padding:14px 18px 18px;}
+.cta-btn{background:#00008b;color:#fff;font-size:13px;font-weight:500;padding:13px 0;border-radius:24px;border:none;cursor:pointer;width:100%;text-align:center;}
+.cta-btn.secondary{background:#fff;color:#00008b;border:1.5px solid #00008b;margin-top:8px;}
+.step-note{font-size:10px;color:#7a85a0;text-align:center;margin-top:8px;}
+</style>
+
+<h2 class="sr-only">KibbiSave create new group flow — four steps: details, settings, invite members, review</h2>
+
+<!-- ═══════════════ STEP 1: GROUP DETAILS ═══════════════ -->
+<div class="wrap">
+<div class="phone">
+
+<div class="topbar">
+  <button class="back">
+    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <span class="tb-title">Create a group</span>
+  <span class="tb-step">Step 1 of 4</span>
+</div>
+
+<div class="step-bar">
+  <div class="step-track">
+    <div class="step-seg active"></div>
+    <div class="step-seg todo"></div>
+    <div class="step-seg todo"></div>
+    <div class="step-seg todo"></div>
+  </div>
+  <div class="step-labels">
+    <span class="step-lbl active">Details</span>
+    <span class="step-lbl">Settings</span>
+    <span class="step-lbl">Members</span>
+    <span class="step-lbl">Review</span>
+  </div>
+</div>
+
+<div class="body">
+  <div class="section-title">Group details</div>
+  <div class="section-sub">Tell everyone what your group is saving for</div>
+
+  <!-- GROUP NAME -->
+  <div class="field">
+    <div class="field-label">Group name</div>
+    <input class="field-input active-input" type="text" value="Makerere Hustlers" readonly/>
+  </div>
+
+  <!-- WHAT ARE YOU SAVING FOR — text field first, then suggestions -->
+  <div class="field">
+    <div class="field-label">What are you saving for?</div>
+    <div class="saving-input-wrap">
+      <svg class="saving-input-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="saving-input" type="text" value="Land in Kampala..." readonly/>
+    </div>
+    <div class="suggestion-label">💡 Popular causes others are saving for</div>
+    <div class="suggestion-chips">
+      <div class="chip">🏡 Land</div>
+      <div class="chip">🚗 Car</div>
+      <div class="chip">💼 Business</div>
+      <div class="chip">🏠 Rent</div>
+      <div class="chip">✈️ Travel</div>
+      <div class="chip">🎓 School fees</div>
+      <div class="chip">🎪 Coachella</div>
+      <div class="chip">🛋️ Furniture</div>
+      <div class="chip">➕ Other</div>
+    </div>
+  </div>
+
+  <!-- SAVING TARGET -->
+  <div class="field">
+    <div class="field-label">Saving target (UGX)</div>
+    <input class="field-input active-input" type="text" value="5,000,000" readonly/>
+  </div>
+
+  <!-- CLOSING DATE -->
+  <div class="field">
+    <div class="field-label">Closing date</div>
+    <input class="field-input" type="text" value="30 September 2026" readonly/>
+  </div>
+</div>
+
+<div class="cta-section">
+  <button class="cta-btn">Next — Group settings</button>
+  <div class="step-note">You can edit these details before launching</div>
+</div>
+
+</div>
+</div>
+
+<!-- ═══════════════ STEP 2: GROUP SETTINGS ═══════════════ -->
+<div style="margin-top:18px;font-size:12px;font-weight:500;color:#7a85a0;text-align:center;padding-bottom:4px;">Step 2 — Group settings</div>
+
+<div class="wrap" style="padding-top:0;">
+<div class="phone">
+
+<div class="topbar">
+  <button class="back">
+    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <span class="tb-title">Create a group</span>
+  <span class="tb-step">Step 2 of 4</span>
+</div>
+
+<div class="step-bar">
+  <div class="step-track">
+    <div class="step-seg done"></div>
+    <div class="step-seg active"></div>
+    <div class="step-seg todo"></div>
+    <div class="step-seg todo"></div>
+  </div>
+  <div class="step-labels">
+    <span class="step-lbl done">Details</span>
+    <span class="step-lbl active">Settings</span>
+    <span class="step-lbl">Members</span>
+    <span class="step-lbl">Review</span>
+  </div>
+</div>
+
+<div class="body">
+  <div class="section-title">Group settings</div>
+  <div class="section-sub">Control who can join and how the group runs</div>
+
+  <div class="toggle-row">
+    <div class="toggle-info">
+      <div class="toggle-title">Open to all</div>
+      <div class="toggle-sub">Anyone on KibbiSave can discover and join</div>
+    </div>
+    <div class="toggle"><div class="toggle-dot"></div></div>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle-info">
+      <div class="toggle-title">Show on community page</div>
+      <div class="toggle-sub">Your cause appears in trending and new causes</div>
+    </div>
+    <div class="toggle"><div class="toggle-dot"></div></div>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle-info">
+      <div class="toggle-title">Show member savings</div>
+      <div class="toggle-sub">Members can see each other's contributions</div>
+    </div>
+    <div class="toggle"><div class="toggle-dot"></div></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- MAX GROUP SIZE — updated to include 25, removed min deposit -->
+  <div class="field">
+    <div class="field-label">Max group size</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;">
+      <div style="border:1.5px solid #dde3f0;border-radius:10px;padding:9px 0;text-align:center;font-size:12px;color:#7a85a0;cursor:pointer;">5</div>
+      <div style="border:1.5px solid #00008b;border-radius:10px;padding:9px 0;text-align:center;font-size:12px;font-weight:500;color:#00008b;background:#f0f2ff;cursor:pointer;">10</div>
+      <div style="border:1.5px solid #dde3f0;border-radius:10px;padding:9px 0;text-align:center;font-size:12px;color:#7a85a0;cursor:pointer;">15</div>
+      <div style="border:1.5px solid #dde3f0;border-radius:10px;padding:9px 0;text-align:center;font-size:12px;color:#7a85a0;cursor:pointer;">20</div>
+      <div style="border:1.5px solid #dde3f0;border-radius:10px;padding:9px 0;text-align:center;font-size:12px;color:#7a85a0;cursor:pointer;">25</div>
+    </div>
+    <div style="font-size:10px;color:#7a85a0;margin-top:6px;">Members can deposit any amount at any time — no minimum required.</div>
+  </div>
+
+</div>
+
+<div class="cta-section">
+  <button class="cta-btn">Next — Invite members</button>
+</div>
+
+</div>
+</div>
+
+<!-- ═══════════════ STEP 3: INVITE MEMBERS ═══════════════ -->
+<div style="margin-top:4px;font-size:12px;font-weight:500;color:#7a85a0;text-align:center;padding-bottom:4px;">Step 3 — Invite members</div>
+
+<div class="wrap" style="padding-top:0;">
+<div class="phone">
+
+<div class="topbar">
+  <button class="back">
+    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <span class="tb-title">Create a group</span>
+  <span class="tb-step">Step 3 of 4</span>
+</div>
+
+<div class="step-bar">
+  <div class="step-track">
+    <div class="step-seg done"></div>
+    <div class="step-seg done"></div>
+    <div class="step-seg active"></div>
+    <div class="step-seg todo"></div>
+  </div>
+  <div class="step-labels">
+    <span class="step-lbl done">Details</span>
+    <span class="step-lbl done">Settings</span>
+    <span class="step-lbl active">Members</span>
+    <span class="step-lbl">Review</span>
+  </div>
+</div>
+
+<div class="body">
+  <div class="section-title">Invite members</div>
+  <div class="section-sub">Add up to 24 more people to your group of 25</div>
+
+  <div class="field">
+    <div class="field-label">Search by name or phone</div>
+    <div style="position:relative;">
+      <input class="field-input" type="text" value="Search KibbiSave users..." readonly style="padding-left:34px;color:#9aa0ac;"/>
+      <svg style="position:absolute;left:10px;top:50%;transform:translateY(-50%);" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </div>
+  </div>
+
+  <div class="member-preview">
+    <div class="mp-head">
+      <span class="mp-title">Group slots</span>
+      <span class="mp-count">3 / 10 filled</span>
+    </div>
+    <div class="mp-slots">
+      <div class="slot filled" style="background:#00008b;">AN</div>
+      <div class="slot filled" style="background:#c0392b;">BM</div>
+      <div class="slot filled" style="background:#1a6e35;">FA</div>
+      <div class="slot empty-plus">+</div>
+      <div class="slot empty"></div>
+      <div class="slot empty"></div>
+      <div class="slot empty"></div>
+      <div class="slot empty"></div>
+      <div class="slot empty"></div>
+      <div class="slot empty"></div>
+    </div>
+  </div>
+
+  <div class="field-label" style="margin-bottom:8px;">Suggested from your contacts</div>
+
+  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+    <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid #dde3f0;border-radius:10px;background:#fff;">
+      <div style="width:32px;height:32px;border-radius:50%;background:#7b2d8b;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#fff;flex-shrink:0;">SR</div>
+      <div style="flex:1;">
+        <div style="font-size:12px;font-weight:500;color:#111;">Sarah R.</div>
+        <div style="font-size:10px;color:#7a85a0;">In 2 groups with you</div>
+      </div>
+      <button style="background:#00008b;color:#fff;font-size:11px;font-weight:500;padding:5px 13px;border-radius:20px;border:none;cursor:pointer;">Invite</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid #dde3f0;border-radius:10px;background:#fff;">
+      <div style="width:32px;height:32px;border-radius:50%;background:#d4a017;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#fff;flex-shrink:0;">PK</div>
+      <div style="flex:1;">
+        <div style="font-size:12px;font-weight:500;color:#111;">Peter K.</div>
+        <div style="font-size:10px;color:#7a85a0;">In 1 group with you</div>
+      </div>
+      <button style="background:#00008b;color:#fff;font-size:11px;font-weight:500;padding:5px 13px;border-radius:20px;border:none;cursor:pointer;">Invite</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid #dde3f0;border-radius:10px;background:#fff;">
+      <div style="width:32px;height:32px;border-radius:50%;background:#185fa5;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#fff;flex-shrink:0;">JO</div>
+      <div style="flex:1;">
+        <div style="font-size:12px;font-weight:500;color:#111;">James O.</div>
+        <div style="font-size:10px;color:#7a85a0;">Active saver · top 10%</div>
+      </div>
+      <button style="background:#00008b;color:#fff;font-size:11px;font-weight:500;padding:5px 13px;border-radius:20px;border:none;cursor:pointer;">Invite</button>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:8px;">
+    <button style="flex:1;background:#fff;color:#00008b;font-size:11px;font-weight:500;padding:9px 0;border-radius:20px;border:1.5px solid #00008b;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;">
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      Copy invite link
+    </button>
+    <button style="flex:1;background:#fff;color:#00008b;font-size:11px;font-weight:500;padding:9px 0;border-radius:20px;border:1.5px solid #00008b;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;">
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Share via WhatsApp
+    </button>
+  </div>
+</div>
+
+<div class="cta-section">
+  <button class="cta-btn">Next — Review & launch</button>
+</div>
+
+</div>
+</div>
+
+<!-- ═══════════════ STEP 4: REVIEW & LAUNCH ═══════════════ -->
+<div style="margin-top:4px;font-size:12px;font-weight:500;color:#7a85a0;text-align:center;padding-bottom:4px;">Step 4 — Review &amp; launch</div>
+
+<div class="wrap" style="padding-top:0;padding-bottom:0;">
+<div class="phone">
+
+<div class="topbar">
+  <button class="back">
+    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <span class="tb-title">Create a group</span>
+  <span class="tb-step">Step 4 of 4</span>
+</div>
+
+<div class="step-bar">
+  <div class="step-track">
+    <div class="step-seg done"></div>
+    <div class="step-seg done"></div>
+    <div class="step-seg done"></div>
+    <div class="step-seg active"></div>
+  </div>
+  <div class="step-labels">
+    <span class="step-lbl done">Details</span>
+    <span class="step-lbl done">Settings</span>
+    <span class="step-lbl done">Members</span>
+    <span class="step-lbl active">Review</span>
+  </div>
+</div>
+
+<div class="body">
+  <div class="section-title">Review your group</div>
+  <div class="section-sub">Everything looks good? Launch when ready.</div>
+
+  <div class="summary-card">
+    <div class="sc-head">
+      <span class="sc-emoji">🏡</span>
+      <div class="sc-head-info">
+        <div class="sc-name">Makerere Hustlers</div>
+        <div class="sc-cat">Land · Open to all</div>
+      </div>
+    </div>
+    <div class="sc-rows">
+      <div class="sc-row">
+        <span class="sc-lbl">Saving for</span>
+        <span class="sc-val">Land in Kampala</span>
+      </div>
+      <div class="sc-row">
+        <span class="sc-lbl">Saving target</span>
+        <span class="sc-val blue">UGX 5,000,000</span>
+      </div>
+      <div class="sc-row">
+        <span class="sc-lbl">Closes</span>
+        <span class="sc-val red">30 September 2026</span>
+      </div>
+      <div class="sc-row">
+        <span class="sc-lbl">Max members</span>
+        <span class="sc-val">10</span>
+      </div>
+      <div class="sc-row">
+        <span class="sc-lbl">Deposits</span>
+        <span class="sc-val">Any amount, any time</span>
+      </div>
+      <div class="sc-row">
+        <span class="sc-lbl">Interest rate</span>
+        <span class="sc-val blue">5.6% p.a.</span>
+      </div>
+      <div class="sc-row">
+        <span class="sc-lbl">Withdrawal</span>
+        <span class="sc-val" style="display:flex;align-items:center;gap:4px;">
+          <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Locked until close
+        </span>
+      </div>
+      <div class="sc-row">
+        <span class="sc-lbl">Members invited</span>
+        <span class="sc-val">3 / 10 confirmed</span>
+      </div>
+      <div class="sc-row">
+        <span class="sc-lbl">Visible on community</span>
+        <span class="sc-val blue">Yes</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#fff8e1;border:1px solid #f5d76e;border-radius:10px;padding:10px 12px;display:flex;gap:8px;align-items:flex-start;margin-bottom:14px;">
+    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#b07c00" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <div style="font-size:11px;color:#7a5800;line-height:1.5;">Once launched, the group name and target cannot be changed. Members will receive their invites immediately.</div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <button class="cta-btn">Launch group</button>
+  <button class="cta-btn secondary">Edit details</button>
+</div>
+
+</div>
+</div>
+
+</main>
+<footer class="site-footer">KibbiSave — group savings for Uganda</footer>
+<script src="js/kibbisave-site.js"></script>
+</body>
+</html>

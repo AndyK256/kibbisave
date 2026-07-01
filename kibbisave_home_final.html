@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KibbiSave — Home</title>
+  <meta name="description" content="KibbiSave — group savings for Uganda. Join savings groups, track goals, and grow together with your community.">
+  <meta name="theme-color" content="#00008b">
+  <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="KibbiSave">
+  <meta property="og:title" content="KibbiSave — Group savings for Uganda">
+  <meta property="og:description" content="Join savings groups, track goals, and grow together with your community.">
+  <meta property="og:url" content="https://kibbisave.com/">
+  <meta property="og:image" content="https://kibbisave.com/assets/kibbisave-og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="KibbiSave — Group savings for Uganda">
+  <meta name="twitter:description" content="Join savings groups, track goals, and grow together with your community.">
+  <meta name="twitter:image" content="https://kibbisave.com/assets/kibbisave-og.jpg">
+  <link rel="stylesheet" href="css/kibbisave-site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
+    <button class="site-menu-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <nav class="site-nav">
+      <a href="kibbisave_home_final.html" class="active">Home</a>
+      <a href="kibbisave_groups_v6.html">Groups</a>
+      <a href="kibbisave_community_explore.html">Community</a>
+      <a href="kibbisave_leaderboard_v5.html">Leaderboard</a>
+      <a href="kibbisave_profile_screen.html">Profile</a>
+      <a href="/login" class="nav-sign-in-mobile">Sign in</a>
+      <a href="kibbisave_deposit_v2.html" class="nav-deposit-mobile">+ Deposit</a>
+    </nav>
+    <div class="site-header-actions">
+      <a href="/login" class="site-auth-btn" data-auth-link>Sign in</a>
+      <a href="kibbisave_deposit_v2.html" class="site-btn-deposit">+ Deposit</a>
+    </div>
+  </div>
+</header>
+<main class="site-main site-main--home">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
+.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
+.phone{width:320px;background:#fff;border-radius:38px;border:2px solid #c8cfe0;overflow:hidden;display:flex;flex-direction:column;}
+.topbar{background:#00008b;padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-size:17px;font-weight:500;color:#fff;}
+.logo-save{color:#ffd700;font-weight:500;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.search-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;}
+.deposit-btn{background:#ffd700;color:#00008b;font-size:13px;font-weight:500;padding:8px 16px;border-radius:20px;border:none;cursor:pointer;white-space:nowrap;}
+
+.hero-bg{background:#00008b;padding:0 18px 20px;}
+.hero-label{font-size:11px;color:rgba(255,255,255,0.65);letter-spacing:0.08em;}
+.hero-val{font-size:28px;font-weight:500;color:#fff;margin-top:3px;}
+.hero-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-top:2px;}
+.hero-prog-wrap{margin-top:14px;background:rgba(255,255,255,0.18);border-radius:4px;height:7px;}
+.hero-prog{background:#ffd700;height:7px;border-radius:4px;width:62%;}
+.hero-prog-row{display:flex;justify-content:space-between;margin-top:5px;}
+.hero-prog-lbl{font-size:10px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:3px;}
+
+.oas-wrap{background:#fff;padding:10px 18px 10px;border-bottom:1px solid #eef0f8;}
+.oas-title{font-size:10px;font-weight:500;color:#7a85a0;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:7px;}
+.oas-bar{display:flex;align-items:center;gap:8px;background:#f7f8fc;border:1px solid #dde3f0;border-radius:10px;padding:8px 11px;cursor:pointer;}
+.oas-avatars{display:flex;flex-shrink:0;}
+.oas-av{width:26px;height:26px;border-radius:50%;border:1.5px solid #fff;margin-left:-7px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;color:#fff;}
+.oas-av:first-child{margin-left:0;}
+.oas-av-more{width:26px;height:26px;border-radius:50%;border:1.5px solid #fff;margin-left:-7px;background:#dde3f0;display:flex;align-items:center;justify-content:center;font-size:8px;color:#7a85a0;font-weight:500;}
+.oas-text{flex:1;min-width:0;}
+.oas-name{font-size:11px;font-weight:500;color:#111;}
+.oas-sub{font-size:10px;color:#7a85a0;margin-top:1px;}
+.oas-join{background:#00008b;color:#fff;font-size:11px;font-weight:500;padding:7px 15px;border-radius:20px;border:none;cursor:pointer;white-space:nowrap;flex-shrink:0;text-decoration:none;display:inline-flex;align-items:center;}
+
+.hero-pct-section{background:#fff;padding:18px 18px 16px;border-bottom:1px solid #eef0f8;}
+.hero-pct{font-size:96px;font-weight:500;letter-spacing:-4px;line-height:1;text-align:center;color:#00008b;}
+.hero-label-row{display:flex;flex-direction:column;align-items:flex-start;margin-top:10px;}
+.label-line1{font-size:11px;color:#7a85a0;}
+.label-deadline{display:inline-flex;align-items:center;gap:4px;margin-top:4px;}
+.deadline-text{font-size:10px;font-weight:500;color:#1a6e35;}
+
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 18px 0;}
+.stat-box{background:#fff;border:1px solid #dde3f0;border-radius:10px;padding:10px 12px;}
+.stat-lbl{font-size:10px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.06em;}
+.stat-val{font-size:18px;font-weight:500;color:#00008b;margin-top:3px;}
+.stat-chg{font-size:10px;color:#1a6e35;margin-top:1px;}
+
+.sec{padding:12px 18px 14px;}
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.sec-title{font-size:13px;font-weight:500;color:#111;}
+.sec-link{font-size:11px;color:#00008b;font-weight:500;}
+
+.group-card{background:#fff;border:1px solid #dde3f0;border-radius:14px;padding:13px 14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,56,0.04);}
+.gc-top{display:flex;align-items:flex-start;gap:10px;}
+.gc-icon{width:38px;height:38px;border-radius:10px;background:#e8eaf8;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.gc-info{flex:1;min-width:0;}
+.gc-name{font-size:13px;font-weight:500;color:#111;}
+.gc-sub{font-size:10px;color:#7a85a0;margin-top:1px;display:flex;align-items:center;gap:4px;}
+.gc-right{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;gap:3px;}
+.gc-val{font-size:13px;font-weight:500;color:#00008b;}
+.gc-val-sub{font-size:10px;color:#7a85a0;}
+.gc-lb-row{display:flex;align-items:center;gap:3px;justify-content:flex-end;}
+.gc-lb-arrow{font-size:13px;font-weight:500;line-height:1;}
+.gc-lb-arrow.up{color:#1a8a3c;}
+.gc-lb-arrow.down{color:#c0392b;}
+.gc-lb-num{font-size:22px;font-weight:500;color:#111;line-height:1;}
+
+.gc-my-rank{display:inline-flex;align-items:center;font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;margin-top:5px;}
+.gc-my-rank.gold{background:#fff3cd;color:#7a4f00;}
+.gc-my-rank.silver{background:#eff0f2;color:#4a5568;}
+.gc-my-rank.red{background:#fdecea;color:#a32d2d;}
+
+/* dates — restored original style, closes in red */
+.gc-dates{display:flex;gap:6px;margin-top:8px;}
+.gc-date-chip{display:flex;align-items:center;gap:4px;font-size:9px;color:#7a85a0;background:#f7f8fc;border:1px solid #eef0f8;border-radius:6px;padding:3px 7px;}
+.gc-date-chip span{color:#333;font-weight:500;}
+.gc-date-chip.closes span{color:#c0392b;}
+
+.gc-prog-row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;margin-bottom:4px;}
+.gc-prog-lbl{font-size:10px;color:#7a85a0;}
+.gc-prog-pct{font-size:10px;font-weight:500;color:#00008b;}
+.gc-prog-wrap{background:#eef0f8;border-radius:4px;height:5px;}
+.gc-prog{background:#00008b;height:5px;border-radius:4px;}
+
+.gc-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;}
+.members-row{display:flex;}
+.mem-av{width:20px;height:20px;border-radius:50%;border:1.5px solid #fff;margin-left:-5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;color:#fff;}
+.mem-av:first-child{margin-left:0;}
+.mem-more{width:20px;height:20px;border-radius:50%;border:1.5px solid #fff;margin-left:-5px;background:#eef0f8;display:flex;align-items:center;justify-content:center;font-size:8px;color:#7a85a0;}
+.gc-lead{font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;}
+.gc-lead.ahead{background:#e6f4ea;color:#1a6e35;}
+.gc-lead.behind{background:#fdecea;color:#a32d2d;}
+
+.tab-bar{display:flex;border-top:1px solid #dde3f0;background:#fff;}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 4px 8px;cursor:pointer;gap:3px;}
+.tab-lbl{font-size:9px;color:#7a85a0;font-weight:500;}
+.tab.act .tab-lbl{color:#00008b;}
+.tab-dot{width:4px;height:4px;border-radius:50%;background:#00008b;margin-top:1px;}
+</style>
+
+<div class="wrap">
+<div class="phone">
+
+<div class="topbar">
+  <div class="logo">kibbi<span class="logo-save">save</span></div>
+  <div class="topbar-right">
+    <button class="search-btn" style="position:relative;">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span style="position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:#ff4444;border:1.5px solid #00008b;"></span>
+    </button>
+    <button class="search-btn">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <button class="deposit-btn">+ Deposit</button>
+  </div>
+</div>
+
+<div class="hero-bg">
+  <div class="hero-label">My total savings</div>
+  <div class="hero-val">UGX 1,240,000</div>
+  <div class="hero-sub">Across 2 active groups</div>
+  <div class="hero-prog-wrap"><div class="hero-prog"></div></div>
+  <div class="hero-prog-row">
+    <span class="hero-prog-lbl">62% reached</span>
+    <span class="hero-prog-lbl">
+      <!-- closed grey padlock on goal -->
+      <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.45)" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Goal: UGX 2,000,000
+    </span>
+  </div>
+</div>
+
+<div class="oas-wrap">
+  <div class="oas-title">Others are saving for</div>
+  <div class="oas-bar">
+    <div class="oas-avatars">
+      <div class="oas-av" style="background:#c0392b;">BM</div>
+      <div class="oas-av" style="background:#1a6e35;">FA</div>
+      <div class="oas-av" style="background:#7b2d8b;">SR</div>
+      <div class="oas-av-more">+8</div>
+    </div>
+    <div class="oas-text">
+      <div class="oas-name">🏡 Land in Wakiso</div>
+      <div class="oas-sub">13 people saving</div>
+    </div>
+    <a href="kibbisave_community_explore.html" class="oas-join">Explore</a>
+  </div>
+</div>
+
+<div class="hero-pct-section">
+  <div style="font-size:10px;font-weight:500;color:#7a85a0;text-transform:uppercase;letter-spacing:0.1em;text-align:center;margin-bottom:6px;">AHEAD OF YOUR SAVINGS TARGET</div>
+  <div class="hero-pct">+2.56%</div>
+  <div class="hero-label-row" style="align-items:center;margin-top:8px;">
+    <div class="label-deadline">
+      <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="deadline-text">23 May 2026 · 12:00</span>
+    </div>
+  </div>
+</div>
+
+<div class="stat-row">
+  <div class="stat-box">
+    <div class="stat-lbl">This week</div>
+    <div class="stat-val">UGX 320k</div>
+    <div class="stat-chg">▲ 12% vs last</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-lbl">Interest earned</div>
+    <div class="stat-val">UGX 47k</div>
+    <div class="stat-chg">▲ 5.6% rate</div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head">
+    <span class="sec-title">My groups</span>
+    <span class="sec-link">See all</span>
+  </div>
+
+  <!-- GROUP 1: open (still accepting) — turning/open padlock in grey -->
+  <div class="group-card">
+    <div class="gc-top">
+      <div class="gc-icon">
+        <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="gc-info">
+        <div class="gc-name">Kampala Hustlers</div>
+        <div class="gc-sub">
+          7 members
+          <!-- open/turning padlock: shackle open on one side — grey -->
+          <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <!-- shackle open: goes up and curves but doesn't close on right -->
+            <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+          </svg>
+        </div>
+        <span class="gc-my-rank gold">#2nd in group</span>
+      </div>
+      <div class="gc-right">
+        <div class="gc-val">UGX 840k</div>
+        <div class="gc-val-sub">saved so far</div>
+        <div class="gc-lb-row">
+          <div class="gc-lb-arrow up">▲</div>
+          <div class="gc-lb-num">1</div>
+        </div>
+      </div>
+    </div>
+    <div class="gc-dates">
+      <div class="gc-date-chip">
+        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Started <span>01 Jan 2026</span>
+      </div>
+      <div class="gc-date-chip closes">
+        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Closes <span>30 Jun 2026</span>
+      </div>
+    </div>
+    <div class="gc-prog-row">
+      <span class="gc-prog-lbl">Target: UGX 1,200,000</span>
+      <span class="gc-prog-pct">70%</span>
+    </div>
+    <div class="gc-prog-wrap"><div class="gc-prog" style="width:70%"></div></div>
+    <div class="gc-foot">
+      <div class="members-row">
+        <div class="mem-av" style="background:#00008b;">NK</div>
+        <div class="mem-av" style="background:#c0392b;">AM</div>
+        <div class="mem-av" style="background:#1a6e35;">JO</div>
+        <div class="mem-av" style="background:#d4a017;">PK</div>
+        <div class="mem-more">+3</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="position:relative;cursor:pointer;">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span style="position:absolute;top:-2px;right:-2px;width:7px;height:7px;border-radius:50%;background:#ff4444;border:1.5px solid #fff;"></span>
+        </div>
+        <span class="gc-lead ahead">▲ +2.56% ahead</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROUP 2: full — closed padlock in grey -->
+  <div class="group-card">
+    <div class="gc-top">
+      <div class="gc-icon">
+        <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      </div>
+      <div class="gc-info">
+        <div class="gc-name">Makerere Savers</div>
+        <div class="gc-sub">
+          10 members
+          <!-- fully closed padlock — grey -->
+          <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <span class="gc-my-rank red">#5th in group</span>
+      </div>
+      <div class="gc-right">
+        <div class="gc-val">UGX 1.2M</div>
+        <div class="gc-val-sub">saved so far</div>
+        <div class="gc-lb-row">
+          <div class="gc-lb-arrow down">▼</div>
+          <div class="gc-lb-num">3</div>
+        </div>
+      </div>
+    </div>
+    <div class="gc-dates">
+      <div class="gc-date-chip">
+        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Started <span>10 Feb 2026</span>
+      </div>
+      <div class="gc-date-chip closes">
+        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Closes <span>10 Aug 2026</span>
+      </div>
+    </div>
+    <div class="gc-prog-row">
+      <span class="gc-prog-lbl">Target: UGX 2,200,000</span>
+      <span class="gc-prog-pct">55%</span>
+    </div>
+    <div class="gc-prog-wrap"><div class="gc-prog" style="width:55%"></div></div>
+    <div class="gc-foot">
+      <div class="members-row">
+        <div class="mem-av" style="background:#00008b;">NK</div>
+        <div class="mem-av" style="background:#7b2d8b;">SR</div>
+        <div class="mem-av" style="background:#c0392b;">BM</div>
+        <div class="mem-av" style="background:#1a6e35;">FA</div>
+        <div class="mem-more">+6</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="cursor:pointer;">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <span class="gc-lead behind">▼ -1.8% behind</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="tab-bar" style="align-items:flex-end;padding-bottom:4px;">
+  <div class="tab">
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    <span class="tab-lbl">Profile</span>
+  </div>
+  <div class="tab">
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg>
+    <span class="tab-lbl">Board</span>
+  </div>
+  <!-- FAB centre button — active/home -->
+  <div class="tab" style="flex:0 0 58px;">
+    <div style="width:52px;height:52px;border-radius:50%;background:#00008b;border:3px solid #fff;box-shadow:0 2px 12px rgba(0,0,139,0.35);display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:8px;cursor:pointer;gap:1px;">
+      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <span style="color:#fff;font-size:8px;font-weight:500;">Save</span>
+    </div>
+  </div>
+  <div class="tab">
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <span class="tab-lbl">Groups</span>
+  </div>
+  <div class="tab">
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+    <span class="tab-lbl">Community</span>
+  </div>
+</div>
+
+</div>
+</div>
+
+</main>
+<footer class="site-footer">KibbiSave — group savings for Uganda</footer>
+<script src="js/kibbisave-site.js"></script>
+</body>
+</html>

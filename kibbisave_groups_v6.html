@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KibbiSave — Groups</title>
+  <link rel="stylesheet" href="css/kibbisave-site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
+    <button class="site-menu-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <nav class="site-nav">
+      <a href="kibbisave_home_final.html">Home</a>
+      <a href="kibbisave_groups_v6.html" class="active">Groups</a>
+      <a href="kibbisave_community_explore.html">Community</a>
+      <a href="kibbisave_leaderboard_v5.html">Leaderboard</a>
+      <a href="kibbisave_profile_screen.html">Profile</a>
+      <a href="/login" class="nav-sign-in-mobile">Sign in</a>
+      <a href="kibbisave_deposit_v2.html" class="nav-deposit-mobile">+ Deposit</a>
+    </nav>
+    <div class="site-header-actions">
+      <a href="/login" class="site-auth-btn" data-auth-link>Sign in</a>
+      <a href="kibbisave_deposit_v2.html" class="site-btn-deposit">+ Deposit</a>
+    </div>
+  </div>
+</header>
+<main class="site-main site-main--groups">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
+.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
+.phone{width:320px;background:#fff;border-radius:38px;border:2px solid #c8cfe0;overflow:hidden;display:flex;flex-direction:column;}
+.topbar{background:#00008b;padding:14px 18px 13px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-size:17px;font-weight:500;color:#fff;}
+.logo-save{color:#ffd700;font-weight:500;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.search-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;}
+.deposit-btn{background:#ffd700;color:#00008b;font-size:13px;font-weight:500;padding:8px 16px;border-radius:20px;border:none;cursor:pointer;white-space:nowrap;}
+.hero-strip{background:#00008b;padding:0 18px 14px;}
+.hero-title{font-size:19px;font-weight:500;color:#fff;}
+.hero-sub{font-size:11px;color:rgba(255,255,255,0.55);margin-top:3px;}
+/* DURATION PILLS */
+.dur-wrap{padding:12px 18px 0;background:#fff;}
+.dur-label{font-size:10px;font-weight:500;color:#7a85a0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;}
+.dur-scroll{display:flex;justify-content:space-between;gap:4px;width:100%;}
+.dur-pill, .dur-other-pill{font-family:inherit;-webkit-appearance:none;appearance:none;}
+.dur-pill{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-width:0;height:54px;border-radius:12px;border:1.5px solid #dde3f0;color:#7a85a0;background:#fff;cursor:pointer;text-align:center;padding:4px 2px;transition:background 0.15s,border-color 0.15s,color 0.15s;}
+.dur-pill.dp-all{flex:0.85;}
+.dp-main{font-size:12px;font-weight:500;line-height:1.1;}
+.dp-sub{font-size:8px;color:#9aa0ac;margin-top:2px;}
+.dp-single{font-size:11px;font-weight:500;line-height:1.2;}
+.dur-pill.act{background:#00008b;color:#fff;border-color:#00008b;}
+.dur-pill.act .dp-sub{color:rgba(255,255,255,0.6);}
+.dur-others-sub{display:none;justify-content:space-between;gap:4px;width:100%;margin-top:8px;padding-top:8px;border-top:1px solid #eef0f8;}
+.dur-others-sub.show{display:flex;}
+.dur-other-pill{flex:1;min-width:0;height:44px;border-radius:10px;border:1.5px solid #dde3f0;background:#f7f8fc;color:#7a85a0;font-size:9px;font-weight:500;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;}
+.dur-other-pill.act{background:#00008b;color:#fff;border-color:#00008b;}
+.range-sec.filtered-out{display:none!important;}
+.groups-empty{display:none;text-align:center;padding:24px 18px 12px;color:#7a85a0;font-size:12px;line-height:1.5;}
+.groups-empty.show{display:block;}
+/* SECTION TOGGLE */
+.sec-toggle{display:grid;grid-template-columns:1fr 1fr;border-bottom:2px solid #eef0f8;background:#fff;}
+.stg{padding:10px 0;text-align:center;font-size:12px;font-weight:500;color:#7a85a0;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;display:flex;align-items:center;justify-content:center;gap:5px;}
+.stg.act{color:#00008b;border-bottom:2px solid #00008b;}
+/* SWIPE HINT */
+.swipe-hint{background:#fff;display:flex;align-items:center;justify-content:center;gap:5px;padding:7px 14px 0;font-size:10px;color:#b0b7c3;}
+/* PAGE DOTS */
+.page-dots{display:flex;justify-content:center;gap:5px;padding:6px 0 0;background:#fff;}
+.dot{width:6px;height:6px;border-radius:50%;background:#dde3f0;transition:all 0.25s;}
+.dot.act{background:#00008b;width:16px;border-radius:4px;}
+/* SWIPE OUTER/INNER */
+.swipe-outer{overflow:hidden;flex:1;}
+.swipe-inner{display:flex;width:200%;transition:transform 0.32s cubic-bezier(.4,0,.2,1);}
+.swipe-inner.show-private{transform:translateX(-50%);}
+/* Each screen is full phone width */
+.swipe-screen{width:50%;overflow-y:auto;padding-bottom:14px;}
+/* RANGE SECTIONS — full width */
+.range-sec{padding:12px 18px 0;}
+.range-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.range-pill{display:inline-block;background:#00008b;color:#fff;font-size:10px;font-weight:500;padding:4px 11px;border-radius:20px;white-space:nowrap;}
+.private-badge{display:inline-block;background:#7b2d8b;color:#fff;font-size:9px;font-weight:500;padding:3px 9px;border-radius:20px;}
+/* GROUP CARD — full width */
+.gc{background:#fff;border:1px solid #dde3f0;border-radius:14px;padding:13px 14px;box-shadow:0 1px 4px rgba(0,0,56,0.04);}
+.gc-r1{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
+.gc-period-badge{background:#e8eaf8;color:#00008b;font-size:9px;font-weight:500;padding:2px 8px;border-radius:20px;}
+.gc-code{font-size:8px;color:#b0b7c3;margin-top:2px;}
+.gc-name-label{font-size:13px;font-weight:500;color:#111;margin-bottom:2px;}
+.gc-slots{font-size:10px;font-weight:500;display:flex;align-items:center;gap:3px;}
+.gc-slots.open{color:#1a6e35;}
+.gc-slots.low{color:#d4a017;}
+/* MEMBER ROW — hero of card (members + daily rate) */
+.gc-r2{display:flex;align-items:center;justify-content:space-between;margin:8px 0 9px;}
+.gc-members-block{display:flex;align-items:center;gap:8px;}
+.av-stack{display:flex;}
+.av-c{width:24px;height:24px;border-radius:50%;border:2px solid #fff;margin-left:-6px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;color:#fff;flex-shrink:0;}
+.av-c:first-child{margin-left:0;}
+.av-more{width:24px;height:24px;border-radius:50%;border:2px solid #fff;margin-left:-6px;background:#eef0f8;display:flex;align-items:center;justify-content:center;font-size:8px;color:#7a85a0;font-weight:500;}
+.gc-count-block{}
+.gc-count{font-size:18px;font-weight:500;color:#111;line-height:1;}
+.gc-count-lbl{font-size:9px;color:#7a85a0;margin-top:1px;}
+.gc-daily-block{text-align:right;}
+.gc-daily-val{font-size:18px;font-weight:500;color:#00008b;line-height:1;}
+.gc-daily-lbl{font-size:9px;color:#7a85a0;margin-top:1px;}
+/* DATES */
+.gc-dates{display:flex;gap:8px;margin-bottom:12px;}
+.gc-date-chip{display:flex;align-items:center;gap:3px;font-size:9px;color:#7a85a0;background:#f7f8fc;border:1px solid #eef0f8;border-radius:6px;padding:3px 8px;}
+.gc-date-chip span{color:#333;font-weight:500;}
+.gc-date-chip.closes span{color:#c0392b;}
+/* JOIN — hero button */
+.gc-join{background:#00008b;color:#fff;font-size:13px;font-weight:500;padding:12px 0;border-radius:22px;border:none;cursor:pointer;width:100%;text-align:center;}
+/* CREATE PROMPT */
+.create-prompt{margin:12px 18px 0;background:#f0f2ff;border:1.5px dashed #b0b8e8;border-radius:13px;padding:12px 14px;}
+.cp-title{font-size:12px;font-weight:500;color:#00008b;margin-bottom:2px;}
+.cp-sub{font-size:10px;color:#7a85a0;margin-bottom:9px;line-height:1.4;}
+.cp-btn{background:#00008b;color:#fff;font-size:12px;font-weight:500;padding:10px 0;border-radius:20px;border:none;cursor:pointer;width:100%;text-align:center;}
+/* TAB BAR */
+.tab-bar{display:flex;border-top:1px solid #dde3f0;background:#fff;}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 2px 7px;cursor:pointer;gap:2px;}
+.tab-lbl{font-size:8px;color:#7a85a0;font-weight:500;}
+.tab.act .tab-lbl{color:#00008b;}
+.tab-dot{width:4px;height:4px;border-radius:50%;background:#00008b;margin-top:1px;}
+</style>
+
+<script>
+function switchTab(tab){
+  const inner = document.getElementById('swipeInner');
+  const tabPub = document.getElementById('tabPublic');
+  const tabPrv = document.getElementById('tabPrivate');
+  const dot0 = document.getElementById('dot0');
+  const dot1 = document.getElementById('dot1');
+  if(tab==='private'){
+    inner.classList.add('show-private');
+    tabPub.classList.remove('act');
+    tabPrv.classList.add('act');
+    dot0.classList.remove('act');
+    dot1.classList.add('act');
+  } else {
+    inner.classList.remove('show-private');
+    tabPub.classList.add('act');
+    tabPrv.classList.remove('act');
+    dot0.classList.add('act');
+    dot1.classList.remove('act');
+  }
+}
+</script>
+
+<div class="wrap">
+<div class="phone">
+
+<div class="topbar">
+  <div class="logo">kibbi<span class="logo-save">save</span></div>
+  <div class="topbar-right">
+    <button class="search-btn"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+    <button class="deposit-btn">+ Deposit</button>
+  </div>
+</div>
+
+<div class="hero-strip">
+  <div class="hero-title">Open groups</div>
+  <div class="hero-sub">Pick your saving period — swipe for private groups</div>
+</div>
+
+<div class="dur-wrap">
+  <div class="dur-label">How long will you save?</div>
+  <div class="dur-scroll" id="durMainScroll">
+    <button type="button" class="dur-pill dp-all act" onclick="setDuration('all', this)"><span class="dp-single">All</span></button>
+    <button type="button" class="dur-pill" onclick="setDuration('2w', this)"><span class="dp-main">2</span><span class="dp-sub">Weeks</span></button>
+    <button type="button" class="dur-pill" onclick="setDuration('4w', this)"><span class="dp-main">4</span><span class="dp-sub">Weeks</span></button>
+    <button type="button" class="dur-pill" onclick="setDuration('6w', this)"><span class="dp-main">6</span><span class="dp-sub">Weeks</span></button>
+    <button type="button" class="dur-pill" onclick="setDuration('2m', this)"><span class="dp-main">2</span><span class="dp-sub">Months</span></button>
+    <button type="button" class="dur-pill" onclick="setDuration('3m', this)"><span class="dp-main">3</span><span class="dp-sub">Months</span></button>
+    <button type="button" class="dur-pill" onclick="setDuration('6m', this)"><span class="dp-main">6</span><span class="dp-sub">Months</span></button>
+    <button type="button" class="dur-pill" onclick="setDuration('12m', this)"><span class="dp-main">12</span><span class="dp-sub">Months</span></button>
+    <button type="button" class="dur-pill" id="durPillOthers" onclick="setDuration('others', this)"><span class="dp-single">Others</span></button>
+  </div>
+  <div class="dur-others-sub" id="durOthersSub">
+    <button type="button" class="dur-other-pill" onclick="setOtherDuration('18m', this)"><span>18</span><span>Months</span></button>
+    <button type="button" class="dur-other-pill" onclick="setOtherDuration('24m', this)"><span>2</span><span>Years</span></button>
+    <button type="button" class="dur-other-pill" onclick="setOtherDuration('36m', this)"><span>3</span><span>Years</span></button>
+    <button type="button" class="dur-other-pill" onclick="setOtherDuration('48m', this)"><span>4</span><span>Years</span></button>
+    <button type="button" class="dur-other-pill" onclick="setOtherDuration('60m', this)"><span>5</span><span>Years</span></button>
+  </div>
+</div>
+
+<div class="sec-toggle">
+  <div class="stg act" id="tabPublic" onclick="switchTab('public')">
+    <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    Public groups
+  </div>
+  <div class="stg" id="tabPrivate" onclick="switchTab('private')">
+    <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Private groups
+  </div>
+</div>
+
+<div class="swipe-hint">
+  <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#b0b7c3" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+  swipe left for private groups
+  <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#b0b7c3" stroke-width="2.5" stroke-linecap="round"><polyline points="9 6 15 12 9 18"/></svg>
+</div>
+<div class="page-dots">
+  <div class="dot act" id="dot0"></div>
+  <div class="dot" id="dot1"></div>
+</div>
+
+<div class="swipe-outer">
+<div class="swipe-inner" id="swipeInner">
+
+  <!-- ══════ PUBLIC GROUPS SCREEN ══════ -->
+  <div class="swipe-screen" id="publicGroupsScreen">
+
+    <div class="range-sec" data-group data-period="2w" data-type="public">
+      <div class="range-bar"><span class="range-pill">100k – 200k</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">2 Weeks</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>4 slots</span></div>
+        <div class="gc-code">#KBS-2W-041</div>
+        <div class="gc-r2">
+          <div class="gc-members-block">
+            <div class="av-stack"><div class="av-c" style="background:#1a6e35;">FA</div><div class="av-c" style="background:#c0392b;">BM</div><div class="av-c" style="background:#7b2d8b;">SR</div><div class="av-more">+3</div></div>
+            <div class="gc-count-block"><div class="gc-count">6</div><div class="gc-count-lbl">members joined</div></div>
+          </div>
+          <div class="gc-daily-block"><div class="gc-daily-val">14,300</div><div class="gc-daily-lbl">UGX / day</div></div>
+        </div>
+        <div class="gc-dates">
+          <div class="gc-date-chip"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Starts <span>01 Jun 2026</span></div>
+          <div class="gc-date-chip closes"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Closes <span>14 Jun 2026</span></div>
+        </div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="2w" data-type="public">
+      <div class="range-bar"><span class="range-pill">200k – 400k</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">2 Weeks</span><span class="gc-slots low"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#d4a017" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>2 slots</span></div>
+        <div class="gc-code">#KBS-2W-038</div>
+        <div class="gc-r2">
+          <div class="gc-members-block">
+            <div class="av-stack"><div class="av-c" style="background:#d4a017;">PK</div><div class="av-c" style="background:#00008b;">NK</div><div class="av-c" style="background:#1a6e35;">AN</div><div class="av-more">+5</div></div>
+            <div class="gc-count-block"><div class="gc-count">8</div><div class="gc-count-lbl">members joined</div></div>
+          </div>
+          <div class="gc-daily-block"><div class="gc-daily-val">28,600</div><div class="gc-daily-lbl">UGX / day</div></div>
+        </div>
+        <div class="gc-dates">
+          <div class="gc-date-chip"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Starts <span>01 Jun 2026</span></div>
+          <div class="gc-date-chip closes"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Closes <span>14 Jun 2026</span></div>
+        </div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="2w" data-type="public">
+      <div class="range-bar"><span class="range-pill">400k – 700k</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">2 Weeks</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>7 slots</span></div>
+        <div class="gc-code">#KBS-2W-029</div>
+        <div class="gc-r2">
+          <div class="gc-members-block">
+            <div class="av-stack"><div class="av-c" style="background:#7b2d8b;">SR</div><div class="av-c" style="background:#185fa5;">JO</div><div class="av-c" style="background:#d4a017;">PK</div></div>
+            <div class="gc-count-block"><div class="gc-count">3</div><div class="gc-count-lbl">members joined</div></div>
+          </div>
+          <div class="gc-daily-block"><div class="gc-daily-val">50,000</div><div class="gc-daily-lbl">UGX / day</div></div>
+        </div>
+        <div class="gc-dates">
+          <div class="gc-date-chip"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Starts <span>08 Jun 2026</span></div>
+          <div class="gc-date-chip closes"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Closes <span>21 Jun 2026</span></div>
+        </div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="2w" data-type="public">
+      <div class="range-bar"><span class="range-pill">500k – 700k</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">2 Weeks</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>6 slots</span></div>
+        <div class="gc-code">#KBS-2W-055</div>
+        <div class="gc-r2">
+          <div class="gc-members-block">
+            <div class="av-stack"><div class="av-c" style="background:#185fa5;">JO</div><div class="av-c" style="background:#1a6e35;">AN</div><div class="av-c" style="background:#c0392b;">BM</div><div class="av-more">+2</div></div>
+            <div class="gc-count-block"><div class="gc-count">5</div><div class="gc-count-lbl">members joined</div></div>
+          </div>
+          <div class="gc-daily-block"><div class="gc-daily-val">35,700</div><div class="gc-daily-lbl">UGX / day</div></div>
+        </div>
+        <div class="gc-dates">
+          <div class="gc-date-chip"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Starts <span>10 Jun 2026</span></div>
+          <div class="gc-date-chip closes"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Closes <span>23 Jun 2026</span></div>
+        </div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="2w" data-type="public">
+      <div class="range-bar"><span class="range-pill">700k – 1M</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">2 Weeks</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>5 slots</span></div>
+        <div class="gc-code">#KBS-2W-021</div>
+        <div class="gc-r2">
+          <div class="gc-members-block">
+            <div class="av-stack"><div class="av-c" style="background:#1a6e35;">FA</div><div class="av-c" style="background:#00008b;">NK</div><div class="av-c" style="background:#c0392b;">BM</div><div class="av-more">+2</div></div>
+            <div class="gc-count-block"><div class="gc-count">5</div><div class="gc-count-lbl">members joined</div></div>
+          </div>
+          <div class="gc-daily-block"><div class="gc-daily-val">71,400</div><div class="gc-daily-lbl">UGX / day</div></div>
+        </div>
+        <div class="gc-dates">
+          <div class="gc-date-chip"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Starts <span>01 Jun 2026</span></div>
+          <div class="gc-date-chip closes"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Closes <span>14 Jun 2026</span></div>
+        </div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="2w" data-type="public">
+      <div class="range-bar"><span class="range-pill">1M – 1.3M</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">2 Weeks</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>3 slots</span></div>
+        <div class="gc-code">#KBS-2W-014</div>
+        <div class="gc-r2">
+          <div class="gc-members-block">
+            <div class="av-stack"><div class="av-c" style="background:#d4a017;">PK</div><div class="av-c" style="background:#7b2d8b;">SR</div><div class="av-c" style="background:#1a6e35;">FA</div><div class="av-more">+4</div></div>
+            <div class="gc-count-block"><div class="gc-count">7</div><div class="gc-count-lbl">members joined</div></div>
+          </div>
+          <div class="gc-daily-block"><div class="gc-daily-val">92,900</div><div class="gc-daily-lbl">UGX / day</div></div>
+        </div>
+        <div class="gc-dates">
+          <div class="gc-date-chip"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Starts <span>15 Jun 2026</span></div>
+          <div class="gc-date-chip closes"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Closes <span>28 Jun 2026</span></div>
+        </div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="4w" data-type="public">
+      <div class="range-bar"><span class="range-pill">300k – 500k</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">4 Weeks</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>5 slots</span></div>
+        <div class="gc-code">#KBS-4W-012</div>
+        <div class="gc-r2"><div class="gc-members-block"><div class="av-stack"><div class="av-c" style="background:#1a6e35;">FA</div><div class="av-c" style="background:#00008b;">NK</div><div class="av-more">+2</div></div><div class="gc-count-block"><div class="gc-count">4</div><div class="gc-count-lbl">members joined</div></div></div><div class="gc-daily-block"><div class="gc-daily-val">12,500</div><div class="gc-daily-lbl">UGX / day</div></div></div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="6w" data-type="public">
+      <div class="range-bar"><span class="range-pill">600k – 900k</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">6 Weeks</span><span class="gc-slots low"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#d4a017" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>2 slots</span></div>
+        <div class="gc-code">#KBS-6W-007</div>
+        <div class="gc-r2"><div class="gc-members-block"><div class="av-stack"><div class="av-c" style="background:#7b2d8b;">SR</div><div class="av-c" style="background:#c0392b;">BM</div><div class="av-more">+6</div></div><div class="gc-count-block"><div class="gc-count">8</div><div class="gc-count-lbl">members joined</div></div></div><div class="gc-daily-block"><div class="gc-daily-val">21,400</div><div class="gc-daily-lbl">UGX / day</div></div></div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="2m" data-type="public">
+      <div class="range-bar"><span class="range-pill">800k – 1.2M</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">2 Months</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>4 slots</span></div>
+        <div class="gc-code">#KBS-2M-019</div>
+        <div class="gc-r2"><div class="gc-members-block"><div class="av-stack"><div class="av-c" style="background:#185fa5;">JO</div><div class="av-c" style="background:#d4a017;">PK</div><div class="av-more">+3</div></div><div class="gc-count-block"><div class="gc-count">5</div><div class="gc-count-lbl">members joined</div></div></div><div class="gc-daily-block"><div class="gc-daily-val">20,000</div><div class="gc-daily-lbl">UGX / day</div></div></div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="6m" data-type="public">
+      <div class="range-bar"><span class="range-pill">2M – 3M</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">6 Months</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>8 slots</span></div>
+        <div class="gc-code">#KBS-6M-003</div>
+        <div class="gc-r2"><div class="gc-members-block"><div class="av-stack"><div class="av-c" style="background:#1a6e35;">AN</div><div class="av-c" style="background:#00008b;">NK</div></div><div class="gc-count-block"><div class="gc-count">2</div><div class="gc-count-lbl">members joined</div></div></div><div class="gc-daily-block"><div class="gc-daily-val">16,700</div><div class="gc-daily-lbl">UGX / day</div></div></div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="12m" data-type="public">
+      <div class="range-bar"><span class="range-pill">3M – 5M</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">12 Months</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>10 slots</span></div>
+        <div class="gc-code">#KBS-12M-001</div>
+        <div class="gc-r2"><div class="gc-members-block"><div class="av-stack"><div class="av-c" style="background:#c0392b;">BM</div><div class="av-c" style="background:#7b2d8b;">SR</div><div class="av-more">+1</div></div><div class="gc-count-block"><div class="gc-count">3</div><div class="gc-count-lbl">members joined</div></div></div><div class="gc-daily-block"><div class="gc-daily-val">11,000</div><div class="gc-daily-lbl">UGX / day</div></div></div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="24m" data-type="public">
+      <div class="range-bar"><span class="range-pill">5M – 8M</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">2 Years</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>12 slots</span></div>
+        <div class="gc-code">#KBS-2Y-002</div>
+        <div class="gc-r2"><div class="gc-members-block"><div class="av-stack"><div class="av-c" style="background:#00008b;">NK</div><div class="av-c" style="background:#1a6e35;">FA</div></div><div class="gc-count-block"><div class="gc-count">2</div><div class="gc-count-lbl">members joined</div></div></div><div class="gc-daily-block"><div class="gc-daily-val">11,000</div><div class="gc-daily-lbl">UGX / day</div></div></div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="60m" data-type="public">
+      <div class="range-bar"><span class="range-pill">10M – 15M</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">5 Years</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>15 slots</span></div>
+        <div class="gc-code">#KBS-5Y-001</div>
+        <div class="gc-r2"><div class="gc-members-block"><div class="av-stack"><div class="av-c" style="background:#d4a017;">PK</div></div><div class="gc-count-block"><div class="gc-count">1</div><div class="gc-count-lbl">members joined</div></div></div><div class="gc-daily-block"><div class="gc-daily-val">8,200</div><div class="gc-daily-lbl">UGX / day</div></div></div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="groups-empty" id="groupsEmpty">No groups match this saving period yet. Try <strong>All</strong> or pick a different duration.</div>
+
+  </div>
+
+  <!-- ══════ PRIVATE GROUPS SCREEN ══════ -->
+  <div class="swipe-screen" id="privateGroupsScreen">
+
+    <div class="range-sec" data-group data-period="4w" data-type="private">
+      <div class="range-bar"><span class="range-pill">100k – 200k</span><span style="font-size:9px;color:#7b2d8b;font-weight:500;display:flex;align-items:center;gap:3px;"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7b2d8b" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">4 Weeks</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>3 slots</span></div>
+        <div class="gc-name-label">Makerere Hustlers</div>
+        <div class="gc-r2">
+          <div class="gc-members-block">
+            <div class="av-stack"><div class="av-c" style="background:#1a6e35;">FA</div><div class="av-c" style="background:#c0392b;">BM</div><div class="av-c" style="background:#00008b;">NK</div><div class="av-more">+4</div></div>
+            <div class="gc-count-block"><div class="gc-count">7</div><div class="gc-count-lbl">members joined</div></div>
+          </div>
+          <div class="gc-daily-block"><div class="gc-daily-val">14,300</div><div class="gc-daily-lbl">UGX / day</div></div>
+        </div>
+        <div class="gc-dates">
+          <div class="gc-date-chip"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Starts <span>01 Jun 2026</span></div>
+          <div class="gc-date-chip closes"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Closes <span>29 Jun 2026</span></div>
+        </div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="6w" data-type="private">
+      <div class="range-bar"><span class="range-pill">200k – 400k</span><span style="font-size:9px;color:#7b2d8b;font-weight:500;display:flex;align-items:center;gap:3px;"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7b2d8b" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">6 Weeks</span><span class="gc-slots low"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#d4a017" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>2 slots</span></div>
+        <div class="gc-name-label">Kampala Riders</div>
+        <div class="gc-r2">
+          <div class="gc-members-block">
+            <div class="av-stack"><div class="av-c" style="background:#7b2d8b;">SR</div><div class="av-c" style="background:#185fa5;">JO</div><div class="av-c" style="background:#d4a017;">PK</div><div class="av-more">+5</div></div>
+            <div class="gc-count-block"><div class="gc-count">8</div><div class="gc-count-lbl">members joined</div></div>
+          </div>
+          <div class="gc-daily-block"><div class="gc-daily-val">28,600</div><div class="gc-daily-lbl">UGX / day</div></div>
+        </div>
+        <div class="gc-dates">
+          <div class="gc-date-chip"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Starts <span>01 Jun 2026</span></div>
+          <div class="gc-date-chip closes"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Closes <span>13 Jul 2026</span></div>
+        </div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="2m" data-type="private">
+      <div class="range-bar"><span class="range-pill">400k – 700k</span><span style="font-size:9px;color:#7b2d8b;font-weight:500;display:flex;align-items:center;gap:3px;"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7b2d8b" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">2 Months</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>6 slots</span></div>
+        <div class="gc-name-label">Entebbe Circle</div>
+        <div class="gc-r2">
+          <div class="gc-members-block">
+            <div class="av-stack"><div class="av-c" style="background:#c0392b;">AM</div><div class="av-c" style="background:#1a6e35;">FA</div><div class="av-c" style="background:#185fa5;">JO</div><div class="av-more">+1</div></div>
+            <div class="gc-count-block"><div class="gc-count">4</div><div class="gc-count-lbl">members joined</div></div>
+          </div>
+          <div class="gc-daily-block"><div class="gc-daily-val">50,000</div><div class="gc-daily-lbl">UGX / day</div></div>
+        </div>
+        <div class="gc-dates">
+          <div class="gc-date-chip"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Starts <span>15 Jun 2026</span></div>
+          <div class="gc-date-chip closes"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Closes <span>15 Aug 2026</span></div>
+        </div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="3m" data-type="private">
+      <div class="range-bar"><span class="range-pill">700k – 1M</span><span style="font-size:9px;color:#7b2d8b;font-weight:500;display:flex;align-items:center;gap:3px;"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7b2d8b" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">3 Months</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>4 slots</span></div>
+        <div class="gc-name-label">Gulu Builders</div>
+        <div class="gc-r2">
+          <div class="gc-members-block">
+            <div class="av-stack"><div class="av-c" style="background:#d4a017;">PK</div><div class="av-c" style="background:#7b2d8b;">SR</div><div class="av-c" style="background:#00008b;">NK</div><div class="av-more">+3</div></div>
+            <div class="gc-count-block"><div class="gc-count">6</div><div class="gc-count-lbl">members joined</div></div>
+          </div>
+          <div class="gc-daily-block"><div class="gc-daily-val">71,400</div><div class="gc-daily-lbl">UGX / day</div></div>
+        </div>
+        <div class="gc-dates">
+          <div class="gc-date-chip"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Starts <span>01 Jun 2026</span></div>
+          <div class="gc-date-chip closes"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Closes <span>01 Sep 2026</span></div>
+        </div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="range-sec" data-group data-period="36m" data-type="private">
+      <div class="range-bar"><span class="range-pill">2M – 4M</span><span style="font-size:9px;color:#7b2d8b;font-weight:500;display:flex;align-items:center;gap:3px;"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#7b2d8b" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span></div>
+      <div class="gc">
+        <div class="gc-r1"><span class="gc-period-badge">3 Years</span><span class="gc-slots open"><svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>9 slots</span></div>
+        <div class="gc-name-label">Family Land Fund</div>
+        <div class="gc-r2"><div class="gc-members-block"><div class="av-stack"><div class="av-c" style="background:#1a6e35;">FA</div><div class="av-c" style="background:#c0392b;">AM</div></div><div class="gc-count-block"><div class="gc-count">2</div><div class="gc-count-lbl">members joined</div></div></div><div class="gc-daily-block"><div class="gc-daily-val">3,650</div><div class="gc-daily-lbl">UGX / day</div></div></div>
+        <button class="gc-join">Join this group</button>
+      </div>
+    </div>
+
+    <div class="groups-empty" id="groupsEmptyPrivate">No private groups for this period. Swipe to public groups or try <strong>All</strong>.</div>
+
+    <!-- CREATE PROMPT at end of private -->
+    <div class="create-prompt">
+      <div class="cp-title">Can't find the right group?</div>
+      <div class="cp-sub">Create your own private group and invite people by name — great for family, friends or colleagues saving together.</div>
+      <button class="cp-btn">Create a private group</button>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<div class="tab-bar">
+  <div class="tab"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="tab-lbl">Home</span></div>
+  <div class="tab"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg><span class="tab-lbl">Leaderboard</span></div>
+  <div class="tab act"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="tab-lbl" style="color:#00008b;">Groups</span><div class="tab-dot"></div></div>
+  <div class="tab"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg><span class="tab-lbl">Community</span></div>
+  <div class="tab"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span class="tab-lbl">Profile</span></div>
+</div>
+
+</div>
+</div>
+
+</main>
+<footer class="site-footer">KibbiSave — group savings for Uganda</footer>
+<script src="js/kibbisave-groups.js"></script>
+<script src="js/kibbisave-site.js"></script>
+</body>
+</html>
+</html>

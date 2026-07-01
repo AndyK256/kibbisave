@@ -1,0 +1,7 @@
+node_modules
+.env
+.env.*
+kibbisave_foundation
+scripts
+*.log
+.DS_Store

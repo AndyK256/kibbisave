@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KibbiSave — Community</title>
+  <link rel="stylesheet" href="css/kibbisave-site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
+    <button class="site-menu-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <nav class="site-nav">
+      <a href="kibbisave_home_final.html">Home</a>
+      <a href="kibbisave_groups_v6.html">Groups</a>
+      <a href="kibbisave_community_explore.html" class="active">Community</a>
+      <a href="kibbisave_leaderboard_v5.html">Leaderboard</a>
+      <a href="kibbisave_profile_screen.html">Profile</a>
+      <a href="/login" class="nav-sign-in-mobile">Sign in</a>
+      <a href="kibbisave_deposit_v2.html" class="nav-deposit-mobile">+ Deposit</a>
+    </nav>
+    <div class="site-header-actions">
+      <a href="/login" class="site-auth-btn" data-auth-link>Sign in</a>
+      <a href="kibbisave_deposit_v2.html" class="site-btn-deposit">+ Deposit</a>
+    </div>
+  </div>
+</header>
+<main class="site-main site-main--community">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
+.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
+.phone{width:320px;background:#fff;border-radius:38px;border:2px solid #c8cfe0;overflow:hidden;display:flex;flex-direction:column;}
+.topbar{background:#00008b;padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-size:17px;font-weight:500;color:#fff;}
+.logo-save{color:#ffd700;font-weight:500;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.search-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;}
+.deposit-btn{background:#ffd700;color:#00008b;font-size:13px;font-weight:500;padding:8px 16px;border-radius:20px;border:none;cursor:pointer;white-space:nowrap;}
+.page-hero{background:#00008b;padding:12px 18px 18px;}
+.page-title{font-size:19px;font-weight:500;color:#fff;}
+.page-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-top:3px;}
+.cat-scroll{padding:12px 18px 0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;}
+.cat-scroll::-webkit-scrollbar{display:none;}
+.cat-pill{font-size:11px;font-weight:500;padding:5px 13px;border-radius:20px;border:1.5px solid #00008b;color:#00008b;background:#fff;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.cat-pill.active{background:#00008b;color:#fff;}
+.sec-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 10px;}
+.sec-title{font-size:13px;font-weight:500;color:#111;}
+.sec-count{font-size:11px;color:#7a85a0;}
+
+/* HORIZONTAL SCROLL ROW */
+.cards-hscroll{padding:0 18px 14px;display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;}
+.cards-hscroll::-webkit-scrollbar{display:none;}
+
+/* CAUSE CARD — vertical, fixed width, in horizontal scroll */
+.cause-card{background:#fff;border:1px solid #dde3f0;border-radius:14px;padding:13px 13px;flex-shrink:0;width:175px;display:flex;flex-direction:column;gap:8px;box-shadow:0 1px 4px rgba(0,0,56,0.04);}
+.cc-emoji-wrap{display:flex;justify-content:space-between;align-items:flex-start;}
+.cc-emoji{width:38px;height:38px;border-radius:10px;background:#e8eaf8;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.cc-access{font-size:9px;font-weight:500;padding:3px 8px;border-radius:20px;}
+.cc-access.open{background:#e6f4ea;color:#1a6e35;}
+.cc-access.private{background:#f0f2ff;color:#00008b;}
+.cc-access.full{background:#fdecea;color:#a32d2d;}
+.cc-name{font-size:12px;font-weight:500;color:#111;line-height:1.3;}
+.cc-cat{font-size:10px;color:#7a85a0;}
+.cc-target{font-size:13px;font-weight:500;color:#00008b;}
+.cc-people-row{display:flex;align-items:center;gap:6px;}
+.av-stack{display:flex;}
+.av-circle{width:20px;height:20px;border-radius:50%;border:1.5px solid #fff;margin-left:-5px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:500;color:#fff;}
+.av-circle:first-child{margin-left:0;}
+.av-more{width:20px;height:20px;border-radius:50%;border:1.5px solid #fff;margin-left:-5px;background:#eef0f8;display:flex;align-items:center;justify-content:center;font-size:7px;color:#7a85a0;font-weight:500;}
+.cc-saving-count{font-size:10px;color:#7a85a0;}
+.cc-prog-wrap{background:#eef0f8;border-radius:4px;height:4px;}
+.cc-prog{background:#00008b;height:4px;border-radius:4px;}
+.cc-pct-row{display:flex;justify-content:space-between;align-items:center;}
+.cc-pct{font-size:10px;font-weight:500;color:#00008b;}
+.cc-closes{display:flex;align-items:center;gap:3px;font-size:9px;}
+.cc-closes-lbl{color:#7a85a0;}
+.cc-closes-date{color:#c0392b;font-weight:500;}
+.explore-btn{background:#00008b;color:#fff;font-size:11px;font-weight:500;padding:7px 0;border-radius:20px;border:none;cursor:pointer;width:100%;text-align:center;}
+.explore-btn.full-btn{background:#eef0f8;color:#9aa0ac;cursor:default;}
+
+/* SECOND ROW — same horizontal scroll */
+.sec-head2{display:flex;justify-content:space-between;align-items:center;padding:4px 18px 10px;}
+
+.tab-bar{display:flex;border-top:1px solid #dde3f0;background:#fff;}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 4px 8px;cursor:pointer;gap:3px;}
+.tab-lbl{font-size:9px;color:#7a85a0;font-weight:500;}
+.tab.act .tab-lbl{color:#00008b;}
+.tab-dot{width:4px;height:4px;border-radius:50%;background:#00008b;margin-top:1px;}
+</style>
+
+<h2 class="sr-only">KibbiSave community screen with horizontally scrolling cause cards for land, business, car, rent, Coachella and more</h2>
+
+<div class="wrap">
+<div class="phone">
+
+<div class="topbar">
+  <div class="logo">kibbi<span class="logo-save">save</span></div>
+  <div class="topbar-right">
+    <button class="search-btn">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <button class="deposit-btn">+ Deposit</button>
+  </div>
+</div>
+
+<div class="page-hero">
+  <div class="page-title">Community</div>
+  <div class="page-sub">See what others are saving for — join a cause</div>
+</div>
+
+<div class="cat-scroll">
+  <div class="cat-pill active">All</div>
+  <div class="cat-pill">Land</div>
+  <div class="cat-pill">Business</div>
+  <div class="cat-pill">Car</div>
+  <div class="cat-pill">Rent</div>
+  <div class="cat-pill">Travel</div>
+  <div class="cat-pill">Education</div>
+</div>
+
+<!-- TRENDING ROW -->
+<div class="sec-head">
+  <span class="sec-title">Trending</span>
+  <span class="sec-count">24 active causes</span>
+</div>
+
+<div class="cards-hscroll">
+
+  <!-- LAND -->
+  <div class="cause-card">
+    <div class="cc-emoji-wrap">
+      <div class="cc-emoji">🏡</div>
+      <span class="cc-access open">Open to all</span>
+    </div>
+    <div class="cc-name">Land in Wakiso</div>
+    <div class="cc-cat">Land · Kampala</div>
+    <div class="cc-target">UGX 5,000,000</div>
+    <div class="cc-people-row">
+      <div class="av-stack">
+        <div class="av-circle" style="background:#c0392b;">BM</div>
+        <div class="av-circle" style="background:#1a6e35;">FA</div>
+        <div class="av-circle" style="background:#7b2d8b;">SR</div>
+        <div class="av-more">+10</div>
+      </div>
+      <span class="cc-saving-count">13 saving</span>
+    </div>
+    <div class="cc-prog-wrap"><div class="cc-prog" style="width:65%"></div></div>
+    <div class="cc-pct-row">
+      <span class="cc-pct">65%</span>
+      <div class="cc-closes">
+        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="cc-closes-lbl">Closes</span>
+        <span class="cc-closes-date">30 Sep 2026</span>
+      </div>
+    </div>
+    <button class="explore-btn" onclick="sendPrompt('Show me the Land in Wakiso group details on KibbiSave')">Explore</button>
+  </div>
+
+  <!-- BUSINESS -->
+  <div class="cause-card">
+    <div class="cc-emoji-wrap">
+      <div class="cc-emoji">💼</div>
+      <span class="cc-access open">Open to all</span>
+    </div>
+    <div class="cc-name">Startup capital pool</div>
+    <div class="cc-cat">Business</div>
+    <div class="cc-target">UGX 10,000,000</div>
+    <div class="cc-people-row">
+      <div class="av-stack">
+        <div class="av-circle" style="background:#185fa5;">JO</div>
+        <div class="av-circle" style="background:#d4a017;">PK</div>
+        <div class="av-circle" style="background:#00008b;">NK</div>
+        <div class="av-more">+3</div>
+      </div>
+      <span class="cc-saving-count">6 saving</span>
+    </div>
+    <div class="cc-prog-wrap"><div class="cc-prog" style="width:41%"></div></div>
+    <div class="cc-pct-row">
+      <span class="cc-pct">41%</span>
+      <div class="cc-closes">
+        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="cc-closes-lbl">Closes</span>
+        <span class="cc-closes-date">15 Dec 2026</span>
+      </div>
+    </div>
+    <button class="explore-btn" onclick="sendPrompt('Show me the Startup capital pool group details on KibbiSave')">Explore</button>
+  </div>
+
+  <!-- CAR -->
+  <div class="cause-card">
+    <div class="cc-emoji-wrap">
+      <div class="cc-emoji">🚗</div>
+      <span class="cc-access private">Private</span>
+    </div>
+    <div class="cc-name">Toyota Premio fund</div>
+    <div class="cc-cat">Car · Entebbe</div>
+    <div class="cc-target">UGX 8,000,000</div>
+    <div class="cc-people-row">
+      <div class="av-stack">
+        <div class="av-circle" style="background:#7b2d8b;">SR</div>
+        <div class="av-circle" style="background:#c0392b;">AM</div>
+        <div class="av-circle" style="background:#1a6e35;">JO</div>
+        <div class="av-more">+5</div>
+      </div>
+      <span class="cc-saving-count">8 saving</span>
+    </div>
+    <div class="cc-prog-wrap"><div class="cc-prog" style="width:80%"></div></div>
+    <div class="cc-pct-row">
+      <span class="cc-pct">80%</span>
+      <div class="cc-closes">
+        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="cc-closes-lbl">Closes</span>
+        <span class="cc-closes-date">10 Jul 2026</span>
+      </div>
+    </div>
+    <button class="explore-btn" onclick="sendPrompt('Show me the Toyota Premio fund group details on KibbiSave')">Explore</button>
+  </div>
+
+  <!-- COACHELLA — full -->
+  <div class="cause-card">
+    <div class="cc-emoji-wrap">
+      <div class="cc-emoji">🎪</div>
+      <span class="cc-access full">Full</span>
+    </div>
+    <div class="cc-name">Coachella 2026</div>
+    <div class="cc-cat">Travel · Festival</div>
+    <div class="cc-target">UGX 4,500,000</div>
+    <div class="cc-people-row">
+      <div class="av-stack">
+        <div class="av-circle" style="background:#d4a017;">PK</div>
+        <div class="av-circle" style="background:#185fa5;">JO</div>
+        <div class="av-circle" style="background:#c0392b;">BM</div>
+        <div class="av-more">+7</div>
+      </div>
+      <span class="cc-saving-count">10 saving</span>
+    </div>
+    <div class="cc-prog-wrap"><div class="cc-prog" style="width:65%"></div></div>
+    <div class="cc-pct-row">
+      <span class="cc-pct">65%</span>
+      <div class="cc-closes">
+        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="cc-closes-lbl">Closes</span>
+        <span class="cc-closes-date">01 Apr 2026</span>
+      </div>
+    </div>
+    <button class="explore-btn full-btn" disabled>Full</button>
+  </div>
+
+  <!-- RENT -->
+  <div class="cause-card">
+    <div class="cc-emoji-wrap">
+      <div class="cc-emoji">🏠</div>
+      <span class="cc-access open">Open to all</span>
+    </div>
+    <div class="cc-name">Annual rent advance</div>
+    <div class="cc-cat">Rent · Ntinda</div>
+    <div class="cc-target">UGX 3,600,000</div>
+    <div class="cc-people-row">
+      <div class="av-stack">
+        <div class="av-circle" style="background:#5f5e5a;">MK</div>
+        <div class="av-circle" style="background:#1a6e35;">FA</div>
+        <div class="av-circle" style="background:#7b2d8b;">SR</div>
+        <div class="av-more">+2</div>
+      </div>
+      <span class="cc-saving-count">5 saving</span>
+    </div>
+    <div class="cc-prog-wrap"><div class="cc-prog" style="width:25%"></div></div>
+    <div class="cc-pct-row">
+      <span class="cc-pct">25%</span>
+      <div class="cc-closes">
+        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="cc-closes-lbl">Closes</span>
+        <span class="cc-closes-date">01 Jan 2026</span>
+      </div>
+    </div>
+    <button class="explore-btn" onclick="sendPrompt('Show me the Annual rent advance group details on KibbiSave')">Explore</button>
+  </div>
+
+</div>
+
+<!-- NEW CAUSES ROW -->
+<div class="sec-head2">
+  <span class="sec-title">New causes</span>
+  <span class="sec-count">See all</span>
+</div>
+
+<div class="cards-hscroll">
+  <div class="cause-card">
+    <div class="cc-emoji-wrap">
+      <div class="cc-emoji">🎓</div>
+      <span class="cc-access open">Open to all</span>
+    </div>
+    <div class="cc-name">School fees pool</div>
+    <div class="cc-cat">Education · Gulu</div>
+    <div class="cc-target">UGX 2,400,000</div>
+    <div class="cc-people-row">
+      <div class="av-stack">
+        <div class="av-circle" style="background:#185fa5;">JO</div>
+        <div class="av-circle" style="background:#5f5e5a;">MK</div>
+        <div class="av-more">+1</div>
+      </div>
+      <span class="cc-saving-count">3 saving</span>
+    </div>
+    <div class="cc-prog-wrap"><div class="cc-prog" style="width:12%"></div></div>
+    <div class="cc-pct-row">
+      <span class="cc-pct">12%</span>
+      <div class="cc-closes">
+        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="cc-closes-lbl">Closes</span>
+        <span class="cc-closes-date">01 Oct 2026</span>
+      </div>
+    </div>
+    <button class="explore-btn" onclick="sendPrompt('Show me the School fees pool group details on KibbiSave')">Explore</button>
+  </div>
+
+  <div class="cause-card">
+    <div class="cc-emoji-wrap">
+      <div class="cc-emoji">✈️</div>
+      <span class="cc-access open">Open to all</span>
+    </div>
+    <div class="cc-name">Dubai trip 2026</div>
+    <div class="cc-cat">Travel · Holiday</div>
+    <div class="cc-target">UGX 6,000,000</div>
+    <div class="cc-people-row">
+      <div class="av-stack">
+        <div class="av-circle" style="background:#c0392b;">AM</div>
+        <div class="av-circle" style="background:#d4a017;">PK</div>
+        <div class="av-more">+2</div>
+      </div>
+      <span class="cc-saving-count">4 saving</span>
+    </div>
+    <div class="cc-prog-wrap"><div class="cc-prog" style="width:8%"></div></div>
+    <div class="cc-pct-row">
+      <span class="cc-pct">8%</span>
+      <div class="cc-closes">
+        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="cc-closes-lbl">Closes</span>
+        <span class="cc-closes-date">20 Nov 2026</span>
+      </div>
+    </div>
+    <button class="explore-btn" onclick="sendPrompt('Show me the Dubai trip 2026 group details on KibbiSave')">Explore</button>
+  </div>
+
+  <div class="cause-card">
+    <div class="cc-emoji-wrap">
+      <div class="cc-emoji">🛋️</div>
+      <span class="cc-access private">Private</span>
+    </div>
+    <div class="cc-name">Home furniture</div>
+    <div class="cc-cat">Home · Mbarara</div>
+    <div class="cc-target">UGX 1,800,000</div>
+    <div class="cc-people-row">
+      <div class="av-stack">
+        <div class="av-circle" style="background:#7b2d8b;">SR</div>
+        <div class="av-circle" style="background:#1a6e35;">FA</div>
+        <div class="av-more">+2</div>
+      </div>
+      <span class="cc-saving-count">4 saving</span>
+    </div>
+    <div class="cc-prog-wrap"><div class="cc-prog" style="width:5%"></div></div>
+    <div class="cc-pct-row">
+      <span class="cc-pct">5%</span>
+      <div class="cc-closes">
+        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="cc-closes-lbl">Closes</span>
+        <span class="cc-closes-date">30 Aug 2026</span>
+      </div>
+    </div>
+    <button class="explore-btn" onclick="sendPrompt('Show me the Home furniture group details on KibbiSave')">Explore</button>
+  </div>
+</div>
+
+<div style="padding-bottom:6px;"></div>
+
+<div class="tab-bar">
+  <div class="tab" onclick="sendPrompt('Go back to home screen of KibbiSave')">
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span class="tab-lbl">Home</span>
+  </div>
+  <div class="tab">
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg>
+    <span class="tab-lbl">Leaderboard</span>
+  </div>
+  <div class="tab">
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+    <span class="tab-lbl">Trending</span>
+  </div>
+  <div class="tab act">
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+    <span class="tab-lbl" style="color:#00008b;">Community</span>
+    <div class="tab-dot"></div>
+  </div>
+</div>
+
+</div>
+</div>
+
+</main>
+<footer class="site-footer">KibbiSave — group savings for Uganda</footer>
+<script src="js/kibbisave-site.js"></script>
+</body>
+</html>

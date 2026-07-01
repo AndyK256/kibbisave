@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KibbiSave — Cause Detail</title>
+  <link rel="stylesheet" href="css/kibbisave-site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
+    <button class="site-menu-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <nav class="site-nav">
+      <a href="kibbisave_home_final.html">Home</a>
+      <a href="kibbisave_groups_v6.html">Groups</a>
+      <a href="kibbisave_community_explore.html" class="active">Community</a>
+      <a href="kibbisave_leaderboard_v5.html">Leaderboard</a>
+      <a href="kibbisave_profile_screen.html">Profile</a>
+      <a href="/login" class="nav-sign-in-mobile">Sign in</a>
+      <a href="kibbisave_deposit_v2.html" class="nav-deposit-mobile">+ Deposit</a>
+    </nav>
+    <div class="site-header-actions">
+      <a href="/login" class="site-auth-btn" data-auth-link>Sign in</a>
+      <a href="kibbisave_deposit_v2.html" class="site-btn-deposit">+ Deposit</a>
+    </div>
+  </div>
+</header>
+<main class="site-main site-main--cause">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
+.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
+.phone{width:320px;background:#fff;border-radius:38px;border:2px solid #c8cfe0;overflow:hidden;display:flex;flex-direction:column;}
+.topbar{background:#00008b;padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;}
+.back{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;flex-shrink:0;}
+.tb-title{font-size:15px;font-weight:500;color:#fff;}
+.tb-share{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;}
+.hero{background:#00008b;padding:0 18px 22px;}
+.hero-cat{font-size:10px;color:rgba(255,255,255,0.55);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;}
+.hero-name{font-size:22px;font-weight:500;color:#fff;line-height:1.2;}
+.hero-location{font-size:12px;color:rgba(255,255,255,0.55);margin-top:3px;display:flex;align-items:center;gap:4px;}
+.hero-desc{font-size:12px;color:rgba(255,255,255,0.75);margin-top:12px;line-height:1.6;background:rgba(255,255,255,0.08);border-radius:8px;padding:10px 12px;border-left:3px solid rgba(255,215,0,0.7);}
+.hero-desc-author{font-size:10px;color:rgba(255,255,255,0.4);margin-top:5px;}
+.hero-stats{display:flex;gap:0;margin-top:14px;background:rgba(255,255,255,0.1);border-radius:10px;overflow:hidden;}
+.hstat{flex:1;padding:10px 0;text-align:center;border-right:0.5px solid rgba(255,255,255,0.15);}
+.hstat:last-child{border-right:none;}
+.hstat-val{font-size:16px;font-weight:500;color:#fff;}
+.hstat-lbl{font-size:9px;color:rgba(255,255,255,0.5);margin-top:2px;text-transform:uppercase;letter-spacing:0.05em;}
+.prog-section{padding:14px 18px 0;}
+.prog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.prog-lbl{font-size:11px;color:#7a85a0;}
+.prog-pct{font-size:13px;font-weight:500;color:#00008b;}
+.prog-wrap{background:#eef0f8;border-radius:4px;height:8px;}
+.prog-bar{background:#00008b;height:8px;border-radius:4px;width:65%;}
+.prog-sub{display:flex;justify-content:space-between;margin-top:6px;}
+.prog-sub-lbl{font-size:10px;color:#7a85a0;}
+.prog-sub-val{font-size:10px;font-weight:500;color:#111;}
+.info-row{padding:12px 18px 0;}
+.info-box{background:#f7f8fc;border:1px solid #eef0f8;border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;}
+.info-lbl{font-size:10px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.06em;}
+.info-val{font-size:13px;font-weight:500;color:#111;margin-top:3px;}
+.info-sub{font-size:10px;color:#7a85a0;margin-top:1px;}
+.sec{padding:14px 18px 0;}
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.sec-title{font-size:13px;font-weight:500;color:#111;}
+.sec-sub{font-size:11px;color:#7a85a0;}
+.member-row{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:0.5px solid #eef0f8;}
+.member-row:last-child{border-bottom:none;}
+.m-rank-block{display:flex;flex-direction:column;align-items:center;width:20px;flex-shrink:0;gap:1px;}
+.m-rank{font-size:13px;font-weight:500;text-align:center;line-height:1;}
+.rank-1{color:#b8860b;} .rank-2{color:#888780;} .rank-3{color:#cd7c3a;} .rank-n{color:#7a85a0;}
+.m-mv{font-size:10px;font-weight:500;line-height:1;}
+@keyframes pg{0%,100%{opacity:1;}50%{opacity:0.2;}}
+@keyframes pr{0%,100%{opacity:1;}50%{opacity:0.2;}}
+.mv-up{color:#1a6e35;animation:pg 1.3s ease-in-out infinite;}
+.mv-dn{color:#c0392b;animation:pr 1.3s ease-in-out infinite;}
+.mv-sm{color:#9aa0ac;}
+.m-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:#fff;flex-shrink:0;}
+.m-info{flex:1;min-width:0;}
+.m-name{font-size:12px;font-weight:500;color:#111;}
+.m-group{font-size:9px;color:#7a85a0;margin-top:1px;}
+.m-closes{font-size:9px;color:#c0392b;margin-top:1px;}
+.m-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0;}
+.m-avg{font-size:13px;font-weight:500;}
+.m-avg.ahead{color:#1a6e35;}
+.m-avg.behind{color:#c0392b;}
+.m-avg.even{color:#9aa0ac;}
+.m-avg-lbl{font-size:8px;color:#7a85a0;}
+.m-amt{font-size:10px;font-weight:500;color:#00008b;}
+.m-bar-wrap{width:50px;height:3px;background:#eef0f8;border-radius:4px;margin-top:1px;}
+.m-bar{height:3px;border-radius:4px;background:#00008b;}
+.m-indpct{font-size:8px;color:#9aa0ac;}
+.you-tag{font-size:9px;background:#00008b;color:#fff;padding:2px 7px;border-radius:20px;font-weight:500;}
+.join-section{padding:14px 18px 18px;}
+.join-btn{background:#00008b;color:#fff;font-size:13px;font-weight:500;padding:13px 0;border-radius:24px;border:none;cursor:pointer;width:100%;text-align:center;}
+.join-sub{font-size:10px;color:#7a85a0;text-align:center;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:3px;}
+</style>
+
+<h2 class="sr-only">KibbiSave community detail screen for Land in Wakiso</h2>
+
+<div class="wrap">
+<div class="phone">
+
+<div class="topbar">
+  <button class="back">
+    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <span class="tb-title">Community details</span>
+  <button class="tb-share">
+    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+  </button>
+</div>
+
+<div class="hero">
+  <div class="hero-cat">Land · Kampala region</div>
+  <div class="hero-name">Land in Wakiso</div>
+  <div class="hero-location">
+    <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    Wakiso District, Uganda
+    <span style="margin-left:6px;background:rgba(255,255,255,0.15);color:#fff;font-size:9px;padding:2px 8px;border-radius:20px;">Open to all</span>
+  </div>
+  <div class="hero-desc">
+    "We are a community of working people saving together to buy land in Wakiso before prices go up. Anyone can join a group that fits their saving range — deposit anytime, no pressure."
+    <div class="hero-desc-author">— Faith A., cause creator</div>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat">
+      <div class="hstat-val">247</div>
+      <div class="hstat-lbl">Members</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val">31</div>
+      <div class="hstat-lbl">Groups</div>
+    </div>
+  </div>
+</div>
+
+<div class="prog-section">
+  <div class="prog-head">
+    <span class="prog-lbl">Cause total savings progress</span>
+    <span class="prog-pct">65%</span>
+  </div>
+  <div class="prog-wrap"><div class="prog-bar"></div></div>
+  <div class="prog-sub">
+    <span class="prog-sub-lbl">Raised across all groups</span>
+    <span class="prog-sub-val">UGX 325,000,000</span>
+  </div>
+</div>
+
+<div class="info-row">
+  <div class="info-box">
+    <div>
+      <div class="info-lbl">Interest rate</div>
+      <div class="info-val">5.6% p.a.</div>
+      <div class="info-sub">Earned on hitting your group target</div>
+    </div>
+    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head">
+    <span class="sec-title">Member standings</span>
+    <span class="sec-sub">Race to the top</span>
+  </div>
+
+  <div class="member-row">
+    <div class="m-rank-block"><span class="m-rank rank-1">1</span><span class="m-mv mv-up">▲</span></div>
+    <div class="m-av" style="background:#1a6e35;">FA</div>
+    <div class="m-info">
+      <div class="m-name">Faith A.</div>
+      <div class="m-group">Kampala Hustlers</div>
+      <div class="m-closes">Closes 30 Jun 2026</div>
+    </div>
+    <div class="m-right">
+      <span class="m-avg ahead">+4.20%</span>
+      <span class="m-avg-lbl">avg lead</span>
+      <span class="m-amt">UGX 420k</span>
+      <div class="m-bar-wrap"><div class="m-bar" style="width:100%"></div></div>
+      <span class="m-indpct">84% of target</span>
+    </div>
+  </div>
+
+  <div class="member-row">
+    <div class="m-rank-block"><span class="m-rank rank-2">2</span><span class="m-mv mv-up">▲</span></div>
+    <div class="m-av" style="background:#c0392b;">BM</div>
+    <div class="m-info">
+      <div class="m-name">Brian M.</div>
+      <div class="m-group">Makerere Savers</div>
+      <div class="m-closes">Closes 10 Aug 2026</div>
+    </div>
+    <div class="m-right">
+      <span class="m-avg ahead">+3.80%</span>
+      <span class="m-avg-lbl">avg lead</span>
+      <span class="m-amt">UGX 380k</span>
+      <div class="m-bar-wrap"><div class="m-bar" style="width:90%"></div></div>
+      <span class="m-indpct">76% of target</span>
+    </div>
+  </div>
+
+  <div class="member-row">
+    <div class="m-rank-block"><span class="m-rank rank-3">3</span><span class="m-mv mv-sm">—</span></div>
+    <div class="m-av" style="background:#7b2d8b;">SR</div>
+    <div class="m-info">
+      <div class="m-name">Sarah R.</div>
+      <div class="m-group">Kampala Hustlers</div>
+      <div class="m-closes">Closes 30 Jun 2026</div>
+    </div>
+    <div class="m-right">
+      <span class="m-avg ahead">+2.10%</span>
+      <span class="m-avg-lbl">avg lead</span>
+      <span class="m-amt">UGX 310k</span>
+      <div class="m-bar-wrap"><div class="m-bar" style="width:74%"></div></div>
+      <span class="m-indpct">62% of target</span>
+    </div>
+  </div>
+
+  <div class="member-row">
+    <div class="m-rank-block"><span class="m-rank rank-n">4</span><span class="m-mv mv-sm">—</span></div>
+    <div class="m-av" style="background:#185fa5;">JO</div>
+    <div class="m-info">
+      <div class="m-name">James O.</div>
+      <div class="m-group">Gulu Circle</div>
+      <div class="m-closes">Closes 10 Jul 2026</div>
+    </div>
+    <div class="m-right">
+      <span class="m-avg ahead">+0.95%</span>
+      <span class="m-avg-lbl">avg lead</span>
+      <span class="m-amt">UGX 270k</span>
+      <div class="m-bar-wrap"><div class="m-bar" style="width:64%"></div></div>
+      <span class="m-indpct">54% of target</span>
+    </div>
+  </div>
+
+  <div class="member-row">
+    <div class="m-rank-block"><span class="m-rank rank-n">5</span><span class="m-mv mv-sm">—</span></div>
+    <div class="m-av" style="background:#d4a017;">PK</div>
+    <div class="m-info">
+      <div class="m-name">Peter K.</div>
+      <div class="m-group">Makerere Savers</div>
+      <div class="m-closes">Closes 10 Aug 2026</div>
+    </div>
+    <div class="m-right">
+      <span class="m-avg even">0.00%</span>
+      <span class="m-avg-lbl">avg lead</span>
+      <span class="m-amt">UGX 240k</span>
+      <div class="m-bar-wrap"><div class="m-bar" style="width:57%"></div></div>
+      <span class="m-indpct">48% of target</span>
+    </div>
+  </div>
+
+  <div class="member-row">
+    <div class="m-rank-block"><span class="m-rank rank-n">6</span><span class="m-mv mv-dn">▼</span></div>
+    <div class="m-av" style="background:#00008b;">NK</div>
+    <div class="m-info">
+      <div class="m-name">Naomi K.</div>
+      <div class="m-group">Kampala Hustlers</div>
+      <div class="m-closes">Closes 30 Jun 2026</div>
+    </div>
+    <div class="m-right">
+      <span class="m-avg behind">-0.80%</span>
+      <span class="m-avg-lbl">avg lead</span>
+      <span class="m-amt">UGX 220k</span>
+      <div class="m-bar-wrap"><div class="m-bar" style="width:52%"></div></div>
+      <span class="m-indpct">44% of target</span>
+    </div>
+  </div>
+
+  <div class="member-row" style="background:#f0f2ff;border-radius:10px;padding:9px 10px;margin:0 -4px;">
+    <div class="m-rank-block"><span class="m-rank rank-n">7</span><span class="m-mv mv-dn">▼</span></div>
+    <div class="m-av" style="background:#5f5e5a;">AN</div>
+    <div class="m-info">
+      <div class="m-name">Andrew N. <span class="you-tag">You</span></div>
+      <div class="m-group">Makerere Savers</div>
+      <div class="m-closes">Closes 10 Aug 2026</div>
+    </div>
+    <div class="m-right">
+      <span class="m-avg behind">-1.80%</span>
+      <span class="m-avg-lbl">avg lead</span>
+      <span class="m-amt">UGX 190k</span>
+      <div class="m-bar-wrap"><div class="m-bar" style="width:45%"></div></div>
+      <span class="m-indpct">38% of target</span>
+    </div>
+  </div>
+
+  <div class="member-row">
+    <div class="m-rank-block"><span class="m-rank rank-n">8</span><span class="m-mv mv-dn">▼</span></div>
+    <div class="m-av" style="background:#c0392b;">AM</div>
+    <div class="m-info">
+      <div class="m-name">Ali M.</div>
+      <div class="m-group">Gulu Circle</div>
+      <div class="m-closes">Closes 10 Jul 2026</div>
+    </div>
+    <div class="m-right">
+      <span class="m-avg behind">-3.20%</span>
+      <span class="m-avg-lbl">avg lead</span>
+      <span class="m-amt">UGX 155k</span>
+      <div class="m-bar-wrap"><div class="m-bar" style="width:37%"></div></div>
+      <span class="m-indpct">31% of target</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="join-section">
+  <button class="join-btn">Join the cause</button>
+  <div class="join-sub">
+    <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Funds locked until your target is reached
+  </div>
+</div>
+
+</div>
+</div>
+
+</main>
+<footer class="site-footer">KibbiSave — group savings for Uganda</footer>
+<script src="js/kibbisave-site.js"></script>
+</body>
+</html>

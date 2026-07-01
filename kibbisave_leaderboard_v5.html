@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KibbiSave — Leaderboard</title>
+  <link rel="stylesheet" href="css/kibbisave-site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
+    <button class="site-menu-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <nav class="site-nav">
+      <a href="kibbisave_home_final.html">Home</a>
+      <a href="kibbisave_groups_v6.html">Groups</a>
+      <a href="kibbisave_community_explore.html">Community</a>
+      <a href="kibbisave_leaderboard_v5.html" class="active">Leaderboard</a>
+      <a href="kibbisave_profile_screen.html">Profile</a>
+      <a href="/login" class="nav-sign-in-mobile">Sign in</a>
+      <a href="kibbisave_deposit_v2.html" class="nav-deposit-mobile">+ Deposit</a>
+    </nav>
+    <div class="site-header-actions">
+      <a href="/login" class="site-auth-btn" data-auth-link>Sign in</a>
+      <a href="kibbisave_deposit_v2.html" class="site-btn-deposit">+ Deposit</a>
+    </div>
+  </div>
+</header>
+<main class="site-main site-main--leaderboard">
+<style>
+.lb-board{background:#00008b;color:#fff;border-radius:0;overflow:hidden;}
+.lb-toolbar{display:flex;align-items:center;gap:10px;padding:14px 16px 8px;flex-wrap:wrap;}
+.lb-filter{min-width:140px;appearance:none;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);color:#fff;font-size:13px;font-weight:500;padding:9px 32px 9px 12px;border-radius:4px;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' viewBox='0 0 24 24' stroke='%23ffffff' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;}
+.lb-reset{background:transparent;border:1px solid rgba(255,255,255,0.35);color:#fff;font-size:13px;font-weight:500;padding:9px 16px;border-radius:4px;cursor:pointer;}
+.lb-reset:hover{background:rgba(255,255,255,0.08);}
+.lb-updated{font-size:11px;color:rgba(255,255,255,0.55);padding:0 16px 12px;line-height:1.4;}
+.lb-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.lb-table{width:100%;border-collapse:collapse;table-layout:fixed;min-width:300px;}
+.lb-table thead th{font-size:11px;font-weight:500;color:rgba(255,255,255,0.55);text-align:left;padding:10px 8px 12px;border-bottom:1px solid rgba(255,255,255,0.12);background:#00008b;position:sticky;top:0;z-index:1;}
+.lb-table thead th.col-gw,.lb-table thead th.col-total{text-align:right;}
+.lb-table tbody tr{border-bottom:1px solid rgba(255,255,255,0.1);}
+.lb-table tbody tr:last-child{border-bottom:none;}
+.lb-table tbody tr:hover{background:rgba(255,255,255,0.05);}
+.lb-table tbody tr.is-me{background:rgba(255,215,0,0.12);box-shadow:inset 4px 0 0 #ffd700;}
+.lb-table td{padding:14px 8px;vertical-align:middle;color:#fff;font-size:14px;line-height:1.2;}
+.col-rank{width:56px;padding-left:16px!important;}
+.col-team{width:auto;}
+.col-gw{width:52px;text-align:right!important;font-weight:500;font-variant-numeric:tabular-nums;padding-right:12px!important;}
+.col-total{width:72px;text-align:right!important;font-weight:500;font-variant-numeric:tabular-nums;padding-right:16px!important;}
+.lb-rank-cell{display:flex;align-items:center;gap:6px;}
+.lb-rank-num{font-size:14px;font-weight:500;color:#fff;min-width:12px;}
+.lb-mv{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;flex-shrink:0;}
+.lb-mv svg{display:block;width:10px;height:10px;}
+.mv-up{background:#1a6e35;}
+.mv-down{background:#c0392b;}
+.mv-same{background:rgba(255,255,255,0.28);}
+.lb-team-cell{display:flex;align-items:center;gap:12px;min-width:0;}
+.lb-badge{width:32px;height:32px;border-radius:4px;flex-shrink:0;overflow:hidden;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;}
+.lb-badge img{width:100%;height:100%;object-fit:cover;display:block;}
+.lb-badge svg{width:20px;height:20px;opacity:0.55;}
+.lb-team-text{min-width:0;flex:1;}
+.lb-team-name{font-size:14px;font-weight:500;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-manager-name{font-size:12px;font-weight:400;color:rgba(255,255,255,0.5);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-you-pill{display:inline-block;font-size:9px;font-weight:600;background:#ffd700;color:#00008b;padding:1px 6px;border-radius:10px;margin-left:4px;vertical-align:middle;}
+.lb-empty{font-size:13px;color:rgba(255,255,255,0.55);text-align:center;padding:3rem 1.5rem;}
+</style>
+
+<div class="lb-board">
+  <div class="lb-toolbar">
+    <select class="lb-filter" id="lb-filter" aria-label="Leaderboard filter">
+      <option value="overall">Overall</option>
+      <option value="my-groups">My groups</option>
+    </select>
+    <button type="button" class="lb-reset" id="lb-reset">Reset</button>
+  </div>
+  <p class="lb-updated" id="lb-updated">Last updated: —</p>
+
+  <div class="lb-table-scroll">
+    <table class="lb-table">
+      <thead>
+        <tr>
+          <th class="col-rank">Rank</th>
+          <th class="col-team">Team &amp; Manager</th>
+          <th class="col-gw">GW</th>
+          <th class="col-total">Total</th>
+        </tr>
+      </thead>
+      <tbody id="lb-tbody"></tbody>
+    </table>
+  </div>
+  <p class="lb-empty" id="lb-empty" hidden>No savers to show.</p>
+</div>
+
+</main>
+<footer class="site-footer">KibbiSave — group savings for Uganda</footer>
+<script src="js/kibbisave-site.js"></script>
+<script src="js/kibbisave-leaderboard.js"></script>
+</body>
+</html>

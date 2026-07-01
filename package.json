@@ -1,0 +1,25 @@
+{
+  "name": "kibbisave",
+  "version": "1.0.0",
+  "description": "KibbiSave — group savings website",
+  "main": "api/index.js",
+  "scripts": {
+    "dev": "node server/local.js",
+    "start": "node server/local.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "resend": "^4.8.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.2"
+  }
+}

@@ -4,24 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Community</title>
+  <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
   <link rel="stylesheet" href="css/kibbisave-site.css">
+  <script>(function(){try{var v=sessionStorage.getItem('kibbi_auth_v1');if(v==='1')document.documentElement.classList.add('kb-authed');if(v==='0'||v==='1')document.documentElement.classList.add('kb-auth-known');}catch(e){}})();</script>
 </head>
 <body>
 <header class="site-header">
   <div class="site-header-inner">
-    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
-    <button class="site-menu-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <div class="site-brand"><a href="kibbisave_home_final.html" class="site-logo">Kibbisave</a></div>
     <nav class="site-nav">
       <a href="kibbisave_home_final.html">Home</a>
       <a href="kibbisave_groups_v6.html">Groups</a>
       <a href="kibbisave_community_explore.html" class="active">Community</a>
       <a href="kibbisave_leaderboard_v5.html">Leaderboard</a>
       <a href="kibbisave_profile_screen.html">Profile</a>
-      <a href="/login" class="nav-sign-in-mobile">Sign in</a>
+      <div class="nav-auth-mobile" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
       <a href="kibbisave_deposit_v2.html" class="nav-deposit-mobile">+ Deposit</a>
     </nav>
     <div class="site-header-actions">
-      <a href="/login" class="site-auth-btn" data-auth-link>Sign in</a>
+      <div class="site-auth-pair" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
       <a href="kibbisave_deposit_v2.html" class="site-btn-deposit">+ Deposit</a>
     </div>
   </div>
@@ -29,375 +30,650 @@
 <main class="site-main site-main--community">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
-.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
-.phone{width:320px;background:#fff;border-radius:38px;border:2px solid #c8cfe0;overflow:hidden;display:flex;flex-direction:column;}
-.topbar{background:#00008b;padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;}
-.logo{font-size:17px;font-weight:500;color:#fff;}
-.logo-save{color:#ffd700;font-weight:500;}
-.topbar-right{display:flex;align-items:center;gap:10px;}
-.search-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;}
-.deposit-btn{background:#ffd700;color:#00008b;font-size:13px;font-weight:500;padding:8px 16px;border-radius:20px;border:none;cursor:pointer;white-space:nowrap;}
-.page-hero{background:#00008b;padding:12px 18px 18px;}
-.page-title{font-size:19px;font-weight:500;color:#fff;}
-.page-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-top:3px;}
-.cat-scroll{padding:12px 18px 0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;}
-.cat-scroll::-webkit-scrollbar{display:none;}
-.cat-pill{font-size:11px;font-weight:500;padding:5px 13px;border-radius:20px;border:1.5px solid #00008b;color:#00008b;background:#fff;cursor:pointer;white-space:nowrap;flex-shrink:0;}
-.cat-pill.active{background:#00008b;color:#fff;}
-.sec-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 10px;}
-.sec-title{font-size:13px;font-weight:500;color:#111;}
-.sec-count{font-size:11px;color:#7a85a0;}
+.wrap{background:#f4f6fb;min-height:calc(100vh - var(--kb-nav-h, 64px) - 56px);display:flex;justify-content:center;padding:1.25rem 0 2.5rem;}
+.wrap.is-empty{background:linear-gradient(165deg,#00006e 0%,#00008b 42%,#1a1a9e 100%);padding:0;}
+.col{width:min(960px,100%);padding:0 0 0.5rem;}
+.wrap.is-empty .col{width:100%;max-width:none;padding:0;min-height:calc(100vh - var(--kb-nav-h, 64px) - 56px);display:flex;flex-direction:column;}
 
-/* HORIZONTAL SCROLL ROW */
-.cards-hscroll{padding:0 18px 14px;display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;}
-.cards-hscroll::-webkit-scrollbar{display:none;}
+/* list header */
+.cx-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 1.1rem 14px;flex-wrap:wrap;}
+.cx-title{font-size:18px;font-weight:700;color:var(--kb-heading,#0a0a4a);letter-spacing:0.02em;}
+.cx-sub{font-size:12px;color:var(--kb-muted,#7a85a0);margin-top:3px;line-height:1.45;max-width:420px;}
+.cx-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin:0 1.1rem 12px;}
+.cx-ok{display:none;background:#e6f4ea;color:#1a6e35;font-size:12px;border-radius:10px;padding:9px 12px;margin:0 1.1rem 12px;word-break:break-all;}
 
-/* CAUSE CARD — vertical, fixed width, in horizontal scroll */
-.cause-card{background:#fff;border:1px solid #dde3f0;border-radius:14px;padding:13px 13px;flex-shrink:0;width:175px;display:flex;flex-direction:column;gap:8px;box-shadow:0 1px 4px rgba(0,0,56,0.04);}
-.cc-emoji-wrap{display:flex;justify-content:space-between;align-items:flex-start;}
-.cc-emoji{width:38px;height:38px;border-radius:10px;background:#e8eaf8;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
-.cc-access{font-size:9px;font-weight:500;padding:3px 8px;border-radius:20px;}
-.cc-access.open{background:#e6f4ea;color:#1a6e35;}
-.cc-access.private{background:#f0f2ff;color:#00008b;}
-.cc-access.full{background:#fdecea;color:#a32d2d;}
-.cc-name{font-size:12px;font-weight:500;color:#111;line-height:1.3;}
-.cc-cat{font-size:10px;color:#7a85a0;}
-.cc-target{font-size:13px;font-weight:500;color:#00008b;}
-.cc-people-row{display:flex;align-items:center;gap:6px;}
-.av-stack{display:flex;}
-.av-circle{width:20px;height:20px;border-radius:50%;border:1.5px solid #fff;margin-left:-5px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:500;color:#fff;}
-.av-circle:first-child{margin-left:0;}
-.av-more{width:20px;height:20px;border-radius:50%;border:1.5px solid #fff;margin-left:-5px;background:#eef0f8;display:flex;align-items:center;justify-content:center;font-size:7px;color:#7a85a0;font-weight:500;}
-.cc-saving-count{font-size:10px;color:#7a85a0;}
-.cc-prog-wrap{background:#eef0f8;border-radius:4px;height:4px;}
-.cc-prog{background:#00008b;height:4px;border-radius:4px;}
-.cc-pct-row{display:flex;justify-content:space-between;align-items:center;}
-.cc-pct{font-size:10px;font-weight:500;color:#00008b;}
-.cc-closes{display:flex;align-items:center;gap:3px;font-size:9px;}
-.cc-closes-lbl{color:#7a85a0;}
-.cc-closes-date{color:#c0392b;font-weight:500;}
-.explore-btn{background:#00008b;color:#fff;font-size:11px;font-weight:500;padding:7px 0;border-radius:20px;border:none;cursor:pointer;width:100%;text-align:center;}
-.explore-btn.full-btn{background:#eef0f8;color:#9aa0ac;cursor:default;}
+/* sections */
+.cx-sec{margin-bottom:1.35rem;}
+.cx-sec-head{display:flex;align-items:center;gap:12px;padding:0 1.1rem 10px;flex-wrap:wrap;}
+.cx-sec-lead{display:flex;align-items:center;gap:8px;flex:1;min-width:0;}
+.cx-sec-title{font-size:13px;font-weight:700;color:var(--kb-heading,#0a0a4a);letter-spacing:0.02em;min-width:0;}
+.cx-sec-count{font-size:11px;color:var(--kb-muted,#7a85a0);font-weight:600;margin-left:auto;flex-shrink:0;}
+/* Quiet utilitarian create — grey, not shiny */
+.cx-create-quiet{
+  background:#e8ecf2;color:#5c667a;border:1px solid #cfd5e0;border-radius:8px;
+  padding:6px 11px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;
+  white-space:nowrap;box-shadow:none;letter-spacing:0.01em;line-height:1.2;flex-shrink:0;
+}
+.cx-create-quiet:hover{background:#dde3eb;color:#4a5366;border-color:#c0c7d4;}
+.cx-create-quiet:active{background:#d4dae4;}
+/* Shared horizontal snap rail — Public + Private use identical card metrics */
+.cx-rail{
+  display:flex;
+  flex-wrap:nowrap;
+  gap:12px;
+  padding:2px 1.1rem 16px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  align-items:stretch;
+}
+.cx-sec-empty{margin:0 1.1rem;padding:18px 14px;text-align:center;font-size:12px;color:#7a85a0;background:#fff;border:1px dashed #dde3f0;border-radius:14px;}
 
-/* SECOND ROW — same horizontal scroll */
-.sec-head2{display:flex;justify-content:space-between;align-items:center;padding:4px 18px 10px;}
+/* Shared community card — fixed width/height/padding for both sections */
+.cm-card{
+  --cm-card-w:78%;
+  --cm-card-h:272px;
+  display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;
+  flex:0 0 var(--cm-card-w);
+  width:var(--cm-card-w);
+  max-width:var(--cm-card-w);
+  height:var(--cm-card-h);
+  min-height:var(--cm-card-h);
+  max-height:var(--cm-card-h);
+  box-sizing:border-box;
+  background:#fff;border:1px solid #dde3f0;border-radius:18px;
+  padding:26px 20px 24px;
+  box-shadow:0 2px 10px rgba(0,0,56,0.05);
+  transition:transform 0.15s ease, box-shadow 0.15s ease;
+  scroll-snap-align:start;
+  scroll-snap-stop:normal;
+  overflow:hidden;
+}
+.cm-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,56,0.1);}
+.cm-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;flex-shrink:0;}
+.cm-icon{
+  width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#e8eaf8,#f4f5ff);
+  display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;
+}
+.cm-top-text{flex:1;min-width:0;}
+.cm-badge{display:inline-block;font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:0.04em;margin-bottom:6px;}
+.cm-badge.pub{background:#e8eaf8;color:#00008b;}
+.cm-badge.priv{background:#fff3cd;color:#7a4f00;}
+.cm-name{font-size:15px;font-weight:700;color:#111;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cm-meta{font-size:11px;color:#7a85a0;margin-top:4px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cm-total-block{margin:2px 0 12px;padding:12px 14px;background:linear-gradient(135deg,#f4f5ff 0%,#eef0f8 100%);border-radius:14px;flex-shrink:0;}
+.cm-total-lbl{font-size:10px;font-weight:700;color:#7a85a0;text-transform:uppercase;letter-spacing:0.06em;}
+.cm-total{font-size:1.45rem;font-weight:800;color:#00008b;line-height:1.15;margin-top:4px;letter-spacing:-0.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cm-total-sub{font-size:11px;color:#5f5e5a;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cm-foot{margin-top:auto;flex-shrink:0;}
+.cm-prog-wrap{background:#eef0f8;border-radius:4px;height:5px;overflow:hidden;}
+.cm-prog{background:#00008b;height:5px;border-radius:4px;transition:width 0.3s;}
+.cm-members{font-size:11px;font-weight:600;color:#374057;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cm-explore{
+  display:inline-flex;align-items:center;justify-content:center;width:100%;
+  margin-top:12px;padding:11px 14px;border:none;border-radius:12px;
+  background:#00008b;color:#fff;font:inherit;font-size:13px;font-weight:700;
+  cursor:pointer;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,139,0.18);
+}
+.cm-explore:hover{background:#0000a8;}
 
-.tab-bar{display:flex;border-top:1px solid #dde3f0;background:#fff;}
-.tab{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 4px 8px;cursor:pointer;gap:3px;}
-.tab-lbl{font-size:9px;color:#7a85a0;font-weight:500;}
-.tab.act .tab-lbl{color:#00008b;}
-.tab-dot{width:4px;height:4px;border-radius:50%;background:#00008b;margin-top:1px;}
+.skel-rail{display:flex;gap:12px;padding:2px 1.1rem 14px;overflow:hidden;}
+.skel-rail .skel{flex:0 0 78%;height:272px;border-radius:18px;position:relative;overflow:hidden;background:#e8ecf5;}
+.skel{height:272px;border-radius:18px;position:relative;overflow:hidden;background:#e8ecf5;}
+.skel::after,.skel-rail .skel::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);animation:sh 1.2s infinite;}
+@keyframes sh{100%{transform:translateX(100%)}}
+
+/* empty hero — KibbiSave navy canvas */
+.cx-empty{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:2.5rem 1.5rem 3.5rem;color:#fff;min-height:calc(100vh - var(--kb-nav-h, 64px) - 56px);
+}
+.cx-empty-art{width:min(280px,78vw);margin-bottom:1.75rem;position:relative;}
+.cx-empty-art svg{width:100%;height:auto;display:block;filter:drop-shadow(0 18px 40px rgba(0,0,0,0.28));}
+.cx-empty h1{font-size:clamp(1.55rem,4.5vw,1.9rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.55rem;}
+.cx-empty p{font-size:15px;line-height:1.5;color:rgba(255,255,255,0.72);max-width:280px;margin:0 auto 1.6rem;}
+.cx-empty-cta{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#ffd700;color:#00008b;border:none;border-radius:999px;
+  padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;
+  box-shadow:0 8px 28px rgba(0,0,0,0.25);transition:transform 0.15s, box-shadow 0.15s;
+}
+.cx-empty-cta:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(0,0,0,0.3);}
+
+/* illustration motion */
+.ks-float{animation:ksFloat 3.6s ease-in-out infinite;}
+.ks-pulse{animation:ksPulse 2.4s ease-in-out infinite;}
+.ks-coin{animation:ksCoin 2.8s ease-in-out infinite;transform-origin:center;}
+.ks-coin-2{animation-delay:0.45s;}
+.ks-glow{animation:ksGlow 3s ease-in-out infinite;}
+@keyframes ksFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes ksPulse{0%,100%{opacity:0.35;transform:scale(1)}50%{opacity:0.7;transform:scale(1.04)}}
+@keyframes ksCoin{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(12deg)}}
+@keyframes ksGlow{0%,100%{opacity:0.45}50%{opacity:0.85}}
+
+/* create modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(10,14,40,0.45);z-index:60;align-items:center;justify-content:center;padding:16px;}
+.modal-bg.open{display:flex;}
+.modal{width:min(400px,94vw);background:#fff;border-radius:18px;padding:20px;max-height:88vh;overflow:auto;}
+.md-title{font-size:15px;font-weight:700;color:#111;margin-bottom:12px;}
+.md-lbl{font-size:11px;font-weight:600;color:#374057;margin:10px 0 4px;display:block;}
+.md-input,.md-area{width:100%;border:1px solid #dde3f0;border-radius:10px;padding:10px 12px;font-size:13px;background:#f9fafd;outline:none;font-family:inherit;}
+.md-area{resize:vertical;min-height:64px;}
+.md-count{font-size:9px;color:#7a85a0;text-align:right;margin-top:2px;}
+.md-toggle-row{display:flex;align-items:center;justify-content:space-between;margin-top:12px;}
+.md-toggle-lbl{font-size:12px;font-weight:600;color:#374057;}
+.md-toggle-sub{font-size:10px;color:#7a85a0;margin-top:1px;}
+.switch{position:relative;width:44px;height:24px;flex-shrink:0;}
+.switch input{opacity:0;width:0;height:0;}
+.slider{position:absolute;inset:0;background:#dde3f0;border-radius:24px;cursor:pointer;transition:0.2s;}
+.slider::before{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;left:3px;top:3px;transition:0.2s;}
+.switch input:checked + .slider{background:#00008b;}
+.switch input:checked + .slider::before{transform:translateX(20px);}
+.md-btn{width:100%;background:#00008b;color:#fff;border:none;border-radius:12px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;margin-top:16px;font-family:inherit;}
+.md-btn:disabled{opacity:0.55;cursor:not-allowed;}
+.md-cancel{width:100%;background:none;border:none;color:#7a85a0;font-size:12px;padding:10px;cursor:pointer;font-family:inherit;}
+.md-share-note{font-size:12px;color:#7a85a0;line-height:1.45;margin:-4px 0 12px;}
+.md-share-box{background:#f7f8fc;border:1px solid #dde3f0;border-radius:12px;padding:12px;margin-bottom:8px;}
+.md-share-lbl{font-size:10px;font-weight:700;color:#7a85a0;text-transform:uppercase;letter-spacing:0.06em;}
+.md-share-val{font-size:12px;color:#00008b;font-weight:600;margin-top:4px;word-break:break-all;}
+.md-share-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.md-share-btn{flex:1;min-width:110px;background:#00008b;color:#fff;border:none;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;}
+.md-copy-btn{flex:1;min-width:110px;background:#eef0f8;color:#00008b;border:none;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;}
+.md-share-gate{font-size:11px;color:#7a85a0;margin:10px 0 0;line-height:1.4;}
+.md-share-gate.is-ok{color:#1a6e35;font-weight:600;}
+.cx-icon-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:4px;}
+.cx-icon-opt{width:100%;aspect-ratio:1;border:1.5px solid #dde3f0;border-radius:10px;background:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;padding:0;}
+.cx-icon-opt.selected{border-color:#00008b;background:#f0f2ff;box-shadow:0 0 0 1px #00008b;}
+.cx-icon-preview{display:flex;align-items:center;gap:10px;margin-top:10px;padding:8px 10px;background:#f7f8fc;border-radius:10px;border:1px solid #eef0f8;}
+.cx-icon-preview .cm-icon{width:36px;height:36px;font-size:16px;margin-bottom:0;border-radius:12px;}
+.cx-icon-preview-lbl{font-size:11px;color:#7a85a0;}
+.cx-icon-preview-val{font-size:12px;font-weight:600;color:#111;}
+
+@media (max-width:700px){
+  .cm-total{font-size:1.35rem;}
+}
+@media (min-width:701px){
+  .col{width:min(980px,100%);}
+}
+
+/* Dark mode — community cards: real black + cream elegance */
+html[data-theme="dark"] .cm-card,
+html.dark .cm-card,
+body.dark .cm-card{
+  background:linear-gradient(160deg,rgba(245,240,232,0.06) 0%,rgba(245,240,232,0.015) 40%,transparent 62%),#000 !important;
+  border:1px solid var(--kb-border,rgba(245,240,232,0.18)) !important;
+  color:var(--kb-text,#f5f0e8);
+  box-shadow:var(--kb-shadow),inset 0 1px 0 rgba(245,240,232,0.12),inset 0 0 0 1px rgba(245,240,232,0.04);
+}
+html[data-theme="dark"] .cm-card:hover,
+html.dark .cm-card:hover,
+body.dark .cm-card:hover{
+  box-shadow:0 2px 4px rgba(245,240,232,0.08),0 8px 22px rgba(245,240,232,0.06),inset 0 1px 0 rgba(245,240,232,0.14),inset 0 0 0 1px rgba(245,240,232,0.05);
+}
+html[data-theme="dark"] .cm-name,
+html[data-theme="dark"] .cm-total,
+html[data-theme="dark"] .cm-members,
+html.dark .cm-name,html.dark .cm-total,html.dark .cm-members,
+body.dark .cm-name,body.dark .cm-total,body.dark .cm-members{color:var(--kb-cream,#f5f0e8)!important;}
+html[data-theme="dark"] .cm-meta,
+html[data-theme="dark"] .cm-total-lbl,
+html[data-theme="dark"] .cm-total-sub,
+html.dark .cm-meta,html.dark .cm-total-lbl,html.dark .cm-total-sub,
+body.dark .cm-meta,body.dark .cm-total-lbl,body.dark .cm-total-sub{color:var(--kb-muted,#a8aeb8)!important;}
+html[data-theme="dark"] .cm-icon,
+html.dark .cm-icon,
+body.dark .cm-icon{
+  background:linear-gradient(145deg,rgba(245,240,232,0.1),rgba(245,240,232,0.04))!important;
+  border:1px solid var(--kb-border,rgba(245,240,232,0.18));
+  box-shadow:inset 0 1px 0 rgba(245,240,232,0.1);
+}
+html[data-theme="dark"] .cm-badge.pub,
+html.dark .cm-badge.pub,
+body.dark .cm-badge.pub{background:rgba(245,240,232,0.12)!important;color:var(--kb-cream,#f5f0e8)!important;}
+html[data-theme="dark"] .cm-badge.priv,
+html.dark .cm-badge.priv,
+body.dark .cm-badge.priv{background:rgba(245,240,232,0.08)!important;color:var(--kb-cream-soft,#e8e0d4)!important;border:1px solid rgba(245,240,232,0.14);}
+html[data-theme="dark"] .cm-total-block,
+html.dark .cm-total-block,
+body.dark .cm-total-block{
+  background:linear-gradient(135deg,rgba(245,240,232,0.07) 0%,rgba(245,240,232,0.02) 100%)!important;
+  border:1px solid var(--kb-border,rgba(245,240,232,0.14));
+  box-shadow:inset 0 1px 0 rgba(245,240,232,0.08);
+}
+html[data-theme="dark"] .cm-prog-wrap,
+html.dark .cm-prog-wrap,
+body.dark .cm-prog-wrap{background:var(--kb-track,#1a1a1c)!important;}
+html[data-theme="dark"] .cm-prog,
+html.dark .cm-prog,
+body.dark .cm-prog{background:var(--kb-cream,#f5f0e8)!important;}
+html[data-theme="dark"] .cm-explore,
+html.dark .cm-explore,
+body.dark .cm-explore{
+  background:var(--kb-cream,#f5f0e8)!important;
+  color:var(--kb-cta-ink,#050508)!important;
+  border-color:var(--kb-cream,#f5f0e8)!important;
+  box-shadow:0 2px 10px rgba(245,240,232,0.08)!important;
+}
+html[data-theme="dark"] .cm-explore:hover,
+html.dark .cm-explore:hover,
+body.dark .cm-explore:hover{background:var(--kb-cream-bright,#f7f3eb)!important;color:var(--kb-cta-ink,#050508)!important;}
+html[data-theme="dark"] .cx-create-quiet,
+html.dark .cx-create-quiet,
+body.dark .cx-create-quiet{background:rgba(245,240,232,0.08)!important;color:var(--kb-muted,#a8aeb8)!important;border-color:var(--kb-border,rgba(245,240,232,0.18))!important;}
+html[data-theme="dark"] .cx-create-quiet:hover,
+html.dark .cx-create-quiet:hover,
+body.dark .cx-create-quiet:hover{background:rgba(245,240,232,0.12)!important;color:var(--kb-cream,#f5f0e8)!important;border-color:rgba(245,240,232,0.28)!important;}
+html[data-theme="dark"] .cx-sec-empty,
+html.dark .cx-sec-empty,
+body.dark .cx-sec-empty{background:var(--kb-surface-soft,#0a0a0c)!important;border-color:var(--kb-border,rgba(245,240,232,0.18))!important;color:var(--kb-muted,#a8aeb8)!important;}
+html[data-theme="dark"] .skel,
+html[data-theme="dark"] .skel-rail .skel,
+html.dark .skel,html.dark .skel-rail .skel,
+body.dark .skel,body.dark .skel-rail .skel{background:var(--kb-track,#1a1a1c)!important;}
+html[data-theme="dark"] .wrap:not(.is-empty),
+html.dark .wrap:not(.is-empty),
+body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
 </style>
 
-<h2 class="sr-only">KibbiSave community screen with horizontally scrolling cause cards for land, business, car, rent, Coachella and more</h2>
+<div class="wrap" id="cx-wrap">
+<div class="col">
+  <div class="cx-bar" id="cx-bar" hidden>
+    <div>
+      <img class="kb-illus kb-illus--md" src="/assets/illustrations/svg/09-community-together.svg" alt="Three characters standing together" width="200" height="200" decoding="async" style="margin:0 0 0.5rem">
+      <div class="cx-title">Communities</div>
+      <div class="cx-sub">Public communities are open to all. Private ones need a link or code.</div>
+    </div>
+  </div>
 
-<div class="wrap">
-<div class="phone">
+  <div class="cx-error" id="cx-error" role="alert"></div>
+  <div class="cx-ok" id="cx-ok"></div>
 
-<div class="topbar">
-  <div class="logo">kibbi<span class="logo-save">save</span></div>
-  <div class="topbar-right">
-    <button class="search-btn">
-      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    </button>
-    <button class="deposit-btn">+ Deposit</button>
+  <div id="cx-list">
+    <div class="skel-rail"><div class="skel"></div><div class="skel"></div></div>
   </div>
 </div>
-
-<div class="page-hero">
-  <div class="page-title">Community</div>
-  <div class="page-sub">See what others are saving for — join a cause</div>
 </div>
 
-<div class="cat-scroll">
-  <div class="cat-pill active">All</div>
-  <div class="cat-pill">Land</div>
-  <div class="cat-pill">Business</div>
-  <div class="cat-pill">Car</div>
-  <div class="cat-pill">Rent</div>
-  <div class="cat-pill">Travel</div>
-  <div class="cat-pill">Education</div>
-</div>
-
-<!-- TRENDING ROW -->
-<div class="sec-head">
-  <span class="sec-title">Trending</span>
-  <span class="sec-count">24 active causes</span>
-</div>
-
-<div class="cards-hscroll">
-
-  <!-- LAND -->
-  <div class="cause-card">
-    <div class="cc-emoji-wrap">
-      <div class="cc-emoji">🏡</div>
-      <span class="cc-access open">Open to all</span>
-    </div>
-    <div class="cc-name">Land in Wakiso</div>
-    <div class="cc-cat">Land · Kampala</div>
-    <div class="cc-target">UGX 5,000,000</div>
-    <div class="cc-people-row">
-      <div class="av-stack">
-        <div class="av-circle" style="background:#c0392b;">BM</div>
-        <div class="av-circle" style="background:#1a6e35;">FA</div>
-        <div class="av-circle" style="background:#7b2d8b;">SR</div>
-        <div class="av-more">+10</div>
+<!-- Create community -->
+<div class="modal-bg" id="cx-modal">
+  <div class="modal">
+    <div id="md-step-details">
+      <div class="md-title">Create Community</div>
+      <label class="md-lbl" for="md-name">Name of the Community *</label>
+      <input class="md-input" id="md-name" maxlength="40" placeholder="e.g. Campus Savers">
+      <label class="md-lbl" for="md-about">About the community</label>
+      <textarea class="md-area" id="md-about" maxlength="150" placeholder="What brings this community together?"></textarea>
+      <div class="md-count"><span id="md-about-count">0</span>/150</div>
+      <label class="md-lbl" for="md-country">Location — country</label>
+      <input class="md-input" id="md-country" value="Uganda">
+      <label class="md-lbl" for="md-city">City</label>
+      <input class="md-input" id="md-city" placeholder="e.g. Kampala">
+      <span class="md-lbl">Community icon</span>
+      <div class="cx-icon-grid" id="md-icon-grid" role="listbox" aria-label="Choose a community icon"></div>
+      <div class="cx-icon-preview">
+        <div class="cm-icon" id="md-icon-preview">👥</div>
+        <div>
+          <div class="cx-icon-preview-lbl">Card preview</div>
+          <div class="cx-icon-preview-val" id="md-icon-preview-name">Your community</div>
+        </div>
       </div>
-      <span class="cc-saving-count">13 saving</span>
-    </div>
-    <div class="cc-prog-wrap"><div class="cc-prog" style="width:65%"></div></div>
-    <div class="cc-pct-row">
-      <span class="cc-pct">65%</span>
-      <div class="cc-closes">
-        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span class="cc-closes-lbl">Closes</span>
-        <span class="cc-closes-date">30 Sep 2026</span>
+      <div class="md-toggle-row">
+        <div>
+          <div class="md-toggle-lbl">Public Community — for everyone</div>
+          <div class="md-toggle-sub">Switched off = private; a join code is generated for you to share</div>
+        </div>
+        <label class="switch"><input type="checkbox" id="md-public" checked><span class="slider"></span></label>
       </div>
+      <button class="md-btn" id="md-confirm">Confirm and create</button>
+      <button class="md-cancel" id="md-cancel">Cancel</button>
     </div>
-    <button class="explore-btn" onclick="sendPrompt('Show me the Land in Wakiso group details on KibbiSave')">Explore</button>
+
+    <div id="md-step-share" hidden>
+      <div class="md-title">Share invite link</div>
+      <p class="md-share-note">Sharing is compulsory — you can’t finish without inviting members.</p>
+      <div class="md-share-box">
+        <div class="md-share-lbl">Invite link</div>
+        <div class="md-share-val" id="md-share-link"></div>
+        <div class="md-share-actions">
+          <button type="button" class="md-share-btn" id="md-share">Share</button>
+          <button type="button" class="md-copy-btn" id="md-copy">Copy link</button>
+        </div>
+      </div>
+      <div class="md-share-box" id="md-code-box" hidden>
+        <div class="md-share-lbl">Join code</div>
+        <div class="md-share-val" id="md-join-code"></div>
+      </div>
+      <p class="md-share-gate" id="md-share-gate">Share or copy the invite link to finish.</p>
+      <button class="md-btn" id="md-finish" disabled>Finish</button>
+    </div>
   </div>
-
-  <!-- BUSINESS -->
-  <div class="cause-card">
-    <div class="cc-emoji-wrap">
-      <div class="cc-emoji">💼</div>
-      <span class="cc-access open">Open to all</span>
-    </div>
-    <div class="cc-name">Startup capital pool</div>
-    <div class="cc-cat">Business</div>
-    <div class="cc-target">UGX 10,000,000</div>
-    <div class="cc-people-row">
-      <div class="av-stack">
-        <div class="av-circle" style="background:#185fa5;">JO</div>
-        <div class="av-circle" style="background:#d4a017;">PK</div>
-        <div class="av-circle" style="background:#00008b;">NK</div>
-        <div class="av-more">+3</div>
-      </div>
-      <span class="cc-saving-count">6 saving</span>
-    </div>
-    <div class="cc-prog-wrap"><div class="cc-prog" style="width:41%"></div></div>
-    <div class="cc-pct-row">
-      <span class="cc-pct">41%</span>
-      <div class="cc-closes">
-        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span class="cc-closes-lbl">Closes</span>
-        <span class="cc-closes-date">15 Dec 2026</span>
-      </div>
-    </div>
-    <button class="explore-btn" onclick="sendPrompt('Show me the Startup capital pool group details on KibbiSave')">Explore</button>
-  </div>
-
-  <!-- CAR -->
-  <div class="cause-card">
-    <div class="cc-emoji-wrap">
-      <div class="cc-emoji">🚗</div>
-      <span class="cc-access private">Private</span>
-    </div>
-    <div class="cc-name">Toyota Premio fund</div>
-    <div class="cc-cat">Car · Entebbe</div>
-    <div class="cc-target">UGX 8,000,000</div>
-    <div class="cc-people-row">
-      <div class="av-stack">
-        <div class="av-circle" style="background:#7b2d8b;">SR</div>
-        <div class="av-circle" style="background:#c0392b;">AM</div>
-        <div class="av-circle" style="background:#1a6e35;">JO</div>
-        <div class="av-more">+5</div>
-      </div>
-      <span class="cc-saving-count">8 saving</span>
-    </div>
-    <div class="cc-prog-wrap"><div class="cc-prog" style="width:80%"></div></div>
-    <div class="cc-pct-row">
-      <span class="cc-pct">80%</span>
-      <div class="cc-closes">
-        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span class="cc-closes-lbl">Closes</span>
-        <span class="cc-closes-date">10 Jul 2026</span>
-      </div>
-    </div>
-    <button class="explore-btn" onclick="sendPrompt('Show me the Toyota Premio fund group details on KibbiSave')">Explore</button>
-  </div>
-
-  <!-- COACHELLA — full -->
-  <div class="cause-card">
-    <div class="cc-emoji-wrap">
-      <div class="cc-emoji">🎪</div>
-      <span class="cc-access full">Full</span>
-    </div>
-    <div class="cc-name">Coachella 2026</div>
-    <div class="cc-cat">Travel · Festival</div>
-    <div class="cc-target">UGX 4,500,000</div>
-    <div class="cc-people-row">
-      <div class="av-stack">
-        <div class="av-circle" style="background:#d4a017;">PK</div>
-        <div class="av-circle" style="background:#185fa5;">JO</div>
-        <div class="av-circle" style="background:#c0392b;">BM</div>
-        <div class="av-more">+7</div>
-      </div>
-      <span class="cc-saving-count">10 saving</span>
-    </div>
-    <div class="cc-prog-wrap"><div class="cc-prog" style="width:65%"></div></div>
-    <div class="cc-pct-row">
-      <span class="cc-pct">65%</span>
-      <div class="cc-closes">
-        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span class="cc-closes-lbl">Closes</span>
-        <span class="cc-closes-date">01 Apr 2026</span>
-      </div>
-    </div>
-    <button class="explore-btn full-btn" disabled>Full</button>
-  </div>
-
-  <!-- RENT -->
-  <div class="cause-card">
-    <div class="cc-emoji-wrap">
-      <div class="cc-emoji">🏠</div>
-      <span class="cc-access open">Open to all</span>
-    </div>
-    <div class="cc-name">Annual rent advance</div>
-    <div class="cc-cat">Rent · Ntinda</div>
-    <div class="cc-target">UGX 3,600,000</div>
-    <div class="cc-people-row">
-      <div class="av-stack">
-        <div class="av-circle" style="background:#5f5e5a;">MK</div>
-        <div class="av-circle" style="background:#1a6e35;">FA</div>
-        <div class="av-circle" style="background:#7b2d8b;">SR</div>
-        <div class="av-more">+2</div>
-      </div>
-      <span class="cc-saving-count">5 saving</span>
-    </div>
-    <div class="cc-prog-wrap"><div class="cc-prog" style="width:25%"></div></div>
-    <div class="cc-pct-row">
-      <span class="cc-pct">25%</span>
-      <div class="cc-closes">
-        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span class="cc-closes-lbl">Closes</span>
-        <span class="cc-closes-date">01 Jan 2026</span>
-      </div>
-    </div>
-    <button class="explore-btn" onclick="sendPrompt('Show me the Annual rent advance group details on KibbiSave')">Explore</button>
-  </div>
-
-</div>
-
-<!-- NEW CAUSES ROW -->
-<div class="sec-head2">
-  <span class="sec-title">New causes</span>
-  <span class="sec-count">See all</span>
-</div>
-
-<div class="cards-hscroll">
-  <div class="cause-card">
-    <div class="cc-emoji-wrap">
-      <div class="cc-emoji">🎓</div>
-      <span class="cc-access open">Open to all</span>
-    </div>
-    <div class="cc-name">School fees pool</div>
-    <div class="cc-cat">Education · Gulu</div>
-    <div class="cc-target">UGX 2,400,000</div>
-    <div class="cc-people-row">
-      <div class="av-stack">
-        <div class="av-circle" style="background:#185fa5;">JO</div>
-        <div class="av-circle" style="background:#5f5e5a;">MK</div>
-        <div class="av-more">+1</div>
-      </div>
-      <span class="cc-saving-count">3 saving</span>
-    </div>
-    <div class="cc-prog-wrap"><div class="cc-prog" style="width:12%"></div></div>
-    <div class="cc-pct-row">
-      <span class="cc-pct">12%</span>
-      <div class="cc-closes">
-        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span class="cc-closes-lbl">Closes</span>
-        <span class="cc-closes-date">01 Oct 2026</span>
-      </div>
-    </div>
-    <button class="explore-btn" onclick="sendPrompt('Show me the School fees pool group details on KibbiSave')">Explore</button>
-  </div>
-
-  <div class="cause-card">
-    <div class="cc-emoji-wrap">
-      <div class="cc-emoji">✈️</div>
-      <span class="cc-access open">Open to all</span>
-    </div>
-    <div class="cc-name">Dubai trip 2026</div>
-    <div class="cc-cat">Travel · Holiday</div>
-    <div class="cc-target">UGX 6,000,000</div>
-    <div class="cc-people-row">
-      <div class="av-stack">
-        <div class="av-circle" style="background:#c0392b;">AM</div>
-        <div class="av-circle" style="background:#d4a017;">PK</div>
-        <div class="av-more">+2</div>
-      </div>
-      <span class="cc-saving-count">4 saving</span>
-    </div>
-    <div class="cc-prog-wrap"><div class="cc-prog" style="width:8%"></div></div>
-    <div class="cc-pct-row">
-      <span class="cc-pct">8%</span>
-      <div class="cc-closes">
-        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span class="cc-closes-lbl">Closes</span>
-        <span class="cc-closes-date">20 Nov 2026</span>
-      </div>
-    </div>
-    <button class="explore-btn" onclick="sendPrompt('Show me the Dubai trip 2026 group details on KibbiSave')">Explore</button>
-  </div>
-
-  <div class="cause-card">
-    <div class="cc-emoji-wrap">
-      <div class="cc-emoji">🛋️</div>
-      <span class="cc-access private">Private</span>
-    </div>
-    <div class="cc-name">Home furniture</div>
-    <div class="cc-cat">Home · Mbarara</div>
-    <div class="cc-target">UGX 1,800,000</div>
-    <div class="cc-people-row">
-      <div class="av-stack">
-        <div class="av-circle" style="background:#7b2d8b;">SR</div>
-        <div class="av-circle" style="background:#1a6e35;">FA</div>
-        <div class="av-more">+2</div>
-      </div>
-      <span class="cc-saving-count">4 saving</span>
-    </div>
-    <div class="cc-prog-wrap"><div class="cc-prog" style="width:5%"></div></div>
-    <div class="cc-pct-row">
-      <span class="cc-pct">5%</span>
-      <div class="cc-closes">
-        <svg width="9" height="9" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span class="cc-closes-lbl">Closes</span>
-        <span class="cc-closes-date">30 Aug 2026</span>
-      </div>
-    </div>
-    <button class="explore-btn" onclick="sendPrompt('Show me the Home furniture group details on KibbiSave')">Explore</button>
-  </div>
-</div>
-
-<div style="padding-bottom:6px;"></div>
-
-<div class="tab-bar">
-  <div class="tab" onclick="sendPrompt('Go back to home screen of KibbiSave')">
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <span class="tab-lbl">Home</span>
-  </div>
-  <div class="tab">
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg>
-    <span class="tab-lbl">Leaderboard</span>
-  </div>
-  <div class="tab">
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-    <span class="tab-lbl">Trending</span>
-  </div>
-  <div class="tab act">
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-    <span class="tab-lbl" style="color:#00008b;">Community</span>
-    <div class="tab-dot"></div>
-  </div>
-</div>
-
-</div>
 </div>
 
 </main>
 <footer class="site-footer">KibbiSave — group savings for Uganda</footer>
+
 <script src="js/kibbisave-site.js"></script>
+<script>
+(function () {
+  var err = document.getElementById('cx-error');
+  var ok = document.getElementById('cx-ok');
+  var wrap = document.getElementById('cx-wrap');
+  var bar = document.getElementById('cx-bar');
+  function showErr(m) { err.textContent = m || ''; err.style.display = m ? 'block' : 'none'; }
+  function showOk(m) { ok.textContent = m || ''; ok.style.display = m ? 'block' : 'none'; }
+  function fmtUGX(n) { return 'UGX ' + (Number(n) || 0).toLocaleString('en-US'); }
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    var d = new Date(iso);
+    return isNaN(d) ? '—' : d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+  var authenticated = false;
+  var COMMUNITY_ICONS = ['🏡','💼','🚗','🎪','🏠','🎓','✈️','🛋️','💰','📱','💍','⚽','🎸','📚','🌱','👥','🔑','🛠️'];
+  var selectedIcon = '👥';
+  var shareDone = false;
+  var pendingShareLink = '';
+  var pendingCommunityName = '';
+
+  function resetCreateModal() {
+    shareDone = false;
+    pendingShareLink = '';
+    pendingCommunityName = '';
+    document.getElementById('md-step-details').hidden = false;
+    document.getElementById('md-step-share').hidden = true;
+    document.getElementById('md-finish').disabled = true;
+    document.getElementById('md-code-box').hidden = true;
+    var gate = document.getElementById('md-share-gate');
+    gate.classList.remove('is-ok');
+    gate.textContent = 'Share or copy the invite link to finish.';
+    document.getElementById('md-copy').textContent = 'Copy link';
+  }
+
+  function openCreate() {
+    if (!authenticated) {
+      window.location.href = '/login?next=' + encodeURIComponent(window.location.pathname);
+      return;
+    }
+    setSelectedIcon('👥');
+    resetCreateModal();
+    document.getElementById('cx-modal').classList.add('open');
+  }
+
+  function markCommunityShared(how) {
+    shareDone = true;
+    var finish = document.getElementById('md-finish');
+    var gate = document.getElementById('md-share-gate');
+    finish.disabled = false;
+    gate.classList.add('is-ok');
+    gate.textContent = how === 'share'
+      ? 'Shared — you can finish.'
+      : 'Link copied — you can finish.';
+  }
+
+  function fallbackCopy(text, ok) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      if (document.execCommand('copy')) ok();
+    } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  function copyCommunityLink(btn) {
+    function ok() {
+      btn.textContent = 'Copied!';
+      markCommunityShared('copy');
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(pendingShareLink).then(ok).catch(function () {
+        fallbackCopy(pendingShareLink, ok);
+      });
+    } else {
+      fallbackCopy(pendingShareLink, ok);
+    }
+  }
+
+  function shareCommunityLink() {
+    if (navigator.share) {
+      navigator.share({
+        title: pendingCommunityName || 'Join my KibbiSave community',
+        text: 'Join my KibbiSave community and save together.',
+        url: pendingShareLink
+      }).then(function () {
+        markCommunityShared('share');
+      }).catch(function () {});
+      return;
+    }
+    copyCommunityLink(document.getElementById('md-copy'));
+  }
+
+  function showShareStep(d) {
+    pendingShareLink = window.location.origin + d.share_link;
+    pendingCommunityName = (d.community && d.community.name) || document.getElementById('md-name').value.trim();
+    shareDone = false;
+    document.getElementById('md-step-details').hidden = true;
+    document.getElementById('md-step-share').hidden = false;
+    document.getElementById('md-share-link').textContent = pendingShareLink;
+    document.getElementById('md-finish').disabled = true;
+    var gate = document.getElementById('md-share-gate');
+    gate.classList.remove('is-ok');
+    gate.textContent = 'Share or copy the invite link to finish.';
+    document.getElementById('md-copy').textContent = 'Copy link';
+    if (d.community && d.community.join_code) {
+      document.getElementById('md-code-box').hidden = false;
+      document.getElementById('md-join-code').textContent = d.community.join_code;
+    } else {
+      document.getElementById('md-code-box').hidden = true;
+    }
+  }
+
+  function renderIconGrid() {
+    var grid = document.getElementById('md-icon-grid');
+    if (!grid) return;
+    grid.innerHTML = COMMUNITY_ICONS.map(function (icon) {
+      return '<button type="button" class="cx-icon-opt' + (icon === selectedIcon ? ' selected' : '') +
+        '" data-icon="' + icon + '" role="option" aria-selected="' + (icon === selectedIcon) + '">' + icon + '</button>';
+    }).join('');
+  }
+  function setSelectedIcon(icon) {
+    selectedIcon = icon || '👥';
+    var preview = document.getElementById('md-icon-preview');
+    if (preview) preview.textContent = selectedIcon;
+    renderIconGrid();
+  }
+
+  function emptyHeroHtml() {
+    return (
+      '<div class="cx-empty" role="status">' +
+        '<div class="cx-empty-art" aria-hidden="true">' +
+          '<img class="kb-illus" src="/assets/illustrations/svg/09-community-together.svg" alt="Three characters standing together" width="280" height="280" decoding="async">' +
+        '</div>' +
+        '<h1>Create community</h1>' +
+        '<p>We\'re keeping your money safe</p>' +
+        '<button type="button" class="cx-empty-cta" id="cx-empty-create">Create community</button>' +
+      '</div>'
+    );
+  }
+
+  function cardHtml(c, mine) {
+    var pct = Math.max(0, Math.min(100, Number(c.pct_reached) || 0));
+    var icon = c.icon || '👥';
+    var isPub = !!c.is_public;
+    var href = 'kibbisave_cause_detail.html?id=' + esc(c.id);
+    var members = Number(c.total_members) || 0;
+    return (
+      '<article class="cm-card" data-href="' + href + '">' +
+        '<div class="cm-top">' +
+          '<div class="cm-icon">' + esc(icon) + '</div>' +
+          '<div class="cm-top-text">' +
+            '<span class="cm-badge ' + (isPub ? 'pub' : 'priv') + '">' + (isPub ? 'PUBLIC' : 'PRIVATE') + '</span>' +
+            '<div class="cm-name">' + esc(c.name) + (mine.indexOf(c.id) !== -1 ? ' ✓' : '') + '</div>' +
+            '<div class="cm-meta">Started ' + fmtDate(c.created_at) + (c.city ? ' · ' + esc(c.city) : '') + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="cm-total-block">' +
+          '<div class="cm-total-lbl">Total collected by members</div>' +
+          '<div class="cm-total">' + fmtUGX(c.total_saved) + '</div>' +
+          '<div class="cm-total-sub">' + pct + '% of community goals reached</div>' +
+        '</div>' +
+        '<div class="cm-foot">' +
+          '<div class="cm-prog-wrap"><div class="cm-prog" style="width:' + pct + '%"></div></div>' +
+          '<div class="cm-members">' + members + (members === 1 ? ' member' : ' members') + ' saving together</div>' +
+          '<a class="cm-explore" href="' + href + '">Explore community</a>' +
+        '</div>' +
+      '</article>'
+    );
+  }
+
+  function sectionHtml(title, items, mine) {
+    var head =
+      '<div class="cx-sec-head">' +
+        '<div class="cx-sec-lead">' +
+          '<div class="cx-sec-title">' + esc(title) + '</div>' +
+          '<button type="button" class="cx-create-quiet" data-cx-create>+ Create community</button>' +
+        '</div>' +
+        '<div class="cx-sec-count">' + items.length + '</div>' +
+      '</div>';
+    if (!items.length) {
+      return (
+        '<section class="cx-sec">' + head +
+          '<div class="cx-sec-empty">No ' + esc(title.toLowerCase()) + ' yet.</div>' +
+        '</section>'
+      );
+    }
+    return (
+      '<section class="cx-sec">' + head +
+        '<div class="cx-rail">' + items.map(function (c) { return cardHtml(c, mine); }).join('') + '</div>' +
+      '</section>'
+    );
+  }
+
+  function bindCards(root) {
+    root.querySelectorAll('.cm-card').forEach(function (card) {
+      function go(e) {
+        if (e && e.target && e.target.closest && e.target.closest('.cm-explore')) return;
+        var href = card.getAttribute('data-href');
+        if (href) window.location.href = href;
+      }
+      card.addEventListener('click', go);
+      card.style.cursor = 'pointer';
+    });
+  }
+
+  fetch('/api/auth/me', { credentials: 'include' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) { authenticated = Boolean(d.authenticated); })
+    .catch(function () {});
+
+  function load() {
+    fetch('/api/communities', { credentials: 'include' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var box = document.getElementById('cx-list');
+        if (d.error) {
+          showErr(d.error);
+          wrap.classList.remove('is-empty');
+          bar.hidden = false;
+          box.innerHTML = '';
+          return;
+        }
+        var list = d.communities || [];
+        var mine = d.my_community_ids || [];
+
+        if (!list.length) {
+          wrap.classList.add('is-empty');
+          bar.hidden = true;
+          box.innerHTML = emptyHeroHtml();
+          var emptyBtn = document.getElementById('cx-empty-create');
+          if (emptyBtn) emptyBtn.addEventListener('click', openCreate);
+          return;
+        }
+
+        wrap.classList.remove('is-empty');
+        bar.hidden = false;
+        var pub = list.filter(function (c) { return c.is_public; });
+        var priv = list.filter(function (c) { return !c.is_public; });
+        box.innerHTML = sectionHtml('Public communities', pub, mine) + sectionHtml('Private communities', priv, mine);
+        bindCards(box);
+      })
+      .catch(function () {
+        showErr('Could not reach the server. Refresh to retry.');
+        wrap.classList.remove('is-empty');
+        bar.hidden = false;
+        document.getElementById('cx-list').innerHTML = '';
+      });
+  }
+  load();
+  renderIconGrid();
+
+  document.getElementById('cx-list').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-cx-create]');
+    if (btn) openCreate();
+  });
+  document.getElementById('md-cancel').addEventListener('click', function () {
+    document.getElementById('cx-modal').classList.remove('open');
+    resetCreateModal();
+  });
+  document.getElementById('md-about').addEventListener('input', function () {
+    document.getElementById('md-about-count').textContent = this.value.length;
+  });
+  document.getElementById('md-name').addEventListener('input', function () {
+    document.getElementById('md-icon-preview-name').textContent = this.value.trim() || 'Your community';
+  });
+  document.getElementById('md-icon-grid').addEventListener('click', function (e) {
+    var btn = e.target.closest('.cx-icon-opt');
+    if (btn) setSelectedIcon(btn.getAttribute('data-icon'));
+  });
+  document.getElementById('md-share').addEventListener('click', shareCommunityLink);
+  document.getElementById('md-copy').addEventListener('click', function () {
+    copyCommunityLink(this);
+  });
+  document.getElementById('md-finish').addEventListener('click', function () {
+    if (!shareDone) return;
+    document.getElementById('cx-modal').classList.remove('open');
+    showOk('Community created — invite shared.');
+    resetCreateModal();
+    load();
+  });
+
+  document.getElementById('md-confirm').addEventListener('click', function () {
+    var btn = this;
+    var name = document.getElementById('md-name').value.trim();
+    if (!name) return alert('Give your community a name.');
+    btn.disabled = true; btn.textContent = 'Creating…';
+
+    fetch('/api/communities', {
+      method: 'POST', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        about: document.getElementById('md-about').value,
+        country: document.getElementById('md-country').value,
+        city: document.getElementById('md-city').value,
+        icon: selectedIcon,
+        is_public: document.getElementById('md-public').checked
+      })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      btn.disabled = false; btn.textContent = 'Confirm and create';
+      if (d.error) return alert(d.error);
+      showShareStep(d);
+    })
+    .catch(function () {
+      btn.disabled = false; btn.textContent = 'Confirm and create';
+      alert('Could not create the community. Try again.');
+    });
+  });
+})();
+</script>
 </body>
 </html>

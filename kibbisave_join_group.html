@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join group — KibbiSave</title>
+  <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="css/kibbisave-site.css">
+  <style>
+    .jg-wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
+    .jg-phone{width:340px;background:#fff;border-radius:24px;border:1px solid #dde3f0;overflow:hidden;}
+    .jg-top{background:#00008b;padding:16px 18px;}
+    .jg-title{color:#fff;font-size:16px;font-weight:600;}
+    .jg-sub{color:rgba(255,255,255,0.7);font-size:11px;margin-top:3px;}
+    .jg-steps{display:flex;gap:6px;margin-top:12px;}
+    .jg-step{flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.25);}
+    .jg-step.on{background:#ffd700;}
+    .jg-body{padding:18px;}
+    .jg-field{margin-bottom:13px;}
+    .jg-lbl{font-size:11px;font-weight:600;color:#374057;margin-bottom:5px;display:block;}
+    .jg-lbl .req{color:#c0392b;}
+    .jg-input,.jg-select{width:100%;border:1px solid #dde3f0;border-radius:10px;padding:10px 12px;font-size:13px;color:#111;background:#f9fafd;outline:none;box-sizing:border-box;font-family:inherit;}
+    .jg-input:focus,.jg-select:focus{border-color:#00008b;background:#fff;}
+    .jg-hint{font-size:10px;color:#7a85a0;margin-top:3px;}
+    .jg-chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;background:#e8eaf8;color:#00008b;font-weight:600;border-radius:20px;padding:4px 11px;margin:3px 4px 0 0;}
+    .jg-chip button{border:none;background:none;color:#00008b;cursor:pointer;font-size:12px;padding:0;line-height:1;}
+    .jg-btn{width:100%;background:#00008b;color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit;}
+    .jg-btn:disabled{opacity:0.55;cursor:default;}
+    .jg-btn-ghost{width:100%;background:none;border:none;color:#7a85a0;font-size:12px;padding:10px;cursor:pointer;font-family:inherit;}
+    .jg-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
+    .jg-ok{display:none;background:#e6f4ea;color:#1a6e35;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
+    .jg-summary{background:#f7f8fc;border:1px solid #eef0f8;border-radius:12px;padding:12px;margin-bottom:14px;font-size:12px;color:#374057;}
+    .jg-summary b{color:#00008b;}
+    .jg-pay-row{display:flex;gap:8px;margin-bottom:13px;}
+    .jg-pay{flex:1;border:1.5px solid #dde3f0;border-radius:10px;padding:10px 6px;text-align:center;font-size:11px;font-weight:600;color:#374057;cursor:pointer;background:#fff;font-family:inherit;}
+    .jg-pay.on{border-color:#00008b;background:#e8eaf8;color:#00008b;}
+    .jg-done{text-align:center;padding:20px 0;}
+    .jg-done-icon{font-size:44px;}
+    .jg-done-title{font-size:16px;font-weight:700;color:#111;margin-top:8px;}
+    .jg-done-sub{font-size:12px;color:#7a85a0;margin-top:5px;line-height:1.5;}
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
+    <div class="site-header-actions">
+      <div class="site-auth-pair" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
+    </div>
+  </div>
+</header>
+
+<main class="site-main">
+<div class="jg-wrap">
+<div class="jg-phone">
+
+  <div class="jg-top">
+    <div class="jg-title" id="jg-title">Join group</div>
+    <div class="jg-sub" id="jg-group-info">Loading group…</div>
+    <div class="jg-steps"><div class="jg-step on" id="step-bar-1"></div><div class="jg-step" id="step-bar-2"></div></div>
+  </div>
+
+  <div class="jg-body">
+    <div class="jg-error" id="jg-error" role="alert"></div>
+    <div class="jg-ok" id="jg-ok"></div>
+
+    <div class="kb-illus-wrap" id="jg-handshake" style="--kb-illus-w:200px">
+      <img class="kb-illus" src="/assets/illustrations/svg/02-join-group-handshake.svg" alt="Two characters shaking hands" width="200" height="200" decoding="async">
+    </div>
+
+    <!-- STEP 1 — onboarding (spec sketch) -->
+    <form id="jg-step1" onsubmit="return false;">
+      <div class="jg-field">
+        <label class="jg-lbl">Period <span class="req">*</span></label>
+        <input class="jg-input" id="jg-period" value="—" readonly>
+      </div>
+      <div class="jg-field">
+        <label class="jg-lbl" for="jg-amount">Total amount (UGX) <span class="req">*</span></label>
+        <input class="jg-input" id="jg-amount" type="number" inputmode="numeric" min="1000" step="1000" placeholder="e.g. 1,500,000">
+        <div class="jg-hint" id="jg-tier-hint"></div>
+      </div>
+      <div class="jg-field">
+        <label class="jg-lbl" for="jg-saving-for">What are you saving for?</label>
+        <input class="jg-input" id="jg-saving-for" maxlength="60" placeholder="e.g. School fees">
+      </div>
+      <div class="jg-field">
+        <label class="jg-lbl" for="jg-community">Choose community (optional — up to 2)</label>
+        <select class="jg-select" id="jg-community"><option value="">— Select a community —</option></select>
+        <div id="jg-community-chips"></div>
+      </div>
+      <div class="jg-field" id="jg-name-field">
+        <label class="jg-lbl" for="jg-suggest-name">Suggest group name (max 10 characters)</label>
+        <input class="jg-input" id="jg-suggest-name" maxlength="10" placeholder="e.g. Hustlers">
+        <div class="jg-hint">The first person to suggest a name locks it until the group closes.</div>
+      </div>
+      <div class="jg-field">
+        <label class="jg-lbl" for="jg-code">Enter code or link (private groups)</label>
+        <input class="jg-input" id="jg-code" placeholder="Paste an invite link or code">
+      </div>
+      <button class="jg-btn" id="jg-continue">Continue to deposit</button>
+    </form>
+
+    <!-- STEP 2 — first deposit (joining happens through deposit, spec) -->
+    <form id="jg-step2" hidden onsubmit="return false;">
+      <div class="jg-summary" id="jg-summary"></div>
+      <div class="jg-field">
+        <label class="jg-lbl" for="jg-dep-amount">First deposit (UGX) <span class="req">*</span></label>
+        <input class="jg-input" id="jg-dep-amount" type="number" inputmode="numeric" min="500" step="500" placeholder="e.g. 50,000">
+      </div>
+      <label class="jg-lbl">Pay with</label>
+      <div class="jg-pay-row">
+        <button type="button" class="jg-pay on" data-provider="mtn_momo">MTN MoMo</button>
+        <button type="button" class="jg-pay" data-provider="airtel">Airtel Money</button>
+        <button type="button" class="jg-pay" data-provider="bank">Bank</button>
+      </div>
+      <div class="jg-field">
+        <label class="jg-lbl" for="jg-dep-phone">Phone number charged</label>
+        <input class="jg-input" id="jg-dep-phone" type="tel" inputmode="tel" placeholder="07XXXXXXXX">
+      </div>
+      <button class="jg-btn" id="jg-deposit">Join and deposit</button>
+      <button class="jg-btn-ghost" id="jg-back">← Back</button>
+    </form>
+
+    <!-- DONE -->
+    <div class="jg-done" id="jg-done" hidden>
+      <img class="kb-illus kb-illus--done" src="/assets/illustrations/svg/03-team-high-five.svg" alt="Two characters high-fiving" width="220" height="220" decoding="async">
+      <div class="jg-done-title">Deposit successful</div>
+      <div class="jg-done-sub" id="jg-done-sub"></div>
+      <button class="jg-btn" onclick="window.location.href='kibbisave_home_final.html'">Go to my savings</button>
+    </div>
+  </div>
+
+</div>
+</div>
+</main>
+<footer class="site-footer">KibbiSave — group savings for Uganda</footer>
+
+<script src="js/kibbisave-site.js"></script>
+<script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var groupId = params.get('id');
+  var CACHE_KEY = 'kibbi_join_form_' + (groupId || 'none'); // spec: cache form data
+
+  var err = document.getElementById('jg-error');
+  var ok = document.getElementById('jg-ok');
+  function showErr(m) { err.textContent = m || ''; err.style.display = m ? 'block' : 'none'; if (m) ok.style.display = 'none'; }
+  function showOk(m) { ok.textContent = m || ''; ok.style.display = m ? 'block' : 'none'; }
+  function fmtUGX(n) { return 'UGX ' + (Number(n) || 0).toLocaleString('en-US'); }
+
+  var group = null;
+  var chosenCommunities = [];   // up to 2 (spec)
+  var provider = 'mtn_momo';
+  var authenticated = false;
+
+  if (!groupId) { showErr('No group selected. Go back and tap a group card.'); return; }
+
+  // ---- load group + communities + auth in parallel ----
+  fetch('/api/groups/' + groupId, { credentials: 'include' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (d.error) return showErr(d.error);
+      group = d.group;
+      authenticated = d.authenticated;
+      var tierTxt = group.tier === 'upto_3m' ? ' · goals up to UGX 3M'
+                  : group.tier === 'above_3m' ? ' · goals above UGX 3M' : '';
+      document.getElementById('jg-group-info').textContent =
+        (group.name || group.period_months + ' month group') + ' · ' +
+        (group.current_members || 0) + '/' + (group.max_members || 10) + ' members' + tierTxt;
+      document.getElementById('jg-period').value = group.period_months + ' months';
+      if (group.name) document.getElementById('jg-name-field').hidden = true;
+      if (group.tier === 'upto_3m')  document.getElementById('jg-tier-hint').textContent = 'This group takes goals up to UGX 3,000,000.';
+      if (group.tier === 'above_3m') document.getElementById('jg-tier-hint').textContent = 'This group takes goals above UGX 3,000,000.';
+      if (d.is_member) showOk('You are already in this group — you can still make a deposit below.');
+    })
+    .catch(function () { showErr('Could not load the group. Refresh to retry.'); });
+
+  fetch('/api/communities', { credentials: 'include' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var sel = document.getElementById('jg-community');
+      (d.communities || []).forEach(function (c) {
+        var o = document.createElement('option');
+        o.value = c.id; o.textContent = c.name + (c.is_public ? '' : ' (private)');
+        sel.appendChild(o);
+      });
+      // spec: can be pre-filled when arriving from a community page
+      var pre = params.get('community');
+      if (pre) addCommunity(pre, sel);
+    })
+    .catch(function () {});
+
+  function renderChips() {
+    var box = document.getElementById('jg-community-chips');
+    var sel = document.getElementById('jg-community');
+    box.innerHTML = '';
+    chosenCommunities.forEach(function (id) {
+      var opt = sel.querySelector('option[value="' + id + '"]');
+      var chip = document.createElement('span');
+      chip.className = 'jg-chip';
+      chip.textContent = opt ? opt.textContent : 'Community';
+      var x = document.createElement('button');
+      x.type = 'button'; x.textContent = '✕';
+      x.onclick = function () {
+        chosenCommunities = chosenCommunities.filter(function (c) { return c !== id; });
+        renderChips(); save();
+      };
+      chip.appendChild(x);
+      box.appendChild(chip);
+    });
+  }
+  function addCommunity(id, sel) {
+    if (!id || chosenCommunities.indexOf(id) !== -1) return;
+    if (chosenCommunities.length >= 2) { showErr('You can add up to 2 communities.'); return; }
+    showErr('');
+    chosenCommunities.push(id);
+    renderChips(); save();
+    if (sel) sel.value = '';
+  }
+  document.getElementById('jg-community').addEventListener('change', function () {
+    addCommunity(this.value, this);
+  });
+
+  // ---- cache form (spec: never lose data going back and forth) ----
+  function save() {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        amount: document.getElementById('jg-amount').value,
+        savingFor: document.getElementById('jg-saving-for').value,
+        suggestName: document.getElementById('jg-suggest-name').value,
+        code: document.getElementById('jg-code').value,
+        depAmount: document.getElementById('jg-dep-amount').value,
+        depPhone: document.getElementById('jg-dep-phone').value,
+        communities: chosenCommunities
+      }));
+    } catch (e) {}
+  }
+  try {
+    var saved = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+    if (saved) {
+      document.getElementById('jg-amount').value = saved.amount || '';
+      document.getElementById('jg-saving-for').value = saved.savingFor || '';
+      document.getElementById('jg-suggest-name').value = saved.suggestName || '';
+      document.getElementById('jg-code').value = saved.code || '';
+      document.getElementById('jg-dep-amount').value = saved.depAmount || '';
+      document.getElementById('jg-dep-phone').value = saved.depPhone || '';
+      chosenCommunities = saved.communities || [];
+      setTimeout(renderChips, 400);
+    }
+  } catch (e) {}
+  ['jg-amount','jg-saving-for','jg-suggest-name','jg-code','jg-dep-amount','jg-dep-phone']
+    .forEach(function (id) { document.getElementById(id).addEventListener('input', save); });
+
+  // link/code autofill (spec)
+  var codeParam = params.get('code');
+  if (codeParam) document.getElementById('jg-code').value = codeParam;
+
+  // ---- step 1 → step 2 ----
+  document.getElementById('jg-continue').addEventListener('click', function () {
+    showErr('');
+    var amt = Math.round(Number(document.getElementById('jg-amount').value) || 0);
+    if (amt <= 0) return showErr('Enter the amount you are saving towards.');
+    if (group && group.tier === 'upto_3m' && amt > 3000000) return showErr('This group is for goals up to UGX 3,000,000 — pick the other 8-month group.');
+    if (group && group.tier === 'above_3m' && amt <= 3000000) return showErr('This group is for goals above UGX 3,000,000 — pick the other 8-month group.');
+    // spec: login required when joining (browsing is free)
+    if (!authenticated) {
+      save();
+      window.location.href = '/login?next=' + encodeURIComponent(window.location.pathname + window.location.search);
+      return;
+    }
+    document.getElementById('jg-summary').innerHTML =
+      'Saving <b>' + fmtUGX(amt) + '</b> over <b>' + (group ? group.period_months : '—') + ' months</b>' +
+      (document.getElementById('jg-saving-for').value ? ' for <b>' + document.getElementById('jg-saving-for').value.replace(/[<>&]/g,'') + '</b>' : '') +
+      '. One step left: your first deposit joins you into the group.';
+    document.getElementById('jg-step1').hidden = true;
+    document.getElementById('jg-step2').hidden = false;
+    document.getElementById('step-bar-2').classList.add('on');
+  });
+
+  document.getElementById('jg-back').addEventListener('click', function () {
+    document.getElementById('jg-step2').hidden = true;
+    document.getElementById('jg-step1').hidden = false;
+    document.getElementById('step-bar-2').classList.remove('on');
+  });
+
+  document.querySelectorAll('.jg-pay').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.jg-pay').forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on');
+      provider = b.getAttribute('data-provider');
+    });
+  });
+
+  // ---- join + deposit ----
+  document.getElementById('jg-deposit').addEventListener('click', function () {
+    showErr('');
+    var btn = this;
+    var depAmt = Math.round(Number(document.getElementById('jg-dep-amount').value) || 0);
+    if (depAmt <= 0) return showErr('Enter your first deposit amount.');
+    btn.disabled = true; btn.textContent = 'Processing…';
+
+    function deposit() {
+      return fetch('/api/deposits', {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          group_id: groupId, amount: depAmt, provider: provider,
+          phone: document.getElementById('jg-dep-phone').value || null
+        })
+      }).then(function (r) { return r.json(); });
+    }
+
+    fetch('/api/groups/' + groupId + '/join', {
+      method: 'POST', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        goal_amount: Math.round(Number(document.getElementById('jg-amount').value) || 0),
+        saving_for: document.getElementById('jg-saving-for').value || null,
+        suggest_name: document.getElementById('jg-suggest-name').value || null,
+        community_ids: chosenCommunities,
+        code: document.getElementById('jg-code').value || null
+      })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (join) {
+      // "already in this group" is fine — go straight to deposit
+      if (join.error && !/already in this group/i.test(join.error)) throw new Error(join.error);
+      return deposit();
+    })
+    .then(function (dep) {
+      if (dep.error) throw new Error(dep.error);
+      try {
+        localStorage.removeItem(CACHE_KEY);
+        localStorage.removeItem('kibbi_home_cache_v1');
+        localStorage.removeItem('kibbi_home_cache_v2');
+      } catch (e) {}
+      document.getElementById('jg-step2').hidden = true;
+      document.getElementById('jg-done').hidden = false;
+      var hs = document.getElementById('jg-handshake');
+      if (hs) hs.hidden = true;
+      var m = dep.member || {};
+      document.getElementById('jg-done-sub').textContent =
+        'You now have ' + fmtUGX(m.total_deposited) + ' in ' + (m.group_name || 'your group') +
+        (m.avg_lead != null ? '. Average lead: ' + (m.avg_lead > 0 ? '+' : '') + m.avg_lead + '%' : '') + '.';
+    })
+    .catch(function (e) {
+      showErr(e.message || 'Something went wrong. Try again.');
+      btn.disabled = false; btn.textContent = 'Join and deposit';
+    });
+  });
+})();
+</script>
+</body>
+</html>

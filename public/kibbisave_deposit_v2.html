@@ -4,24 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Deposit</title>
+  <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
   <link rel="stylesheet" href="css/kibbisave-site.css">
+  <script>(function(){try{var v=sessionStorage.getItem('kibbi_auth_v1');if(v==='1')document.documentElement.classList.add('kb-authed');if(v==='0'||v==='1')document.documentElement.classList.add('kb-auth-known');if(localStorage.getItem('kibbi_dark_mode')==='1'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}}catch(e){}})();</script>
 </head>
 <body>
 <header class="site-header">
   <div class="site-header-inner">
-    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
-    <button class="site-menu-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <div class="site-brand"><a href="kibbisave_home_final.html" class="site-logo">Kibbisave</a></div>
     <nav class="site-nav">
       <a href="kibbisave_home_final.html">Home</a>
       <a href="kibbisave_groups_v6.html">Groups</a>
       <a href="kibbisave_community_explore.html">Community</a>
       <a href="kibbisave_leaderboard_v5.html">Leaderboard</a>
       <a href="kibbisave_profile_screen.html">Profile</a>
-      <a href="/login" class="nav-sign-in-mobile">Sign in</a>
+      <div class="nav-auth-mobile" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
       <a href="kibbisave_deposit_v2.html" class="nav-deposit-mobile">+ Deposit</a>
     </nav>
     <div class="site-header-actions">
-      <a href="/login" class="site-auth-btn" data-auth-link>Sign in</a>
+      <div class="site-auth-pair" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
       <a href="kibbisave_deposit_v2.html" class="site-btn-deposit">+ Deposit</a>
     </div>
   </div>
@@ -29,487 +30,243 @@
 <main class="site-main site-main--deposit">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
-.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 1rem;}
-.phone{width:320px;background:#fff;border-radius:38px;border:2px solid #c8cfe0;overflow:hidden;display:flex;flex-direction:column;}
+.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
+.phone{width:320px;background:#fff;border-radius:24px;border:1px solid #dde3f0;overflow:hidden;display:flex;flex-direction:column;}
 .topbar{background:#00008b;padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;}
-.back{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;flex-shrink:0;}
+.back{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;flex-shrink:0;color:#fff;}
 .tb-mid{display:flex;flex-direction:column;align-items:center;}
 .tb-title{font-size:15px;font-weight:500;color:#fff;}
 .tb-sub{font-size:10px;color:rgba(255,255,255,0.55);margin-top:1px;}
 .tb-right{width:32px;}
-.step-bar-wrap{background:#00008b;padding:0 18px 16px;}
-.step-track{background:rgba(255,255,255,0.2);border-radius:4px;height:4px;display:flex;gap:4px;}
-.step-seg{flex:1;border-radius:4px;height:4px;}
-.step-seg.done{background:#ffd700;}
-.step-seg.active{background:#fff;}
-.step-seg.todo{background:rgba(255,255,255,0.2);}
-.step-labels{display:flex;justify-content:space-between;margin-top:6px;}
-.step-lbl{font-size:9px;color:rgba(255,255,255,0.5);}
-.step-lbl.active{color:#fff;font-weight:500;}
-.step-lbl.done{color:#ffd700;}
-.body{padding:16px 18px 0;}
+.body{padding:16px 18px 18px;}
 .s-title{font-size:16px;font-weight:500;color:#111;margin-bottom:3px;}
 .s-sub{font-size:12px;color:#7a85a0;margin-bottom:16px;}
-/* GROUP SELECTOR */
+.dep-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
+.dep-notice{background:#fff8e6;color:#7a4f00;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
 .group-sel{border:1.5px solid #dde3f0;border-radius:12px;overflow:hidden;margin-bottom:14px;}
 .gs-row{display:flex;align-items:center;gap:10px;padding:10px 13px;border-bottom:0.5px solid #eef0f8;cursor:pointer;}
 .gs-row:last-child{border-bottom:none;}
 .gs-row.selected{background:#f0f2ff;border-left:3px solid #00008b;}
-.gs-icon{width:34px;height:34px;border-radius:9px;background:#e8eaf8;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .gs-info{flex:1;min-width:0;}
 .gs-name{font-size:12px;font-weight:500;color:#111;}
 .gs-sub{font-size:10px;color:#7a85a0;margin-top:1px;}
-.gs-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
 .radio{width:16px;height:16px;border-radius:50%;border:2px solid #dde3f0;flex-shrink:0;}
-.radio.checked{border-color:#00008b;background:#00008b;display:flex;align-items:center;justify-content:center;}
-.radio.checked::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
-/* AMOUNT INPUT — typeable feel */
+.gs-row.selected .radio{border-color:#00008b;background:#00008b;}
 .amount-box{background:#f7f8fc;border:1.5px solid #00008b;border-radius:14px;padding:16px 16px 12px;margin-bottom:14px;}
 .amount-label{font-size:10px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;}
 .amount-input-row{display:flex;align-items:center;gap:6px;border-bottom:2px solid #00008b;padding-bottom:6px;margin-bottom:8px;}
 .amount-currency-lbl{font-size:15px;font-weight:500;color:#7a85a0;}
-.amount-input{font-size:34px;font-weight:500;color:#00008b;letter-spacing:-1px;border:none;background:transparent;outline:none;width:100%;min-width:0;}
-.cursor-blink{display:inline-block;width:2px;height:34px;background:#00008b;border-radius:2px;animation:blink 1s step-end infinite;vertical-align:middle;margin-left:2px;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
-.amount-hint-row{display:flex;justify-content:space-between;}
-.amount-hint{font-size:10px;color:#7a85a0;}
-.amount-hint.warn{color:#d4a017;}
-/* QUICK AMOUNTS */
+.amount-input{font-size:30px;font-weight:500;color:#00008b;letter-spacing:-1px;border:none;background:transparent;outline:none;width:100%;min-width:0;font-family:inherit;}
 .quick-amounts{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;}
 .qa{font-size:11px;font-weight:500;padding:6px 12px;border-radius:20px;border:1.5px solid #dde3f0;color:#7a85a0;background:#fff;cursor:pointer;flex-shrink:0;}
 .qa.active{background:#00008b;color:#fff;border-color:#00008b;}
-/* NUMPAD */
-.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px;}
-.npk{background:#f7f8fc;border:1px solid #eef0f8;border-radius:10px;padding:13px 0;text-align:center;font-size:16px;font-weight:500;color:#111;cursor:pointer;user-select:none;}
-.npk:active{background:#e8eaf8;}
-.npk.action{background:#fff;color:#00008b;font-size:12px;font-weight:500;}
-.npk.del{background:#fff;}
-/* RANK NUDGE */
-.rank-nudge{background:#e6f4ea;border:1px solid #b6e4c6;border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:8px;margin-bottom:14px;}
-.rn-icon{width:28px;height:28px;border-radius:50%;background:#1a6e35;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.rn-text{font-size:11px;color:#1a3a1e;line-height:1.5;}
-/* PAYMENT */
 .pay-methods{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
 .pay-opt{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1.5px solid #dde3f0;border-radius:12px;cursor:pointer;background:#fff;}
 .pay-opt.selected{border-color:#00008b;background:#f0f2ff;}
-.pay-logo{width:36px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pay-logo{width:36px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;font-weight:700;color:#fff;}
 .pay-info{flex:1;}
 .pay-name{font-size:12px;font-weight:500;color:#111;}
 .pay-num{font-size:10px;color:#7a85a0;margin-top:1px;}
-.pay-badge{font-size:9px;padding:2px 7px;border-radius:20px;font-weight:500;background:#e6f4ea;color:#1a6e35;}
-/* SUMMARY */
-.summary{background:#f7f8fc;border:1px solid #dde3f0;border-radius:12px;overflow:hidden;margin-bottom:12px;}
-.summ-head{background:#00008b;padding:10px 14px;display:flex;align-items:center;gap:8px;}
-.summ-head-name{font-size:13px;font-weight:500;color:#fff;}
-.summ-rows{padding:10px 14px;}
-.summ-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid #eef0f8;}
-.summ-row:last-child{border-bottom:none;}
-.summ-lbl{font-size:11px;color:#7a85a0;}
-.summ-val{font-size:11px;font-weight:500;color:#111;}
-.summ-val.blue{color:#00008b;}
-.summ-val.green{color:#1a6e35;}
-.summ-total{display:flex;justify-content:space-between;padding:10px 14px;background:#00008b;}
-.summ-tlbl{font-size:12px;color:rgba(255,255,255,0.7);}
-.summ-tval{font-size:16px;font-weight:500;color:#ffd700;}
-.lock-note{display:flex;align-items:center;gap:6px;font-size:10px;color:#7a85a0;margin-bottom:14px;}
-/* SUCCESS */
-.success-screen{display:flex;flex-direction:column;align-items:center;padding:20px 18px 0;}
-.success-circle{width:68px;height:68px;border-radius:50%;background:#e6f4ea;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
-.success-title{font-size:19px;font-weight:500;color:#111;margin-bottom:4px;}
-.success-amt{font-size:30px;font-weight:500;color:#00008b;margin-bottom:4px;}
-.success-sub{font-size:11px;color:#7a85a0;text-align:center;margin-bottom:16px;line-height:1.5;}
-/* CALENDAR */
-.cal-card{background:#fff;border:1px solid #dde3f0;border-radius:14px;overflow:hidden;width:100%;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,56,0.05);}
-.cal-head{background:#00008b;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;}
-.cal-month{font-size:13px;font-weight:500;color:#fff;}
-.cal-year{font-size:11px;color:rgba(255,255,255,0.6);}
-.cal-body{padding:10px 12px 12px;}
-.cal-days-head{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px;}
-.cal-dh{font-size:9px;font-weight:500;color:#7a85a0;text-align:center;padding:3px 0;}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
-.cal-day{font-size:11px;text-align:center;padding:5px 0;border-radius:6px;color:#7a85a0;cursor:default;}
-.cal-day.active-month{color:#111;}
-.cal-day.today{background:#e8eaf8;color:#00008b;font-weight:500;border-radius:6px;}
-.cal-day.in-range{background:#e8f0ff;}
-.cal-day.range-end{background:#00008b;color:#fff;font-weight:500;border-radius:6px;position:relative;}
-.cal-day.range-end::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#ffd700;}
-.cal-day.deposit-day{background:#1a6e35;color:#fff;font-weight:500;border-radius:6px;}
-.cal-legend{display:flex;gap:12px;padding:0 12px 10px;flex-wrap:wrap;}
-.cal-leg-item{display:flex;align-items:center;gap:4px;font-size:9px;color:#7a85a0;}
-.cal-leg-dot{width:8px;height:8px;border-radius:2px;}
-.cal-expiry-note{display:flex;align-items:center;gap:6px;padding:0 12px 10px;}
-.cal-exp-icon{width:22px;height:22px;border-radius:50%;background:#fdecea;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.cal-exp-text{font-size:10px;color:#7a85a0;line-height:1.4;}
-.cal-exp-text strong{color:#c0392b;}
-/* STATS STRIP */
-.stats-strip{display:flex;gap:8px;width:100%;margin-bottom:14px;}
-.stat-box{flex:1;background:#f7f8fc;border:1px solid #eef0f8;border-radius:10px;padding:9px 10px;}
-.stat-lbl{font-size:9px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.06em;}
-.stat-val{font-size:14px;font-weight:500;margin-top:3px;}
-.rank-up-banner{background:#fff3cd;border:1px solid #f5d76e;border-radius:10px;padding:10px 13px;display:flex;align-items:center;gap:8px;width:100%;margin-bottom:14px;}
-.cta-section{padding:14px 18px 18px;}
-.cta-btn{background:#00008b;color:#fff;font-size:13px;font-weight:500;padding:13px 0;border-radius:24px;border:none;cursor:pointer;width:100%;text-align:center;}
-.cta-btn.sec{background:#fff;color:#00008b;border:1.5px solid #00008b;margin-top:8px;}
-.step-note{font-size:10px;color:#7a85a0;text-align:center;margin-top:8px;}
-.divider-label{font-size:12px;font-weight:500;color:#7a85a0;text-align:center;padding:14px 0 4px;}
+.dep-phone{width:100%;border:1px solid #dde3f0;border-radius:10px;padding:10px 12px;font-size:13px;background:#f9fafd;outline:none;margin-bottom:14px;font-family:inherit;}
+.cta-btn{width:100%;background:#00008b;color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+.cta-btn:disabled{opacity:0.55;cursor:default;}
+.done{text-align:center;padding:26px 0 10px;}
+.done-icon{font-size:44px;}
+.done-title{font-size:16px;font-weight:700;color:#111;margin-top:8px;}
+.done-sub{font-size:12px;color:#7a85a0;margin-top:5px;line-height:1.5;padding:0 10px;}
+.skel{position:relative;overflow:hidden;background:#e8ecf5;border-radius:8px;height:44px;margin-bottom:8px;}
+.skel::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);animation:sh 1.2s infinite;}
+@keyframes sh{100%{transform:translateX(100%)}}
 </style>
 
-<!-- ══════ STEP 1: GROUP + TYPEABLE AMOUNT ══════ -->
 <div class="wrap">
 <div class="phone">
-<div class="topbar">
-  <button class="back"><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-  <div class="tb-mid"><div class="tb-title">Deposit</div><div class="tb-sub">Step 1 of 3</div></div>
-  <div class="tb-right"></div>
-</div>
-<div class="step-bar-wrap">
-  <div class="step-track">
-    <div class="step-seg active"></div>
-    <div class="step-seg todo"></div>
-    <div class="step-seg todo"></div>
+  <div class="topbar">
+    <button class="back" onclick="history.back()">←</button>
+    <div class="tb-mid"><div class="tb-title">Make a deposit</div><div class="tb-sub" id="dep-acct">Updates your lead instantly</div></div>
+    <div class="tb-right"></div>
   </div>
-  <div class="step-labels">
-    <span class="step-lbl active">Group & amount</span>
-    <span class="step-lbl">Payment</span>
-    <span class="step-lbl">Confirm</span>
-  </div>
-</div>
 
-<div class="body">
-  <div class="s-title">Where to deposit?</div>
-  <div class="s-sub">Pick a group then type your amount</div>
+  <div class="body" id="dep-body">
+    <div class="dep-error" id="dep-error" role="alert"></div>
 
-  <div class="group-sel">
-    <div class="gs-row selected">
-      <div class="radio checked"></div>
-      <div class="gs-icon">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+    <div id="dep-form">
+      <div class="s-title">Which group?</div>
+      <div class="s-sub">Pick the group you are depositing into</div>
+      <div class="group-sel" id="dep-groups">
+        <div class="skel"></div><div class="skel"></div>
       </div>
-      <div class="gs-info">
-        <div class="gs-name">Kampala Hustlers</div>
-        <div class="gs-sub">Land in Wakiso · 7 members</div>
+
+      <div class="amount-box">
+        <div class="amount-label">Amount to deposit</div>
+        <div class="amount-input-row">
+          <span class="amount-currency-lbl">UGX</span>
+          <input class="amount-input" id="dep-amount" type="number" inputmode="numeric" min="500" step="500" placeholder="0">
+        </div>
       </div>
-      <div class="gs-right">
-        <span style="font-size:10px;font-weight:500;color:#1a8a3c;">▲ #1st</span>
-        <span style="font-size:10px;color:#1a6e35;">+2.56% ahead</span>
+      <div class="quick-amounts">
+        <button class="qa" data-amt="10000">10k</button>
+        <button class="qa" data-amt="20000">20k</button>
+        <button class="qa" data-amt="50000">50k</button>
+        <button class="qa" data-amt="100000">100k</button>
+        <button class="qa" data-amt="200000">200k</button>
       </div>
-    </div>
-    <div class="gs-row">
-      <div class="radio"></div>
-      <div class="gs-icon">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+
+      <div class="pay-methods">
+        <div class="pay-opt selected" data-provider="mtn_momo">
+          <div class="pay-logo" style="background:#f7c800;color:#00008b;">MTN</div>
+          <div class="pay-info"><div class="pay-name">MTN Mobile Money</div><div class="pay-num">Charged to your MoMo number</div></div>
+          <div class="radio" style="border-color:#00008b;background:#00008b;"></div>
+        </div>
+        <div class="pay-opt" data-provider="airtel">
+          <div class="pay-logo" style="background:#e40000;">airtel</div>
+          <div class="pay-info"><div class="pay-name">Airtel Money</div><div class="pay-num">Charged to your Airtel number</div></div>
+          <div class="radio"></div>
+        </div>
+        <div class="pay-opt" data-provider="bank">
+          <div class="pay-logo" style="background:#00008b;">BANK</div>
+          <div class="pay-info"><div class="pay-name">Bank transfer</div><div class="pay-num">Manual reference</div></div>
+          <div class="radio"></div>
+        </div>
       </div>
-      <div class="gs-info">
-        <div class="gs-name">Makerere Savers</div>
-        <div class="gs-sub">Startup capital · 10 members</div>
+      <input class="dep-phone" id="dep-phone" type="tel" inputmode="tel" placeholder="Phone number charged (07XXXXXXXX)">
+
+      <div class="dep-trust">
+        <img class="kb-illus" src="/assets/illustrations/svg/19-safe-and-secure.svg" alt="Character hugging a shield" width="56" height="56" decoding="async">
+        <span>Your money is protected while it builds toward your group goal.</span>
       </div>
-      <div class="gs-right">
-        <span style="font-size:10px;font-weight:500;color:#c0392b;">▼ #3rd</span>
-        <span style="font-size:10px;color:#c0392b;">-1.8% behind</span>
-      </div>
+
+      <button class="cta-btn" id="dep-confirm">Confirm &amp; deposit</button>
+    </div>
+
+    <div class="done" id="dep-done" hidden>
+      <img class="kb-illus kb-illus--done" src="/assets/illustrations/svg/06-deposit-success.svg" alt="Character holding phone with checkmark" width="220" height="220" decoding="async">
+      <div class="done-title">Deposit confirmed</div>
+      <div class="done-sub" id="dep-done-sub"></div>
+      <button class="cta-btn" style="margin-top:16px;" onclick="(function(){try{localStorage.removeItem('kibbi_home_cache_v1');localStorage.removeItem('kibbi_home_cache_v2');}catch(e){}var r='kibbisave_home_final.html?deposited=1';try{var s=sessionStorage.getItem('kb_profile_return');if(s)r=s;}catch(e2){}window.location.href=r;})()">Back</button>
     </div>
   </div>
-
-  <!-- TYPEABLE AMOUNT INPUT -->
-  <div class="amount-box">
-    <div class="amount-label">Enter amount (UGX)</div>
-    <div class="amount-input-row">
-      <span class="amount-currency-lbl">UGX</span>
-      <span class="amount-input">150,000</span>
-      <span class="cursor-blink"></span>
-    </div>
-    <div class="amount-hint-row">
-      <span class="amount-hint">Min. UGX 50,000</span>
-      <span class="amount-hint" style="color:#00008b;">Balance: UGX 2.4M</span>
-    </div>
-  </div>
-
-  <div class="quick-amounts">
-    <div class="qa">50k</div>
-    <div class="qa active">150k</div>
-    <div class="qa">200k</div>
-    <div class="qa">500k</div>
-    <div class="qa">Max</div>
-  </div>
-
-  <!-- NUMPAD -->
-  <div class="numpad">
-    <div class="npk">1</div><div class="npk">2</div><div class="npk">3</div>
-    <div class="npk">4</div><div class="npk">5</div><div class="npk">6</div>
-    <div class="npk">7</div><div class="npk">8</div><div class="npk">9</div>
-    <div class="npk action">000</div><div class="npk">0</div>
-    <div class="npk del">
-      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#111" stroke-width="2" stroke-linecap="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
-    </div>
-  </div>
-
-  <div class="rank-nudge">
-    <div class="rn-icon">
-      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
-    </div>
-    <div class="rn-text">Deposit <strong>UGX 50,000 more</strong> to jump from <strong>#2nd → #1st</strong> in your group 🔥</div>
-  </div>
-</div>
-
-<div class="cta-section">
-  <button class="cta-btn">Next — Payment method</button>
-  <div class="step-note">Funds are locked until target or closing date</div>
 </div>
 </div>
-</div>
-
-<!-- ══════ STEP 2: PAYMENT ══════ -->
-<div class="divider-label">Step 2 — Payment method</div>
-<div class="wrap" style="padding-top:0;">
-<div class="phone">
-<div class="topbar">
-  <button class="back"><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-  <div class="tb-mid"><div class="tb-title">Deposit</div><div class="tb-sub">Step 2 of 3</div></div>
-  <div class="tb-right"></div>
-</div>
-<div class="step-bar-wrap">
-  <div class="step-track">
-    <div class="step-seg done"></div>
-    <div class="step-seg active"></div>
-    <div class="step-seg todo"></div>
-  </div>
-  <div class="step-labels">
-    <span class="step-lbl done">Group & amount</span>
-    <span class="step-lbl active">Payment</span>
-    <span class="step-lbl">Confirm</span>
-  </div>
-</div>
-
-<div class="body">
-  <div class="s-title">How to pay?</div>
-  <div class="s-sub">Choose your payment method</div>
-
-  <div class="pay-methods">
-    <div class="pay-opt selected">
-      <div class="pay-logo" style="background:#ffd700;">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#7a5800" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-      </div>
-      <div class="pay-info">
-        <div class="pay-name">MTN Mobile Money</div>
-        <div class="pay-num">+256 77 ••• ••• 41</div>
-      </div>
-      <span class="pay-badge">Saved</span>
-      <div class="radio checked"></div>
-    </div>
-    <div class="pay-opt">
-      <div class="pay-logo" style="background:#e8f4fd;">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#185fa5" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-      </div>
-      <div class="pay-info">
-        <div class="pay-name">Airtel Money</div>
-        <div class="pay-num">+256 75 ••• ••• 28</div>
-      </div>
-      <div class="radio"></div>
-    </div>
-    <div class="pay-opt">
-      <div class="pay-logo" style="background:#f0f2ff;">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-      </div>
-      <div class="pay-info">
-        <div class="pay-name">Bank transfer</div>
-        <div class="pay-num">Stanbic · •••• 4821</div>
-      </div>
-      <div class="radio"></div>
-    </div>
-  </div>
-
-  <div style="background:#f7f8fc;border:1px solid #eef0f8;border-radius:10px;padding:10px 13px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-    <span style="font-size:11px;color:#7a85a0;">Depositing to</span>
-    <span style="font-size:12px;font-weight:500;color:#00008b;">Kampala Hustlers</span>
-  </div>
-  <div style="background:#f7f8fc;border:1px solid #eef0f8;border-radius:10px;padding:10px 13px;display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
-    <span style="font-size:11px;color:#7a85a0;">Amount</span>
-    <span style="font-size:15px;font-weight:500;color:#00008b;">UGX 150,000</span>
-  </div>
-</div>
-
-<div class="cta-section">
-  <button class="cta-btn">Next — Review & confirm</button>
-</div>
-</div>
-</div>
-
-<!-- ══════ STEP 3: CONFIRM ══════ -->
-<div class="divider-label">Step 3 — Confirm</div>
-<div class="wrap" style="padding-top:0;">
-<div class="phone">
-<div class="topbar">
-  <button class="back"><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-  <div class="tb-mid"><div class="tb-title">Deposit</div><div class="tb-sub">Step 3 of 3</div></div>
-  <div class="tb-right"></div>
-</div>
-<div class="step-bar-wrap">
-  <div class="step-track">
-    <div class="step-seg done"></div>
-    <div class="step-seg done"></div>
-    <div class="step-seg active"></div>
-  </div>
-  <div class="step-labels">
-    <span class="step-lbl done">Group & amount</span>
-    <span class="step-lbl done">Payment</span>
-    <span class="step-lbl active">Confirm</span>
-  </div>
-</div>
-
-<div class="body">
-  <div class="s-title">Review deposit</div>
-  <div class="s-sub">Double-check before confirming</div>
-
-  <div class="summary">
-    <div class="summ-head">
-      <span style="font-size:18px;">🏡</span>
-      <span class="summ-head-name">Kampala Hustlers · Land in Wakiso</span>
-    </div>
-    <div class="summ-rows">
-      <div class="summ-row"><span class="summ-lbl">Your rank before</span><span class="summ-val">#2nd in group</span></div>
-      <div class="summ-row"><span class="summ-lbl">Expected rank after</span><span class="summ-val green">#1st in group 🔥</span></div>
-      <div class="summ-row"><span class="summ-lbl">Payment via</span><span class="summ-val">MTN MoMo ···41</span></div>
-      <div class="summ-row"><span class="summ-lbl">Transaction fee</span><span class="summ-val">UGX 0</span></div>
-      <div class="summ-row"><span class="summ-lbl">Group closes</span><span class="summ-val" style="color:#c0392b;">30 Jun 2026</span></div>
-    </div>
-    <div class="summ-total">
-      <span class="summ-tlbl">Total deducted</span>
-      <span class="summ-tval">UGX 150,000</span>
-    </div>
-  </div>
-
-  <div class="lock-note">
-    <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    Funds locked until 30 Jun 2026 or target reached
-  </div>
-</div>
-
-<div class="cta-section">
-  <button class="cta-btn">Confirm & deposit UGX 150,000</button>
-  <button class="cta-btn sec">Edit deposit</button>
-</div>
-</div>
-</div>
-
-<!-- ══════ SUCCESS + CALENDAR ══════ -->
-<div class="divider-label">Deposit successful ✓</div>
-<div class="wrap" style="padding-top:0;padding-bottom:2rem;">
-<div class="phone">
-<div class="topbar">
-  <div style="width:32px;"></div>
-  <div class="tb-mid"><div class="tb-title">Deposit confirmed</div></div>
-  <div class="tb-right"></div>
-</div>
-
-<div class="success-screen">
-  <div class="success-circle">
-    <svg width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-  </div>
-  <div class="success-title">Deposit successful!</div>
-  <div class="success-amt">UGX 150,000</div>
-  <div class="success-sub">Deposited to <strong>Kampala Hustlers</strong>.<br/>Funds are locked — keep saving to stay ahead.</div>
-
-  <div class="stats-strip">
-    <div class="stat-box">
-      <div class="stat-lbl">New rank</div>
-      <div class="stat-val" style="color:#b8860b;">#1st 🏆</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-lbl">Group board</div>
-      <div class="stat-val" style="color:#1a8a3c;">▲ #1st</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-lbl">Total saved</div>
-      <div class="stat-val" style="color:#00008b;">UGX 1.39M</div>
-    </div>
-  </div>
-
-  <div class="rank-up-banner">
-    <span style="font-size:18px;">🔥</span>
-    <span style="font-size:11px;color:#7a5800;line-height:1.4;">You just moved to <strong>#1st in your group!</strong> Deposit again before your teammates catch up.</span>
-  </div>
-
-  <!-- CALENDAR — deposit date to expiry -->
-  <div class="cal-card">
-    <div class="cal-head">
-      <span class="cal-month">June 2026</span>
-      <span class="cal-year">Deposit expires 30 Jun 2026</span>
-    </div>
-    <div class="cal-body">
-      <div class="cal-days-head">
-        <div class="cal-dh">Mo</div><div class="cal-dh">Tu</div><div class="cal-dh">We</div>
-        <div class="cal-dh">Th</div><div class="cal-dh">Fr</div><div class="cal-dh">Sa</div><div class="cal-dh">Su</div>
-      </div>
-      <div class="cal-grid">
-        <!-- Week 1: Jun starts on Sunday, offset 6 days -->
-        <div class="cal-day"></div><!-- Mo -->
-        <div class="cal-day"></div><!-- Tu -->
-        <div class="cal-day"></div><!-- We -->
-        <div class="cal-day"></div><!-- Th -->
-        <div class="cal-day"></div><!-- Fr -->
-        <div class="cal-day"></div><!-- Sa -->
-        <div class="cal-day active-month">1</div><!-- Su -->
-        <!-- Week 2 -->
-        <div class="cal-day active-month in-range">2</div>
-        <div class="cal-day active-month in-range">3</div>
-        <div class="cal-day active-month in-range">4</div>
-        <div class="cal-day active-month in-range">5</div>
-        <div class="cal-day active-month in-range">6</div>
-        <div class="cal-day active-month in-range">7</div>
-        <div class="cal-day active-month in-range">8</div>
-        <!-- Week 3 -->
-        <div class="cal-day active-month in-range">9</div>
-        <div class="cal-day active-month today">10</div>
-        <div class="cal-day active-month in-range">11</div>
-        <div class="cal-day active-month in-range">12</div>
-        <div class="cal-day active-month in-range">13</div>
-        <div class="cal-day active-month in-range">14</div>
-        <div class="cal-day active-month in-range">15</div>
-        <!-- Week 4 -->
-        <div class="cal-day active-month in-range">16</div>
-        <div class="cal-day active-month in-range">17</div>
-        <div class="cal-day active-month in-range">18</div>
-        <div class="cal-day active-month in-range">19</div>
-        <div class="cal-day active-month in-range">20</div>
-        <div class="cal-day active-month in-range">21</div>
-        <div class="cal-day active-month in-range">22</div>
-        <!-- Week 5 -->
-        <div class="cal-day active-month in-range">23</div>
-        <div class="cal-day active-month in-range">24</div>
-        <div class="cal-day active-month in-range">25</div>
-        <div class="cal-day active-month in-range">26</div>
-        <div class="cal-day active-month in-range">27</div>
-        <div class="cal-day active-month in-range">28</div>
-        <div class="cal-day active-month in-range">29</div>
-        <!-- Week 6 -->
-        <div class="cal-day range-end">30</div>
-      </div>
-    </div>
-    <div class="cal-legend">
-      <div class="cal-leg-item"><div class="cal-leg-dot" style="background:#1a6e35;border-radius:50%;"></div>Today (deposited)</div>
-      <div class="cal-leg-item"><div class="cal-leg-dot" style="background:#e8f0ff;"></div>Locked period</div>
-      <div class="cal-leg-item"><div class="cal-leg-dot" style="background:#00008b;border-radius:4px;"></div>Expiry date</div>
-    </div>
-    <div class="cal-expiry-note">
-      <div class="cal-exp-icon">
-        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      </div>
-      <div class="cal-exp-text">Your funds are locked and will be released on <strong>30 June 2026</strong> or when the group hits its target — whichever comes first.</div>
-    </div>
-  </div>
-
-</div>
-
-<div class="cta-section">
-  <button class="cta-btn" onclick="sendPrompt('Go back to home screen of KibbiSave')">Back to home</button>
-  <button class="cta-btn sec" onclick="sendPrompt('Deposit again into another group on KibbiSave')">Deposit to another group</button>
-</div>
-
-</div>
-</div>
-
 </main>
 <footer class="site-footer">KibbiSave — group savings for Uganda</footer>
+
 <script src="js/kibbisave-site.js"></script>
+<script>
+(function () {
+  var err = document.getElementById('dep-error');
+  function showErr(m) { err.textContent = m || ''; err.style.display = m ? 'block' : 'none'; }
+  function fmtUGX(n) { return 'UGX ' + (Number(n) || 0).toLocaleString('en-US'); }
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+  var selectedGroup = null;
+  var provider = 'mtn_momo';
+  var preselect = new URLSearchParams(window.location.search).get('group');
+
+  // must be signed in and in a group to deposit
+  fetch('/api/home', { credentials: 'include' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var box = document.getElementById('dep-groups');
+      if (!d.authenticated) {
+        box.innerHTML = '';
+        showErr('Sign in to make a deposit.');
+        document.getElementById('dep-confirm').textContent = 'Sign in';
+        document.getElementById('dep-confirm').onclick = function () {
+          window.location.href = '/login?next=' + encodeURIComponent(window.location.pathname + window.location.search);
+        };
+        return;
+      }
+      var mine = d.my_groups || [];
+      if (!mine.length) {
+        box.innerHTML = '<div class="kb-illus-wrap" style="--kb-illus-w:200px"><img class="kb-illus" src="/assets/illustrations/svg/07-make-first-deposit.svg" alt="Character dropping a coin into a piggy bank" width="200" height="200" decoding="async"></div>';
+        showErr('You are not in any group yet. Join an open group first — your first deposit joins you in.');
+        document.getElementById('dep-confirm').textContent = 'See open groups';
+        document.getElementById('dep-confirm').onclick = function () {
+          var r = 'kibbisave_home_final.html';
+          try { var s = sessionStorage.getItem('kb_profile_return'); if (s) r = s; } catch (e) {}
+          window.location.href = r;
+        };
+        return;
+      }
+      box.innerHTML = mine.map(function (g) {
+        return '<div class="gs-row" data-id="' + esc(g.group_id) + '">' +
+          '<div class="gs-info"><div class="gs-name">' + esc(g.group_name || g.group_code || 'Unnamed group') + '</div>' +
+          '<div class="gs-sub">Saved ' + fmtUGX(g.total_deposited) + ' of ' + fmtUGX(g.goal_amount) + '</div></div>' +
+          '<div class="radio"></div></div>';
+      }).join('');
+      var rows = box.querySelectorAll('.gs-row');
+      rows.forEach(function (row) {
+        row.addEventListener('click', function () {
+          rows.forEach(function (x) { x.classList.remove('selected'); });
+          row.classList.add('selected');
+          selectedGroup = row.getAttribute('data-id');
+        });
+      });
+      var first = preselect ? box.querySelector('.gs-row[data-id="' + preselect + '"]') : null;
+      (first || rows[0]).click();
+    })
+    .catch(function () { showErr('Could not reach the server. Refresh to retry.'); });
+
+  document.querySelectorAll('.qa').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.qa').forEach(function (x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      document.getElementById('dep-amount').value = b.getAttribute('data-amt');
+    });
+  });
+
+  document.querySelectorAll('.pay-opt').forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      document.querySelectorAll('.pay-opt').forEach(function (x) {
+        x.classList.remove('selected');
+        x.querySelector('.radio').style.borderColor = '';
+        x.querySelector('.radio').style.background = '';
+      });
+      opt.classList.add('selected');
+      opt.querySelector('.radio').style.borderColor = '#00008b';
+      opt.querySelector('.radio').style.background = '#00008b';
+      provider = opt.getAttribute('data-provider');
+    });
+  });
+
+  document.getElementById('dep-confirm').addEventListener('click', function () {
+    showErr('');
+    var btn = this;
+    var amt = Math.round(Number(document.getElementById('dep-amount').value) || 0);
+    if (!selectedGroup) return showErr('Pick a group first.');
+    if (amt <= 0) return showErr('Enter an amount to deposit.');
+    btn.disabled = true; btn.textContent = 'Processing…';
+
+    fetch('/api/deposits', {
+      method: 'POST', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        group_id: selectedGroup, amount: amt, provider: provider,
+        phone: document.getElementById('dep-phone').value || null
+      })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (dep) {
+      if (dep.error) throw new Error(dep.error);
+      try {
+        localStorage.removeItem('kibbi_home_cache_v1');
+        localStorage.removeItem('kibbi_home_cache_v2');
+      } catch (e) {}
+      document.getElementById('dep-form').hidden = true;
+      var m = dep.member || {};
+      document.getElementById('dep-done-sub').textContent =
+        'You now have ' + fmtUGX(m.total_deposited) + ' in ' + (m.group_name || 'your group') +
+        (m.avg_lead != null ? '. Average lead: ' + (m.avg_lead > 0 ? '+' : '') + m.avg_lead + '%' : '') +
+        (m.rank_in_group ? '. Position #' + m.rank_in_group + ' in group.' : '.');
+      document.getElementById('dep-done').hidden = false;
+    })
+    .catch(function (e) {
+      showErr(e.message || 'Deposit failed. Try again.');
+      btn.disabled = false; btn.textContent = 'Confirm & deposit';
+    });
+  });
+})();
+</script>
 </body>
 </html>

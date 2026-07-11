@@ -4,96 +4,134 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Leaderboard</title>
+  <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
   <link rel="stylesheet" href="css/kibbisave-site.css">
 </head>
 <body>
 <header class="site-header">
   <div class="site-header-inner">
-    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
-    <button class="site-menu-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <div class="site-brand"><a href="kibbisave_home_final.html" class="site-logo">Kibbisave</a></div>
     <nav class="site-nav">
       <a href="kibbisave_home_final.html">Home</a>
       <a href="kibbisave_groups_v6.html">Groups</a>
       <a href="kibbisave_community_explore.html">Community</a>
       <a href="kibbisave_leaderboard_v5.html" class="active">Leaderboard</a>
       <a href="kibbisave_profile_screen.html">Profile</a>
-      <a href="/login" class="nav-sign-in-mobile">Sign in</a>
+      <div class="nav-auth-mobile" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
       <a href="kibbisave_deposit_v2.html" class="nav-deposit-mobile">+ Deposit</a>
     </nav>
     <div class="site-header-actions">
-      <a href="/login" class="site-auth-btn" data-auth-link>Sign in</a>
+      <div class="site-auth-pair" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
       <a href="kibbisave_deposit_v2.html" class="site-btn-deposit">+ Deposit</a>
     </div>
   </div>
 </header>
 <main class="site-main site-main--leaderboard">
 <style>
-.lb-board{background:#00008b;color:#fff;border-radius:0;overflow:hidden;}
-.lb-toolbar{display:flex;align-items:center;gap:10px;padding:14px 16px 8px;flex-wrap:wrap;}
-.lb-filter{min-width:140px;appearance:none;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);color:#fff;font-size:13px;font-weight:500;padding:9px 32px 9px 12px;border-radius:4px;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' viewBox='0 0 24 24' stroke='%23ffffff' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;}
-.lb-reset{background:transparent;border:1px solid rgba(255,255,255,0.35);color:#fff;font-size:13px;font-weight:500;padding:9px 16px;border-radius:4px;cursor:pointer;}
-.lb-reset:hover{background:rgba(255,255,255,0.08);}
-.lb-updated{font-size:11px;color:rgba(255,255,255,0.55);padding:0 16px 12px;line-height:1.4;}
-.lb-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.lb-table{width:100%;border-collapse:collapse;table-layout:fixed;min-width:300px;}
-.lb-table thead th{font-size:11px;font-weight:500;color:rgba(255,255,255,0.55);text-align:left;padding:10px 8px 12px;border-bottom:1px solid rgba(255,255,255,0.12);background:#00008b;position:sticky;top:0;z-index:1;}
-.lb-table thead th.col-gw,.lb-table thead th.col-total{text-align:right;}
-.lb-table tbody tr{border-bottom:1px solid rgba(255,255,255,0.1);}
-.lb-table tbody tr:last-child{border-bottom:none;}
-.lb-table tbody tr:hover{background:rgba(255,255,255,0.05);}
-.lb-table tbody tr.is-me{background:rgba(255,215,0,0.12);box-shadow:inset 4px 0 0 #ffd700;}
-.lb-table td{padding:14px 8px;vertical-align:middle;color:#fff;font-size:14px;line-height:1.2;}
-.col-rank{width:56px;padding-left:16px!important;}
-.col-team{width:auto;}
-.col-gw{width:52px;text-align:right!important;font-weight:500;font-variant-numeric:tabular-nums;padding-right:12px!important;}
-.col-total{width:72px;text-align:right!important;font-weight:500;font-variant-numeric:tabular-nums;padding-right:16px!important;}
-.lb-rank-cell{display:flex;align-items:center;gap:6px;}
-.lb-rank-num{font-size:14px;font-weight:500;color:#fff;min-width:12px;}
-.lb-mv{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;flex-shrink:0;}
-.lb-mv svg{display:block;width:10px;height:10px;}
-.mv-up{background:#1a6e35;}
-.mv-down{background:#c0392b;}
-.mv-same{background:rgba(255,255,255,0.28);}
-.lb-team-cell{display:flex;align-items:center;gap:12px;min-width:0;}
-.lb-badge{width:32px;height:32px;border-radius:4px;flex-shrink:0;overflow:hidden;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;}
-.lb-badge img{width:100%;height:100%;object-fit:cover;display:block;}
-.lb-badge svg{width:20px;height:20px;opacity:0.55;}
-.lb-team-text{min-width:0;flex:1;}
-.lb-team-name{font-size:14px;font-weight:500;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.lb-manager-name{font-size:12px;font-weight:400;color:rgba(255,255,255,0.5);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.lb-you-pill{display:inline-block;font-size:9px;font-weight:600;background:#ffd700;color:#00008b;padding:1px 6px;border-radius:10px;margin-left:4px;vertical-align:middle;}
-.lb-empty{font-size:13px;color:rgba(255,255,255,0.55);text-align:center;padding:3rem 1.5rem;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
+.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
+.board{width:min(560px,94vw);}
+.lb-hero{background:#00008b;border-radius:16px;padding:18px 20px;color:#fff;margin-bottom:14px;}
+.lb-title{font-size:17px;font-weight:600;}
+.lb-sub{font-size:11px;color:rgba(255,255,255,0.65);margin-top:4px;line-height:1.5;}
+.lb-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
+.lb-row{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #dde3f0;border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,56,0.04);}
+.lb-rank{width:30px;height:30px;border-radius:50%;background:#eef0f8;color:#374057;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lb-rank.r1{background:#fff3cd;color:#7a4f00;}
+.lb-rank.r2{background:#eff0f2;color:#4a5568;}
+.lb-rank.r3{background:#fbe9d9;color:#8a4b12;}
+.lb-move{font-size:11px;width:16px;text-align:center;flex-shrink:0;}
+.lb-move.up{color:#1a8a3c;}
+.lb-move.down{color:#c0392b;}
+.lb-move.same{color:#9aa0ac;}
+.lb-info{flex:1;min-width:0;}
+.lb-name{font-size:13px;font-weight:600;color:#111;}
+.lb-meta{font-size:10px;color:#7a85a0;margin-top:2px;}
+.lb-prog-wrap{background:#eef0f8;border-radius:4px;height:4px;margin-top:6px;}
+.lb-prog{background:#00008b;height:4px;border-radius:4px;}
+.lb-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
+.lb-saved{font-size:12px;font-weight:600;color:#00008b;}
+.lb-saved-lbl{font-size:9px;color:#7a85a0;}
+.lb-lead{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;}
+.lb-lead.ahead{background:#e6f4ea;color:#1a6e35;}
+.lb-lead.behind{background:#fdecea;color:#a32d2d;}
+.lb-prog-lbl{font-size:9px;color:#7a85a0;margin-top:4px;}
+.empty{padding:22px;text-align:center;font-size:12px;color:#7a85a0;background:#fff;border:1px dashed #dde3f0;border-radius:14px;}
+.skel{position:relative;overflow:hidden;background:#e8ecf5;border-radius:14px;height:64px;margin-bottom:9px;}
+.skel::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);animation:sh 1.2s infinite;}
+@keyframes sh{100%{transform:translateX(100%)}}
 </style>
 
-<div class="lb-board">
-  <div class="lb-toolbar">
-    <select class="lb-filter" id="lb-filter" aria-label="Leaderboard filter">
-      <option value="overall">Overall</option>
-      <option value="my-groups">My groups</option>
-    </select>
-    <button type="button" class="lb-reset" id="lb-reset">Reset</button>
+<div class="wrap">
+<div class="board">
+  <div class="lb-hero">
+    <img class="kb-illus" src="/assets/illustrations/svg/10-leaderboard-champion.svg" alt="Character holding a trophy" width="160" height="160" decoding="async">
+    <div class="lb-title">Group leaderboard</div>
+    <div class="lb-sub">Public groups join the board once they close — full at 10 members, or 7 days after the first join. Ranked by average member lead (savings pace vs time). Private groups stay off this list.</div>
   </div>
-  <p class="lb-updated" id="lb-updated">Last updated: —</p>
-
-  <div class="lb-table-scroll">
-    <table class="lb-table">
-      <thead>
-        <tr>
-          <th class="col-rank">Rank</th>
-          <th class="col-team">Team &amp; Manager</th>
-          <th class="col-gw">GW</th>
-          <th class="col-total">Total</th>
-        </tr>
-      </thead>
-      <tbody id="lb-tbody"></tbody>
-    </table>
+  <div class="lb-error" id="lb-error" role="alert"></div>
+  <div id="lb-list">
+    <div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div>
   </div>
-  <p class="lb-empty" id="lb-empty" hidden>No savers to show.</p>
 </div>
-
+</div>
 </main>
 <footer class="site-footer">KibbiSave — group savings for Uganda</footer>
+
 <script src="js/kibbisave-site.js"></script>
-<script src="js/kibbisave-leaderboard.js"></script>
+<script>
+(function () {
+  var err = document.getElementById('lb-error');
+  function showErr(m) { err.textContent = m || ''; err.style.display = m ? 'block' : 'none'; }
+  function fmtUGX(n) { return 'UGX ' + (Number(n) || 0).toLocaleString('en-US'); }
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+  fetch('/api/leaderboard', { credentials: 'include' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var box = document.getElementById('lb-list');
+      if (d.error) { showErr(d.error); box.innerHTML = ''; return; }
+      var groups = d.groups || [];
+      if (!groups.length) {
+        box.innerHTML = '<div class="empty"><img class="kb-illus" src="/assets/illustrations/svg/11-climbing-the-ranks.svg" alt="Character climbing steps with rising arrow" width="220" height="220" decoding="async"><div>No ranked groups yet.<br>A public group joins the leaderboard once it closes — at 10 members, or 7 days after the first join.</div></div>';
+        return;
+      }
+      box.innerHTML = groups.map(function (g) {
+        var rank = g.leaderboard_rank;
+        var prev = g.leaderboard_prev_rank;
+        var move = (prev == null || prev === rank) ? ['same','—']
+                 : (prev > rank ? ['up','▲'] : ['down','▼']);
+        var lead = Number(g.avg_member_lead) || 0;
+        var pct = Math.max(0, Math.min(100, Number(g.target_pct) || 0));
+        return '<div class="lb-row" data-href="kibbisave_my_group_detail_v2.html?id=' + esc(g.id) + '">' +
+          '<div class="lb-rank r' + rank + '">' + rank + '</div>' +
+          '<div class="lb-move ' + move[0] + '">' + move[1] + '</div>' +
+          '<div class="lb-info">' +
+            '<div class="lb-name">' + esc(g.name || g.code || 'Group') + '</div>' +
+            '<div class="lb-meta">' + (g.current_members || 0) + '/' + (g.max_members || 10) + ' members · ' +
+              g.period_months + ' months · goal ' + fmtUGX(g.target_amount) + '</div>' +
+            '<div class="lb-prog-wrap"><div class="lb-prog" style="width:' + pct + '%"></div></div>' +
+            '<div class="lb-prog-lbl">Group target ' + pct + '%</div>' +
+          '</div>' +
+          '<div class="lb-right">' +
+            '<div class="lb-saved">' + fmtUGX(g.total_saved) + '</div>' +
+            '<div class="lb-saved-lbl">group saved</div>' +
+            '<span class="lb-lead ' + (lead >= 0 ? 'ahead' : 'behind') + '">' +
+              'avg lead ' + (lead > 0 ? '+' : '') + lead.toFixed(2) + '%</span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+      box.querySelectorAll('.lb-row').forEach(function (row) {
+        row.addEventListener('click', function () {
+          window.location.href = row.getAttribute('data-href');
+        });
+      });
+    })
+    .catch(function () {
+      showErr('Could not reach the server. Refresh to retry.');
+      document.getElementById('lb-list').innerHTML = '';
+    });
+})();
+</script>
 </body>
 </html>

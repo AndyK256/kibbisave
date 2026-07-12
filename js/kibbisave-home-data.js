@@ -491,8 +491,8 @@
     });
   }
 
-  function setGuestCreateVisible(show) {
-    var cta = document.getElementById('home-guest-create');
+  function setCtaVisible(id, show) {
+    var cta = document.getElementById(id);
     if (!cta) return;
     if (show) {
       cta.hidden = false;
@@ -501,6 +501,14 @@
       cta.hidden = true;
       cta.classList.remove('is-visible');
     }
+  }
+
+  function setGuestCreateVisible(show) {
+    setCtaVisible('home-guest-create', show);
+  }
+
+  function setAuthExploreVisible(show) {
+    setCtaVisible('home-auth-explore', show);
   }
 
   function renderGroups(data) {
@@ -518,6 +526,7 @@
         : '<div class="home-groups-empty"><img class="kb-illus" src="/assets/illustrations/svg/04-no-groups-empty.svg" alt="Character peeking into an empty jar" width="180" height="180" decoding="async"><div>No public groups to show yet.</div></div>';
       bindGroupCardActions(grid);
       setGuestCreateVisible(false);
+      setAuthExploreVisible(false);
       return;
     }
 
@@ -526,6 +535,7 @@
       grid.classList.remove('home-groups-grid--open');
       grid.innerHTML = mine.map(myGroupCard).join('');
       setGuestCreateVisible(false);
+      setAuthExploreVisible(true);
     } else {
       if (title) title.textContent = 'Open Groups';
       var open = (data.open_groups || []).slice().sort(function (a, b) {
@@ -535,8 +545,9 @@
       grid.innerHTML = open.length
         ? open.map(openGroupCard).join('')
         : '<div class="home-groups-empty"><img class="kb-illus" src="/assets/illustrations/svg/04-no-groups-empty.svg" alt="Character peeking into an empty jar" width="180" height="180" decoding="async"><div>No open groups right now — refresh in a moment.</div></div>';
-      // Guest / not-yet-in-a-group: show create CTA under Open Groups
+      // Guest: create CTA under Open Groups. Logged-in with no groups: hide explore (My Groups only).
       setGuestCreateVisible(!data.authenticated);
+      setAuthExploreVisible(false);
     }
 
     bindGroupCardActions(grid);

@@ -4,8 +4,8 @@
 :root {
   /* Pixel-bright KibbiSave blue (communities reference) */
   --kb-primary: #00008b;
-  --kb-primary-hover: #0000a8;
-  --kb-primary-dark: #000070;
+  --kb-primary-hover: #00008b;
+  --kb-primary-dark: #00008b;
   --kb-primary-light: #f0f2ff;
   --kb-chip: #e8eaf8;
   --kb-accent: #ffd700;
@@ -14,7 +14,7 @@
   --kb-surface: #ffffff;
   --kb-surface-soft: #f9fafd;
   --kb-track: #eef0f8;
-  --kb-heading: #0a0a4a;
+  --kb-heading: #00008b;
   --kb-text: #111111;
   --kb-ink: #111111;
   --kb-muted: #7a85a0;
@@ -2537,7 +2537,7 @@ body.has-kb-bottom-nav .site-footer.kb-legal-footer {
 
   .site-nav .nav-deposit-mobile:hover {
     background: rgba(255, 255, 255, 0.92) !important;
-    color: #000070 !important;
+    color: #00008b !important;
   }
 
   html[data-theme="dark"] .site-nav .nav-deposit-mobile,
@@ -3266,7 +3266,7 @@ html.kb-authed .home-guest-create{
   margin:0 0 0.85rem;
   font-size:0.95rem;
   font-weight:600;
-  color:var(--kb-heading,#0a0a4a);
+  color:var(--kb-heading,#00008b);
   line-height:1.4;
 }
 .home-guest-create-btn{

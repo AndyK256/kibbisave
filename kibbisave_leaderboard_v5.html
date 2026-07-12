@@ -65,7 +65,6 @@
 <div class="wrap">
 <div class="board">
   <div class="lb-hero">
-    <img class="kb-illus" src="/assets/illustrations/svg/10-leaderboard-champion.svg" alt="Character holding a trophy" width="160" height="160" decoding="async">
     <div class="lb-title">Group leaderboard</div>
     <div class="lb-sub">Public groups join the board once they close — full at 10 members, or 7 days after the first join. Ranked by average member lead (savings pace vs time). Private groups stay off this list.</div>
   </div>
@@ -93,7 +92,7 @@
       if (d.error) { showErr(d.error); box.innerHTML = ''; return; }
       var groups = d.groups || [];
       if (!groups.length) {
-        box.innerHTML = '<div class="empty"><img class="kb-illus" src="/assets/illustrations/svg/11-climbing-the-ranks.svg" alt="Character climbing steps with rising arrow" width="220" height="220" decoding="async"><div>No ranked groups yet.<br>A public group joins the leaderboard once it closes — at 10 members, or 7 days after the first join.</div></div>';
+        box.innerHTML = '<div class="empty">No ranked groups yet.<br>A public group joins the leaderboard once it closes — at 10 members, or 7 days after the first join.</div>';
         return;
       }
       box.innerHTML = groups.map(function (g) {

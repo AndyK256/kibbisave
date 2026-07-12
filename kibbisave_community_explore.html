@@ -71,7 +71,7 @@
 }
 .cx-sec-empty{margin:0 1.1rem;padding:18px 14px;text-align:center;font-size:12px;color:#7a85a0;background:#fff;border:1px dashed #dde3f0;border-radius:14px;}
 
-/* Create CTA — end of the longer rail, PNG as background (not a card) */
+/* Create CTA — end of the longer rail */
 .cx-rail-cta{
   --cm-card-w:78%;
   --cm-card-h:272px;
@@ -85,28 +85,16 @@
   display:flex;
   flex-direction:column;
   align-items:flex-start;
-  justify-content:flex-end;
+  justify-content:center;
   gap:6px;
   padding:22px 18px 24px;
   border:none;
   border-radius:0;
-  background-color:transparent;
-  background-image:url('/assets/illustrations/png/09-community-together-navy.png');
-  background-repeat:no-repeat;
-  background-position:center 18%;
-  background-size:min(168px,58%) auto;
+  background:transparent;
   scroll-snap-align:start;
   cursor:pointer;
   overflow:hidden;
 }
-.cx-rail-cta::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg,rgba(244,246,251,0.15) 0%,rgba(244,246,251,0.82) 58%,rgba(244,246,251,0.96) 100%);
-  pointer-events:none;
-}
-.cx-rail-cta > *{position:relative;z-index:1;}
 .cx-rail-cta-title{
   margin:0;
   font-size:13px;
@@ -560,9 +548,6 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
   function emptyHeroHtml() {
     return (
       '<div class="cx-empty" role="status">' +
-        '<div class="cx-empty-art" aria-hidden="true">' +
-          '<img class="kb-illus" src="/assets/illustrations/png/09-community-together-navy.png" alt="Three characters standing together" width="280" height="280" decoding="async">' +
-        '</div>' +
         '<h1>Failed to get a community?</h1>' +
         '<p>Create one — invite friends and save together.</p>' +
         '<button type="button" class="cx-empty-cta cx-empty-cta--navy" id="cx-empty-create">Create community</button>' +

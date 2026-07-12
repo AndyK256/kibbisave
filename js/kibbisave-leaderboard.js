@@ -33,7 +33,7 @@
       var groups = d.groups || [];
       if (!groups.length) {
         list.innerHTML =
-          '<div class="empty"><img class="kb-illus" src="/assets/illustrations/svg/11-climbing-the-ranks.svg" alt="Character climbing steps with rising arrow" width="220" height="220" decoding="async"><div>No ranked groups yet.<br>A group joins the leaderboard once it closes — get a group to 10 members to be first!</div></div>';
+          '<div class="empty">No ranked groups yet.<br>A group joins the leaderboard once it closes — get a group to 10 members to be first!</div>';
         return;
       }
       list.innerHTML = groups.map(function (g) {

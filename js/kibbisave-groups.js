@@ -206,10 +206,21 @@
     setPanel(0, { skipHash: true, instant: true });
   }
 
+  function showOpenFooter(show) {
+    var illus = document.getElementById('open-groups-footer-illus');
+    var cta = document.getElementById('open-groups-footer-cta');
+    if (illus) illus.hidden = !show;
+    if (cta) cta.hidden = !show;
+  }
+
   fetch('/api/home', { credentials: 'include' })
     .then(function (r) { return r.json(); })
     .then(function (d) {
-      if (d.error) return showErr(d.error);
+      if (d.error) {
+        showErr(d.error);
+        showOpenFooter(true);
+        return;
+      }
 
       var privBox = document.getElementById('private-groups');
       var privateMine = d.my_private_groups || (d.my_groups || []).filter(function (g) {
@@ -235,10 +246,15 @@
         ? '<div class="open-groups-list">' + open.map(openCard).join('') + '</div>'
         : '<div class="empty"><img class="kb-illus" src="/assets/illustrations/svg/17-no-results-found.svg" alt="Character with a magnifying glass" width="180" height="180" decoding="async"><div>No open groups right now — check back shortly.</div></div>';
       wireCards(openBox);
+      showOpenFooter(true);
     })
     .catch(function () {
       showErr('Could not reach the server. Refresh to retry.');
       var openBox = document.getElementById('open-groups');
-      if (openBox) openBox.innerHTML = '';
+      if (openBox) {
+        openBox.innerHTML =
+          '<div class="empty"><img class="kb-illus" src="/assets/illustrations/svg/15-something-went-wrong.svg" alt="Bowing apologetic character" width="180" height="180" decoding="async"><div>Could not load groups. Refresh to retry.</div></div>';
+      }
+      showOpenFooter(true);
     });
 })();

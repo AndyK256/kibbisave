@@ -3284,13 +3284,13 @@ html.kb-authed .home-guest-create{
 }
 .home-guest-create-btn:hover{filter:brightness(1.08);color:#fff;}
 
-/* Home auth CTA — below My Groups */
+/* Home auth CTA — below My Groups (tight gap under last card) */
 .home-auth-explore{
   display:none;
   text-align:center;
-  margin:1.25rem auto 0.5rem;
+  margin:0.2rem auto 0.35rem;
   max-width:380px;
-  padding:0.5rem 0.75rem 0.25rem;
+  padding:0.1rem 0.75rem 0.15rem;
 }
 html.kb-authed .home-auth-explore.is-visible,
 .home-auth-explore.is-visible{
@@ -3303,7 +3303,7 @@ html:not(.kb-authed) .home-auth-explore{
   width:min(260px,78%);
   height:auto;
   display:block;
-  margin:0 auto 0.75rem;
+  margin:0 auto 0.55rem;
 }
 .home-auth-explore-copy{
   margin:0 0 0.85rem;

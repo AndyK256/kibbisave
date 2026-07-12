@@ -3692,6 +3692,20 @@ body.kb-group-detail-open.has-kb-bottom-nav {
   padding-bottom: 0 !important;
 }
 
+/* Flush navy: top nav + group chrome read as one continuous blue bar */
+html.kb-group-detail-open .site-header,
+body.kb-group-detail-open .site-header {
+  box-shadow: none !important;
+  border-bottom: none !important;
+}
+
+html.kb-group-detail-open body.kb-app-shell .kb-app-scroll,
+body.kb-group-detail-open.kb-app-shell .kb-app-scroll {
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
 .site-main--group-detail {
   padding: 0 !important;
   margin: 0 !important;
@@ -3699,6 +3713,10 @@ body.kb-group-detail-open.has-kb-bottom-nav {
   width: 100% !important;
   flex: 1 1 auto !important;
   min-height: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: #00008b !important;
 }
 
 .site-main--group-detail .wrap {
@@ -3706,26 +3724,15 @@ body.kb-group-detail-open.has-kb-bottom-nav {
   padding: 0 !important;
   width: 100% !important;
   max-width: none !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
 }
 
-/* Flush navy group header under top nav; sticky block stays put while members scroll */
 html.kb-group-detail-open .site-main--group-detail,
 body.kb-group-detail-open .site-main--group-detail {
   padding-top: 0 !important;
   margin-top: 0 !important;
-  background: #00008b;
-}
-
-html.kb-group-detail-open .site-main--group-detail .wrap,
-body.kb-group-detail-open .site-main--group-detail .wrap {
-  background: #fff;
-}
-
-html.kb-group-detail-open .site-main--group-detail .gd-sticky,
-body.kb-group-detail-open .site-main--group-detail .gd-sticky {
-  position: sticky;
-  top: 0;
-  z-index: 40;
 }
 
 html.kb-group-detail-open .site-footer.kb-legal-footer,
@@ -3733,6 +3740,15 @@ body.kb-group-detail-open .site-footer.kb-legal-footer,
 html.kb-group-detail-open .site-footer,
 body.kb-group-detail-open .site-footer {
   display: none !important;
+}
+
+/* Create-community full-screen sheet covers bottom nav */
+body.cx-create-open .kb-bottom-nav,
+html.cx-create-open .kb-bottom-nav,
+body.cx-create-open .kb-back-to-top {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 html.kb-profile-boot .kb-app-scroll > .site-main--profile,

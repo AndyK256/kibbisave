@@ -228,10 +228,32 @@
 @keyframes ksCoin{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(12deg)}}
 @keyframes ksGlow{0%,100%{opacity:0.45}50%{opacity:0.85}}
 
-/* create modal */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(10,14,40,0.45);z-index:60;align-items:center;justify-content:center;padding:16px;}
+/* create modal — full-screen sheet over bottom nav */
+.modal-bg{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#fff;
+  z-index:220;
+  align-items:stretch;
+  justify-content:stretch;
+  padding:0;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
 .modal-bg.open{display:flex;}
-.modal{width:min(400px,94vw);background:#fff;border-radius:18px;padding:20px;max-height:88vh;overflow:auto;}
+.modal{
+  width:100%;
+  max-width:none;
+  height:100%;
+  max-height:none;
+  background:#fff;
+  border-radius:0;
+  padding:18px 18px 24px;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  box-sizing:border-box;
+}
 .md-title{font-size:15px;font-weight:700;color:#111;margin-bottom:12px;}
 .md-lbl{font-size:11px;font-weight:600;color:#374057;margin:10px 0 4px;display:block;}
 .md-input,.md-area{width:100%;border:1px solid #dde3f0;border-radius:10px;padding:10px 12px;font-size:13px;background:#f9fafd;outline:none;font-family:inherit;}
@@ -473,7 +495,16 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
     }
     setSelectedIcon('👥');
     resetCreateModal();
+    document.documentElement.classList.add('cx-create-open');
+    document.body.classList.add('cx-create-open');
     document.getElementById('cx-modal').classList.add('open');
+  }
+
+  function closeCreate() {
+    document.getElementById('cx-modal').classList.remove('open');
+    document.documentElement.classList.remove('cx-create-open');
+    document.body.classList.remove('cx-create-open');
+    resetCreateModal();
   }
 
   function markCommunityShared(how) {
@@ -708,8 +739,7 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
     if (btn) openCreate();
   });
   document.getElementById('md-cancel').addEventListener('click', function () {
-    document.getElementById('cx-modal').classList.remove('open');
-    resetCreateModal();
+    closeCreate();
   });
   document.getElementById('md-about').addEventListener('input', function () {
     document.getElementById('md-about-count').textContent = this.value.length;
@@ -727,9 +757,8 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
   });
   document.getElementById('md-finish').addEventListener('click', function () {
     if (!shareDone) return;
-    document.getElementById('cx-modal').classList.remove('open');
+    closeCreate();
     showOk('Community created — invite shared.');
-    resetCreateModal();
     load();
   });
 

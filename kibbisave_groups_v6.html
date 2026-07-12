@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Groups</title>
   <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css?v=groups-gap-3">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=groups-footer-2">
   <script>(function(){try{var v=sessionStorage.getItem('kibbi_auth_v1');if(v==='1')document.documentElement.classList.add('kb-authed');if(v==='0'||v==='1')document.documentElement.classList.add('kb-auth-known');if(localStorage.getItem('kibbi_dark_mode')==='1'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}}catch(e){}})();</script>
 </head>
 <body>
@@ -32,7 +32,7 @@
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
 .wrap{background:transparent;display:block;padding:0;width:100%;max-width:100%;margin:0;}
 .phone{width:100%;max-width:100%;background:transparent;border:none;border-radius:0;overflow:visible;box-shadow:none;}
-.body{padding:0 0 8px;}
+.body{padding:0 0 2px;}
 .g-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin:8px 1.25rem 0;}
 
 /* Full-bleed sticky Open | Private bar — edge to edge under chrome */
@@ -96,11 +96,12 @@
 .panels-track.is-dragging{transition:none;}
 .panel{
   width:50%;
-  padding:4px 1.25rem 12px;
+  padding:4px 1.25rem 4px;
   flex-shrink:0;
   box-sizing:border-box;
 }
 .panel-note{font-size:10px;color:#7a85a0;margin:0 2px 12px;}
+.kb-illus-wrap--footer{margin:0.75rem auto 0.15rem;}
 
 .group-card{background:var(--kb-surface,#fff);border:1px solid var(--kb-border,#dde3f0);border-radius:14px;padding:13px 14px;margin:0;box-shadow:var(--kb-card-shadow-left, -18px 6px 40px -12px rgba(15,23,60,0.32), -8px 2px 18px -6px rgba(15,23,60,0.18), 0 1px 3px rgba(0,0,56,0.05));cursor:pointer;}
 /* Match Home “My groups” vertical spacing */
@@ -156,6 +157,35 @@
 .create-row{display:flex;gap:8px;margin-bottom:12px;}
 .create-btn{flex:1;display:block;text-align:center;text-decoration:none;background:#00008b;color:#fff;border-radius:12px;padding:11px 12px;font-size:12px;font-weight:600;}
 .create-btn.secondary{background:#eef0f8;color:#00008b;}
+.kb-illus-wrap--footer{margin:0.75rem auto 0.15rem;}
+.open-create-cta{
+  text-align:center;
+  margin:0.15rem auto 0.35rem;
+  max-width:320px;
+  padding:0 8px;
+}
+.open-create-cta-title{
+  margin:0 0 10px;
+  font-size:12px;
+  font-weight:600;
+  color:#7a85a0;
+  line-height:1.4;
+}
+.open-create-cta .create-btn{
+  flex:none;
+  width:100%;
+  max-width:240px;
+  margin:0 auto;
+  border-radius:22px;
+  padding:12px 16px;
+  font-size:13px;
+}
+.open-create-cta-note{
+  margin:10px 0 0;
+  font-size:10px;
+  color:#9aa3b5;
+  line-height:1.45;
+}
 .empty{padding:16px;text-align:center;font-size:11px;color:#7a85a0;background:#f9fafd;border-radius:12px;margin-bottom:10px;}
 .skel{position:relative;overflow:hidden;background:#e8ecf5;border-radius:12px;height:96px;margin-bottom:10px;}
 .skel::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);animation:sh 1.2s infinite;}
@@ -197,12 +227,17 @@ body.dark .side-tab.is-active{color:var(--kb-cream,#f5f0e8);}
     <div class="panels-viewport" id="panels-viewport">
       <div class="panels-track" id="panels-track">
         <div class="panel" id="panel-open" role="tabpanel" aria-labelledby="tab-open">
-          <div class="kb-illus-wrap" style="--kb-illus-w:200px">
-            <img class="kb-illus" src="/assets/illustrations/svg/02-join-group-handshake.svg" alt="Two characters shaking hands" width="200" height="200" decoding="async">
-          </div>
           <p class="panel-note">System open groups — start &amp; close dates shown on each card.</p>
           <div id="open-groups">
             <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+          </div>
+          <div class="kb-illus-wrap kb-illus-wrap--footer" style="--kb-illus-w:200px">
+            <img class="kb-illus" src="/assets/illustrations/png/02-join-group-handshake-navy.png" alt="Two characters shaking hands" width="200" height="200" decoding="async">
+          </div>
+          <div class="open-create-cta">
+            <p class="open-create-cta-title">Failed to find a group?</p>
+            <a class="create-btn" href="kibbisave_create_group_v2.html">Create group</a>
+            <p class="open-create-cta-note">This allows you to invite up to 5 different friends to save with.</p>
           </div>
         </div>
         <div class="panel" id="panel-private" role="tabpanel" aria-labelledby="tab-private">
@@ -221,11 +256,9 @@ body.dark .side-tab.is-active{color:var(--kb-cream,#f5f0e8);}
 </div>
 </div>
 </main>
-<footer class="site-footer site-footer--rich">
-  <span>KibbiSave — group savings for Uganda</span>
-</footer>
+<footer class="site-footer site-footer--rich"></footer>
 
-<script src="js/kibbisave-site.js?v=profile-overlay-1"></script>
+<script src="js/kibbisave-site.js?v=groups-footer-2"></script>
 <script src="js/kibbisave-groups.js?v=groups-gap-3"></script>
 </body>
 </html>

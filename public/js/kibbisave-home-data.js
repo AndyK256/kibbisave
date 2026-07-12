@@ -491,6 +491,18 @@
     });
   }
 
+  function setGuestCreateVisible(show) {
+    var cta = document.getElementById('home-guest-create');
+    if (!cta) return;
+    if (show) {
+      cta.hidden = false;
+      cta.classList.add('is-visible');
+    } else {
+      cta.hidden = true;
+      cta.classList.remove('is-visible');
+    }
+  }
+
   function renderGroups(data) {
     var grid = document.getElementById('home-groups-grid');
     var title = document.getElementById('home-groups-title');
@@ -505,6 +517,7 @@
         ? mine.map(myGroupCard).join('')
         : '<div class="home-groups-empty"><img class="kb-illus" src="/assets/illustrations/svg/04-no-groups-empty.svg" alt="Character peeking into an empty jar" width="180" height="180" decoding="async"><div>No public groups to show yet.</div></div>';
       bindGroupCardActions(grid);
+      setGuestCreateVisible(false);
       return;
     }
 
@@ -512,6 +525,7 @@
       if (title) title.textContent = 'My Groups';
       grid.classList.remove('home-groups-grid--open');
       grid.innerHTML = mine.map(myGroupCard).join('');
+      setGuestCreateVisible(false);
     } else {
       if (title) title.textContent = 'Open Groups';
       var open = (data.open_groups || []).slice().sort(function (a, b) {
@@ -521,6 +535,8 @@
       grid.innerHTML = open.length
         ? open.map(openGroupCard).join('')
         : '<div class="home-groups-empty"><img class="kb-illus" src="/assets/illustrations/svg/04-no-groups-empty.svg" alt="Character peeking into an empty jar" width="180" height="180" decoding="async"><div>No open groups right now — refresh in a moment.</div></div>';
+      // Guest / not-yet-in-a-group: show create CTA under Open Groups
+      setGuestCreateVisible(!data.authenticated);
     }
 
     bindGroupCardActions(grid);

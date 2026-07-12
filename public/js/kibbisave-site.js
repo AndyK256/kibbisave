@@ -142,6 +142,9 @@
     var path = pathname.split('/').pop() || '';
     if (/^login(\.html)?$/i.test(path) || /^signup(\.html)?$/i.test(path)) return;
     if (pathname.indexOf('/legal/') >= 0) return;
+    // Groups + Home end at Stay up to date — skip long legal block below social icons
+    if (/kibbisave_groups/i.test(path)) return;
+    if (/kibbisave_home_final/i.test(path) || pathname === '/' || path === '') return;
     if (!document.querySelector('.site-header') && !document.querySelector('.site-main')) return;
 
     var links = [

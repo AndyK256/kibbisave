@@ -71,6 +71,72 @@
 }
 .cx-sec-empty{margin:0 1.1rem;padding:18px 14px;text-align:center;font-size:12px;color:#7a85a0;background:#fff;border:1px dashed #dde3f0;border-radius:14px;}
 
+/* Create CTA — end of the longer rail, PNG as background (not a card) */
+.cx-rail-cta{
+  --cm-card-w:78%;
+  --cm-card-h:272px;
+  position:relative;
+  flex:0 0 var(--cm-card-w);
+  width:var(--cm-card-w);
+  max-width:var(--cm-card-w);
+  height:var(--cm-card-h);
+  min-height:var(--cm-card-h);
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-end;
+  gap:6px;
+  padding:22px 18px 24px;
+  border:none;
+  border-radius:0;
+  background-color:transparent;
+  background-image:url('/assets/illustrations/png/09-community-together-navy.png');
+  background-repeat:no-repeat;
+  background-position:center 18%;
+  background-size:min(168px,58%) auto;
+  scroll-snap-align:start;
+  cursor:pointer;
+  overflow:hidden;
+}
+.cx-rail-cta::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(244,246,251,0.15) 0%,rgba(244,246,251,0.82) 58%,rgba(244,246,251,0.96) 100%);
+  pointer-events:none;
+}
+.cx-rail-cta > *{position:relative;z-index:1;}
+.cx-rail-cta-title{
+  margin:0;
+  font-size:13px;
+  font-weight:700;
+  color:#374057;
+  line-height:1.35;
+}
+.cx-rail-cta-sub{
+  margin:0;
+  font-size:11px;
+  color:#7a85a0;
+  line-height:1.4;
+}
+.cx-rail-cta-btn{
+  appearance:none;
+  border:none;
+  margin-top:8px;
+  background:#00008b;
+  color:#fff;
+  border-radius:22px;
+  padding:11px 18px;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  font-family:inherit;
+  width:100%;
+  max-width:200px;
+}
+.cx-rail-cta-btn:hover{filter:brightness(1.08);}
+
 /* Shared community card — fixed width/height/padding for both sections */
 .cm-card{
   --cm-card-w:78%;
@@ -141,6 +207,8 @@
   box-shadow:0 8px 28px rgba(0,0,0,0.25);transition:transform 0.15s, box-shadow 0.15s;
 }
 .cx-empty-cta:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(0,0,0,0.3);}
+.cx-empty-cta--navy{background:#00008b;color:#fff;}
+.cx-empty-cta--navy:hover{filter:brightness(1.08);}
 
 /* illustration motion */
 .ks-float{animation:ksFloat 3.6s ease-in-out infinite;}
@@ -281,7 +349,6 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
 <div class="col">
   <div class="cx-bar" id="cx-bar" hidden>
     <div>
-      <img class="kb-illus kb-illus--md" src="/assets/illustrations/svg/09-community-together.svg" alt="Three characters standing together" width="200" height="200" decoding="async" style="margin:0 0 0.5rem">
       <div class="cx-title">Communities</div>
       <div class="cx-sub">Public communities are open to all. Private ones need a link or code.</div>
     </div>
@@ -494,11 +561,21 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
     return (
       '<div class="cx-empty" role="status">' +
         '<div class="cx-empty-art" aria-hidden="true">' +
-          '<img class="kb-illus" src="/assets/illustrations/svg/09-community-together.svg" alt="Three characters standing together" width="280" height="280" decoding="async">' +
+          '<img class="kb-illus" src="/assets/illustrations/png/09-community-together-navy.png" alt="Three characters standing together" width="280" height="280" decoding="async">' +
         '</div>' +
-        '<h1>Create community</h1>' +
-        '<p>We\'re keeping your money safe</p>' +
-        '<button type="button" class="cx-empty-cta" id="cx-empty-create">Create community</button>' +
+        '<h1>Failed to get a community?</h1>' +
+        '<p>Create one — invite friends and save together.</p>' +
+        '<button type="button" class="cx-empty-cta cx-empty-cta--navy" id="cx-empty-create">Create community</button>' +
+      '</div>'
+    );
+  }
+
+  function createCtaHtml() {
+    return (
+      '<div class="cx-rail-cta" data-cx-create role="button" tabindex="0" aria-label="Create community">' +
+        '<p class="cx-rail-cta-title">Failed to get a community?</p>' +
+        '<p class="cx-rail-cta-sub">Create one</p>' +
+        '<button type="button" class="cx-rail-cta-btn" data-cx-create>Create community</button>' +
       '</div>'
     );
   }
@@ -533,7 +610,8 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
     );
   }
 
-  function sectionHtml(title, items, mine) {
+  function sectionHtml(title, items, mine, opts) {
+    opts = opts || {};
     var head =
       '<div class="cx-sec-head">' +
         '<div class="cx-sec-lead">' +
@@ -542,7 +620,12 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
         '</div>' +
         '<div class="cx-sec-count">' + items.length + '</div>' +
       '</div>';
-    if (!items.length) {
+    var cards = items.map(function (c) { return cardHtml(c, mine); }).join('');
+    var cta = opts.withCta ? createCtaHtml() : '';
+    // Always append at the end of the longer rail so users scroll forward to find it
+    var railInner = opts.withCta ? (cards + cta) : cards;
+
+    if (!items.length && !opts.withCta) {
       return (
         '<section class="cx-sec">' + head +
           '<div class="cx-sec-empty">No ' + esc(title.toLowerCase()) + ' yet.</div>' +
@@ -551,7 +634,7 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
     }
     return (
       '<section class="cx-sec">' + head +
-        '<div class="cx-rail">' + items.map(function (c) { return cardHtml(c, mine); }).join('') + '</div>' +
+        '<div class="cx-rail">' + railInner + '</div>' +
       '</section>'
     );
   }
@@ -601,7 +684,12 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
         bar.hidden = false;
         var pub = list.filter(function (c) { return c.is_public; });
         var priv = list.filter(function (c) { return !c.is_public; });
-        box.innerHTML = sectionHtml('Public communities', pub, mine) + sectionHtml('Private communities', priv, mine);
+        // CTA sits on the longer rail (grows forward with communities); scroll to the end to find it.
+        // Tie → Public.
+        var ctaOnPublic = pub.length >= priv.length;
+        box.innerHTML =
+          sectionHtml('Public communities', pub, mine, { withCta: ctaOnPublic }) +
+          sectionHtml('Private communities', priv, mine, { withCta: !ctaOnPublic });
         bindCards(box);
       })
       .catch(function () {

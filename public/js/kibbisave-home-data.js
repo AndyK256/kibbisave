@@ -491,7 +491,7 @@
   }
 
   function setOtherCommunitiesLink(community) {
-    var link = document.getElementById('home-auth-explore-link');
+    var link = document.getElementById('home-public-holiday-link');
     if (!link) return;
     if (community && community.id) {
       link.href = 'kibbisave_cause_detail.html?id=' + encodeURIComponent(community.id);
@@ -502,8 +502,18 @@
     }
   }
 
-  function setAuthExploreVisible(show) {
+  function setAuthExploreVisible(show, saversCount) {
     setCtaVisible('home-auth-explore', show);
+    if (!show) return;
+    var note = document.getElementById('home-auth-explore-note');
+    if (!note) return;
+    var n = Math.max(0, Number(saversCount) || 0);
+    var label = n === 1 ? 'person has' : 'people have';
+    note.textContent = 'Over ' + n + ' ' + label + ' saved from communities';
+  }
+
+  function setPublicHolidayVisible(show) {
+    setCtaVisible('home-public-holiday', show);
   }
 
   function renderGroups(data) {
@@ -512,6 +522,7 @@
     if (!grid) return;
 
     var mine = (data.my_groups || []);
+    var savers = data.savers_count;
 
     if (data.public) {
       if (title) title.textContent = 'My Groups';
@@ -522,6 +533,8 @@
       bindGroupCardActions(grid);
       setGuestCreateVisible(false);
       setAuthExploreVisible(false);
+      setPublicHolidayVisible(true);
+      if (data.top_community) setOtherCommunitiesLink(data.top_community);
       return;
     }
 
@@ -530,8 +543,8 @@
       grid.classList.remove('home-groups-grid--open');
       grid.innerHTML = mine.map(myGroupCard).join('');
       setGuestCreateVisible(false);
-      setAuthExploreVisible(true);
-      if (data.top_community) setOtherCommunitiesLink(data.top_community);
+      setPublicHolidayVisible(false);
+      setAuthExploreVisible(true, savers);
     } else {
       if (title) title.textContent = 'Open Groups';
       var open = (data.open_groups || []).slice().sort(function (a, b) {
@@ -544,6 +557,7 @@
       // Guest: create CTA under Open Groups. Logged-in with no groups: hide explore (My Groups only).
       setGuestCreateVisible(!data.authenticated);
       setAuthExploreVisible(false);
+      setPublicHolidayVisible(false);
     }
 
     bindGroupCardActions(grid);

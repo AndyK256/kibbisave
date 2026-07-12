@@ -446,6 +446,7 @@ router.get('/groups/:id', optionalAuth, async (req, res) => {
       group: groups[0],
       members,
       is_member: isMember,
+      user_id: row ? row.id : null,
       community_creator_access: creatorAccess,
       authenticated: Boolean(req.user),
     });

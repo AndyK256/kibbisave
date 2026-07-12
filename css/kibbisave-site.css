@@ -3674,6 +3674,47 @@ html.kb-profile-sheet-open .kb-back-to-top {
   opacity: 0 !important;
 }
 
+/* Group detail — full-screen sheet; cover bottom nav icons */
+html.kb-group-detail-open .kb-bottom-nav,
+body.kb-group-detail-open .kb-bottom-nav,
+html.kb-group-detail-open .kb-back-to-top,
+body.kb-group-detail-open .kb-back-to-top {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+html.kb-group-detail-open body.has-kb-bottom-nav,
+body.kb-group-detail-open.has-kb-bottom-nav {
+  padding-bottom: 0 !important;
+}
+
+.site-main--group-detail {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+
+.site-main--group-detail .wrap {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+html.kb-group-detail-open .site-footer.kb-legal-footer,
+body.kb-group-detail-open .site-footer.kb-legal-footer,
+html.kb-group-detail-open .site-footer,
+body.kb-group-detail-open .site-footer {
+  display: none !important;
+}
+
 html.kb-profile-boot .kb-app-scroll > .site-main--profile,
 body.kb-profile-sheet-open .kb-app-scroll > .site-main--profile {
   visibility: hidden !important;

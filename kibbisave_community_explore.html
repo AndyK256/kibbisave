@@ -89,7 +89,7 @@
 .cx-rail::-webkit-scrollbar{display:none;height:0;width:0;}
 .cx-sec-empty{margin:0 1.1rem;padding:18px 14px;text-align:center;font-size:12px;color:#7a85a0;background:#fff;border:1px dashed #dde3f0;border-radius:14px;}
 
-/* Create CTA — end of the longer rail */
+/* Create CTA — front of Public rail, PNG as background (not a card) */
 .cx-rail-cta{
   --cm-card-w:78%;
   --cm-card-h:272px;
@@ -103,12 +103,16 @@
   display:flex;
   flex-direction:column;
   align-items:flex-start;
-  justify-content:center;
+  justify-content:flex-end;
   gap:6px;
   padding:22px 18px 24px;
   border:none;
   border-radius:0;
-  background:transparent;
+  background-color:transparent;
+  background-image:url('/assets/illustrations/png/03-team-high-five.png?v=1');
+  background-repeat:no-repeat;
+  background-position:center 14%;
+  background-size:min(168px,58%) auto;
   cursor:pointer;
   overflow:hidden;
 }
@@ -622,8 +626,8 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
       '</div>';
     var cards = items.map(function (c) { return cardHtml(c, mine); }).join('');
     var cta = opts.withCta ? createCtaHtml() : '';
-    // Always append at the end of the longer rail so users scroll forward to find it
-    var railInner = opts.withCta ? (cards + cta) : cards;
+    // Public: CTA at the front so the high-five PNG leads the rail
+    var railInner = opts.ctaFront ? (cta + cards) : (opts.withCta ? (cards + cta) : cards);
 
     if (!items.length && !opts.withCta) {
       return (
@@ -684,12 +688,10 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
         bar.hidden = false;
         var pub = list.filter(function (c) { return c.is_public; });
         var priv = list.filter(function (c) { return !c.is_public; });
-        // CTA sits on the longer rail (grows forward with communities); scroll to the end to find it.
-        // Tie → Public.
-        var ctaOnPublic = pub.length >= priv.length;
+        // Team high-five CTA sits in front of Public communities
         box.innerHTML =
-          sectionHtml('Public communities', pub, mine, { withCta: ctaOnPublic }) +
-          sectionHtml('Private communities', priv, mine, { withCta: !ctaOnPublic });
+          sectionHtml('Public communities', pub, mine, { withCta: true, ctaFront: true }) +
+          sectionHtml('Private communities', priv, mine, { withCta: false });
         bindCards(box);
       })
       .catch(function () {

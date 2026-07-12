@@ -56,7 +56,7 @@
 }
 .cx-create-quiet:hover{background:#dde3eb;color:#4a5366;border-color:#c0c7d4;}
 .cx-create-quiet:active{background:#d4dae4;}
-/* Shared horizontal snap rail — Public + Private use identical card metrics */
+/* Shared horizontal rail — free scroll, no snap bounce */
 .cx-rail{
   display:flex;
   flex-wrap:nowrap;
@@ -64,8 +64,9 @@
   padding:2px 1.1rem 16px;
   overflow-x:auto;
   overflow-y:hidden;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
+  scroll-snap-type:none;
+  overscroll-behavior-x:none;
+  -webkit-overflow-scrolling:auto;
   scrollbar-width:thin;
   align-items:stretch;
 }
@@ -91,7 +92,6 @@
   border:none;
   border-radius:0;
   background:transparent;
-  scroll-snap-align:start;
   cursor:pointer;
   overflow:hidden;
 }
@@ -141,8 +141,6 @@
   padding:26px 20px 24px;
   box-shadow:0 2px 10px rgba(0,0,56,0.05);
   transition:transform 0.15s ease, box-shadow 0.15s ease;
-  scroll-snap-align:start;
-  scroll-snap-stop:normal;
   overflow:hidden;
 }
 .cm-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,56,0.1);}

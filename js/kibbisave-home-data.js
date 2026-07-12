@@ -139,21 +139,9 @@
     var filterBtn = document.querySelector('.home-filter-btn');
     if (filterBtn) filterBtn.hidden = true;
 
+    // No "Public profile" banner — start on the savings card
     var banner = document.getElementById('home-public-banner');
-    if (!banner) {
-      var panel = document.querySelector('.home-savings-panel');
-      if (panel) {
-        var slot = panel.closest('.home-card-ambient') || panel;
-        banner = document.createElement('div');
-        banner.id = 'home-public-banner';
-        banner.className = 'home-public-banner';
-        banner.setAttribute('role', 'status');
-        slot.parentNode.insertBefore(banner, slot);
-      }
-    }
-    if (banner) {
-      banner.textContent = 'Public profile · ' + (memberName || 'Member');
-    }
+    if (banner) banner.remove();
   }
 
   // ---------- hero / summary ----------
@@ -182,7 +170,7 @@
     setText('home-active-groups',
       s.active_groups > 0
         ? 'Across ' + s.active_groups + ' active group' + (s.active_groups > 1 ? 's' : '')
-        : (data.public ? 'No public groups yet' : 'No active groups yet'));
+        : 'No active groups yet');
     setText('home-pct-reached', (Number(s.pct_reached) || 0) + '% reached');
     setText('home-goal', 'Goal ' + fmtUGX(s.total_goal));
 
@@ -197,18 +185,11 @@
       pctEl.classList.remove('is-long', 'is-xl');
     }
 
-    if (data.public) {
-      var who = firstName(memberName);
-      setText('home-lead-label',
-        lead < 0
-          ? 'behind ' + who + "'s savings target by"
-          : 'ahead of ' + who + "'s savings target by");
-    } else {
-      setText('home-lead-label',
-        lead < 0
-          ? 'behind your savings target by'
-          : 'ahead of your savings target by');
-    }
+    // Same wording as the member's own account
+    setText('home-lead-label',
+      lead < 0
+        ? 'behind your savings target by'
+        : 'ahead of your savings target by');
 
     var due = estimateDepositDue(data);
     setText('home-deadline', due.text);
@@ -526,11 +507,11 @@
     var savers = data.savers_count;
 
     if (data.public) {
-      if (title) title.textContent = 'Public groups';
+      if (title) title.textContent = 'My Groups';
       grid.classList.remove('home-groups-grid--open');
       grid.innerHTML = mine.length
         ? mine.map(myGroupCard).join('')
-        : '<div class="home-groups-empty"><img class="kb-illus" src="/assets/illustrations/svg/04-no-groups-empty.svg" alt="Character peeking into an empty jar" width="180" height="180" decoding="async"><div>No public groups to show yet.</div></div>';
+        : '<div class="home-groups-empty"><img class="kb-illus" src="/assets/illustrations/svg/04-no-groups-empty.svg" alt="Character peeking into an empty jar" width="180" height="180" decoding="async"><div>No active groups yet.</div></div>';
       bindGroupCardActions(grid);
       setGuestCreateVisible(false);
       setAuthExploreVisible(false);

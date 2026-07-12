@@ -3733,6 +3733,22 @@ html.kb-group-detail-open .site-main--group-detail,
 body.kb-group-detail-open .site-main--group-detail {
   padding-top: 0 !important;
   margin-top: 0 !important;
+  background: #00008b !important;
+}
+
+/* Kill side gutters / blue corner panels on group detail */
+html.kb-group-detail-open .site-main--group-detail .phone,
+body.kb-group-detail-open .site-main--group-detail .phone {
+  max-width: none !important;
+  width: 100% !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: #00008b !important;
+}
+
+html.kb-group-detail-open .kb-app-scroll,
+body.kb-group-detail-open .kb-app-scroll {
+  background: #00008b !important;
 }
 
 html.kb-group-detail-open .site-footer.kb-legal-footer,

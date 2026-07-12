@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Profile</title>
-  <link rel="stylesheet" href="css/kibbisave-site.css">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=profile-from-left-1">
+  <script>(function(){try{var v=sessionStorage.getItem('kibbi_auth_v1');if(v==='1')document.documentElement.classList.add('kb-authed');if(v==='0'||v==='1')document.documentElement.classList.add('kb-auth-known');if(localStorage.getItem('kibbi_dark_mode')==='1'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}if(/(?:^|[?&])embed=1(?:&|$)/.test(location.search))document.documentElement.classList.add('kb-embed');}catch(e){}})();</script>
 </head>
 <body>
 <header class="site-header">
   <div class="site-header-inner">
-    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
-    <button class="site-menu-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <div class="site-brand"><a href="kibbisave_home_final.html" class="site-logo">Kibbisave</a></div>
     <nav class="site-nav">
       <a href="kibbisave_home_final.html">Home</a>
       <a href="kibbisave_groups_v6.html">Groups</a>
@@ -20,7 +20,7 @@
       <a href="kibbisave_deposit_v2.html" class="nav-deposit-mobile">+ Deposit</a>
     </nav>
     <div class="site-header-actions">
-      <a href="/login" class="site-auth-btn" data-auth-link>Sign in</a>
+      <div class="site-auth-pair" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
       <a href="kibbisave_deposit_v2.html" class="site-btn-deposit">+ Deposit</a>
     </div>
   </div>
@@ -28,294 +28,464 @@
 <main class="site-main site-main--profile">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
-.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
-.phone{width:320px;background:#fff;border-radius:38px;border:2px solid #c8cfe0;overflow:hidden;display:flex;flex-direction:column;}
-.topbar{background:#00008b;padding:14px 18px 0;display:flex;align-items:center;justify-content:space-between;}
-.tb-title{font-size:15px;font-weight:500;color:#fff;}
-.tb-settings{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;}
-.hero{background:#00008b;padding:18px 18px 22px;display:flex;flex-direction:column;align-items:center;}
-.av-wrap{position:relative;margin-bottom:12px;}
-.av{width:72px;height:72px;border-radius:50%;background:#ffd700;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:500;color:#00008b;border:3px solid rgba(255,255,255,0.3);}
-.av-edit{position:absolute;bottom:0;right:0;width:22px;height:22px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;border:1.5px solid #00008b;cursor:pointer;padding:0;}
+.wrap{background:transparent;display:block;padding:0 0 1rem;width:100%;max-width:100%;margin:0;}
+.phone,#profile-app.pf-app{
+  width:100%;max-width:100%;background:transparent;border:none;border-radius:0;
+  overflow:visible;display:flex;flex-direction:column;position:relative;gap:10px;
+  box-shadow:none!important;
+}
+.phone[hidden],#profile-skeleton[hidden],#profile-skeleton.is-hidden,#profile-app[hidden],.cg-folder-screen[hidden]{display:none!important;pointer-events:none!important;}
+.profile-skeleton.is-hidden{display:none!important;pointer-events:none!important;}
+
+/* Soft analytics wash — continuous top blend, content pushed down */
+.pf-app{
+  padding:18px 2px 12px;
+  position:relative;
+  isolation:isolate;
+  gap:12px;
+}
+.pf-app::before{
+  content:'';
+  position:absolute;
+  inset:-8% -12% -5%;
+  border-radius:48% 42% 50% 44%;
+  background:
+    radial-gradient(ellipse 75% 70% at 20% 8%, rgba(0,0,139,0.1), transparent 72%),
+    radial-gradient(ellipse 60% 55% at 88% 18%, rgba(72,202,228,0.1), transparent 70%),
+    radial-gradient(ellipse 50% 50% at 50% 95%, rgba(255,215,0,0.07), transparent 72%);
+  filter:blur(42px);
+  opacity:0.65;
+  z-index:0;
+  pointer-events:none;
+}
+.pf-app > *{position:relative;z-index:1;}
+
+.pf-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:4px 0 6px;
+}
+.pf-action{
+  display:flex;align-items:center;justify-content:center;
+  min-height:44px;padding:0 16px;border-radius:9999px;
+  text-decoration:none;font:inherit;font-size:0.86rem;font-weight:800;
+  letter-spacing:-0.01em;box-sizing:border-box;
+  box-shadow:0 4px 14px rgba(0,0,56,0.08);
+}
+.pf-action--deposit{
+  background:linear-gradient(148deg,#00008b 0%,#000078 55%,#00005c 100%);
+  color:#fff;border:1px solid rgba(255,255,255,0.1);
+}
+.pf-action--create{
+  background:rgba(255,255,255,0.88);
+  color:#00008b;border:1.5px solid rgba(0,0,139,0.16);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+.pf-action:active{transform:scale(0.98);}
+
+.pf-card{
+  background:linear-gradient(180deg,rgba(255,255,255,0.94) 0%,rgba(248,249,253,0.92) 100%);
+  border:1px solid rgba(221,227,240,0.9);
+  border-radius:14px;overflow:hidden;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  box-shadow:0 6px 20px rgba(15,23,60,0.07), 0 1px 3px rgba(0,0,56,0.04);
+}
+
+.pf-row,.menu-row{
+  width:100%;display:flex;align-items:center;gap:12px;padding:0 14px;min-height:54px;
+  border:none;background:transparent;color:#252a2d;font:inherit;text-align:left;cursor:pointer;box-sizing:border-box;
+}
+.menu-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.menu-icon--navy{background:#e8eaf8;}
+.menu-icon--green{background:#e6f4ea;}
+.menu-icon--gold{background:#fff6d6;}
+.menu-icon--cyan{background:#e6f7fb;}
+.menu-icon--soft{background:#eef0f8;}
+.menu-info{flex:1;min-width:0;}
+.menu-title{font-size:0.9rem;font-weight:700;color:#111;}
+.menu-sub{font-size:0.72rem;color:#7a85a0;margin-top:1px;}
+.menu-arrow{color:#9aa0ac;flex-shrink:0;margin-left:auto;}
+
+/* Personal details folder */
+.pd-body{gap:12px;}
+.pd-card{
+  background:linear-gradient(180deg,#ffffff 0%,#f8f9fd 100%);
+  border:1px solid var(--kb-border,#dde3f0);
+  border-radius:14px;padding:14px;
+  box-shadow:var(--kb-card-shadow-left, -14px 4px 28px -10px rgba(15,23,60,0.22), 0 1px 3px rgba(0,0,56,0.05));
+}
+.pd-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.pd-meta{flex:1;min-width:0;}
+.av-wrap{position:relative;flex-shrink:0;}
+.av{width:64px;height:64px;border-radius:50%;background:#ffd700;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#00008b;border:2.5px solid rgba(0,0,139,0.12);}
+.profile-avatar-img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2.5px solid rgba(0,0,139,0.12);display:block;}
+.av-edit{position:absolute;bottom:-2px;right:-2px;width:24px;height:24px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;border:1.5px solid #00008b;cursor:pointer;padding:0;z-index:2;}
 .av-edit:disabled{opacity:0.6;cursor:wait;}
-.profile-avatar-hint{font-size:10px;color:rgba(255,255,255,0.5);margin-top:6px;min-height:14px;}
-.profile-avatar-hint.is-error{color:#ffb4b4;}
-.profile-avatar-hint.is-ok{color:#b8f5c8;}
-.profile-name{font-size:20px;font-weight:500;color:#fff;margin-bottom:3px;}
-.profile-handle{font-size:12px;color:rgba(255,255,255,0.55);}
-.profile-member{font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;}
-.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:16px;background:rgba(255,255,255,0.1);border-radius:10px;overflow:hidden;width:100%;}
-.hstat{padding:10px 0;text-align:center;border-right:0.5px solid rgba(255,255,255,0.15);}
-.hstat:last-child{border-right:none;}
-.hstat-val{font-size:16px;font-weight:500;color:#fff;}
-.hstat-lbl{font-size:9px;color:rgba(255,255,255,0.5);margin-top:2px;text-transform:uppercase;letter-spacing:0.05em;}
-.body{overflow-y:auto;}
-.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px 0;}
-.stat-box{background:#fff;border:1px solid #dde3f0;border-radius:12px;padding:12px 13px;}
-.stat-lbl{font-size:10px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.06em;}
-.stat-val{font-size:22px;font-weight:500;color:#00008b;margin-top:3px;line-height:1;}
-.stat-sub{font-size:10px;margin-top:3px;}
-.stat-sub.g{color:#1a6e35;}
-.stat-sub.r{color:#c0392b;}
-.stat-sub.m{color:#7a85a0;}
-.badges-sec{padding:14px 16px 0;}
-.sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.sec-title{font-size:13px;font-weight:500;color:#111;}
-.sec-link{font-size:11px;color:#00008b;font-weight:500;}
-.badges-row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
-.badges-row::-webkit-scrollbar{display:none;}
-.badge-card{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:5px;background:#fff;border:1px solid #dde3f0;border-radius:12px;padding:10px 12px;min-width:70px;}
-.badge-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-.badge-name{font-size:9px;font-weight:500;color:#111;text-align:center;}
-.badge-card.locked{opacity:0.4;}
-.activity-sec{padding:14px 16px 0;}
-.act-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:0.5px solid #eef0f8;}
+.profile-avatar-hint{font-size:10px;color:#7a85a0;margin-top:4px;min-height:12px;}
+.profile-avatar-hint.is-error{color:#c0392b;}
+.profile-avatar-hint.is-ok{color:#1a6e35;}
+.profile-name{font-size:1.05rem;font-weight:800;color:#111;line-height:1.2;}
+.profile-handle{font-size:0.78rem;color:#7a85a0;margin-top:2px;}
+.profile-member{font-size:0.7rem;color:#9aa3b8;margin-top:2px;}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:0;background:rgba(0,0,139,0.04);border-radius:12px;overflow:hidden;width:100%;border:1px solid rgba(0,0,139,0.06);}
+.hstat{padding:10px 8px;text-align:center;}
+.hstat+.hstat{border-left:1px solid rgba(0,0,139,0.08);}
+.hstat-val{font-size:0.95rem;font-weight:800;color:#00008b;}
+.hstat-lbl{font-size:0.62rem;color:#7a85a0;margin-top:2px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;}
+.pd-form{display:grid;gap:10px;}
+.pd-label{font-size:11px;color:#7a85a0;display:grid;gap:4px;}
+.pd-label input{
+  display:block;width:100%;padding:11px 12px;border:1px solid #dde3f0;border-radius:10px;font:inherit;color:#111;background:#fff;
+}
+.pd-label input:disabled{background:#f4f6fb;color:#7a85a0;}
+.pd-msg{font-size:11px;color:#7a85a0;min-height:16px;margin:0;}
+
+.act-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eef0f8;}
 .act-row:last-child{border-bottom:none;}
 .act-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .act-info{flex:1;min-width:0;}
-.act-title{font-size:12px;font-weight:500;color:#111;}
+.act-title{font-size:12px;font-weight:600;color:#111;}
 .act-sub{font-size:10px;color:#7a85a0;margin-top:1px;}
 .act-right{text-align:right;flex-shrink:0;}
-.act-amt{font-size:12px;font-weight:500;color:#00008b;}
+.act-amt{font-size:12px;font-weight:600;color:#00008b;}
 .act-date{font-size:10px;color:#7a85a0;margin-top:1px;}
-.menu-sec{padding:12px 16px 0;}
-.menu-row{display:flex;align-items:center;gap:12px;padding:11px 12px;background:#fff;border:1px solid #dde3f0;border-radius:12px;margin-bottom:8px;cursor:pointer;}
-.menu-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.menu-info{flex:1;}
-.menu-title{font-size:13px;font-weight:500;color:#111;}
-.menu-sub{font-size:10px;color:#7a85a0;margin-top:1px;}
-.menu-arrow{color:#9aa0ac;}
-.signout{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 0;border:1px solid #fdecea;border-radius:12px;margin:0 16px 16px;cursor:pointer;background:#fff;}
-.signout-txt{font-size:13px;font-weight:500;color:#c0392b;}
-.profile-guest{background:#fff;border:1px solid #dde3f0;border-radius:var(--kb-radius-lg);padding:2.5rem 1.5rem;text-align:center;max-width:420px;margin:0 auto 1.5rem;box-shadow:var(--kb-shadow);}
-.profile-guest h2{font-size:1.25rem;font-weight:500;color:#111;margin-bottom:0.5rem;}
-.profile-guest p{font-size:0.9rem;color:#7a85a0;line-height:1.5;margin-bottom:1.25rem;}
-.profile-guest a{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.75rem 1.25rem;background:#00008b;color:#fff;text-decoration:none;border-radius:12px;font-weight:500;font-size:0.9rem;}
-.profile-avatar-img{width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.3);display:block;}
-#profile-activity-empty{font-size:12px;color:#7a85a0;text-align:center;padding:1rem 0 0.5rem;}
-.tab-bar{display:flex;border-top:1px solid #dde3f0;background:#fff;}
-.tab{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 2px 7px;cursor:pointer;gap:2px;}
-.tab-lbl{font-size:8px;color:#7a85a0;font-weight:500;}
-.tab.act .tab-lbl{color:#00008b;}
-.tab-dot{width:4px;height:4px;border-radius:50%;background:#00008b;margin-top:1px;}
+
+.created-tabs{display:flex;gap:0;margin:0;border-bottom:1px solid #eef0f8;}
+.created-tab{flex:1;border:none;background:transparent;padding:10px 8px;font:inherit;font-size:11px;font-weight:700;color:#7a85a0;cursor:pointer;}
+.created-tab.is-active{color:#00008b;box-shadow:inset 0 -2px 0 #00008b;}
+.created-panel[hidden]{display:none;}
+.created-list{display:grid;gap:8px;}
+.created-row{display:flex;align-items:center;gap:10px;background:#f8f9fd;border:1px solid #eef0f8;border-radius:10px;padding:10px 12px;}
+.created-row.is-dead{opacity:0.78;}
+.created-icon{width:36px;height:36px;border-radius:10px;background:#e8eaf8;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.created-info{flex:1;min-width:0;}
+.created-name{font-size:13px;font-weight:600;color:#111;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.created-sub{font-size:10px;color:#7a85a0;margin-top:2px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;}
+.life-badge{display:inline-flex;align-items:center;padding:1px 7px;border-radius:999px;font-size:9px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;}
+.life-badge.alive{background:#e6f4ea;color:#1a6e35;}
+.life-badge.dead,.life-badge.finished{background:#eef0f8;color:#7a85a0;}
+.created-del{border:none;background:#fdecea;color:#a32d2d;border-radius:8px;padding:7px 10px;font:inherit;font-size:11px;font-weight:600;cursor:pointer;flex-shrink:0;}
+.created-del:disabled{opacity:0.45;cursor:not-allowed;background:#eef0f8;color:#9aa0ac;}
+.created-empty,#profile-activity-empty{font-size:12px;color:#7a85a0;text-align:center;padding:1rem 0 0.5rem;}
+
+.signout,.pf-signout{
+  display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 0;border:1px solid rgba(192,57,43,0.12);
+  border-radius:9999px;margin:8px 0 8px;cursor:pointer;
+  background:linear-gradient(180deg,#fff 0%,#fff8f7 100%);width:100%;
+  box-shadow:0 4px 14px rgba(0,0,56,0.06);font:inherit;
+}
+.signout-txt{font-size:0.9rem;font-weight:700;color:#c0392b;}
+.profile-loading{background:#fff;border-radius:14px;padding:2.5rem 1.5rem;text-align:center;max-width:420px;margin:0 auto 1.5rem;box-shadow:var(--kb-shadow);color:#7a85a0;font-size:0.9rem;}
+
+.sk-pulse{background:linear-gradient(90deg,#e8ecf5 0%,#f4f6fb 40%,#e8ecf5 80%);background-size:200% 100%;animation:sk-shimmer 1.2s ease-in-out infinite;border-radius:8px;}
+@keyframes sk-shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.profile-skeleton .sk-av{width:56px;height:56px;border-radius:50%;background:#e8ecf5;}
+.profile-skeleton .sk-line{height:12px;margin:0 0 8px;border-radius:6px;}
+.profile-skeleton .sk-line.w60{width:60%;}
+.profile-skeleton .sk-line.w40{width:40%;}
+.profile-skeleton .sk-card{height:54px;border-radius:14px;margin-bottom:0;}
+.profile-skeleton .sk-action{height:46px;border-radius:12px;flex:1;}
+.profile-skeleton .pf-card{padding:0;}
+.profile-skeleton .pf-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+.cg-folder-screen{position:absolute;inset:0;z-index:40;background:#f2f2f3;display:flex;flex-direction:column;border-radius:0;overflow:hidden;}
+.cg-folder-screen[hidden]{display:none;}
+.cg-folder-topbar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 16px;background:#00008b;flex-shrink:0;}
+.cg-folder-back,.kb-card-close,#profile-panel-close{border:none;background:transparent;padding:0;margin:0 0 0 auto;width:auto;height:auto;border-radius:0;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:20px;line-height:1;font-weight:500;color:inherit;font-family:inherit;}
+.cg-folder-back{color:#fff;}
+.cg-folder-title{font-size:15px;font-weight:600;color:#fff;flex:1;min-width:0;}
+.pm-add-btn{background:#00008b;color:#fff;border:none;border-radius:12px;padding:12px;font:inherit;font-weight:600;cursor:pointer;width:100%;}
+.cg-folder-body{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;min-height:0;gap:10px;}
+.cg-folder-body .created-tabs{margin:0;flex-shrink:0;background:#fff;border-radius:12px;overflow:hidden;}
+.cg-folder-body .created-panel{padding:0;}
+.cg-folder-body #profile-activity-list{background:#fff;border-radius:14px;padding:4px 14px;box-shadow:0 1px 4px rgba(15,23,60,0.06);}
+
+html[data-theme="dark"] .pf-card,
+html[data-theme="dark"] .signout,
+body.dark .pf-card,
+body.dark .signout{background:var(--kb-surface);box-shadow:none;border:1px solid var(--kb-border);backdrop-filter:none;}
+html[data-theme="dark"] .pf-action--deposit,body.dark .pf-action--deposit{background:#000;color:var(--kb-cream,#f5f0e8);border-color:var(--kb-cream,#f5f0e8);}
+html[data-theme="dark"] .pf-action--create,body.dark .pf-action--create{background:var(--kb-surface);color:var(--kb-cream,#f5f0e8);border-color:var(--kb-border);}
+html[data-theme="dark"] .profile-name,
+html[data-theme="dark"] .menu-title,
+html[data-theme="dark"] .act-title,
+html[data-theme="dark"] .created-name,
+body.dark .profile-name,
+body.dark .menu-title,
+body.dark .act-title,
+body.dark .created-name{color:var(--kb-heading);}
+html[data-theme="dark"] .profile-handle,
+html[data-theme="dark"] .profile-member,
+html[data-theme="dark"] .menu-sub,
+html[data-theme="dark"] .hstat-lbl,
+html[data-theme="dark"] .act-sub,
+html[data-theme="dark"] #profile-activity-empty,
+html[data-theme="dark"] .pd-label,
+html[data-theme="dark"] .pd-msg,
+body.dark .profile-handle,
+body.dark .profile-member,
+body.dark .menu-sub,
+body.dark .hstat-lbl,
+body.dark .act-sub,
+body.dark #profile-activity-empty,
+body.dark .pd-label,
+body.dark .pd-msg{color:var(--kb-muted);}
+html[data-theme="dark"] .hero-stats,body.dark .hero-stats{background:var(--kb-surface-soft);border-color:var(--kb-border);}
+html[data-theme="dark"] .hstat+.hstat,body.dark .hstat+.hstat{border-left-color:var(--kb-border);}
+html[data-theme="dark"] .pd-card,body.dark .pd-card{background:var(--kb-surface);border-color:var(--kb-border);box-shadow:none;}
+html[data-theme="dark"] .pd-label input,body.dark .pd-label input{background:var(--kb-surface-soft);color:var(--kb-text);border-color:var(--kb-border);}
+html[data-theme="dark"] .pd-label input:disabled,body.dark .pd-label input:disabled{background:#0a0a0c;color:var(--kb-muted);}
+html[data-theme="dark"] .hstat-val,
+html[data-theme="dark"] .act-amt,
+html[data-theme="dark"] .created-tab.is-active,
+body.dark .hstat-val,
+body.dark .act-amt,
+body.dark .created-tab.is-active{color:var(--kb-cream,#f5f0e8)!important;}
+html[data-theme="dark"] .act-row,
+body.dark .act-row{border-color:var(--kb-border);}
+html[data-theme="dark"] .cg-folder-screen,body.dark .cg-folder-screen{background:var(--kb-bg);}
+html[data-theme="dark"] .cg-folder-topbar,body.dark .cg-folder-topbar{background:var(--kb-chrome,#050508);}
+html[data-theme="dark"] .cg-folder-body #profile-activity-list,
+html[data-theme="dark"] .cg-folder-body .created-tabs,
+body.dark .cg-folder-body #profile-activity-list,
+body.dark .cg-folder-body .created-tabs{background:var(--kb-surface);}
+html[data-theme="dark"] .created-row,body.dark .created-row{background:var(--kb-surface-soft);border-color:var(--kb-border);}
+html[data-theme="dark"] .created-tab.is-active,body.dark .created-tab.is-active{box-shadow:inset 0 -2px 0 var(--kb-cream,#f5f0e8);}
+html[data-theme="dark"] .menu-row svg,body.dark .menu-row svg{stroke:var(--kb-cream,#f5f0e8);}
+html[data-theme="dark"] .av,body.dark .av{color:var(--kb-chrome,#050508);}
+html[data-theme="dark"] .av-edit,body.dark .av-edit{border-color:var(--kb-cream,#f5f0e8);}
+html[data-theme="dark"] #profile-panel-card,body.dark #profile-panel-card{background:var(--kb-surface)!important;color:var(--kb-text);}
+html[data-theme="dark"] #profile-panel-title,body.dark #profile-panel-title{color:var(--kb-heading)!important;}
+html[data-theme="dark"] #profile-panel-body input,
+html[data-theme="dark"] #profile-panel-body select,
+html[data-theme="dark"] #profile-panel-body textarea,
+body.dark #profile-panel-body input,
+body.dark #profile-panel-body select,
+body.dark #profile-panel-body textarea{background:var(--kb-surface-soft);color:var(--kb-text);border-color:var(--kb-border);}
+html[data-theme="dark"] #profile-panel-close,
+html[data-theme="dark"] .kb-card-close,
+body.dark #profile-panel-close,
+body.dark .kb-card-close{background:transparent;color:var(--kb-cream,#f5f0e8);}
+html[data-theme="dark"] .cg-folder-back,body.dark .cg-folder-back{background:transparent;color:var(--kb-cream,#f5f0e8);}
+html[data-theme="dark"] .pm-add-btn,body.dark .pm-add-btn{background:#000!important;color:var(--kb-cream,#f5f0e8)!important;border:1px solid var(--kb-cream,#f5f0e8)!important;}
+html[data-theme="dark"] .signout-txt,body.dark .signout-txt{color:#e86a5c;}
+html[data-theme="dark"] .menu-icon--navy,body.dark .menu-icon--navy{background:#12141c;}
+html[data-theme="dark"] .menu-icon--green,body.dark .menu-icon--green{background:#0f1a12;}
+html[data-theme="dark"] .menu-icon--gold,body.dark .menu-icon--gold{background:#1a1608;}
+html[data-theme="dark"] .menu-icon--cyan,body.dark .menu-icon--cyan{background:#0a1618;}
+html[data-theme="dark"] .menu-icon--soft,body.dark .menu-icon--soft{background:#12141c;}
 </style>
 
-<h2 style="position:absolute;left:-9999px;">KibbiSave profile — savings stats, badges, activity and settings</h2>
+<h2 style="position:absolute;left:-9999px;">KibbiSave profile — savings stats, activity and settings</h2>
 
 <div class="wrap">
 
-<div id="profile-loading" class="profile-guest">
-  <p>Loading your profile…</p>
+<div class="phone profile-skeleton pf-app" id="profile-skeleton" aria-busy="true" aria-label="Loading profile">
+  <div class="pf-actions"><div class="sk-pulse sk-action"></div><div class="sk-pulse sk-action"></div></div>
+  <div class="pf-card"><div class="sk-pulse sk-card"></div></div>
+  <div class="pf-card"><div class="sk-pulse sk-card"></div></div>
+  <div class="pf-card"><div class="sk-pulse sk-card"></div></div>
+  <div class="pf-card"><div class="sk-pulse sk-card"></div></div>
 </div>
 
-<div id="profile-guest" class="profile-guest" hidden>
-  <h2>Your KibbiSave profile</h2>
-  <p>Sign in to see your name, savings stats, groups, and activity — not demo data.</p>
-  <a href="/login">Sign in to KibbiSave</a>
-</div>
+<div class="phone pf-app" id="profile-app" hidden>
 
-<div class="phone" id="profile-app" hidden>
+  <section class="pf-actions" aria-label="Quick actions">
+    <a class="pf-action pf-action--deposit" href="kibbisave_deposit_v2.html">Deposit</a>
+    <a class="pf-action pf-action--create" href="kibbisave_create_group_v2.html">+ Create group</a>
+  </section>
 
-<div class="topbar">
-  <span class="tb-title">My profile</span>
-  <button class="tb-settings">
-    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-  </button>
-</div>
-
-<div class="hero">
-  <div class="av-wrap">
-    <div class="av" id="profile-avatar">—</div>
-    <button type="button" class="av-edit" id="profile-avatar-btn" aria-label="Change profile photo">
-      <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+  <section class="pf-card" aria-label="Personal details">
+    <button type="button" class="pf-row menu-row" data-menu="personal" id="profile-personal-open">
+      <div class="menu-icon menu-icon--navy">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="menu-info">
+        <div class="menu-title">Personal details</div>
+        <div class="menu-sub" id="profile-menu-email">Name, phone, location</div>
+      </div>
+      <svg class="menu-arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
-    <input type="file" id="profile-avatar-input" accept="image/jpeg,image/png,image/webp" hidden>
-  </div>
-  <div class="profile-avatar-hint" id="profile-avatar-hint" aria-live="polite">Tap the pencil to add your photo</div>
-  <div class="profile-name" id="profile-name">Loading…</div>
-  <div class="profile-handle" id="profile-handle">@member · Uganda</div>
-  <div class="profile-member" id="profile-member">Member since —</div>
-  <div class="hero-stats">
-    <div class="hstat">
-      <div class="hstat-val" id="profile-stat-groups">0</div>
-      <div class="hstat-lbl">Groups</div>
-    </div>
-    <div class="hstat">
-      <div class="hstat-val" id="profile-stat-causes">0</div>
-      <div class="hstat-lbl">Causes</div>
-    </div>
-    <div class="hstat">
-      <div class="hstat-val" id="profile-stat-streak">0wks</div>
-      <div class="hstat-lbl">Streak</div>
-    </div>
-  </div>
-</div>
+  </section>
 
-<div class="body">
-
-<div class="stat-row">
-  <div class="stat-box">
-    <div class="stat-lbl">Total saved</div>
-    <div class="stat-val" id="profile-total-saved">0</div>
-    <div class="stat-sub m" id="profile-total-saved-sub">Join a group to start saving</div>
-  </div>
-  <div class="stat-box">
-    <div class="stat-lbl">Interest earned</div>
-    <div class="stat-val" id="profile-interest">0</div>
-    <div class="stat-sub m" id="profile-interest-sub">Earn interest in a group</div>
-  </div>
-  <div class="stat-box">
-    <div class="stat-lbl">Best group rank</div>
-    <div class="stat-val" id="profile-best-rank">—</div>
-    <div class="stat-sub m" id="profile-best-rank-sub">No groups yet</div>
-  </div>
-  <div class="stat-box">
-    <div class="stat-lbl">Avg lead</div>
-    <div class="stat-val" id="profile-avg-lead">—</div>
-    <div class="stat-sub m" id="profile-avg-lead-sub">across 0 groups</div>
-  </div>
-</div>
-
-<div class="badges-sec">
-  <div class="sec-head">
-    <span class="sec-title">Badges earned</span>
-    <span class="sec-link">See all</span>
-  </div>
-  <div class="badges-row" id="profile-badges-row">
-    <div class="badge-card locked" data-badge="first-saver">
-      <div class="badge-icon" style="background:#fff3cd;">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#7a4f00" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="6"/><path d="M8.56 2.75c.25-.32.5-.62.74-.9M15.43 2.75c-.25-.32-.5-.62-.74-.9M12 14v7M8 21h8"/></svg>
+  <section class="pf-card" aria-label="Payment methods">
+    <button type="button" class="pf-row menu-row" data-menu="payments">
+      <div class="menu-icon menu-icon--green">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
       </div>
-      <div class="badge-name">First saver</div>
-    </div>
-    <div class="badge-card locked" data-badge="streak">
-      <div class="badge-icon" style="background:#e6f4ea;">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      <div class="menu-info">
+        <div class="menu-title">Payment methods</div>
+        <div class="menu-sub">Add MTN MoMo, Airtel or bank</div>
       </div>
-      <div class="badge-name">8 week streak</div>
-    </div>
-    <div class="badge-card locked" data-badge="leader">
-      <div class="badge-icon" style="background:#f0f2ff;">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+      <svg class="menu-arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </section>
+
+  <section class="pf-card" aria-label="Savings history">
+    <button type="button" class="pf-row menu-row" data-menu="history">
+      <div class="menu-icon menu-icon--gold">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#7a4f00" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
       </div>
-      <div class="badge-name">Group leader</div>
-    </div>
-    <div class="badge-card locked" data-badge="1m">
-      <div class="badge-icon" style="background:#eef0f8;">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <div class="menu-info">
+        <div class="menu-title">Savings history</div>
+        <div class="menu-sub">All deposits and earnings</div>
       </div>
-      <div class="badge-name">1M saved</div>
-    </div>
-    <div class="badge-card locked" data-badge="top10">
-      <div class="badge-icon" style="background:#eef0f8;">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <svg class="menu-arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </section>
+
+  <section class="pf-card" aria-label="Communities and groups">
+    <button type="button" class="pf-row menu-row cg-folder-row" id="profile-folder-open" data-menu="folder" aria-haspopup="dialog">
+      <div class="menu-icon menu-icon--navy" aria-hidden="true">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
       </div>
-      <div class="badge-name">Top 10%</div>
-    </div>
-  </div>
-</div>
+      <div class="menu-info">
+        <div class="menu-title">Communities and groups</div>
+        <div class="menu-sub">Your history · Alive or finished</div>
+      </div>
+      <svg class="menu-arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </section>
 
-<div class="activity-sec">
-  <div class="sec-head">
-    <span class="sec-title">Recent activity</span>
-    <span class="sec-link">Full history</span>
-  </div>
-  <div id="profile-activity-list"></div>
-  <p id="profile-activity-empty">No activity yet — join a group and make your first deposit.</p>
-</div>
+  <section class="pf-card" aria-label="Recent activity">
+    <button type="button" class="pf-row menu-row" id="profile-activity-open" data-menu="activity" aria-haspopup="dialog">
+      <div class="menu-icon menu-icon--cyan" aria-hidden="true">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#0a7c8a" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div class="menu-info">
+        <div class="menu-title">Recent activity</div>
+        <div class="menu-sub">Deposits, joins, and updates</div>
+      </div>
+      <svg class="menu-arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </section>
 
-<div class="menu-sec">
-  <div class="menu-row">
-    <div class="menu-icon" style="background:#f0f2ff;">
-      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    </div>
-    <div class="menu-info">
-      <div class="menu-title">Personal details</div>
-      <div class="menu-sub" id="profile-menu-email">Name, phone, location</div>
-    </div>
-    <svg class="menu-arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-  </div>
-  <div class="menu-row">
-    <div class="menu-icon" style="background:#e6f4ea;">
-      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#1a6e35" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-    </div>
-    <div class="menu-info">
-      <div class="menu-title">Payment methods</div>
-      <div class="menu-sub">MTN MoMo ···41 · Airtel</div>
-    </div>
-    <svg class="menu-arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-  </div>
-  <div class="menu-row">
-    <div class="menu-icon" style="background:#fff3cd;">
-      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#7a4f00" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-    </div>
-    <div class="menu-info">
-      <div class="menu-title">Savings history</div>
-      <div class="menu-sub">All deposits and earnings</div>
-    </div>
-    <svg class="menu-arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-  </div>
-  <div class="menu-row">
-    <div class="menu-icon" style="background:#eef0f8;">
-      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#5f5e5a" stroke-width="2" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-    </div>
-    <div class="menu-info">
-      <div class="menu-title">Notifications</div>
-      <div class="menu-sub">Deposits, rank changes, reminders</div>
-    </div>
-    <svg class="menu-arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-  </div>
-  <div class="menu-row" style="margin-bottom:0;">
-    <div class="menu-icon" style="background:#eef0f8;">
-      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#5f5e5a" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-    </div>
-    <div class="menu-info">
-      <div class="menu-title">App settings</div>
-      <div class="menu-sub">Language, security, privacy</div>
-    </div>
-    <svg class="menu-arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-  </div>
-</div>
+  <section class="pf-card" aria-label="Notifications">
+    <button type="button" class="pf-row menu-row" data-menu="notifications">
+      <div class="menu-icon menu-icon--soft">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#5f5e5a" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+      <div class="menu-info">
+        <div class="menu-title">Notifications</div>
+        <div class="menu-sub">Deposits, rank changes, reminders</div>
+      </div>
+      <svg class="menu-arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </section>
 
-<div style="height:14px;"></div>
+  <section class="pf-card" aria-label="App settings">
+    <button type="button" class="pf-row menu-row" data-menu="settings">
+      <div class="menu-icon menu-icon--navy">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </div>
+      <div class="menu-info">
+        <div class="menu-title">App settings</div>
+        <div class="menu-sub">Language, security, privacy, theme</div>
+      </div>
+      <svg class="menu-arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </section>
 
-<div class="signout">
-  <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-  <span class="signout-txt">Sign out</span>
-</div>
+  <button type="button" class="signout pf-signout">
+    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#c0392b" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    <span class="signout-txt">Log out</span>
+  </button>
 
-</div>
+  <div class="cg-folder-screen" id="profile-personal-screen" hidden role="dialog" aria-modal="true" aria-labelledby="profile-personal-title">
+    <div class="cg-folder-topbar">
+      <div class="cg-folder-title" id="profile-personal-title">Personal details</div>
+      <button type="button" class="cg-folder-back kb-card-close" id="profile-personal-close" aria-label="Close">×</button>
+    </div>
+    <div class="cg-folder-body pd-body">
+      <section class="pd-card" aria-label="Profile summary">
+        <div class="pd-head">
+          <div class="av-wrap">
+            <div class="av" id="profile-avatar">—</div>
+            <button type="button" class="av-edit" id="profile-avatar-btn" aria-label="Change profile photo">
+              <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </button>
+            <input type="file" id="profile-avatar-input" accept="image/jpeg,image/png,image/webp" hidden>
+          </div>
+          <div class="pd-meta">
+            <div class="profile-name" id="profile-name">Loading…</div>
+            <div class="profile-handle" id="profile-handle">@member · Uganda</div>
+            <div class="profile-member" id="profile-member">Member since —</div>
+            <div class="profile-avatar-hint" id="profile-avatar-hint" aria-live="polite">Tap the pencil to update your photo</div>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat">
+            <div class="hstat-val" id="profile-stat-groups">0</div>
+            <div class="hstat-lbl">Groups</div>
+          </div>
+          <div class="hstat">
+            <div class="hstat-val" id="profile-stat-lifetime">UGX 0</div>
+            <div class="hstat-lbl">Lifetime savings</div>
+          </div>
+        </div>
+      </section>
+      <section class="pd-card" aria-label="Edit registration details">
+        <form id="pd-form" class="pd-form">
+          <label class="pd-label">Full name
+            <input name="display_name" id="pd-display-name" required autocomplete="name">
+          </label>
+          <label class="pd-label">Phone / account number
+            <input name="phone" id="pd-phone" placeholder="07…" inputmode="tel" autocomplete="tel">
+          </label>
+          <label class="pd-label">Location
+            <input name="location" id="pd-location" autocomplete="address-level1">
+          </label>
+          <label class="pd-label">Email
+            <input id="pd-email" disabled>
+          </label>
+          <p id="pd-msg" class="pd-msg">Changes save automatically</p>
+        </form>
+      </section>
+    </div>
+  </div>
 
-<div class="tab-bar">
-  <div class="tab">
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <span class="tab-lbl">Home</span>
+  <div class="cg-folder-screen" id="profile-folder-screen" hidden role="dialog" aria-modal="true" aria-labelledby="profile-folder-title">
+    <div class="cg-folder-topbar">
+      <div class="cg-folder-title" id="profile-folder-title">Communities and groups</div>
+      <button type="button" class="cg-folder-back kb-card-close" id="profile-folder-close" aria-label="Close">×</button>
+    </div>
+    <div class="cg-folder-body" id="profile-created-sec">
+      <div class="created-tabs" role="tablist" aria-label="Communities and groups">
+        <button type="button" class="created-tab is-active" role="tab" aria-selected="true" data-created-tab="communities">Communities</button>
+        <button type="button" class="created-tab" role="tab" aria-selected="false" data-created-tab="groups">Groups</button>
+      </div>
+      <div class="created-panel" id="profile-created-communities" role="tabpanel">
+        <div class="created-list" id="profile-created-list"></div>
+        <p class="created-empty" id="profile-created-empty" hidden>No communities in your history yet.</p>
+      </div>
+      <div class="created-panel" id="profile-created-groups" role="tabpanel" hidden>
+        <div class="created-list" id="profile-created-groups-list"></div>
+        <p class="created-empty" id="profile-created-groups-empty" hidden>No groups in your history yet.</p>
+      </div>
+    </div>
   </div>
-  <div class="tab">
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg>
-    <span class="tab-lbl">Leaderboard</span>
+
+  <div class="cg-folder-screen" id="profile-activity-screen" hidden role="dialog" aria-modal="true" aria-labelledby="profile-activity-title">
+    <div class="cg-folder-topbar">
+      <div class="cg-folder-title" id="profile-activity-title">Recent activity</div>
+      <button type="button" class="cg-folder-back kb-card-close" id="profile-activity-close" aria-label="Close">×</button>
+    </div>
+    <div class="cg-folder-body">
+      <div id="profile-activity-list"></div>
+      <p id="profile-activity-empty">No activity yet — join a group and make your first deposit.</p>
+    </div>
   </div>
-  <div class="tab">
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    <span class="tab-lbl">Groups</span>
-  </div>
-  <div class="tab">
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7a85a0" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-    <span class="tab-lbl">Community</span>
-  </div>
-  <div class="tab act">
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-    <span class="tab-lbl" style="color:#00008b;">Profile</span>
-    <div class="tab-dot"></div>
-  </div>
-</div>
 
 </div>
 </div>
 
 </main>
+
 <footer class="site-footer">KibbiSave — group savings for Uganda</footer>
-<script src="js/kibbisave-site.js"></script>
-<script src="js/kibbisave-profile.js"></script>
+<script src="js/kibbisave-site.js?v=profile-smooth-1"></script>
+<script src="js/kibbisave-profile.js?v=profile-smooth-1"></script>
 </body>
 </html>

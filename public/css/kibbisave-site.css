@@ -3459,7 +3459,7 @@ body.dark .kb-back-to-top {
     radial-gradient(ellipse 80% 55% at 10% 0%, rgba(0, 0, 139, 0.08), transparent 58%),
     radial-gradient(ellipse 70% 50% at 95% 12%, rgba(72, 202, 228, 0.08), transparent 60%),
     linear-gradient(180deg, #eef1f8 0%, #f4f6fb 45%, #eef2f9 100%);
-  transform: translate3d(100%, 0, 0);
+  transform: translate3d(-100%, 0, 0);
   transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
   /* Keep visible while off-screen so reopen doesn't flash with visibility toggles */
@@ -3632,7 +3632,7 @@ body.kb-profile-sheet-open .kb-app-scroll > .site-main--profile {
     radial-gradient(ellipse 70% 50% at 95% 15%, rgba(72, 202, 228, 0.08), transparent 58%),
     radial-gradient(ellipse 60% 45% at 50% 100%, rgba(255, 215, 0, 0.05), transparent 60%),
     linear-gradient(180deg, #eef1f8 0%, #f4f6fb 42%, #eef2f9 100%);
-  transform: translateX(100%);
+  transform: translateX(-100%);
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
   visibility: hidden;

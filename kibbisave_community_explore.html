@@ -56,7 +56,7 @@
 }
 .cx-create-quiet:hover{background:#dde3eb;color:#4a5366;border-color:#c0c7d4;}
 .cx-create-quiet:active{background:#d4dae4;}
-/* Shared horizontal rail — free scroll, no snap bounce */
+/* Shared horizontal rail — free scroll, no snap bounce, no scrollbar */
 .cx-rail{
   display:flex;
   flex-wrap:nowrap;
@@ -67,7 +67,8 @@
   scroll-snap-type:none;
   overscroll-behavior-x:none;
   -webkit-overflow-scrolling:auto;
-  scrollbar-width:thin;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
   align-items:stretch;
   /* Soft cloudy dissolve only on the entry (left) edge */
   -webkit-mask-image:linear-gradient(
@@ -85,6 +86,7 @@
     #000 100%
   );
 }
+.cx-rail::-webkit-scrollbar{display:none;height:0;width:0;}
 .cx-sec-empty{margin:0 1.1rem;padding:18px 14px;text-align:center;font-size:12px;color:#7a85a0;background:#fff;border:1px dashed #dde3f0;border-radius:14px;}
 
 /* Create CTA — end of the longer rail */

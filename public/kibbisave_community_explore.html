@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Community</title>
   <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css?v=brand-blue-1">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=brand-blue-2">
   <script>(function(){try{var v=sessionStorage.getItem('kibbi_auth_v1');if(v==='1')document.documentElement.classList.add('kb-authed');if(v==='0'||v==='1')document.documentElement.classList.add('kb-auth-known');}catch(e){}})();</script>
 </head>
 <body>
@@ -43,7 +43,7 @@
 .cx-ok{display:none;background:#e6f4ea;color:#1a6e35;font-size:12px;border-radius:10px;padding:9px 12px;margin:0 1.1rem 12px;word-break:break-all;}
 
 /* sections */
-.cx-sec{margin-bottom:1.35rem;}
+.cx-sec{position:relative;margin-bottom:1.35rem;}
 .cx-sec-head{display:flex;align-items:center;gap:12px;padding:0 1.1rem 10px;flex-wrap:wrap;}
 .cx-sec-lead{display:flex;align-items:center;gap:8px;flex:1;min-width:0;}
 .cx-sec-title{font-size:13px;font-weight:700;color:var(--kb-heading,#00008b);letter-spacing:0.02em;min-width:0;}
@@ -69,6 +69,25 @@
   -webkit-overflow-scrolling:auto;
   scrollbar-width:thin;
   align-items:stretch;
+  /* Soft cloudy dissolve at the sides (esp. under Communities heading) */
+  -webkit-mask-image:linear-gradient(
+    90deg,
+    transparent 0,
+    rgba(0,0,0,0.35) 1.1rem,
+    #000 3.2rem,
+    #000 calc(100% - 3.4rem),
+    rgba(0,0,0,0.35) calc(100% - 1.15rem),
+    transparent 100%
+  );
+  mask-image:linear-gradient(
+    90deg,
+    transparent 0,
+    rgba(0,0,0,0.35) 1.1rem,
+    #000 3.2rem,
+    #000 calc(100% - 3.4rem),
+    rgba(0,0,0,0.35) calc(100% - 1.15rem),
+    transparent 100%
+  );
 }
 .cx-sec-empty{margin:0 1.1rem;padding:18px 14px;text-align:center;font-size:12px;color:#7a85a0;background:#fff;border:1px dashed #dde3f0;border-radius:14px;}
 

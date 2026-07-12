@@ -2754,16 +2754,22 @@ body.has-kb-bottom-nav .site-footer.kb-legal-footer {
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: rgba(255, 255, 255, 0.16);
-    opacity: 0.95;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0.72;
     transform-origin: center;
     pointer-events: none;
+    box-shadow:
+      0 0 18px 4px rgba(255, 255, 255, 0.08),
+      inset 0 0 12px rgba(255, 255, 255, 0.06);
   }
 
   html[data-theme="dark"] .kb-bnav-wave::before,
   html.dark .kb-bnav-wave::before,
   body.dark .kb-bnav-wave::before {
-    background: rgba(245, 240, 232, 0.14);
+    background: rgba(245, 240, 232, 0.1);
+    box-shadow:
+      0 0 18px 4px rgba(245, 240, 232, 0.05),
+      inset 0 0 12px rgba(245, 240, 232, 0.04);
   }
 
   .kb-bnav-wave.is-morphing {
@@ -2771,13 +2777,13 @@ body.has-kb-bottom-nav .site-footer.kb-legal-footer {
   }
 
   .kb-bnav-wave.is-rippling::before {
-    animation: kb-bnav-wave-ripple 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: kb-bnav-wave-ripple 0.62s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   @keyframes kb-bnav-wave-ripple {
-    0% { transform: scaleX(0.4); opacity: 0.4; }
-    50% { transform: scaleX(1.12); opacity: 1; }
-    100% { transform: scaleX(1); opacity: 0.95; }
+    0% { transform: scaleX(0.55); opacity: 0.28; }
+    55% { transform: scaleX(1.06); opacity: 0.82; }
+    100% { transform: scaleX(1); opacity: 0.72; }
   }
 
   /* Island plate removed — keep class inert if leftover markup appears */

@@ -3708,6 +3708,26 @@ body.kb-group-detail-open.has-kb-bottom-nav {
   max-width: none !important;
 }
 
+/* Flush navy group header under top nav; sticky block stays put while members scroll */
+html.kb-group-detail-open .site-main--group-detail,
+body.kb-group-detail-open .site-main--group-detail {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  background: #00008b;
+}
+
+html.kb-group-detail-open .site-main--group-detail .wrap,
+body.kb-group-detail-open .site-main--group-detail .wrap {
+  background: #fff;
+}
+
+html.kb-group-detail-open .site-main--group-detail .gd-sticky,
+body.kb-group-detail-open .site-main--group-detail .gd-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
 html.kb-group-detail-open .site-footer.kb-legal-footer,
 body.kb-group-detail-open .site-footer.kb-legal-footer,
 html.kb-group-detail-open .site-footer,

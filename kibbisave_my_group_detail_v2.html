@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Group</title>
   <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css?v=gd-full-1">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=gd-sticky-2">
   <script>document.documentElement.classList.add('kb-group-detail-open');</script>
 </head>
 <body class="kb-group-detail-open">
@@ -30,7 +30,7 @@
 <main class="site-main site-main--group-detail">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
-.wrap{background:#f4f6fb;min-height:100%;display:flex;justify-content:center;padding:0;margin:0;}
+.wrap{background:#fff;min-height:100%;display:flex;justify-content:center;padding:0;margin:0;}
 .phone{
   width:100%;
   max-width:560px;
@@ -41,6 +41,13 @@
   overflow:visible;
   display:flex;
   flex-direction:column;
+}
+.gd-sticky{
+  position:sticky;
+  top:0;
+  z-index:40;
+  background:#fff;
+  flex-shrink:0;
 }
 .hdr{background:#00008b;padding:14px 16px 16px;flex-shrink:0;}
 .hdr-row{display:flex;align-items:center;gap:10px;}
@@ -56,13 +63,22 @@
 .hprog{background:#ffd700;height:6px;border-radius:4px;width:0%;}
 .hprog-row{display:flex;justify-content:space-between;margin-top:5px;}
 .hprog-lbl{font-size:10px;color:rgba(255,255,255,0.6);}
-.body{padding:14px 16px 28px;flex:1;}
-.gd-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
+.body{padding:0 16px 28px;flex:1;}
+.gd-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin:12px 0 0;}
 
-.gd-tabs{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0 0 14px;border-bottom:1px solid #dde3f0;}
-.gd-tab{appearance:none;border:none;background:transparent;padding:10px 4px 12px;font:inherit;font-size:13px;font-weight:600;color:#9aa3b8;cursor:pointer;position:relative;}
+.gd-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  margin:0;
+  padding:0 16px;
+  background:#fff;
+  border-bottom:1px solid #dde3f0;
+}
+.gd-tab{appearance:none;border:none;background:transparent;padding:12px 4px 12px;font:inherit;font-size:13px;font-weight:600;color:#9aa3b8;cursor:pointer;position:relative;}
 .gd-tab.is-active{color:#111;}
 .gd-tab.is-active::after{content:"";position:absolute;left:10%;right:10%;bottom:-1px;height:2px;background:#00008b;border-radius:2px;}
+.gd-panel{padding-top:14px;}
 .gd-panel[hidden]{display:none !important;}
 
 .sec-head{display:flex;justify-content:space-between;align-items:center;margin:4px 0 10px;}
@@ -119,34 +135,36 @@
 
 <div class="wrap">
 <div class="phone">
-  <div class="hdr">
-    <div class="hdr-row">
-      <button type="button" class="back" id="gd-back" aria-label="Back">←</button>
-      <div style="min-width:0;flex:1">
-        <div class="hdr-name" id="gd-name">Loading…</div>
-        <div class="hdr-sub" id="gd-sub">—</div>
+  <div class="gd-sticky">
+    <div class="hdr">
+      <div class="hdr-row">
+        <button type="button" class="back" id="gd-back" aria-label="Back">←</button>
+        <div style="min-width:0;flex:1">
+          <div class="hdr-name" id="gd-name">Loading…</div>
+          <div class="hdr-sub" id="gd-sub">—</div>
+        </div>
+        <span class="hdr-badge" id="gd-badge" hidden>OPEN</span>
       </div>
-      <span class="hdr-badge" id="gd-badge" hidden>OPEN</span>
+      <div class="hstat-row">
+        <div class="hstat"><div class="hstat-val" id="gd-target">—</div><div class="hstat-lbl">Group goal</div></div>
+        <div class="hstat"><div class="hstat-val" id="gd-start">—</div><div class="hstat-lbl">Start date</div></div>
+        <div class="hstat"><div class="hstat-val" id="gd-end">—</div><div class="hstat-lbl">End date</div></div>
+      </div>
+      <div class="hprog-wrap"><div class="hprog" id="gd-prog"></div></div>
+      <div class="hprog-row">
+        <span class="hprog-lbl" id="gd-saved">UGX 0 saved</span>
+        <span class="hprog-lbl" id="gd-pct">0%</span>
+      </div>
     </div>
-    <div class="hstat-row">
-      <div class="hstat"><div class="hstat-val" id="gd-target">—</div><div class="hstat-lbl">Group goal</div></div>
-      <div class="hstat"><div class="hstat-val" id="gd-start">—</div><div class="hstat-lbl">Start date</div></div>
-      <div class="hstat"><div class="hstat-val" id="gd-end">—</div><div class="hstat-lbl">End date</div></div>
-    </div>
-    <div class="hprog-wrap"><div class="hprog" id="gd-prog"></div></div>
-    <div class="hprog-row">
-      <span class="hprog-lbl" id="gd-saved">UGX 0 saved</span>
-      <span class="hprog-lbl" id="gd-pct">0%</span>
-    </div>
-  </div>
-
-  <div class="body">
-    <div class="gd-error" id="gd-error" role="alert"></div>
 
     <div class="gd-tabs" role="tablist" aria-label="Group sections">
       <button type="button" class="gd-tab is-active" role="tab" id="tab-standings" aria-selected="true" aria-controls="panel-standings" data-tab="standings">Member standings</button>
       <button type="button" class="gd-tab" role="tab" id="tab-messages" aria-selected="false" aria-controls="panel-messages" data-tab="messages">Messages</button>
     </div>
+  </div>
+
+  <div class="body">
+    <div class="gd-error" id="gd-error" role="alert"></div>
 
     <div class="gd-panel" id="panel-standings" role="tabpanel" aria-labelledby="tab-standings">
       <div class="sec-head">
@@ -161,7 +179,7 @@
 
       <div class="gd-end-cta" id="gd-end-cta" hidden>
         <img class="gd-end-cta-illus" src="/assets/illustrations/png/07-make-first-deposit.png?v=1" alt="Make first deposit" width="200" height="200" decoding="async">
-        <a class="gd-end-cta-btn" id="gd-end-cta-btn" href="#">Make deposit</a>
+        <a class="gd-end-cta-btn" id="gd-end-cta-btn" href="#">+ Make deposit</a>
         <p class="gd-end-cta-note" id="gd-end-cta-note"></p>
       </div>
     </div>
@@ -175,7 +193,7 @@
 </main>
 <footer class="site-footer">KibbiSave — group savings for Uganda</footer>
 
-<script src="js/kibbisave-site.js?v=gd-full-1"></script>
+<script src="js/kibbisave-site.js?v=gd-sticky-2"></script>
 <script>
 (function () {
   document.documentElement.classList.add('kb-group-detail-open');
@@ -320,16 +338,19 @@
       var endCta = document.getElementById('gd-end-cta');
       var endBtn = document.getElementById('gd-end-cta-btn');
       var endNote = document.getElementById('gd-end-cta-note');
+      var canJoin = g.status === 'open' && (g.current_members || 0) < (g.max_members || 7);
+      var joinHref = 'kibbisave_join_group.html?id=' + encodeURIComponent(groupId);
+
+      joinBtn.hidden = true;
+      depBtn.hidden = true;
 
       if (d.is_member) {
-        depBtn.hidden = false;
-        depBtn.onclick = function () { window.location.href = 'kibbisave_deposit_v2.html?group=' + groupId; };
         canUseMessages = true;
         creatorOverride = false;
 
         var need = amountToBecomeLead(members, d.user_id);
         endCta.hidden = false;
-        endBtn.textContent = 'Make deposit';
+        endBtn.textContent = '+ Make deposit';
         endBtn.href = 'kibbisave_deposit_v2.html?group=' + encodeURIComponent(groupId);
         endNote.textContent = 'You can deposit ' + fmtUGX(need) + ' in order to become the lead in your group';
       } else if (d.community_creator_access) {
@@ -339,15 +360,13 @@
         endBtn.textContent = 'Other groups';
         endBtn.href = 'kibbisave_leaderboard_v5.html';
         endNote.textContent = 'You can check the leader board for further inspiration';
-      } else if (g.status === 'open' && (g.current_members || 0) < (g.max_members || 7)) {
-        joinBtn.hidden = false;
-        joinBtn.onclick = function () { window.location.href = 'kibbisave_join_group.html?id=' + groupId; };
+      } else if (canJoin) {
+        /* Guest / non-member: Join lives on the end PNG CTA only */
         endCta.hidden = false;
-        endBtn.textContent = 'Other groups';
-        endBtn.href = 'kibbisave_leaderboard_v5.html';
-        endNote.textContent = 'You can check the leader board for further inspiration';
+        endBtn.textContent = 'Join this group';
+        endBtn.href = joinHref;
+        endNote.textContent = 'You can join our group and save with us as we are here';
       } else {
-        /* Not a member of a closed / full group — still offer inspiration */
         endCta.hidden = false;
         endBtn.textContent = 'Other groups';
         endBtn.href = 'kibbisave_leaderboard_v5.html';

@@ -89,7 +89,7 @@
 .cx-rail::-webkit-scrollbar{display:none;height:0;width:0;}
 .cx-sec-empty{margin:0 1.1rem;padding:18px 14px;text-align:center;font-size:12px;color:#7a85a0;background:#fff;border:1px dashed #dde3f0;border-radius:14px;}
 
-/* Create CTA — front of Public rail, PNG as background (not a card) */
+/* Create CTA — end of Public rail, PNG as background (not a card) */
 .cx-rail-cta{
   --cm-card-w:78%;
   --cm-card-h:272px;
@@ -620,14 +620,13 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
       '<div class="cx-sec-head">' +
         '<div class="cx-sec-lead">' +
           '<div class="cx-sec-title">' + esc(title) + '</div>' +
-          '<button type="button" class="cx-create-quiet" data-cx-create>+ Create community</button>' +
         '</div>' +
         '<div class="cx-sec-count">' + items.length + '</div>' +
       '</div>';
     var cards = items.map(function (c) { return cardHtml(c, mine); }).join('');
     var cta = opts.withCta ? createCtaHtml() : '';
-    // Public: CTA at the front so the high-five PNG leads the rail
-    var railInner = opts.ctaFront ? (cta + cards) : (opts.withCta ? (cards + cta) : cards);
+    // Public: CTA after the last community card (other side of the rail)
+    var railInner = opts.withCta ? (cards + cta) : cards;
 
     if (!items.length && !opts.withCta) {
       return (
@@ -688,9 +687,9 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
         bar.hidden = false;
         var pub = list.filter(function (c) { return c.is_public; });
         var priv = list.filter(function (c) { return !c.is_public; });
-        // Team high-five CTA sits in front of Public communities
+        // Team high-five CTA sits after Public community cards
         box.innerHTML =
-          sectionHtml('Public communities', pub, mine, { withCta: true, ctaFront: true }) +
+          sectionHtml('Public communities', pub, mine, { withCta: true }) +
           sectionHtml('Private communities', priv, mine, { withCta: false });
         bindCards(box);
       })

@@ -1,0 +1,18 @@
+---
+description: Before generating or editing KibbiSave UI/code, read project rules and social-saving skills first
+alwaysApply: true
+---
+
+# Check project rules before generating
+
+Before generating, editing, or restyling any KibbiSave UI, CSS, HTML, or JS:
+
+1. **Read** every file in `.cursor/rules/` (especially `kibbisave-brand-color.mdc` and `kibbisave-social-saving.mdc`).
+2. **Read first** these skills when available:
+   - `.cursor/skills/kibbisave-social-saving/SKILL.md` — product aim & social UX
+   - `.cursor/skills/check-project-rules/SKILL.md` — brand/rules checklist
+3. **Apply** those rules to the change — do not invent conflicting colors, flat navy CTAs, or opaque white cards where glass is required.
+4. **Prefer** CSS variables and shared classes already defined in `css/kibbisave-site.css`.
+5. Follow social-saving UX: total savings (not followers), Message side actions, history-aware back, cache where necessary.
+
+Do not skip this step for “small” UI tweaks — brand uniformity and product aim are required on every change.

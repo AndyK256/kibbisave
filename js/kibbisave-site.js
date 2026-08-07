@@ -175,9 +175,6 @@
       '<p><strong>Cautions:</strong> Group saving involves trust among members. Money you contribute may be locked until a cycle ends, and outcomes depend on members keeping their commitments. KibbiSave is not a bank and does not provide a deposit guarantee. Do not save money you cannot afford to lock for the group period.</p>' +
       '<p>Past group performance does not guarantee future results. Always read your group rules before joining or depositing.</p>' +
       '</div>' +
-      '<div class="kb-legal-citations">' +
-      '<p><strong>Informational citations (Uganda):</strong> This product is designed with awareness of themes in the Financial Institutions Act (Cap. 57) and Bank of Uganda consumer-protection guidance for payment and savings-related services; the Data Protection and Privacy Act, 2019; and Anti-Money Laundering Act requirements for customer due diligence. These references are educational only and do not mean KibbiSave is a licensed bank, deposit-taking institution, or that any regulator has endorsed this app.</p>' +
-      '</div>' +
       '<p class="kb-legal-license">License No: Pending — to be updated</p>' +
       '</div>';
 
@@ -990,12 +987,12 @@
 
     function socialSvg(name) {
       if (name === 'facebook') {
-        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
+        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
       }
       if (name === 'x') {
-        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2H21.5l-7.5 8.57L22.5 22h-6.59l-5.16-6.74L5.2 22H1.94l8.03-9.17L1.5 2h6.75l4.66 6.18L18.244 2zm-1.16 18h1.82L7.03 3.94H5.08L17.084 20z"/></svg>';
+        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#0F1419" d="M18.244 2H21.5l-7.5 8.57L22.5 22h-6.59l-5.16-6.74L5.2 22H1.94l8.03-9.17L1.5 2h6.75l4.66 6.18L18.244 2zm-1.16 18h1.82L7.03 3.94H5.08L17.084 20z"/></svg>';
       }
-      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>';
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="kb-ig-grad" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><path fill="url(#kb-ig-grad)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>';
     }
 
     function ensureStaySocial() {
@@ -1008,9 +1005,9 @@
       box.innerHTML =
         '<div class="kb-stay-label">Stay up to date</div>' +
         '<div class="kb-stay-icons">' +
-          '<a href="https://www.facebook.com/" class="kb-stay-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">' + socialSvg('facebook') + '</a>' +
-          '<a href="https://x.com/" class="kb-stay-link" target="_blank" rel="noopener noreferrer" aria-label="X">' + socialSvg('x') + '</a>' +
-          '<a href="https://www.instagram.com/" class="kb-stay-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">' + socialSvg('instagram') + '</a>' +
+          '<a href="https://www.facebook.com/" class="kb-stay-link kb-stay-link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook">' + socialSvg('facebook') + '</a>' +
+          '<a href="https://x.com/" class="kb-stay-link kb-stay-link--x" target="_blank" rel="noopener noreferrer" aria-label="X">' + socialSvg('x') + '</a>' +
+          '<a href="https://www.instagram.com/" class="kb-stay-link kb-stay-link--instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram">' + socialSvg('instagram') + '</a>' +
         '</div>';
       var legal = footer.querySelector('.site-footer-legal, .kb-legal-footer-inner');
       if (legal) footer.insertBefore(box, legal);
@@ -1024,11 +1021,17 @@
 
     function ensureBackToTop() {
       var btn = document.getElementById('kb-back-to-top');
-      if (btn) return btn;
+      if (btn) {
+        btn.classList.add('kb-no-ink');
+        btn.classList.remove('kb-tap-ink-host');
+        var oldLayer = btn.querySelector('.kb-tap-ink-layer');
+        if (oldLayer) oldLayer.remove();
+        return btn;
+      }
       btn = document.createElement('button');
       btn.type = 'button';
       btn.id = 'kb-back-to-top';
-      btn.className = 'kb-back-to-top';
+      btn.className = 'kb-back-to-top kb-no-ink';
       btn.setAttribute('aria-label', 'Back to top');
       btn.innerHTML =
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg>' +
@@ -1073,6 +1076,142 @@
       }
       updateVisibility();
     }, 200);
+  })();
+
+  // Premium tap ink — light grey wave from press point (WhatsApp-style)
+  (function initPremiumTapInk() {
+    var SELECTOR = [
+      'button:not([disabled]):not([aria-disabled="true"]):not(.kb-no-ink)',
+      'a.cta-btn',
+      'a.create-btn',
+      'a.join-btn',
+      'a.dep-btn',
+      'a.md-btn',
+      'a.gc-join',
+      'a.oas-join',
+      'a.site-auth-btn',
+      'a.nav-sign-in-mobile',
+      'a.kb-bnav-item',
+      'a.menu-row',
+      'a.pf-row',
+      'a.pf-action',
+      'a.mp-action',
+      'a.kb-search-item',
+      'a.home-popular-card',
+      '.cta-btn',
+      '.create-btn',
+      '.join-btn',
+      '.dep-btn',
+      '.md-btn',
+      '.cp-btn',
+      '.msg-send',
+      '.gc-join',
+      '.oas-join',
+      '.group-card',
+      '.group-card-main',
+      '.home-chart-card',
+      '.home-popular-card',
+      '.home-open-gc',
+      '.cause-card',
+      '.lb-card',
+      '.cg-card',
+      '.popular-card',
+      '.home-pop-card',
+      '.menu-row',
+      '.pf-row',
+      '.pf-action',
+      '.mp-action',
+      '.kb-search-item',
+      '.kb-bnav-item',
+      '.site-auth-btn',
+      '[role="button"]:not(.kb-no-ink)',
+    ].join(',');
+
+    var SKIP = 'input, textarea, select, option, .kb-no-ink, .kb-back-to-top, .kb-tap-ink, .kb-tap-ink-layer';
+
+    function ensureLayer(host) {
+      var layer = null;
+      var kids = host.children;
+      var i;
+      for (i = 0; i < kids.length; i++) {
+        if (kids[i].classList && kids[i].classList.contains('kb-tap-ink-layer')) {
+          layer = kids[i];
+          break;
+        }
+      }
+      if (!layer) {
+        layer = document.createElement('span');
+        layer.className = 'kb-tap-ink-layer';
+        layer.setAttribute('aria-hidden', 'true');
+        host.insertBefore(layer, host.firstChild);
+      }
+      if (!host.classList.contains('kb-tap-ink-host')) {
+        host.classList.add('kb-tap-ink-host');
+      }
+      var pos = window.getComputedStyle(host).position;
+      if (pos === 'static') {
+        host.style.position = 'relative';
+      }
+      return layer;
+    }
+
+    function spawnInk(host, clientX, clientY) {
+      var layer = ensureLayer(host);
+      var rect = layer.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      var x = clientX - rect.left;
+      var y = clientY - rect.top;
+      var maxDx = Math.max(x, rect.width - x);
+      var maxDy = Math.max(y, rect.height - y);
+      var radius = Math.sqrt(maxDx * maxDx + maxDy * maxDy);
+      var size = Math.max(24, radius * 2);
+
+      var ink = document.createElement('span');
+      ink.className = 'kb-tap-ink';
+      ink.style.width = size + 'px';
+      ink.style.height = size + 'px';
+      ink.style.left = x - size / 2 + 'px';
+      ink.style.top = y - size / 2 + 'px';
+      layer.appendChild(ink);
+
+      requestAnimationFrame(function () {
+        ink.classList.add('is-on');
+      });
+
+      var done = false;
+      function cleanup() {
+        if (done) return;
+        done = true;
+        if (ink.parentNode) ink.parentNode.removeChild(ink);
+      }
+      ink.addEventListener('animationend', cleanup);
+      window.setTimeout(cleanup, 700);
+    }
+
+    function onPointerDown(e) {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      if (e.target && e.target.closest && e.target.closest(SKIP)) return;
+
+      var host = e.target && e.target.closest ? e.target.closest(SELECTOR) : null;
+      if (!host || host.closest('.kb-no-ink')) return;
+      if (host.disabled || host.getAttribute('aria-disabled') === 'true') return;
+
+      var x = e.clientX;
+      var y = e.clientY;
+      if ((x == null || y == null) && e.touches && e.touches[0]) {
+        x = e.touches[0].clientX;
+        y = e.touches[0].clientY;
+      }
+      if (x == null || y == null) {
+        var r = host.getBoundingClientRect();
+        x = r.left + r.width / 2;
+        y = r.top + r.height / 2;
+      }
+      spawnInk(host, x, y);
+    }
+
+    document.addEventListener('pointerdown', onPointerDown, { passive: true });
   })();
 
   fetch('/api/auth/me', { credentials: 'include', signal: controller.signal })

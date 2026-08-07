@@ -65,10 +65,6 @@
   function estimateDepositDue(data) {
     var s = data.summary || {};
     var lead = Number(s.avg_lead) || 0;
-    if (lead <= 0) {
-      return { text: 'Already negative — deposit to get ahead', tone: 'now', at: null };
-    }
-
     var groups = data.my_groups || [];
     var burns = [];
     var i;
@@ -85,33 +81,43 @@
     if (burns.length) {
       dailyBurn = burns.reduce(function (a, b) { return a + b; }, 0) / burns.length;
     } else if (s.next_end_date) {
-      // No group periods — rough weekly cadence until next end date
       var untilEnd = (new Date(s.next_end_date) - Date.now()) / 86400000;
       if (untilEnd > 0) dailyBurn = 100 / Math.max(untilEnd, 7);
     }
 
-    if (!(dailyBurn > 0)) {
-      return { text: '—', tone: 'muted', at: null };
+    var at = null;
+    if (dailyBurn > 0 && lead !== 0) {
+      var days = Math.abs(lead) / dailyBurn;
+      if (isFinite(days) && days > 0) {
+        at = new Date(Date.now() + (lead > 0 ? 1 : -1) * days * 86400000);
+      }
+    } else if (s.next_end_date) {
+      var endAt = new Date(s.next_end_date);
+      if (!isNaN(endAt)) at = endAt;
     }
 
-    var daysLeft = lead / dailyBurn;
-    if (!isFinite(daysLeft) || daysLeft <= 0) {
-      return { text: 'Already negative — deposit to get ahead', tone: 'now', at: null };
+    if (lead > 0) {
+      if (at && !isNaN(at)) {
+        var msLeft = at - Date.now();
+        if (msLeft < 30 * 60 * 1000) {
+          return { text: 'Turns negative soon — deposit now', tone: 'pos', at: at };
+        }
+        return { text: 'Turns negative on ' + fmtDateTime(at), tone: 'pos', at: at };
+      }
+      return { text: '—', tone: 'zero', at: null };
     }
 
-    var msLeft = daysLeft * 86400000;
-    var due = new Date(Date.now() + msLeft);
-
-    // Under ~30 minutes: urgency copy (still race-to-negative)
-    if (msLeft < 30 * 60 * 1000) {
-      return { text: 'Turns negative soon — deposit now', tone: 'now', at: due };
+    if (lead < 0) {
+      if (at && !isNaN(at)) {
+        return { text: 'Went negative on ' + fmtDateTime(at), tone: 'neg', at: at };
+      }
+      return { text: 'Already negative — deposit to get ahead', tone: 'neg', at: null };
     }
 
-    return {
-      text: 'Turns negative on ' + fmtDateTime(due),
-      tone: 'soon',
-      at: due
-    };
+    if (at && !isNaN(at)) {
+      return { text: 'Ends ' + fmtDateTime(at), tone: 'zero', at: at };
+    }
+    return { text: 'On target', tone: 'zero', at: null };
   }
 
   // ---------- public-mode chrome (hide owner-only actions) ----------
@@ -181,8 +187,9 @@
     var pctEl = document.getElementById('home-lead-pct');
     if (pctEl) {
       pctEl.textContent = (lead > 0 ? '+' : '') + lead.toFixed(2) + '%';
-      pctEl.style.color = lead > 0 ? '#1a6e35' : (lead < 0 ? '#c0392b' : '');
-      pctEl.classList.remove('is-long', 'is-xl');
+      pctEl.style.color = '';
+      pctEl.classList.remove('is-long', 'is-xl', 'is-lead-pos', 'is-lead-neg', 'is-lead-zero');
+      pctEl.classList.add(lead > 0 ? 'is-lead-pos' : (lead < 0 ? 'is-lead-neg' : 'is-lead-zero'));
     }
 
     // Same wording as the member's own account
@@ -195,8 +202,10 @@
     setText('home-deadline', due.text);
     var dueEl = document.querySelector('.chart-deadline');
     if (dueEl) {
-      dueEl.classList.toggle('is-due-now', due.tone === 'now');
-      dueEl.classList.toggle('is-due-soon', due.tone === 'soon');
+      dueEl.classList.remove('is-due-now', 'is-due-soon', 'is-lead-pos', 'is-lead-neg', 'is-lead-zero');
+      dueEl.classList.add(
+        due.tone === 'pos' ? 'is-lead-pos' : (due.tone === 'neg' ? 'is-lead-neg' : 'is-lead-zero')
+      );
     }
 
     setText('home-groups-count', String(s.active_groups || 0));

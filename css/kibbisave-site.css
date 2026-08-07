@@ -4,9 +4,23 @@
 :root {
   /* Pixel-bright KibbiSave blue (communities reference) */
   --kb-primary: #00008b;
-  --kb-primary-hover: #00008b;
-  --kb-primary-dark: #00008b;
+  --kb-primary-mid: #0a0aff;
+  --kb-primary-hover: #0a0aff;
+  --kb-primary-dark: #000070;
   --kb-primary-light: #f0f2ff;
+  /* Message / action buttons — dark navy → slightly lighter navy */
+  --kb-msg-from: #00008b;
+  --kb-msg-to: #0a0aff;
+  --kb-msg-gradient: linear-gradient(148deg, var(--kb-msg-from) 0%, var(--kb-msg-from) 52%, var(--kb-msg-to) 100%);
+  --kb-msg-shadow: 0 4px 14px rgba(0, 0, 139, 0.22);
+  /* Solid navy chrome (nav / heroes) — does not flip to cream in dark mode */
+  --kb-navy: #00008b;
+  --kb-navy-mid: #0a0aff;
+  /* Frosted glass surfaces */
+  --kb-glass-bg: rgba(255, 255, 255, 0.72);
+  --kb-glass-border: rgba(0, 0, 139, 0.1);
+  --kb-glass-blur: blur(14px);
+  --kb-glass-shadow: 0 8px 28px rgba(15, 23, 60, 0.08);
   --kb-chip: #e8eaf8;
   --kb-accent: #ffd700;
   --kb-accent-light: #fff3cd;
@@ -59,9 +73,18 @@ body.dark {
   --kb-cream-soft: #e8e0d4;
   /* Primary tokens map to cream (replaces deep-blue ink) */
   --kb-primary: #f5f0e8;
+  --kb-primary-mid: #f7f3eb;
   --kb-primary-hover: #f7f3eb;
   --kb-primary-dark: #e8e0d4;
   --kb-primary-light: #0a0a0c;
+  --kb-msg-from: #f5f0e8;
+  --kb-msg-to: #f7f3eb;
+  --kb-msg-gradient: linear-gradient(148deg, var(--kb-msg-from) 0%, var(--kb-msg-from) 52%, var(--kb-msg-to) 100%);
+  --kb-msg-shadow: 0 4px 14px rgba(245, 240, 232, 0.12);
+  --kb-glass-bg: rgba(10, 10, 12, 0.72);
+  --kb-glass-border: rgba(245, 240, 232, 0.14);
+  --kb-glass-blur: blur(14px);
+  --kb-glass-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
   /* CTAs match Deposit: cream fill on black */
   --kb-cta: #f5f0e8;
   --kb-cta-hover: #f7f3eb;
@@ -117,6 +140,21 @@ html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+[role="button"],
+.cta-btn,
+.join-btn,
+.dep-btn,
+.create-btn,
+.group-card,
+.menu-row,
+.pf-action,
+.mp-action {
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -203,18 +241,30 @@ body.kb-app-shell .kb-app-scroll {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Primary CTAs use pixel-bright blue (no purple drift) */
+/* Primary CTAs — navy → slightly lighter navy (brand msg gradient) */
 .cta-btn:not(.secondary):not(.cta-btn-secondary),
 .create-btn:not(.secondary),
-.md-btn, .cm-explore, .dep-btn, .join-btn, .cd-join, .gd-cta, .jg-btn {
-  background: var(--kb-primary) !important;
+.md-btn, .cm-explore, .dep-btn, .join-btn, .cd-join, .gd-cta, .jg-btn,
+.gc-join, .oas-join, .cp-btn, .msg-send, .pm-add-btn,
+.kb-guest-btn-join, .home-guest-create-btn, .home-auth-explore-btn,
+.gd-end-cta-btn, .lb-end-cta-btn, .cx-empty-cta--navy, .md-share-btn,
+.share-btn, .cta:not(.secondary), .pf-action--deposit, .cd-gate-btn,
+.cd-dm-send, .kb-msg-btn, .mp-action--msg {
+  background: var(--kb-msg-gradient) !important;
   color: #fff !important;
+  box-shadow: var(--kb-msg-shadow);
+  border: none;
 }
 .cta-btn:not(.secondary):not(.cta-btn-secondary):hover,
 .create-btn:not(.secondary):hover,
 .md-btn:hover, .cm-explore:hover, .dep-btn:hover, .join-btn:hover,
-.cd-join:hover, .gd-cta:hover, .jg-btn:hover {
-  background: var(--kb-primary-hover) !important;
+.cd-join:hover, .gd-cta:hover, .jg-btn:hover,
+.gc-join:hover, .oas-join:hover, .cp-btn:hover, .msg-send:hover,
+.pm-add-btn:hover, .kb-guest-btn-join:hover, .home-guest-create-btn:hover,
+.home-auth-explore-btn:hover, .gd-end-cta-btn:hover, .lb-end-cta-btn:hover,
+.cx-empty-cta--navy:hover, .md-share-btn:hover, .share-btn:hover,
+.pf-action--deposit:hover, .cd-gate-btn:hover {
+  filter: brightness(1.06);
 }
 
 .sr-only {
@@ -811,12 +861,16 @@ body > div[style*="text-align:center"] {
   /* handled individually below */
 }
 
-.prog-bar, .gc-prog, .m-bar, .cc-prog, .prog-bar {
-  background: var(--kb-primary) !important;
+.prog-bar, .gc-prog, .m-bar, .cc-prog, .prog-bar, .m-prog,
+.gc-progress-fill, .lb-prog, .cm-prog {
+  background: var(--kb-msg-gradient) !important;
 }
 
 .prog-pct, .gc-prog-pct, .gc-val, .stat-val, .m-amt, .saved-amt,
-.cc-pct, .cc-target, .sec-link, .ms-val, .summ-val.blue, .sc-val.blue {
+.cc-pct, .cc-target, .sec-link, .ms-val, .summ-val.blue, .sc-val.blue,
+.cm-total, .lb-saved, .amount-input, .share-val, .md-share-val,
+.hstat-val, .act-amt, .mp-lifetime-val, .mp-mini-val, .mp-group-amt,
+.msg-who, .msg-title, .race, .cd-dm-who, .jg-summary b, .gc-progress-pct {
   color: var(--kb-primary) !important;
 }
 
@@ -828,8 +882,9 @@ a.oas-join, a.gc-join {
   justify-content: center;
 }
 .cta-btn:not(.secondary):not(.cta-btn-secondary), .cp-btn, .msg-send {
-  background: var(--kb-primary) !important;
+  background: var(--kb-msg-gradient) !important;
   color: #fff !important;
+  box-shadow: var(--kb-msg-shadow);
 }
 
 .cta-btn.secondary, .cta-btn.sec {
@@ -883,7 +938,9 @@ a.oas-join, a.gc-join {
   background: #fff !important;
 }
 
-.msg-bubble.me { background: var(--kb-primary) !important; }
+.msg-bubble.me, .msg-row.me .msg-bubble, .cd-dm-row.me .cd-dm-bubble {
+  background: var(--kb-msg-gradient) !important;
+}
 
 .amount-input, .amount-input-row { color: var(--kb-primary) !important; border-color: var(--kb-primary) !important; }
 .cursor-blink { background: var(--kb-primary) !important; }
@@ -1305,7 +1362,7 @@ a.oas-join, a.gc-join {
   font-family: inherit;
 }
 .pm-add-btn {
-  background: #00008b;
+  background: var(--kb-msg-gradient);
   color: #fff;
   border: none;
   border-radius: 12px;
@@ -1314,6 +1371,7 @@ a.oas-join, a.gc-join {
   font-weight: 600;
   cursor: pointer;
   width: 100%;
+  box-shadow: var(--kb-msg-shadow);
 }
 html[data-theme="dark"] .kb-card-close,
 html[data-theme="dark"] #profile-panel-close,
@@ -2240,11 +2298,11 @@ body.dark .skel {
 }
 
 .kb-toggle input:checked + .kb-toggle-track {
-  background: #00008b;
+  background: var(--kb-navy, #00008b);
 }
 
 .kb-toggle input:focus-visible + .kb-toggle-track {
-  outline: 2px solid #00008b;
+  outline: 2px solid var(--kb-navy, #00008b);
   outline-offset: 2px;
 }
 
@@ -2661,7 +2719,7 @@ body.has-kb-bottom-nav .site-footer.kb-legal-footer {
     height: calc(58px + max(env(safe-area-inset-bottom, 0px), 8px));
     min-height: calc(58px + max(env(safe-area-inset-bottom, 0px), 8px));
     padding: 0 env(safe-area-inset-right, 0px) max(env(safe-area-inset-bottom, 0px), 8px) env(safe-area-inset-left, 0px);
-    background: #00008b;
+    background: var(--kb-navy, #00008b);
     border-top: none;
     box-shadow: 0 -6px 24px rgba(0, 0, 80, 0.28);
     align-items: flex-start;
@@ -2776,14 +2834,9 @@ body.has-kb-bottom-nav .site-footer.kb-legal-footer {
     border-radius: 22px 14px 20px 16px / 18px 20px 14px 22px;
   }
 
+  /* Tab indicator slides quietly — tap feedback is the grey ink wave */
   .kb-bnav-wave.is-rippling::before {
-    animation: kb-bnav-wave-ripple 0.62s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  @keyframes kb-bnav-wave-ripple {
-    0% { transform: scaleX(0.55); opacity: 0.28; }
-    55% { transform: scaleX(1.06); opacity: 0.82; }
-    100% { transform: scaleX(1); opacity: 0.72; }
+    animation: none;
   }
 
   /* Island plate removed — keep class inert if leftover markup appears */
@@ -2846,9 +2899,6 @@ body.has-kb-bottom-nav .site-footer.kb-legal-footer {
   @media (prefers-reduced-motion: reduce) {
     .kb-bnav-wave {
       transition: none;
-    }
-    .kb-bnav-wave.is-rippling::before {
-      animation: none;
     }
   }
 }
@@ -2968,9 +3018,10 @@ body.has-kb-bottom-nav .site-footer.kb-legal-footer {
 }
 
 .kb-guest-btn-join {
-  background: #00008b;
+  background: var(--kb-msg-gradient);
   color: #fff;
   border: none;
+  box-shadow: var(--kb-msg-shadow);
 }
 
 .kb-guest-btn-login {
@@ -3087,7 +3138,7 @@ body.has-kb-bottom-nav .site-footer.kb-legal-footer {
 }
 
 .kb-guest-toggle.is-on {
-  background: #00008b;
+  background: var(--kb-navy, #00008b);
 }
 
 .kb-guest-toggle.is-on::after {
@@ -3216,6 +3267,27 @@ body.kb-guest-account-open {
   text-align: left;
 }
 
+/* Community explore: same rich footer treatment as Groups */
+.site-main--community ~ .site-footer .kb-legal-footer-inner,
+.site-main--community ~ .site-footer > span {
+  display: none !important;
+}
+.site-main--community ~ .site-footer.site-footer--rich,
+.site-main--community ~ .site-footer.kb-legal-footer,
+.site-main--community ~ .site-footer {
+  align-items: flex-start;
+  padding: 0.45rem 0 0.75rem 0 !important;
+  margin-top: 0 !important;
+}
+.site-main--community ~ .site-footer .kb-stay-social {
+  align-items: flex-start;
+  margin: 0.4rem 0 0 0.65rem !important;
+  padding: 0 !important;
+}
+
+/* Community explore: keep normal site header (kb-cx-page no longer hides it) */
+/* Cause detail still uses kb-cause-detail-open hide rules below. */
+
 /* Home page: socials only at bottom (same treatment as Groups) */
 .site-main--home ~ .site-footer .kb-legal-footer-inner,
 .site-main--home ~ .site-footer > span,
@@ -3282,11 +3354,12 @@ html.kb-authed .home-guest-create{
   min-width:200px;
   padding:12px 20px;
   border-radius:22px;
-  background:#00008b;
+  background:var(--kb-msg-gradient);
   color:#fff;
   text-decoration:none;
   font-size:13px;
   font-weight:700;
+  box-shadow:var(--kb-msg-shadow);
 }
 .home-guest-create-btn:hover{filter:brightness(1.08);color:#fff;}
 
@@ -3332,12 +3405,13 @@ html:not(.kb-authed) .home-auth-explore{
   margin:0 auto;
   padding:12px 16px;
   border-radius:22px;
-  background:#00008b;
+  background:var(--kb-msg-gradient);
   color:#fff;
   text-decoration:none;
   font-size:13px;
   font-weight:700;
   letter-spacing:0.04em;
+  box-shadow:var(--kb-msg-shadow);
   box-sizing:border-box;
 }
 .home-auth-explore-btn:hover{filter:brightness(1.08);color:#fff;}
@@ -3418,21 +3492,25 @@ body.is-public-member-home .home-public-holiday.is-visible,
   display: block;
 }
 
+/* Brand colors stay on the glyph fills; hover only lifts opacity */
 .kb-stay-link:hover {
   opacity: 1;
-  color: var(--kb-primary, #00008b);
+}
+
+.kb-stay-link--x svg path {
+  fill: #0F1419;
+}
+
+html[data-theme="dark"] .kb-stay-link--x svg path,
+html.dark .kb-stay-link--x svg path,
+body.dark .kb-stay-link--x svg path {
+  fill: #f5f0e8;
 }
 
 html[data-theme="dark"] .kb-stay-label,
 html.dark .kb-stay-label,
 body.dark .kb-stay-label {
   color: var(--kb-footer-muted, #8b929c);
-}
-
-html[data-theme="dark"] .kb-stay-link,
-html.dark .kb-stay-link,
-body.dark .kb-stay-link {
-  color: var(--kb-cream, #f5f0e8);
 }
 
 /* Back to top — nearly clear; blue text carries the cue */
@@ -3451,7 +3529,7 @@ body.dark .kb-stay-link {
   border: 1px solid rgba(0, 0, 139, 0.08);
   border-radius: 9999px;
   background: rgba(0, 0, 139, 0.04);
-  color: #00008b;
+  color: var(--kb-primary, #00008b);
   font: inherit;
   font-size: 12px;
   font-weight: 600;
@@ -3460,6 +3538,7 @@ body.dark .kb-stay-link {
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
+  overflow: hidden;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   transition:
@@ -3692,11 +3771,51 @@ body.kb-group-detail-open.has-kb-bottom-nav {
   padding-bottom: 0 !important;
 }
 
-/* Flush navy: top nav + group chrome read as one continuous blue bar */
+/* Flush navy: top bar + group chrome read as one continuous navy card */
 html.kb-group-detail-open .site-header,
-body.kb-group-detail-open .site-header {
+body.kb-group-detail-open .site-header,
+html.kb-group-detail-open .site-header.gd-topbar,
+body.kb-group-detail-open .site-header.gd-topbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 120 !important;
+  background: var(--kb-navy, #00008b) !important;
   box-shadow: none !important;
   border-bottom: none !important;
+}
+
+html.kb-group-detail-open .site-header-inner.gd-topbar-inner,
+body.kb-group-detail-open .site-header-inner.gd-topbar-inner {
+  justify-content: space-between;
+  gap: 10px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+html.kb-group-detail-open .site-brand,
+html.kb-group-detail-open .site-nav,
+html.kb-group-detail-open .site-header-actions,
+html.kb-group-detail-open .site-btn-search,
+html.kb-group-detail-open .site-btn-join,
+html.kb-group-detail-open .site-btn-login,
+html.kb-group-detail-open .site-btn-deposit,
+html.kb-group-detail-open .site-logo,
+body.kb-group-detail-open .site-brand,
+body.kb-group-detail-open .site-nav,
+body.kb-group-detail-open .site-header-actions,
+body.kb-group-detail-open .site-btn-search,
+body.kb-group-detail-open .site-btn-join,
+body.kb-group-detail-open .site-btn-login,
+body.kb-group-detail-open .site-btn-deposit,
+body.kb-group-detail-open .site-logo {
+  display: none !important;
+}
+
+html.kb-group-detail-open .site-main--group-detail .hstat-val,
+html.kb-group-detail-open .site-main--group-detail .hstat-val-on-navy,
+body.kb-group-detail-open .site-main--group-detail .hstat-val,
+body.kb-group-detail-open .site-main--group-detail .hstat-val-on-navy {
+  color: #fff !important;
 }
 
 html.kb-group-detail-open body.kb-app-shell .kb-app-scroll,
@@ -3716,7 +3835,7 @@ body.kb-group-detail-open.kb-app-shell .kb-app-scroll {
   height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
-  background: #00008b !important;
+  background: var(--kb-navy, #00008b) !important;
 }
 
 .site-main--group-detail .wrap {
@@ -3733,7 +3852,7 @@ html.kb-group-detail-open .site-main--group-detail,
 body.kb-group-detail-open .site-main--group-detail {
   padding-top: 0 !important;
   margin-top: 0 !important;
-  background: #00008b !important;
+  background: var(--kb-navy, #00008b) !important;
 }
 
 /* Kill side gutters / blue corner panels on group detail */
@@ -3743,12 +3862,12 @@ body.kb-group-detail-open .site-main--group-detail .phone {
   width: 100% !important;
   border: none !important;
   border-radius: 0 !important;
-  background: #00008b !important;
+  background: var(--kb-navy, #00008b) !important;
 }
 
 html.kb-group-detail-open .kb-app-scroll,
 body.kb-group-detail-open .kb-app-scroll {
-  background: #00008b !important;
+  background: var(--kb-navy, #00008b) !important;
 }
 
 html.kb-group-detail-open .site-footer.kb-legal-footer,
@@ -3756,6 +3875,123 @@ body.kb-group-detail-open .site-footer.kb-legal-footer,
 html.kb-group-detail-open .site-footer,
 body.kb-group-detail-open .site-footer {
   display: none !important;
+}
+
+/* Community detail — slide in from left (Communities tab); hide chrome */
+html.kb-cause-detail-open .site-header,
+body.kb-cause-detail-open .site-header,
+html.kb-cause-detail-open .kb-bottom-nav,
+body.kb-cause-detail-open .kb-bottom-nav,
+html.kb-cause-detail-open .kb-back-to-top,
+body.kb-cause-detail-open .kb-back-to-top,
+html.kb-cause-detail-open .site-footer,
+body.kb-cause-detail-open .site-footer {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+}
+
+html.kb-cause-detail-open body.has-kb-bottom-nav,
+body.kb-cause-detail-open.has-kb-bottom-nav {
+  padding-bottom: 0 !important;
+}
+
+html.kb-cause-detail-open,
+body.kb-cause-detail-open {
+  --kb-nav-h: 0px;
+}
+
+html.kb-cause-detail-open body.kb-app-shell .kb-app-scroll,
+body.kb-cause-detail-open.kb-app-shell .kb-app-scroll {
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.site-main--cause {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: #fff !important;
+}
+
+html.kb-cause-detail-open .site-main--cause,
+body.kb-cause-detail-open .site-main--cause {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  animation: kb-cause-slide-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Full-height chat shell — undo global .site-main .wrap block/margin that left a navy gap */
+html.kb-cause-detail-open .site-main--cause > .wrap,
+body.kb-cause-detail-open .site-main--cause > .wrap,
+.site-main--cause > .wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  background: #fff !important;
+}
+
+html.kb-cause-detail-open .site-main--cause > .wrap > .col,
+body.kb-cause-detail-open .site-main--cause > .wrap > .col,
+.site-main--cause > .wrap > .col {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+html.kb-cause-detail-open .site-main--cause .cd-body,
+body.kb-cause-detail-open .site-main--cause .cd-body,
+.site-main--cause .cd-body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  background: #f4f6fb !important;
+}
+
+html.kb-cause-detail-open .site-main--cause .cd-panels-viewport,
+body.kb-cause-detail-open .site-main--cause .cd-panels-viewport,
+.site-main--cause .cd-panels-viewport,
+html.kb-cause-detail-open .site-main--cause .cd-swipe-hint,
+body.kb-cause-detail-open .site-main--cause .cd-swipe-hint,
+.site-main--cause .cd-swipe-hint {
+  background: #f4f6fb !important;
+}
+
+html.kb-cause-detail-open .site-main--cause .cd-panels-viewport,
+body.kb-cause-detail-open .site-main--cause .cd-panels-viewport,
+.site-main--cause .cd-panels-viewport {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+
+@keyframes kb-cause-slide-in {
+  from { transform: translateX(-18%); opacity: 0.72; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.kb-cause-detail-open .site-main--cause,
+  body.kb-cause-detail-open .site-main--cause {
+    animation: none;
+  }
 }
 
 /* Create-community full-screen sheet covers bottom nav */
@@ -3964,5 +4200,260 @@ body.dark .kb-profile-sheet-close {
   --kb-illus-w: 56px;
   flex-shrink: 0;
   margin: 0;
+}
+
+/* ── Uniform blue message / primary action buttons ── */
+.kb-msg-btn,
+.mp-action--msg,
+.msg-send,
+.cd-dm-send {
+  background: var(--kb-msg-gradient) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: var(--kb-msg-shadow);
+}
+
+html[data-theme="dark"] .kb-msg-btn,
+html[data-theme="dark"] .mp-action--msg,
+html[data-theme="dark"] .msg-send,
+html[data-theme="dark"] .cd-dm-send,
+html.dark .kb-msg-btn,
+html.dark .mp-action--msg,
+html.dark .msg-send,
+html.dark .cd-dm-send,
+body.dark .kb-msg-btn,
+body.dark .mp-action--msg,
+body.dark .msg-send,
+body.dark .cd-dm-send {
+  color: var(--kb-cta-ink, #050508) !important;
+}
+
+/* Frosted glass surfaces — cards, sheets, overlays */
+.kb-glass,
+.mp-hero,
+.mp-section,
+.cd-sheet-card,
+.cd-dm-card,
+.cm-card,
+.lb-row,
+.lb-card,
+.group-card,
+.home-popular-card,
+.home-chart-card,
+.cause-card,
+.cg-card,
+.popular-card,
+.home-pop-card,
+.pf-card,
+.pay-opt,
+.kb-guest-account-card,
+.cd-gate,
+.empty:not(.cx-empty) {
+  background: var(--kb-glass-bg) !important;
+  border-color: var(--kb-glass-border) !important;
+  backdrop-filter: var(--kb-glass-blur);
+  -webkit-backdrop-filter: var(--kb-glass-blur);
+  box-shadow: var(--kb-glass-shadow);
+}
+
+/* Premium member standings cards — match Groups detail (not flat glass rows) */
+.member {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  background: linear-gradient(180deg, #fff 0%, #f9fafd 100%) !important;
+  border: 1px solid #dde3f0 !important;
+  border-radius: 18px !important;
+  padding: 1.05rem 1.15rem !important;
+  margin-bottom: 12px !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow:
+    -14px 8px 32px -12px rgba(15, 23, 60, 0.28),
+    -4px 2px 12px -4px rgba(15, 23, 60, 0.12) !important;
+}
+
+.member .m-name {
+  font-size: 1.02rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
+  color: #111 !important;
+}
+
+.member .m-amt {
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  color: var(--kb-primary) !important;
+}
+
+.member .m-sub,
+.member .m-amt-lbl {
+  color: #7a85a0 !important;
+}
+
+.member .m-av {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 12px !important;
+  background: var(--kb-msg-gradient) !important;
+}
+
+.sec-title {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #7a85a0 !important;
+  letter-spacing: 0.02em !important;
+}
+
+.kb-glass-soft {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--kb-glass-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+html[data-theme="dark"] .kb-glass-soft,
+html.dark .kb-glass-soft,
+body.dark .kb-glass-soft {
+  background: rgba(10, 10, 12, 0.55);
+}
+
+/* Keep brand blue words/numbers uniform with buttons */
+.m-amt,
+.m-name .kb-blue,
+.msg-who,
+.msg-title,
+.race,
+.mp-lifetime-val,
+.mp-mini-val,
+.mp-group-amt,
+.mp-action--view,
+.cd-dm-who,
+.cm-total,
+.cm-badge.pub,
+.lb-saved,
+.gc-val,
+.gc-prog-pct,
+.gc-progress-pct,
+.saved-amt,
+.stat-val,
+.amount-input,
+.share-val,
+.md-share-val,
+.md-title,
+.jg-title,
+.period.on,
+.jg-chip,
+.jg-pay.on,
+.created-tab.is-active,
+.side-tab.is-active,
+.cd-tab.is-active,
+.gd-tab.is-active,
+.pf-action--create,
+.hstat-val:not(.hstat-val-on-navy),
+.act-amt,
+.home-savings-amount,
+.chart-pct {
+  color: var(--kb-primary) !important;
+}
+
+.gd-tab.is-active::after,
+.cd-tab.is-active::after,
+.side-tabs-indicator {
+  background: var(--kb-msg-gradient) !important;
+}
+
+/* ── Premium tap ink — WhatsApp-style grey wave from press point ── */
+/* Do not force position here — fixed/sticky hosts (e.g. back-to-top) must keep their layout.
+   Static hosts get position:relative from JS when ink is attached. */
+.kb-tap-ink-host {
+  isolation: isolate;
+}
+
+.kb-tap-ink-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.kb-tap-ink {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: rgba(120, 130, 148, 0.2);
+  transform: scale(0);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.kb-tap-ink.is-on {
+  animation: kb-tap-ink-wave 0.58s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes kb-tap-ink-wave {
+  0% {
+    transform: scale(0);
+    opacity: 0.42;
+  }
+  35% {
+    opacity: 0.22;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Filled navy / chrome controls — soft light wash like Back to top */
+.cta-btn:not(.secondary):not(.cta-btn-secondary) > .kb-tap-ink-layer .kb-tap-ink,
+.create-btn > .kb-tap-ink-layer .kb-tap-ink,
+.join-btn > .kb-tap-ink-layer .kb-tap-ink,
+.dep-btn > .kb-tap-ink-layer .kb-tap-ink,
+.md-btn > .kb-tap-ink-layer .kb-tap-ink,
+.cp-btn > .kb-tap-ink-layer .kb-tap-ink,
+.msg-send > .kb-tap-ink-layer .kb-tap-ink,
+.gc-join > .kb-tap-ink-layer .kb-tap-ink,
+.oas-join > .kb-tap-ink-layer .kb-tap-ink,
+.kb-bnav-item > .kb-tap-ink-layer .kb-tap-ink,
+.site-auth-btn > .kb-tap-ink-layer .kb-tap-ink {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+html[data-theme="dark"] .kb-tap-ink,
+html.dark .kb-tap-ink,
+body.dark .kb-tap-ink {
+  background: rgba(245, 240, 232, 0.14);
+}
+
+html[data-theme="dark"] .cta-btn:not(.secondary):not(.cta-btn-secondary) > .kb-tap-ink-layer .kb-tap-ink,
+html[data-theme="dark"] .create-btn > .kb-tap-ink-layer .kb-tap-ink,
+html[data-theme="dark"] .join-btn > .kb-tap-ink-layer .kb-tap-ink,
+html[data-theme="dark"] .dep-btn > .kb-tap-ink-layer .kb-tap-ink,
+html[data-theme="dark"] .md-btn > .kb-tap-ink-layer .kb-tap-ink,
+html[data-theme="dark"] .cp-btn > .kb-tap-ink-layer .kb-tap-ink,
+html[data-theme="dark"] .msg-send > .kb-tap-ink-layer .kb-tap-ink,
+html[data-theme="dark"] .gc-join > .kb-tap-ink-layer .kb-tap-ink,
+html[data-theme="dark"] .oas-join > .kb-tap-ink-layer .kb-tap-ink,
+html.dark .cta-btn:not(.secondary):not(.cta-btn-secondary) > .kb-tap-ink-layer .kb-tap-ink,
+html.dark .create-btn > .kb-tap-ink-layer .kb-tap-ink,
+html.dark .join-btn > .kb-tap-ink-layer .kb-tap-ink,
+html.dark .dep-btn > .kb-tap-ink-layer .kb-tap-ink,
+body.dark .cta-btn:not(.secondary):not(.cta-btn-secondary) > .kb-tap-ink-layer .kb-tap-ink,
+body.dark .create-btn > .kb-tap-ink-layer .kb-tap-ink,
+body.dark .join-btn > .kb-tap-ink-layer .kb-tap-ink,
+body.dark .dep-btn > .kb-tap-ink-layer .kb-tap-ink {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-tap-ink.is-on {
+    animation: none;
+    opacity: 0.18;
+    transform: scale(1);
+    transition: opacity 0.2s ease;
+  }
 }
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Deposit</title>
   <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css?v=profile-from-left-1">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=back-top-1">
   <script>(function(){try{var v=sessionStorage.getItem('kibbi_auth_v1');if(v==='1')document.documentElement.classList.add('kb-authed');if(v==='0'||v==='1')document.documentElement.classList.add('kb-auth-known');if(localStorage.getItem('kibbi_dark_mode')==='1'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}}catch(e){}})();</script>
 </head>
 <body>
@@ -32,7 +32,7 @@
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
 .wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
 .phone{width:320px;background:#fff;border-radius:24px;border:1px solid #dde3f0;overflow:hidden;display:flex;flex-direction:column;}
-.topbar{background:#00008b;padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;}
+.topbar{background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;}
 .back{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;flex-shrink:0;color:#fff;}
 .tb-mid{display:flex;flex-direction:column;align-items:center;}
 .tb-title{font-size:15px;font-weight:500;color:#fff;}
@@ -51,24 +51,24 @@
 .gs-name{font-size:12px;font-weight:500;color:#111;}
 .gs-sub{font-size:10px;color:#7a85a0;margin-top:1px;}
 .radio{width:16px;height:16px;border-radius:50%;border:2px solid #dde3f0;flex-shrink:0;}
-.gs-row.selected .radio{border-color:#00008b;background:#00008b;}
+.gs-row.selected .radio{border-color: var(--kb-primary, #00008b);background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));}
 .amount-box{background:#f7f8fc;border:1.5px solid #00008b;border-radius:14px;padding:16px 16px 12px;margin-bottom:14px;}
 .amount-label{font-size:10px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;}
 .amount-input-row{display:flex;align-items:center;gap:6px;border-bottom:2px solid #00008b;padding-bottom:6px;margin-bottom:8px;}
 .amount-currency-lbl{font-size:15px;font-weight:500;color:#7a85a0;}
-.amount-input{font-size:30px;font-weight:500;color:#00008b;letter-spacing:-1px;border:none;background:transparent;outline:none;width:100%;min-width:0;font-family:inherit;}
+.amount-input{font-size:30px;font-weight:500;color: var(--kb-primary, #00008b);letter-spacing:-1px;border:none;background:transparent;outline:none;width:100%;min-width:0;font-family:inherit;}
 .quick-amounts{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;}
 .qa{font-size:11px;font-weight:500;padding:6px 12px;border-radius:20px;border:1.5px solid #dde3f0;color:#7a85a0;background:#fff;cursor:pointer;flex-shrink:0;}
-.qa.active{background:#00008b;color:#fff;border-color:#00008b;}
+.qa.active{background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;border-color: var(--kb-primary, #00008b);}
 .pay-methods{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
 .pay-opt{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1.5px solid #dde3f0;border-radius:12px;cursor:pointer;background:#fff;}
-.pay-opt.selected{border-color:#00008b;background:#f0f2ff;}
+.pay-opt.selected{border-color: var(--kb-primary, #00008b);background:#f0f2ff;}
 .pay-logo{width:36px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;font-weight:700;color:#fff;}
 .pay-info{flex:1;}
 .pay-name{font-size:12px;font-weight:500;color:#111;}
 .pay-num{font-size:10px;color:#7a85a0;margin-top:1px;}
 .dep-phone{width:100%;border:1px solid #dde3f0;border-radius:10px;padding:10px 12px;font-size:13px;background:#f9fafd;outline:none;margin-bottom:14px;font-family:inherit;}
-.cta-btn{width:100%;background:#00008b;color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+.cta-btn{width:100%;background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
 .cta-btn:disabled{opacity:0.55;cursor:default;}
 .done{text-align:center;padding:26px 0 10px;}
 .done-icon{font-size:44px;}
@@ -114,9 +114,9 @@
 
       <div class="pay-methods">
         <div class="pay-opt selected" data-provider="mtn_momo">
-          <div class="pay-logo" style="background:#f7c800;color:#00008b;">MTN</div>
+          <div class="pay-logo" style="background:#f7c800;color: var(--kb-primary, #00008b);">MTN</div>
           <div class="pay-info"><div class="pay-name">MTN Mobile Money</div><div class="pay-num">Charged to your MoMo number</div></div>
-          <div class="radio" style="border-color:#00008b;background:#00008b;"></div>
+          <div class="radio" style="border-color: var(--kb-primary, #00008b);background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));"></div>
         </div>
         <div class="pay-opt" data-provider="airtel">
           <div class="pay-logo" style="background:#e40000;">airtel</div>
@@ -124,7 +124,7 @@
           <div class="radio"></div>
         </div>
         <div class="pay-opt" data-provider="bank">
-          <div class="pay-logo" style="background:#00008b;">BANK</div>
+          <div class="pay-logo" style="background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));">BANK</div>
           <div class="pay-info"><div class="pay-name">Bank transfer</div><div class="pay-num">Manual reference</div></div>
           <div class="radio"></div>
         </div>
@@ -151,7 +151,7 @@
 </main>
 <footer class="site-footer">KibbiSave — group savings for Uganda</footer>
 
-<script src="js/kibbisave-site.js"></script>
+<script src="js/kibbisave-site.js?v=back-top-1"></script>
 <script>
 (function () {
   var err = document.getElementById('dep-error');

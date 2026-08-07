@@ -5,6 +5,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const communityRoutes = require('./routes/communities');
 const profileRoutes = require('./routes/profile');
+const groupsRoutes = require('./routes/groups');
 const { requireAuth } = require('./middleware/auth');
 const { isDbConfigured } = require('./db');
 
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/communities', communityRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api', groupsRoutes);   // /api/home, /api/search, /api/groups, /api/deposits, /api/cron
 
 app.get('/api/health', (req, res) => {
   res.json({
@@ -30,7 +32,7 @@ app.get('/api/dashboard', requireAuth, async (req, res) => {
   if (!isDbConfigured()) {
     return res.json({
       user: req.user,
-      message: 'Connect DATABASE_URL to load live dashboard data',
+      message: 'Connect Neon (DATABASE_URL / POSTGRES_URL) to load live dashboard data',
     });
   }
   res.json({ user: req.user, groups: [], totalSaved: 0 });

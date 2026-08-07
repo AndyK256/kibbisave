@@ -14,20 +14,28 @@ require('dotenv').config();
 const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
 const AfricasTalking = require('africastalking');
+const { createToken, setSessionCookie, authenticateUser } = require('./session');
 
 const router = express.Router();
 
 // --- Clients ---
 const supabase = createClient(
-  process.env.SUPABASE_URL,       // from your Supabase project settings
-  process.env.SUPABASE_SERVICE_KEY // Service key — keep secret, backend only
+  process.env.SUPABASE_URL || 'https://not-configured.supabase.co',
+  process.env.SUPABASE_SERVICE_KEY || 'not-configured'
 );
 
-const AT = AfricasTalking({
-  apiKey:   process.env.AT_API_KEY,     // from africastalking.com dashboard
-  username: process.env.AT_USERNAME,    // your AT username
-});
-const sms = AT.SMS;
+// Africa's Talking is optional in development — if the keys are not in
+// .env, the OTP is printed to the server console instead of sent by SMS
+let sms = null;
+if (process.env.AT_API_KEY && process.env.AT_USERNAME) {
+  const AT = AfricasTalking({
+    apiKey:   process.env.AT_API_KEY,
+    username: process.env.AT_USERNAME,
+  });
+  sms = AT.SMS;
+} else {
+  console.warn('⚠  AT_API_KEY / AT_USERNAME missing — OTP codes will be printed to this console (dev mode).');
+}
 
 // In-memory OTP store (replace with Redis in production)
 // Structure: { phone: { otp, expiresAt } }
@@ -55,14 +63,17 @@ router.post('/send-otp', async (req, res) => {
     // Store OTP
     otpStore.set(phone, { otp, expiresAt });
 
-    // Send SMS via Africa's Talking
-    await sms.send({
-      to:      [phone],
-      message: `Your KibbiSave verification code is: ${otp}. Valid for 5 minutes. Do not share this code.`,
-      from:    'KibbiSave'   // your AT sender ID (apply in AT dashboard)
-    });
-
-    console.log(`OTP sent to ${phone}`);
+    // Send SMS via Africa's Talking — or print to console in dev mode
+    if (sms) {
+      await sms.send({
+        to:      [phone],
+        message: `Your KibbiSave verification code is: ${otp}. Valid for 5 minutes. Do not share this code.`,
+        from:    'KibbiSave'   // your AT sender ID (apply in AT dashboard)
+      });
+      console.log(`OTP sent to ${phone}`);
+    } else {
+      console.log(`DEV MODE — OTP for ${phone} is: ${otp}`);
+    }
 
     return res.status(200).json({
       success: true,
@@ -130,16 +141,10 @@ router.post('/verify-otp', async (req, res) => {
       isNewUser = true;
     }
 
-    // Create a session token using Supabase Auth
-    // We use the admin API to create a custom token
-    const { data: session, error: sessionError } = await supabase.auth.admin
-      .generateLink({
-        type: 'magiclink',
-        email: `${phone.replace('+', '')}@kibbisave.internal`, // dummy email for Supabase auth
-        options: { data: { user_id: user.id, phone } }
-      });
-
-    if (sessionError) throw sessionError;
+    // Create our own signed session token (see session.js)
+    // Sent BOTH as httpOnly cookie (browser pages) and in the JSON (apps)
+    const token = createToken(user);
+    setSessionCookie(res, token);
 
     return res.status(200).json({
       success:   true,
@@ -149,8 +154,9 @@ router.post('/verify-otp', async (req, res) => {
         phone:        user.phone,
         display_name: user.display_name,
         avatar_url:   user.avatar_url,
+        account_number: user.phone.replace('+256', '0'), // phone = account number
       },
-      token: session.properties.hashed_token // send this to the app
+      token
     });
 
   } catch (error) {
@@ -188,38 +194,7 @@ router.post('/complete-profile', authenticateUser, async (req, res) => {
 });
 
 // ============================================================
-// MIDDLEWARE — authenticateUser
-// Add this to any route that needs a logged-in user
-// Usage: router.get('/my-route', authenticateUser, handler)
+// MIDDLEWARE — authenticateUser now lives in session.js
+// (verifies our HMAC token from the cookie or Bearer header)
 // ============================================================
-async function authenticateUser(req, res, next) {
-  try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'No token provided' });
-    }
-
-    const token = authHeader.split(' ')[1];
-
-    // Verify token with Supabase
-    const { data: { user }, error } = await supabase.auth.getUser(token);
-    if (error || !user) {
-      return res.status(401).json({ error: 'Invalid or expired token' });
-    }
-
-    // Get our user record from the database
-    const { data: dbUser } = await supabase
-      .from('users')
-      .select('*')
-      .eq('phone', user.user_metadata.phone)
-      .single();
-
-    req.user = dbUser;
-    next();
-
-  } catch (error) {
-    return res.status(401).json({ error: 'Authentication failed' });
-  }
-}
-
 module.exports = { router, authenticateUser };

@@ -13,4 +13,15 @@ function requireAuth(req, res, next) {
   }
 }
 
-module.exports = { requireAuth };
+// Optional login: sets req.user if a valid session exists, else null.
+// Spec: whole app browsable logged out; login only needed to join/create.
+function optionalAuth(req, res, next) {
+  const token = req.cookies?.kibbisave_token;
+  req.user = null;
+  if (token) {
+    try { req.user = jwt.verify(token, process.env.JWT_SECRET); } catch {}
+  }
+  next();
+}
+
+module.exports = { requireAuth, optionalAuth };

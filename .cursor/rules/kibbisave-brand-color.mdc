@@ -1,0 +1,72 @@
+---
+description: KibbiSave brand blue, message-button gradient, glass surfaces, and community/group UI parity
+alwaysApply: true
+---
+
+# KibbiSave brand color & glass
+
+Before writing or changing any UI (HTML/CSS/JS), follow these tokens from `css/kibbisave-site.css` (mirror under `public/css/`). Do not invent new blues or flat primary fills.
+
+## Core tokens (light)
+
+| Token | Value / role |
+|-------|----------------|
+| `--kb-primary` | `#00008b` — brand navy for words, numbers, links, icons |
+| `--kb-primary-mid` / `--kb-msg-to` | `#0a0aff` — slightly lighter navy |
+| `--kb-msg-from` | `#00008b` |
+| `--kb-msg-gradient` | dark navy → slightly lighter navy (148deg) |
+| `--kb-msg-shadow` | soft navy action shadow |
+| `--kb-navy` | `#00008b` — solid chrome (bottom nav, heroes); **never** remaps to cream |
+| `--kb-heading` | same family as `--kb-primary` |
+| `--kb-glass-bg` | translucent frosted surface |
+| `--kb-glass-border` | `rgba(0, 0, 139, 0.1)` |
+| `--kb-glass-blur` | `blur(14px)` |
+
+Dark mode remaps primary/msg tokens to cream — keep using variables; do not hardcode cream hex in feature CSS unless matching existing dark patterns.
+
+## Message & action buttons
+
+- Prefer class `kb-msg-btn` (also `.mp-action--msg`, `.msg-send`, `.cd-dm-send`, Join/Deposit/Create CTAs).
+- Fill = `var(--kb-msg-gradient)` — **#00008b → #0a0aff**, not flat `#00008b` alone, not purple/indigo kits.
+- Text on light: white. Dark: `--kb-cta-ink` via shared site CSS.
+- Shadow: `var(--kb-msg-shadow)`.
+
+```css
+/* ❌ BAD */
+.btn { background: #3b82f6; }
+.btn { background: #00008b; }
+
+/* ✅ GOOD */
+.btn {
+  background: var(--kb-msg-gradient);
+  color: #fff;
+  box-shadow: var(--kb-msg-shadow);
+}
+```
+
+## Words & numbers in blue
+
+Amounts, ranks, message authors, active tab labels, race cues, profile totals → `color: var(--kb-primary)`.
+
+## Glass surfaces
+
+Cards, message panels, sheets, member-profile sections:
+
+- `background: var(--kb-glass-bg)`
+- `border: 1px solid var(--kb-glass-border)`
+- `backdrop-filter: var(--kb-glass-blur)` (+ `-webkit-backdrop-filter`)
+- Or classes `kb-glass` / `kb-glass-soft`
+
+Solid navy heroes/nav chrome use `--kb-navy`, not glass and not msg-gradient.
+
+## Community / group parity
+
+- Both use **Member standings** + **Messages** tabs.
+- Member charts and channel messages are **members-only**; guests get login/join gates.
+- Sync root and `public/` copies of HTML/CSS/JS when they diverge.
+
+## File touchpoints
+
+- Tokens: `css/kibbisave-site.css` (+ `public/css/…`)
+- Community: `kibbisave_cause_detail.html`
+- Group / profile overlay: `kibbisave_my_group_detail_v2.html`

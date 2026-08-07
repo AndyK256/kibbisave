@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Create private group</title>
   <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=back-top-1">
 </head>
 <body>
 <header class="site-header">
@@ -31,18 +31,18 @@
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
 .wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
 .phone{width:340px;background:#fff;border-radius:24px;border:1px solid #dde3f0;overflow:hidden;}
-.top{background:#00008b;padding:16px 18px;}
+.top{background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));padding:16px 18px;}
 .top-title{color:#fff;font-size:16px;font-weight:600;}
 .top-sub{color:rgba(255,255,255,0.7);font-size:11px;margin-top:3px;line-height:1.5;}
 .body{padding:18px;}
 .cg-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
 .lbl{font-size:11px;font-weight:600;color:#374057;margin:12px 0 5px;display:block;}
 .input{width:100%;border:1px solid #dde3f0;border-radius:10px;padding:10px 12px;font-size:13px;background:#f9fafd;outline:none;font-family:inherit;}
-.input:focus{border-color:#00008b;background:#fff;}
+.input:focus{border-color: var(--kb-primary, #00008b);background:#fff;}
 .hint{font-size:10px;color:#7a85a0;margin-top:3px;}
 .period-row{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
 .period{border:1.5px solid #dde3f0;border-radius:10px;padding:10px 4px;text-align:center;font-size:12px;font-weight:600;color:#374057;cursor:pointer;background:#fff;font-family:inherit;}
-.period.on{border-color:#00008b;background:#e8eaf8;color:#00008b;}
+.period.on{border-color: var(--kb-primary, #00008b);background:#e8eaf8;color: var(--kb-primary, #00008b);}
 .toggle-row{display:flex;align-items:center;justify-content:space-between;margin-top:14px;}
 .toggle-lbl{font-size:12px;font-weight:600;color:#374057;}
 .toggle-sub{font-size:10px;color:#7a85a0;margin-top:1px;max-width:210px;}
@@ -50,19 +50,19 @@
 .switch input{opacity:0;width:0;height:0;}
 .slider{position:absolute;inset:0;background:#dde3f0;border-radius:24px;cursor:pointer;transition:0.2s;}
 .slider::before{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;left:3px;top:3px;transition:0.2s;}
-.switch input:checked + .slider{background:#00008b;}
+.switch input:checked + .slider{background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));}
 .switch input:checked + .slider::before{transform:translateX(20px);}
-.cta{width:100%;background:#00008b;color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;margin-top:18px;font-family:inherit;}
+.cta{width:100%;background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;margin-top:18px;font-family:inherit;}
 .cta:disabled{opacity:0.55;}
 .done{text-align:center;padding:10px 0;}
 .done-icon{font-size:40px;}
 .done-title{font-size:15px;font-weight:700;color:#111;margin-top:6px;}
 .share-box{background:#f7f8fc;border:1px solid #dde3f0;border-radius:12px;padding:12px;margin-top:12px;text-align:left;}
 .share-lbl{font-size:10px;font-weight:700;color:#7a85a0;text-transform:uppercase;letter-spacing:0.06em;}
-.share-val{font-size:12px;color:#00008b;font-weight:600;margin-top:4px;word-break:break-all;}
+.share-val{font-size:12px;color: var(--kb-primary, #00008b);font-weight:600;margin-top:4px;word-break:break-all;}
 .share-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
-.copy-btn,.share-btn{background:#eef0f8;border:none;color:#00008b;font-size:11px;font-weight:700;border-radius:8px;padding:8px 14px;cursor:pointer;font-family:inherit;}
-.share-btn{background:#00008b;color:#fff;}
+.copy-btn,.share-btn{background:#eef0f8;border:none;color: var(--kb-primary, #00008b);font-size:11px;font-weight:700;border-radius:8px;padding:8px 14px;cursor:pointer;font-family:inherit;}
+.share-btn{background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;}
 .share-gate-hint{font-size:11px;color:#7a85a0;margin-top:10px;line-height:1.4;}
 .share-gate-hint.is-ok{color:#1a6e35;font-weight:600;}
 </style>
@@ -124,7 +124,7 @@
 </main>
 <footer class="site-footer">KibbiSave — group savings for Uganda</footer>
 
-<script src="js/kibbisave-site.js"></script>
+<script src="js/kibbisave-site.js?v=back-top-1"></script>
 <script>
 (function () {
   var err = document.getElementById('cg-error');

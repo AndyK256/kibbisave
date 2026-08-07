@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="kb-cause-detail-open">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KibbiSave — Cause Detail</title>
-  <link rel="stylesheet" href="css/kibbisave-site.css">
+  <title>KibbiSave — Community</title>
+  <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=cd-premium-cards-1">
+  <script>document.documentElement.classList.add('kb-cause-detail-open');</script>
 </head>
-<body>
+<body class="kb-cause-detail-open">
 <header class="site-header">
   <div class="site-header-inner">
-    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
-    <button class="site-menu-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <div class="site-brand"><a href="kibbisave_home_final.html" class="site-logo">Kibbisave</a></div>
     <nav class="site-nav">
       <a href="kibbisave_home_final.html">Home</a>
       <a href="kibbisave_groups_v6.html">Groups</a>
       <a href="kibbisave_community_explore.html" class="active">Community</a>
       <a href="kibbisave_leaderboard_v5.html">Leaderboard</a>
       <a href="kibbisave_profile_screen.html">Profile</a>
-      <a href="/login" class="nav-sign-in-mobile">Sign in</a>
+      <div class="nav-auth-mobile" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
       <a href="kibbisave_deposit_v2.html" class="nav-deposit-mobile">+ Deposit</a>
     </nav>
     <div class="site-header-actions">
-      <a href="/login" class="site-auth-btn" data-auth-link>Sign in</a>
+      <div class="site-auth-pair" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
       <a href="kibbisave_deposit_v2.html" class="site-btn-deposit">+ Deposit</a>
     </div>
   </div>
@@ -29,292 +30,1032 @@
 <main class="site-main site-main--cause">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
-.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
-.phone{width:320px;background:#fff;border-radius:38px;border:2px solid #c8cfe0;overflow:hidden;display:flex;flex-direction:column;}
-.topbar{background:#00008b;padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;}
-.back{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;flex-shrink:0;}
-.tb-title{font-size:15px;font-weight:500;color:#fff;}
-.tb-share{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;}
-.hero{background:#00008b;padding:0 18px 22px;}
-.hero-cat{font-size:10px;color:rgba(255,255,255,0.55);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;}
-.hero-name{font-size:22px;font-weight:500;color:#fff;line-height:1.2;}
-.hero-location{font-size:12px;color:rgba(255,255,255,0.55);margin-top:3px;display:flex;align-items:center;gap:4px;}
-.hero-desc{font-size:12px;color:rgba(255,255,255,0.75);margin-top:12px;line-height:1.6;background:rgba(255,255,255,0.08);border-radius:8px;padding:10px 12px;border-left:3px solid rgba(255,215,0,0.7);}
-.hero-desc-author{font-size:10px;color:rgba(255,255,255,0.4);margin-top:5px;}
-.hero-stats{display:flex;gap:0;margin-top:14px;background:rgba(255,255,255,0.1);border-radius:10px;overflow:hidden;}
-.hstat{flex:1;padding:10px 0;text-align:center;border-right:0.5px solid rgba(255,255,255,0.15);}
-.hstat:last-child{border-right:none;}
-.hstat-val{font-size:16px;font-weight:500;color:#fff;}
-.hstat-lbl{font-size:9px;color:rgba(255,255,255,0.5);margin-top:2px;text-transform:uppercase;letter-spacing:0.05em;}
-.prog-section{padding:14px 18px 0;}
-.prog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.prog-lbl{font-size:11px;color:#7a85a0;}
-.prog-pct{font-size:13px;font-weight:500;color:#00008b;}
-.prog-wrap{background:#eef0f8;border-radius:4px;height:8px;}
-.prog-bar{background:#00008b;height:8px;border-radius:4px;width:65%;}
-.prog-sub{display:flex;justify-content:space-between;margin-top:6px;}
-.prog-sub-lbl{font-size:10px;color:#7a85a0;}
-.prog-sub-val{font-size:10px;font-weight:500;color:#111;}
-.info-row{padding:12px 18px 0;}
-.info-box{background:#f7f8fc;border:1px solid #eef0f8;border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;}
-.info-lbl{font-size:10px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.06em;}
-.info-val{font-size:13px;font-weight:500;color:#111;margin-top:3px;}
-.info-sub{font-size:10px;color:#7a85a0;margin-top:1px;}
-.sec{padding:14px 18px 0;}
-.sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.sec-title{font-size:13px;font-weight:500;color:#111;}
-.sec-sub{font-size:11px;color:#7a85a0;}
-.member-row{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:0.5px solid #eef0f8;}
-.member-row:last-child{border-bottom:none;}
-.m-rank-block{display:flex;flex-direction:column;align-items:center;width:20px;flex-shrink:0;gap:1px;}
-.m-rank{font-size:13px;font-weight:500;text-align:center;line-height:1;}
-.rank-1{color:#b8860b;} .rank-2{color:#888780;} .rank-3{color:#cd7c3a;} .rank-n{color:#7a85a0;}
-.m-mv{font-size:10px;font-weight:500;line-height:1;}
-@keyframes pg{0%,100%{opacity:1;}50%{opacity:0.2;}}
-@keyframes pr{0%,100%{opacity:1;}50%{opacity:0.2;}}
-.mv-up{color:#1a6e35;animation:pg 1.3s ease-in-out infinite;}
-.mv-dn{color:#c0392b;animation:pr 1.3s ease-in-out infinite;}
-.mv-sm{color:#9aa0ac;}
-.m-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:#fff;flex-shrink:0;}
+.wrap{background:#fff;display:flex;flex-direction:column;justify-content:flex-start;padding:0;margin:0;height:100%;min-height:0;width:100%;flex:1;}
+.col{width:100%;max-width:none;flex:1;min-height:0;display:flex;flex-direction:column;height:100%;}
+.cd-chrome{flex:0 0 auto;background:var(--kb-navy,#00008b);z-index:40;position:sticky;top:0;}
+.cd-sticky{background:var(--kb-navy,#00008b);padding:10px 16px 8px;z-index:42;}
+.cd-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.cd-back{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.22);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-family:inherit;line-height:1;padding:0;}
+.cd-back svg{display:block;width:20px;height:20px;}
+.cd-sticky-name{flex:1;min-width:0;font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .2s ease,transform .2s ease;text-align:center;}
+.cd-chrome.is-compact .cd-sticky-name,.cd-chrome.is-messages .cd-sticky-name{opacity:1;transform:translateY(0);pointer-events:auto;}
+.cd-share{width:36px;height:36px;border-radius:50%;padding:0;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.22);color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-family:inherit;line-height:1;}
+.cd-share svg{display:block;width:18px;height:18px;}
+.cd-hero{background:var(--kb-navy,#00008b);padding:2px 16px 14px;color:#fff;margin:0;border-radius:0;overflow:hidden;max-height:280px;opacity:1;transition:max-height .28s cubic-bezier(.22,1,.36,1),opacity .2s ease,padding .28s ease;}
+.cd-chrome.is-compact .cd-hero,.cd-chrome.is-messages .cd-hero{max-height:0;opacity:0;padding-top:0;padding-bottom:0;pointer-events:none;}
+.cd-title-block{min-width:0;margin-top:0;padding-left:2px;}
+.cd-name{font-size:18px;font-weight:700;line-height:1.25;}
+.cd-loc{font-size:11px;color:rgba(255,255,255,0.65);margin-top:3px;}
+.cd-about{font-size:12px;color:rgba(255,255,255,0.85);margin-top:10px;line-height:1.55;}
+.cd-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px;}
+.cd-stat{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.14);border-radius:10px;padding:8px 10px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.cd-stat-val{font-size:13px;font-weight:600;}
+.cd-stat-lbl{font-size:9px;color:rgba(255,255,255,0.6);margin-top:2px;text-transform:uppercase;letter-spacing:0.05em;}
+.cd-prog-wrap{margin-top:12px;background:rgba(255,255,255,0.18);border-radius:4px;height:6px;}
+.cd-prog{background:#fff;height:6px;border-radius:4px;width:0%;}
+.cd-prog-row{display:flex;justify-content:space-between;margin-top:5px;}
+.cd-prog-lbl{font-size:10px;color:rgba(255,255,255,0.6);}
+.cd-tabs{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0;padding:0;position:sticky;top:0;z-index:41;background:#fff;border-radius:0;border-bottom:1px solid #dde3f0;width:100%;}
+.cd-tab-slider{position:absolute;bottom:0;left:0;width:50%;height:3px;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b,#0a0aff));border-radius:0;pointer-events:none;transition:transform .28s cubic-bezier(.22,1,.36,1);transform:translateX(0);z-index:1;}
+.cd-tab-slider.is-messages{transform:translateX(100%);}
+.cd-tab{appearance:none;border:none;background:transparent;padding:12px 4px;font:inherit;font-size:13px;font-weight:600;color:#9aa3b8;cursor:pointer;position:relative;z-index:2;}
+.cd-tab.is-active{color:var(--kb-primary,#00008b);}
+.cd-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin:12px 16px 0;}
+.cd-ok{display:none;background:#e6f4ea;color:#1a6e35;font-size:12px;border-radius:10px;padding:9px 12px;margin:12px 16px 0;}
+.cd-body{flex:1;min-height:0;overflow:hidden;background:#f4f6fb;display:flex;flex-direction:column;}
+.cd-swipe-hint{display:flex;align-items:center;justify-content:center;gap:6px;font-size:10px;color:#9aa3b8;margin:8px 0 2px;padding:0 16px;flex:0 0 auto;background:#f4f6fb;}
+.cd-chrome.is-messages ~ .cd-body .cd-swipe-hint{display:none;}
+.cd-swipe-hint .arrow{color:var(--kb-primary,#00008b);font-weight:700;letter-spacing:-0.04em;animation:cd-nudge 1.6s ease-in-out infinite;}
+@keyframes cd-nudge{0%,100%{transform:translateX(0);opacity:.7}50%{transform:translateX(4px);opacity:1}}
+.cd-panels-viewport{flex:1;min-height:0;overflow:hidden;touch-action:pan-y;width:100%;background:#f4f6fb;}
+.cd-panels{display:flex;width:200%;height:100%;min-height:0;transition:transform .32s cubic-bezier(.22,1,.36,1);will-change:transform;transform:translateX(0);}
+.cd-panels.is-dragging{transition:none;}
+.cd-panel{width:50%;flex:0 0 50%;min-height:0;height:100%;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:8px 16px 32px;background:#f4f6fb;}
+#panel-messages{display:flex;flex-direction:column;padding:0;background:#f7f8fc;overflow:hidden;}
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin:0 0 6px;padding:2px 0;}
+.sec-title{font-size:11px;font-weight:600;color:#7a85a0;letter-spacing:0.02em;}
+.race{font-size:9px;color:var(--kb-primary,#00008b);font-weight:600;}
+.member{display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg,#fff 0%,#f9fafd 100%);border:1px solid #dde3f0;border-radius:18px;padding:1.05rem 1.15rem;margin-bottom:12px;cursor:pointer;box-shadow:-14px 8px 32px -12px rgba(15,23,60,0.28),-4px 2px 12px -4px rgba(15,23,60,0.12);transition:transform .2s ease,box-shadow .2s ease,border-color .15s;user-select:none;-webkit-user-select:none;backdrop-filter:none;-webkit-backdrop-filter:none;}
+.member:hover{border-color:#c5cce0;transform:translateY(-2px);box-shadow:-16px 10px 36px -12px rgba(15,23,60,0.32),-6px 4px 14px -4px rgba(15,23,60,0.14);}
+.member:focus-visible{outline:2px solid var(--kb-primary,#00008b);outline-offset:2px;}
+.member.is-pressing{border-color:var(--kb-primary,#00008b);box-shadow:0 2px 10px rgba(0,0,56,.12);transform:none;}
+.m-top{display:flex;align-items:flex-start;gap:12px;}
+.m-rank{width:28px;height:28px;border-radius:50%;background:#eef0f8;color:#374057;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.m-rank.r1{background:#e8eaf8;color:var(--kb-primary,#00008b);}
+.m-rank.r2{background:#eff0f2;color:#4a5568;}
+.m-rank.r3{background:#eef0f8;color:#5c667a;}
+.m-av{width:40px;height:40px;border-radius:12px;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.m-av img{width:100%;height:100%;object-fit:cover;}
 .m-info{flex:1;min-width:0;}
-.m-name{font-size:12px;font-weight:500;color:#111;}
-.m-group{font-size:9px;color:#7a85a0;margin-top:1px;}
-.m-closes{font-size:9px;color:#c0392b;margin-top:1px;}
+.m-name{font-size:1.02rem;font-weight:800;color:#111;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.m-sub{font-size:11px;color:#7a85a0;margin-top:3px;line-height:1.35;}
 .m-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0;}
-.m-avg{font-size:13px;font-weight:500;}
-.m-avg.ahead{color:#1a6e35;}
-.m-avg.behind{color:#c0392b;}
-.m-avg.even{color:#9aa0ac;}
-.m-avg-lbl{font-size:8px;color:#7a85a0;}
-.m-amt{font-size:10px;font-weight:500;color:#00008b;}
-.m-bar-wrap{width:50px;height:3px;background:#eef0f8;border-radius:4px;margin-top:1px;}
-.m-bar{height:3px;border-radius:4px;background:#00008b;}
-.m-indpct{font-size:8px;color:#9aa0ac;}
-.you-tag{font-size:9px;background:#00008b;color:#fff;padding:2px 7px;border-radius:20px;font-weight:500;}
-.join-section{padding:14px 18px 18px;}
-.join-btn{background:#00008b;color:#fff;font-size:13px;font-weight:500;padding:13px 0;border-radius:24px;border:none;cursor:pointer;width:100%;text-align:center;}
-.join-sub{font-size:10px;color:#7a85a0;text-align:center;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:3px;}
+.m-amt{font-size:0.95rem;font-weight:700;color:var(--kb-primary,#00008b);}
+.m-amt-lbl{font-size:9px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.04em;}
+.m-prog-wrap{background:#eef0f8;border-radius:5px;height:6px;overflow:hidden;margin-top:0;}
+.m-prog{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));height:6px;border-radius:5px;}
+.m-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.m-lead{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;}
+.m-lead.ahead{background:#e6f4ea;color:#1a6e35;}
+.m-lead.behind{background:#fdecea;color:#a32d2d;}
+.cd-join{width:100%;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;border:none;border-radius:14px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;font-family:inherit;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
+.cd-join:disabled{opacity:0.55;}
+.cd-code{width:100%;border:1px solid #dde3f0;border-radius:12px;padding:10px 12px;font-size:13px;background:#fff;outline:none;margin-top:10px;font-family:inherit;display:none;}
+.empty{padding:18px;text-align:center;font-size:12px;color:#7a85a0;background:#fff;border:1px dashed #dde3f0;border-radius:16px;}
+.cd-gate{padding:28px 18px;text-align:center;font-size:12px;color:#7a85a0;background:transparent;border:none;border-radius:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;}
+.cd-gate-title{font-size:14px;font-weight:700;color:var(--kb-primary,#00008b);margin-bottom:6px;}
+.cd-gate p{line-height:1.5;max-width:280px;margin:0 auto;}
+.cd-gate-btn{display:inline-flex;align-items:center;justify-content:center;margin-top:14px;min-height:42px;padding:0 18px;border-radius:9999px;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;font:inherit;font-size:13px;font-weight:700;text-decoration:none;border:none;cursor:pointer;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
+.skel{position:relative;overflow:hidden;background:#e8ecf5;border-radius:18px;height:96px;margin-bottom:12px;}
+.skel::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);animation:sh 1.2s infinite;}
+@keyframes sh{100%{transform:translateX(100%)}}
+.msg-panel{flex:1;min-height:0;height:100%;display:flex;flex-direction:column;border:none;border-radius:0;padding:12px 14px 10px;background:#f7f8fc;margin:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;}
+.msg-panel.locked{padding:0 14px;border:none;background:#f7f8fc;box-shadow:none;min-height:0;display:flex;align-items:stretch;}
+.msg-panel.locked .cd-gate{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.msg-list{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:12px;padding:4px 2px 12px;-webkit-overflow-scrolling:touch;}
+.msg-row{display:flex;align-items:flex-start;gap:8px;max-width:88%;}
+.msg-row.them{align-self:flex-start;}
+.msg-row.me{align-self:flex-end;flex-direction:row-reverse;}
+.msg-av{width:32px;height:32px;border-radius:50%;background:var(--kb-navy,#00008b);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;margin-top:2px;}
+.msg-av img{width:100%;height:100%;object-fit:cover;}
+.msg-row.me .msg-av{display:none;}
+.msg-bubble{position:relative;border-radius:18px;padding:10px 14px;max-width:100%;box-shadow:0 4px 14px rgba(15,23,60,0.08);}
+.msg-row.them .msg-bubble{background:#fff;color:#1a1d26;border:1px solid rgba(0,0,139,0.06);border-top-left-radius:6px;}
+.msg-row.me .msg-bubble{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));border-top-right-radius:6px;}
+.msg-who{font-size:10px;font-weight:700;color:var(--kb-primary,#00008b);margin-bottom:3px;}
+.msg-row.me .msg-who{display:none;}
+.msg-body{font-size:13px;line-height:1.45;white-space:pre-wrap;word-break:break-word;}
+.msg-row.them .msg-body{color:#1a1d26;}
+.msg-row.me .msg-body{color:#fff;}
+.msg-when{font-size:9px;margin-top:5px;color:#9aa3b8;}
+.msg-row.me .msg-when{color:rgba(255,255,255,0.72);}
+.msg-form{flex:0 0 auto;display:flex;align-items:center;gap:0;padding:8px 2px 4px;background:#f7f8fc;}
+.msg-composer{flex:1;display:flex;align-items:center;gap:6px;min-height:48px;padding:6px 6px 6px 16px;border-radius:9999px;background:#fff;border:1px solid #e4e7f0;box-shadow:0 4px 16px rgba(15,23,60,0.06);}
+.msg-input{flex:1;min-width:0;border:none;outline:none;background:transparent;padding:8px 0;font:inherit;font-size:13px;color:#111;}
+.msg-input::placeholder{color:#a0a8bb;}
+.msg-send{flex-shrink:0;width:36px;height:36px;border:none;border-radius:50%;padding:0;display:inline-flex;align-items:center;justify-content:center;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;cursor:pointer;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));font-family:inherit;}
+.msg-send svg{display:block;width:16px;height:16px;}
+.msg-send:disabled{opacity:0.55;cursor:default;}
+.msg-empty{font-size:12px;color:#7a85a0;text-align:center;padding:36px 16px;line-height:1.5;}
+.cd-sheet{position:fixed;inset:0;background:rgba(15,23,42,0.4);z-index:90;display:none;align-items:flex-end;justify-content:center;padding:16px;backdrop-filter:blur(4px);}
+.cd-sheet.open{display:flex;}
+.cd-sheet-card{width:min(420px,100%);background:var(--kb-glass-bg,rgba(255,255,255,0.88));border:1px solid var(--kb-glass-border,rgba(0,0,139,0.1));border-radius:18px;padding:8px;box-shadow:0 18px 50px rgba(0,0,56,0.18);backdrop-filter:var(--kb-glass-blur,blur(16px));-webkit-backdrop-filter:var(--kb-glass-blur,blur(16px));}
+.cd-sheet-title{font-size:12px;color:#7a85a0;padding:10px 12px 6px;font-weight:600;}
+.cd-sheet-btn{display:block;width:100%;text-align:left;border:none;background:transparent;padding:14px 12px;font:inherit;font-size:14px;font-weight:600;color:#111;border-radius:12px;cursor:pointer;}
+.cd-sheet-btn:hover{background:rgba(244,246,251,0.9);}
+.cd-sheet-btn.danger{color:#a32d2d;}
+.cd-sheet-btn.cancel{color:#7a85a0;font-weight:500;margin-top:4px;border-top:1px solid #eef0f8;border-radius:0 0 12px 12px;}
+.cd-dm{position:fixed;inset:0;background:rgba(15,23,42,0.4);z-index:95;display:none;align-items:flex-end;justify-content:center;padding:16px;backdrop-filter:blur(4px);}
+.cd-dm.open{display:flex;}
+.cd-dm-card{width:min(420px,100%);max-height:80vh;background:var(--kb-glass-bg,rgba(255,255,255,0.88));border:1px solid var(--kb-glass-border,rgba(0,0,139,0.1));border-radius:18px;padding:14px;box-shadow:0 18px 50px rgba(0,0,56,0.18);display:flex;flex-direction:column;gap:10px;backdrop-filter:var(--kb-glass-blur,blur(16px));-webkit-backdrop-filter:var(--kb-glass-blur,blur(16px));}
+.cd-dm-head{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.cd-dm-title{font-size:14px;font-weight:700;color:var(--kb-primary,#00008b);}
+.cd-dm-close{border:none;background:transparent;padding:0;margin:0 0 0 auto;width:auto;height:auto;border-radius:0;cursor:pointer;font-size:20px;line-height:1;font-weight:500;color:inherit;font-family:inherit;flex-shrink:0;}
+.cd-dm-list{flex:1;overflow:auto;min-height:160px;max-height:46vh;border:1px solid rgba(0,0,139,0.08);border-radius:14px;padding:12px;background:#f7f8fc;display:flex;flex-direction:column;gap:12px;}
+.cd-dm-row{display:flex;align-items:flex-start;gap:8px;max-width:90%;}
+.cd-dm-row.them{align-self:flex-start;}
+.cd-dm-row.me{align-self:flex-end;flex-direction:row-reverse;}
+.cd-dm-av{width:28px;height:28px;border-radius:50%;background:var(--kb-navy,#00008b);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.cd-dm-av img{width:100%;height:100%;object-fit:cover;}
+.cd-dm-row.me .cd-dm-av{display:none;}
+.cd-dm-bubble{border-radius:16px;padding:9px 12px;box-shadow:0 3px 12px rgba(15,23,60,0.08);}
+.cd-dm-row.them .cd-dm-bubble{background:#fff;border:1px solid rgba(0,0,139,0.06);border-top-left-radius:5px;}
+.cd-dm-row.me .cd-dm-bubble{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));border-top-right-radius:5px;}
+.cd-dm-who{font-size:10px;font-weight:700;color:var(--kb-primary,#00008b);margin-bottom:2px;}
+.cd-dm-row.me .cd-dm-who{display:none;}
+.cd-dm-body{font-size:13px;line-height:1.4;white-space:pre-wrap;word-break:break-word;}
+.cd-dm-row.me .cd-dm-body{color:#fff;}
+.cd-dm-when{font-size:9px;color:#9aa3b8;margin-top:4px;}
+.cd-dm-row.me .cd-dm-when{color:rgba(255,255,255,0.72);}
+.cd-dm-empty{font-size:12px;color:#7a85a0;text-align:center;padding:24px 8px;}
+.cd-dm-form{display:flex;align-items:center;}
+.cd-dm-composer{flex:1;display:flex;align-items:center;gap:6px;min-height:46px;padding:5px 5px 5px 14px;border-radius:9999px;background:#fff;border:1px solid #e4e7f0;box-shadow:0 3px 12px rgba(15,23,60,0.06);}
+.cd-dm-input{flex:1;min-width:0;border:none;outline:none;background:transparent;padding:8px 0;font:inherit;font-size:13px;}
+.cd-dm-input::placeholder{color:#a0a8bb;}
+.cd-dm-send{flex-shrink:0;width:34px;height:34px;border:none;border-radius:50%;padding:0;display:inline-flex;align-items:center;justify-content:center;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;cursor:pointer;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));font-family:inherit;}
+.cd-dm-send svg{display:block;width:15px;height:15px;}
+.cd-dm-send:disabled{opacity:0.55;}
+.mp-screen{position:fixed;inset:0;z-index:100;background:rgba(244,246,251,0.92);display:flex;flex-direction:column;overflow:hidden;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.mp-screen[hidden]{display:none!important;}
+.mp-topbar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 55%,#0a0aff 100%));flex-shrink:0;}
+.mp-back{border:none;background:rgba(255,255,255,0.15);color:#fff;width:34px;height:34px;border-radius:50%;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-family:inherit;}
+.mp-topbar-title{color:#fff;font-size:14px;font-weight:600;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mp-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 40px;display:flex;flex-direction:column;gap:12px;}
+.mp-hero{background:var(--kb-glass-bg,rgba(255,255,255,0.72));border:1px solid var(--kb-glass-border,rgba(0,0,139,0.1));border-radius:16px;padding:18px 14px 14px;box-shadow:0 6px 20px rgba(15,23,60,0.07);text-align:center;backdrop-filter:var(--kb-glass-blur,blur(14px));-webkit-backdrop-filter:var(--kb-glass-blur,blur(14px));}
+.mp-lifetime-lbl{font-size:10px;letter-spacing:0.06em;color:#7a85a0;text-transform:uppercase;font-weight:700;}
+.mp-lifetime-val{margin-top:4px;font-size:1.75rem;font-weight:800;color:var(--kb-primary,#00008b);letter-spacing:-0.02em;}
+.mp-id-row{display:flex;align-items:center;gap:12px;margin-top:14px;padding-top:12px;border-top:1px dashed #dde3f0;text-align:left;}
+.mp-av{width:52px;height:52px;border-radius:50%;background:var(--kb-navy,#00008b);color:#fff;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2px solid rgba(0,0,139,0.12);}
+.mp-av img{width:100%;height:100%;object-fit:cover;}
+.mp-id-info{flex:1;min-width:0;}
+.mp-name{font-size:1.02rem;font-weight:800;color:#111;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mp-handle{font-size:11px;color:#7a85a0;margin-top:2px;}
+.mp-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mp-action{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 14px;border-radius:9999px;font-family:inherit;font-size:0.86rem;font-weight:700;letter-spacing:-0.01em;cursor:pointer;text-decoration:none;border:none;box-sizing:border-box;}
+.mp-action--msg{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
+.mp-action--msg[disabled],.mp-action--msg.is-disabled{opacity:0.55;cursor:default;box-shadow:none;}
+.mp-action--view{background:rgba(255,255,255,0.8);color:var(--kb-primary,#00008b);border:1.5px solid rgba(0,0,139,0.18);box-shadow:0 2px 8px rgba(0,0,56,0.06);backdrop-filter:blur(8px);}
+.mp-section{background:var(--kb-glass-bg,rgba(255,255,255,0.72));border:1px solid var(--kb-glass-border,rgba(0,0,139,0.1));border-radius:14px;padding:12px 14px;box-shadow:0 2px 8px rgba(15,23,60,0.04);backdrop-filter:var(--kb-glass-blur,blur(14px));-webkit-backdrop-filter:var(--kb-glass-blur,blur(14px));}
+.mp-sec-title{font-size:10px;letter-spacing:0.06em;color:#7a85a0;text-transform:uppercase;font-weight:700;margin-bottom:10px;}
+.mp-mini-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.mp-mini{padding:9px 6px;background:rgba(244,246,251,0.9);border-radius:10px;text-align:center;border:1px solid #eef0f8;}
+.mp-mini-val{font-size:0.95rem;font-weight:800;color:var(--kb-primary,#00008b);}
+.mp-mini-lbl{font-size:9px;color:#7a85a0;margin-top:2px;text-transform:uppercase;letter-spacing:0.04em;font-weight:600;}
+.mp-empty{font-size:12px;color:#7a85a0;text-align:center;padding:6px 0;}
+.mp-explore{display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(238,240,248,0.9);color:var(--kb-primary,#00008b);border-radius:12px;padding:11px 14px;text-decoration:none;font-size:12.5px;font-weight:700;margin-top:8px;}
+.mp-toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#111;color:#fff;font-size:12px;padding:10px 16px;border-radius:24px;box-shadow:0 8px 24px rgba(0,0,0,0.25);z-index:200;pointer-events:none;opacity:0;transition:opacity 0.2s;}
+.mp-toast.is-visible{opacity:1;}
+@media (prefers-reduced-motion: reduce) {
+  .cd-tab-slider,.cd-panels,.cd-swipe-hint .arrow{transition:none;animation:none;}
+}
 </style>
 
-<h2 class="sr-only">KibbiSave community detail screen for Land in Wakiso</h2>
-
 <div class="wrap">
-<div class="phone">
-
-<div class="topbar">
-  <button class="back">
-    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-  </button>
-  <span class="tb-title">Community details</span>
-  <button class="tb-share">
-    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-  </button>
-</div>
-
-<div class="hero">
-  <div class="hero-cat">Land · Kampala region</div>
-  <div class="hero-name">Land in Wakiso</div>
-  <div class="hero-location">
-    <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-    Wakiso District, Uganda
-    <span style="margin-left:6px;background:rgba(255,255,255,0.15);color:#fff;font-size:9px;padding:2px 8px;border-radius:20px;">Open to all</span>
-  </div>
-  <div class="hero-desc">
-    "We are a community of working people saving together to buy land in Wakiso before prices go up. Anyone can join a group that fits their saving range — deposit anytime, no pressure."
-    <div class="hero-desc-author">— Faith A., cause creator</div>
-  </div>
-  <div class="hero-stats">
-    <div class="hstat">
-      <div class="hstat-val">247</div>
-      <div class="hstat-lbl">Members</div>
+<div class="col">
+  <div class="cd-chrome" id="cd-chrome">
+    <div class="cd-sticky">
+      <div class="cd-toolbar">
+        <button type="button" class="cd-back" id="cd-back" aria-label="Back to communities">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="cd-sticky-name" id="cd-sticky-name">Loading…</div>
+        <button type="button" class="cd-share" id="cd-share" aria-label="Share community">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="18" cy="5" r="2.35" stroke="currentColor" stroke-width="1.9"/>
+            <circle cx="6" cy="12" r="2.35" stroke="currentColor" stroke-width="1.9"/>
+            <circle cx="18" cy="19" r="2.35" stroke="currentColor" stroke-width="1.9"/>
+            <path d="M8.2 10.9l7.6-4.3M8.2 13.1l7.6 4.3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
     </div>
-    <div class="hstat">
-      <div class="hstat-val">31</div>
-      <div class="hstat-lbl">Groups</div>
+    <div class="cd-hero" id="cd-hero">
+      <div class="cd-title-block">
+        <div class="cd-name" id="cd-name">Loading…</div>
+        <div class="cd-loc" id="cd-loc">—</div>
+      </div>
+      <div class="cd-about" id="cd-about"></div>
+      <div class="cd-stats">
+        <div class="cd-stat"><div class="cd-stat-val" id="cd-members">0</div><div class="cd-stat-lbl">Members</div></div>
+        <div class="cd-stat"><div class="cd-stat-val" id="cd-start">—</div><div class="cd-stat-lbl">Start date</div></div>
+        <div class="cd-stat"><div class="cd-stat-val" id="cd-total-saved">UGX 0</div><div class="cd-stat-lbl">Total savings</div></div>
+      </div>
+      <div class="cd-prog-wrap"><div class="cd-prog" id="cd-prog"></div></div>
+      <div class="cd-prog-row">
+        <span class="cd-prog-lbl" id="cd-saved">UGX 0 saved</span>
+        <span class="cd-prog-lbl" id="cd-pct">0%</span>
+      </div>
     </div>
-  </div>
-</div>
 
-<div class="prog-section">
-  <div class="prog-head">
-    <span class="prog-lbl">Cause total savings progress</span>
-    <span class="prog-pct">65%</span>
-  </div>
-  <div class="prog-wrap"><div class="prog-bar"></div></div>
-  <div class="prog-sub">
-    <span class="prog-sub-lbl">Raised across all groups</span>
-    <span class="prog-sub-val">UGX 325,000,000</span>
-  </div>
-</div>
-
-<div class="info-row">
-  <div class="info-box">
-    <div>
-      <div class="info-lbl">Interest rate</div>
-      <div class="info-val">5.6% p.a.</div>
-      <div class="info-sub">Earned on hitting your group target</div>
-    </div>
-    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#00008b" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-  </div>
-</div>
-
-<div class="sec">
-  <div class="sec-head">
-    <span class="sec-title">Member standings</span>
-    <span class="sec-sub">Race to the top</span>
-  </div>
-
-  <div class="member-row">
-    <div class="m-rank-block"><span class="m-rank rank-1">1</span><span class="m-mv mv-up">▲</span></div>
-    <div class="m-av" style="background:#1a6e35;">FA</div>
-    <div class="m-info">
-      <div class="m-name">Faith A.</div>
-      <div class="m-group">Kampala Hustlers</div>
-      <div class="m-closes">Closes 30 Jun 2026</div>
-    </div>
-    <div class="m-right">
-      <span class="m-avg ahead">+4.20%</span>
-      <span class="m-avg-lbl">avg lead</span>
-      <span class="m-amt">UGX 420k</span>
-      <div class="m-bar-wrap"><div class="m-bar" style="width:100%"></div></div>
-      <span class="m-indpct">84% of target</span>
+    <div class="cd-tabs" role="tablist" aria-label="Community sections">
+      <div class="cd-tab-slider" id="cd-tab-slider" aria-hidden="true"></div>
+      <button type="button" class="cd-tab is-active" role="tab" id="tab-standings" aria-selected="true" aria-controls="panel-standings" data-tab="standings">Member standings</button>
+      <button type="button" class="cd-tab" role="tab" id="tab-messages" aria-selected="false" aria-controls="panel-messages" data-tab="messages">Messages</button>
     </div>
   </div>
 
-  <div class="member-row">
-    <div class="m-rank-block"><span class="m-rank rank-2">2</span><span class="m-mv mv-up">▲</span></div>
-    <div class="m-av" style="background:#c0392b;">BM</div>
-    <div class="m-info">
-      <div class="m-name">Brian M.</div>
-      <div class="m-group">Makerere Savers</div>
-      <div class="m-closes">Closes 10 Aug 2026</div>
+  <div class="cd-error" id="cd-error" role="alert"></div>
+  <div class="cd-ok" id="cd-ok"></div>
+
+  <div class="cd-body">
+    <div class="cd-swipe-hint" id="cd-swipe-hint" aria-hidden="true">
+      <span>Swipe for Messages</span>
+      <span class="arrow">››</span>
     </div>
-    <div class="m-right">
-      <span class="m-avg ahead">+3.80%</span>
-      <span class="m-avg-lbl">avg lead</span>
-      <span class="m-amt">UGX 380k</span>
-      <div class="m-bar-wrap"><div class="m-bar" style="width:90%"></div></div>
-      <span class="m-indpct">76% of target</span>
+    <div class="cd-panels-viewport" id="cd-panels-viewport">
+      <div class="cd-panels" id="cd-panels">
+        <div class="cd-panel" id="panel-standings" role="tabpanel" aria-labelledby="tab-standings">
+          <div class="sec-head">
+            <span class="sec-title">Race to the top</span>
+            <span class="race">🏁</span>
+          </div>
+          <div id="cd-standings">
+            <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+          </div>
+          <input class="cd-code" id="cd-code" placeholder="Enter the community join code">
+          <button class="cd-join" id="cd-join" hidden>Join Community</button>
+        </div>
+
+        <div class="cd-panel" id="panel-messages" role="tabpanel" aria-labelledby="tab-messages">
+          <div class="msg-panel locked" id="cd-msgs">
+            <div class="cd-gate">
+              <div class="cd-gate-title">Messages are for members</div>
+              <p>Join this community to unlock the chat.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="member-row">
-    <div class="m-rank-block"><span class="m-rank rank-3">3</span><span class="m-mv mv-sm">—</span></div>
-    <div class="m-av" style="background:#7b2d8b;">SR</div>
-    <div class="m-info">
-      <div class="m-name">Sarah R.</div>
-      <div class="m-group">Kampala Hustlers</div>
-      <div class="m-closes">Closes 30 Jun 2026</div>
-    </div>
-    <div class="m-right">
-      <span class="m-avg ahead">+2.10%</span>
-      <span class="m-avg-lbl">avg lead</span>
-      <span class="m-amt">UGX 310k</span>
-      <div class="m-bar-wrap"><div class="m-bar" style="width:74%"></div></div>
-      <span class="m-indpct">62% of target</span>
-    </div>
-  </div>
-
-  <div class="member-row">
-    <div class="m-rank-block"><span class="m-rank rank-n">4</span><span class="m-mv mv-sm">—</span></div>
-    <div class="m-av" style="background:#185fa5;">JO</div>
-    <div class="m-info">
-      <div class="m-name">James O.</div>
-      <div class="m-group">Gulu Circle</div>
-      <div class="m-closes">Closes 10 Jul 2026</div>
-    </div>
-    <div class="m-right">
-      <span class="m-avg ahead">+0.95%</span>
-      <span class="m-avg-lbl">avg lead</span>
-      <span class="m-amt">UGX 270k</span>
-      <div class="m-bar-wrap"><div class="m-bar" style="width:64%"></div></div>
-      <span class="m-indpct">54% of target</span>
-    </div>
-  </div>
-
-  <div class="member-row">
-    <div class="m-rank-block"><span class="m-rank rank-n">5</span><span class="m-mv mv-sm">—</span></div>
-    <div class="m-av" style="background:#d4a017;">PK</div>
-    <div class="m-info">
-      <div class="m-name">Peter K.</div>
-      <div class="m-group">Makerere Savers</div>
-      <div class="m-closes">Closes 10 Aug 2026</div>
-    </div>
-    <div class="m-right">
-      <span class="m-avg even">0.00%</span>
-      <span class="m-avg-lbl">avg lead</span>
-      <span class="m-amt">UGX 240k</span>
-      <div class="m-bar-wrap"><div class="m-bar" style="width:57%"></div></div>
-      <span class="m-indpct">48% of target</span>
-    </div>
-  </div>
-
-  <div class="member-row">
-    <div class="m-rank-block"><span class="m-rank rank-n">6</span><span class="m-mv mv-dn">▼</span></div>
-    <div class="m-av" style="background:#00008b;">NK</div>
-    <div class="m-info">
-      <div class="m-name">Naomi K.</div>
-      <div class="m-group">Kampala Hustlers</div>
-      <div class="m-closes">Closes 30 Jun 2026</div>
-    </div>
-    <div class="m-right">
-      <span class="m-avg behind">-0.80%</span>
-      <span class="m-avg-lbl">avg lead</span>
-      <span class="m-amt">UGX 220k</span>
-      <div class="m-bar-wrap"><div class="m-bar" style="width:52%"></div></div>
-      <span class="m-indpct">44% of target</span>
-    </div>
-  </div>
-
-  <div class="member-row" style="background:#f0f2ff;border-radius:10px;padding:9px 10px;margin:0 -4px;">
-    <div class="m-rank-block"><span class="m-rank rank-n">7</span><span class="m-mv mv-dn">▼</span></div>
-    <div class="m-av" style="background:#5f5e5a;">AN</div>
-    <div class="m-info">
-      <div class="m-name">Andrew N. <span class="you-tag">You</span></div>
-      <div class="m-group">Makerere Savers</div>
-      <div class="m-closes">Closes 10 Aug 2026</div>
-    </div>
-    <div class="m-right">
-      <span class="m-avg behind">-1.80%</span>
-      <span class="m-avg-lbl">avg lead</span>
-      <span class="m-amt">UGX 190k</span>
-      <div class="m-bar-wrap"><div class="m-bar" style="width:45%"></div></div>
-      <span class="m-indpct">38% of target</span>
-    </div>
-  </div>
-
-  <div class="member-row">
-    <div class="m-rank-block"><span class="m-rank rank-n">8</span><span class="m-mv mv-dn">▼</span></div>
-    <div class="m-av" style="background:#c0392b;">AM</div>
-    <div class="m-info">
-      <div class="m-name">Ali M.</div>
-      <div class="m-group">Gulu Circle</div>
-      <div class="m-closes">Closes 10 Jul 2026</div>
-    </div>
-    <div class="m-right">
-      <span class="m-avg behind">-3.20%</span>
-      <span class="m-avg-lbl">avg lead</span>
-      <span class="m-amt">UGX 155k</span>
-      <div class="m-bar-wrap"><div class="m-bar" style="width:37%"></div></div>
-      <span class="m-indpct">31% of target</span>
-    </div>
-  </div>
-
-</div>
-
-<div class="join-section">
-  <button class="join-btn">Join the cause</button>
-  <div class="join-sub">
-    <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#9aa0ac" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    Funds locked until your target is reached
-  </div>
-</div>
-
 </div>
 </div>
 
+<div class="cd-sheet" id="cd-sheet" hidden>
+  <div class="cd-sheet-card" role="dialog" aria-label="Member actions">
+    <div class="cd-sheet-title" id="cd-sheet-title">Member</div>
+    <button type="button" class="cd-sheet-btn danger" id="cd-sheet-remove">Remove person</button>
+    <button type="button" class="cd-sheet-btn" id="cd-sheet-message">Message person</button>
+    <button type="button" class="cd-sheet-btn cancel" id="cd-sheet-cancel">Cancel</button>
+  </div>
+</div>
+
+<div class="cd-dm" id="cd-dm" hidden>
+  <div class="cd-dm-card" role="dialog" aria-label="Message member">
+    <div class="cd-dm-head">
+      <div class="cd-dm-title" id="cd-dm-title">Message</div>
+      <button type="button" class="cd-dm-close" id="cd-dm-close" aria-label="Close">×</button>
+    </div>
+    <div class="cd-dm-list" id="cd-dm-list"><div class="cd-dm-empty">Loading…</div></div>
+    <form class="cd-dm-form" id="cd-dm-form">
+      <div class="cd-dm-composer">
+        <input class="cd-dm-input" id="cd-dm-input" maxlength="500" placeholder="Type message" autocomplete="off">
+        <button class="cd-dm-send" type="submit" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h12M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="mp-screen" id="mp-screen" hidden role="dialog" aria-modal="true" aria-labelledby="mp-topbar-title">
+  <div class="mp-topbar">
+    <button type="button" class="mp-back" id="mp-close" aria-label="Close member profile">←</button>
+    <div class="mp-topbar-title" id="mp-topbar-title">Member profile</div>
+  </div>
+  <div class="mp-body" id="mp-body">
+    <section class="mp-hero" aria-label="Lifetime savings">
+      <div class="mp-lifetime-lbl">Lifetime savings</div>
+      <div class="mp-lifetime-val" id="mp-lifetime">UGX 0</div>
+      <div class="mp-id-row">
+        <div class="mp-av" id="mp-av">—</div>
+        <div class="mp-id-info">
+          <div class="mp-name" id="mp-name">Loading…</div>
+          <div class="mp-handle" id="mp-handle">KibbiSave member</div>
+        </div>
+      </div>
+    </section>
+    <div class="mp-actions">
+      <button type="button" class="mp-action mp-action--msg kb-msg-btn" id="mp-msg-btn">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>Message</span>
+      </button>
+      <a class="mp-action mp-action--view" id="mp-view-btn" href="#">View full profile</a>
+    </div>
+    <section class="mp-section" aria-label="Savings snapshot">
+      <div class="mp-sec-title">Savings snapshot</div>
+      <div class="mp-mini-stats">
+        <div class="mp-mini"><div class="mp-mini-val" id="mp-groups-count">0</div><div class="mp-mini-lbl">Groups</div></div>
+        <div class="mp-mini"><div class="mp-mini-val" id="mp-pct">0%</div><div class="mp-mini-lbl">Goal reached</div></div>
+        <div class="mp-mini"><div class="mp-mini-val" id="mp-lead">0%</div><div class="mp-mini-lbl">Avg lead</div></div>
+      </div>
+    </section>
+    <section class="mp-section" aria-label="Explore">
+      <div class="mp-sec-title">Communities</div>
+      <a class="mp-explore" href="kibbisave_community_explore.html">Explore communities →</a>
+    </section>
+  </div>
+</div>
+<div class="mp-toast" id="mp-toast" role="status" aria-live="polite"></div>
 </main>
 <footer class="site-footer">KibbiSave — group savings for Uganda</footer>
-<script src="js/kibbisave-site.js"></script>
+
+<script src="js/kibbisave-site.js?v=cd-gate-flat-1"></script>
+<script src="js/kibbisave-panel-swipe.js?v=cd-gate-flat-1"></script>
+<script>
+(function () {
+  document.documentElement.classList.add('kb-cause-detail-open');
+  document.body.classList.add('kb-cause-detail-open');
+
+  var params = new URLSearchParams(window.location.search);
+  var id = params.get('id');
+  var wantMessages = String(params.get('tab') || '').toLowerCase() === 'messages';
+  var err = document.getElementById('cd-error');
+  var ok = document.getElementById('cd-ok');
+  var tabSlider = document.getElementById('cd-tab-slider');
+  var panels = document.getElementById('cd-panels');
+  var chrome = document.getElementById('cd-chrome');
+  var stickyName = document.getElementById('cd-sticky-name');
+  var messagesActivated = false;
+  var canUseMessages = false;
+  var community = null;
+  var authenticated = false;
+  var isMember = false;
+  var isCreator = false;
+  var viewerId = null;
+  var panelSwipe = null;
+  var applyingTab = false;
+  var currentTab = wantMessages ? 'messages' : 'standings';
+  var selectedMember = null;
+  var profileMember = null;
+  var LONG_MS = 520;
+
+  function showErr(m) { err.textContent = m || ''; err.style.display = m ? 'block' : 'none'; }
+  function showOk(m) { ok.textContent = m || ''; ok.style.display = m ? 'block' : 'none'; }
+  function fmtUGX(n) { return 'UGX ' + (Number(n) || 0).toLocaleString('en-US'); }
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    var d = new Date(iso);
+    return isNaN(d) ? '—' : d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function initials(name) {
+    return String(name || '?').trim().split(/\s+/).map(function (w) { return w[0]; }).slice(0, 2).join('').toUpperCase();
+  }
+  function fmtMsgTime(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d)) return '';
+    return d.toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+  }
+  function loginUrl() {
+    return '/login?tab=login&next=' + encodeURIComponent(window.location.pathname + window.location.search);
+  }
+
+  if (!id) { showErr('No community selected.'); return; }
+
+  var sheet = document.getElementById('cd-sheet');
+  var dm = document.getElementById('cd-dm');
+  var mpScreen = document.getElementById('mp-screen');
+
+  document.getElementById('cd-back').addEventListener('click', function () {
+    if (window.history.length > 1) history.back();
+    else window.location.href = 'kibbisave_community_explore.html';
+  });
+
+  function setChromeCompact(on) {
+    if (!chrome) return;
+    chrome.classList.toggle('is-compact', !!on);
+  }
+
+  function setMessagesChrome(on) {
+    if (!chrome) return;
+    chrome.classList.toggle('is-messages', !!on);
+  }
+
+  function activePanel() {
+    if (!panels) return null;
+    return currentTab === 'messages'
+      ? document.getElementById('panel-messages')
+      : document.getElementById('panel-standings');
+  }
+
+  function syncChromeFromScroll() {
+    if (currentTab === 'messages') {
+      setMessagesChrome(true);
+      return;
+    }
+    setMessagesChrome(false);
+    var panel = activePanel();
+    setChromeCompact(panel && panel.scrollTop > 28);
+  }
+
+  ['panel-standings', 'panel-messages'].forEach(function (pid) {
+    var el = document.getElementById(pid);
+    if (!el) return;
+    el.addEventListener('scroll', syncChromeFromScroll, { passive: true });
+  });
+
+  function applyTabUi(name, flags) {
+    flags = flags || {};
+    var isMsg = name === 'messages';
+    currentTab = isMsg ? 'messages' : 'standings';
+    document.querySelectorAll('.cd-tab').forEach(function (tab) {
+      var on = tab.getAttribute('data-tab') === (isMsg ? 'messages' : 'standings');
+      tab.classList.toggle('is-active', on);
+      tab.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    if (tabSlider) tabSlider.classList.toggle('is-messages', isMsg);
+    if (panels) panels.classList.toggle('is-messages', isMsg);
+    setMessagesChrome(isMsg);
+    if (!isMsg) setChromeCompact(false);
+    try {
+      var u = new URL(window.location.href);
+      if (isMsg) u.searchParams.set('tab', 'messages');
+      else u.searchParams.delete('tab');
+      history.replaceState(null, '', u.pathname + u.search);
+    } catch (e) {}
+    if (isMsg) {
+      if (canUseMessages) {
+        if (!messagesActivated) activateMessages();
+      } else {
+        renderMessagesGate();
+      }
+    }
+    syncChromeFromScroll();
+  }
+
+  function setTab(name, flags) {
+    flags = flags || {};
+    var isMsg = name === 'messages';
+    applyingTab = true;
+    if (panelSwipe) {
+      panelSwipe.snapTo(isMsg ? 1 : 0, { instant: !!flags.instant, silent: true });
+    } else if (panels) {
+      panels.style.transform = 'translateX(' + (isMsg ? -50 : 0) + '%)';
+    }
+    applyTabUi(name, flags);
+    applyingTab = false;
+  }
+
+  panelSwipe = typeof KibbiAttachPanelSwipe === 'function'
+    ? KibbiAttachPanelSwipe({
+        viewport: document.getElementById('cd-panels-viewport'),
+        track: panels,
+        hint: document.getElementById('cd-swipe-hint'),
+        labelNext: 'Messages',
+        labelPrev: 'Standings',
+        initialIndex: wantMessages ? 1 : 0,
+        onChange: function (index) {
+          if (applyingTab) return;
+          applyTabUi(index === 1 ? 'messages' : 'standings');
+        }
+      })
+    : null;
+
+  document.querySelectorAll('.cd-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      setTab(tab.getAttribute('data-tab'));
+    });
+  });
+
+  function closeSheet() {
+    sheet.classList.remove('open');
+    sheet.hidden = true;
+    selectedMember = null;
+  }
+  function openSheet(member) {
+    selectedMember = member;
+    document.getElementById('cd-sheet-title').textContent = member.display_name || 'Member';
+    sheet.hidden = false;
+    sheet.classList.add('open');
+  }
+  function closeDm() {
+    dm.classList.remove('open');
+    dm.hidden = true;
+  }
+  function closeProfile() {
+    mpScreen.hidden = true;
+    profileMember = null;
+  }
+  function toast(msg) {
+    var el = document.getElementById('mp-toast');
+    el.textContent = msg;
+    el.classList.add('is-visible');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { el.classList.remove('is-visible'); }, 2200);
+  }
+
+  document.getElementById('cd-sheet-cancel').addEventListener('click', closeSheet);
+  sheet.addEventListener('click', function (e) { if (e.target === sheet) closeSheet(); });
+  document.getElementById('cd-dm-close').addEventListener('click', closeDm);
+  dm.addEventListener('click', function (e) { if (e.target === dm) closeDm(); });
+  document.getElementById('mp-close').addEventListener('click', closeProfile);
+
+  function openMemberProfile(member) {
+    if (!member || !member.user_id) return;
+    if (viewerId && String(member.user_id) === String(viewerId)) {
+      window.location.href = 'kibbisave_profile_screen.html';
+      return;
+    }
+    profileMember = member;
+    mpScreen.hidden = false;
+    document.getElementById('mp-topbar-title').textContent = member.display_name || 'Member profile';
+    document.getElementById('mp-name').textContent = member.display_name || 'Member';
+    document.getElementById('mp-handle').textContent = 'KibbiSave member';
+    document.getElementById('mp-lifetime').textContent = fmtUGX(member.total_savings);
+    document.getElementById('mp-groups-count').textContent = String(member.active_groups || 0);
+    document.getElementById('mp-pct').textContent = Math.round(Number(member.pct_reached) || 0) + '%';
+    document.getElementById('mp-lead').textContent = (Number(member.avg_lead) || 0).toFixed(1) + '%';
+    var av = document.getElementById('mp-av');
+    av.innerHTML = member.avatar_url
+      ? '<img src="' + esc(member.avatar_url) + '" alt="">'
+      : esc(initials(member.display_name));
+    document.getElementById('mp-view-btn').href =
+      'kibbisave_home_final.html?user=' + encodeURIComponent(member.user_id);
+
+    fetch('/api/users/' + encodeURIComponent(member.user_id) + '/home', { credentials: 'omit' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.profile) return;
+        document.getElementById('mp-lifetime').textContent = fmtUGX(d.profile.lifetime_savings || d.profile.total_savings || member.total_savings);
+        if (d.profile.display_name) document.getElementById('mp-name').textContent = d.profile.display_name;
+        if (d.stats) {
+          if (d.stats.active_groups != null) document.getElementById('mp-groups-count').textContent = String(d.stats.active_groups);
+          if (d.stats.pct_reached != null) document.getElementById('mp-pct').textContent = Math.round(d.stats.pct_reached) + '%';
+          if (d.stats.avg_lead != null) document.getElementById('mp-lead').textContent = Number(d.stats.avg_lead).toFixed(1) + '%';
+        }
+      })
+      .catch(function () {});
+  }
+
+  document.getElementById('mp-msg-btn').addEventListener('click', function () {
+    if (!profileMember) return;
+    if (!authenticated) {
+      window.location.href = loginUrl() + '&member=' + encodeURIComponent(profileMember.user_id);
+      return;
+    }
+    if (!isMember) {
+      toast('Join this community to message members');
+      return;
+    }
+    if (isCreator) {
+      closeProfile();
+      openSheet(profileMember);
+      document.getElementById('cd-sheet-message').click();
+      return;
+    }
+    closeProfile();
+    setTab('messages');
+    toast('Opened community messages');
+  });
+
+  document.getElementById('cd-sheet-remove').addEventListener('click', function () {
+    if (!selectedMember || !selectedMember.user_id) return;
+    var name = selectedMember.display_name || 'this person';
+    if (!window.confirm('Remove ' + name + ' from this community?')) return;
+    var uid = selectedMember.user_id;
+    closeSheet();
+    fetch('/api/communities/' + encodeURIComponent(id) + '/members/' + encodeURIComponent(uid), {
+      method: 'DELETE',
+      credentials: 'include'
+    })
+      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, body: b }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.body.error || 'Could not remove member');
+        showOk(name + ' was removed from the community.');
+        loadCommunity();
+      })
+      .catch(function (e) { showErr(e.message || 'Could not remove member'); });
+  });
+
+  function openDmChat(member) {
+    closeSheet();
+    document.getElementById('cd-dm-title').textContent = 'Message ' + (member.display_name || 'member');
+    dm.hidden = false;
+    dm.classList.add('open');
+    var listEl = document.getElementById('cd-dm-list');
+    var form = document.getElementById('cd-dm-form');
+    var input = document.getElementById('cd-dm-input');
+    var messages = [];
+    var uid = member.user_id;
+
+    function render() {
+      if (!messages.length) {
+        listEl.innerHTML = '<div class="cd-dm-empty">No messages yet — say hello.</div>';
+        return;
+      }
+      listEl.innerHTML = messages.map(function (m) {
+        var mine = viewerId && m.user_id && String(m.user_id) === String(viewerId);
+        var av = m.avatar_url
+          ? '<img src="' + esc(m.avatar_url) + '" alt="">'
+          : esc(initials(m.display_name));
+        return '<div class="cd-dm-row ' + (mine ? 'me' : 'them') + '">' +
+          '<div class="cd-dm-av">' + av + '</div>' +
+          '<div class="cd-dm-bubble">' +
+            '<div class="cd-dm-who">' + esc(m.display_name || 'Member') + '</div>' +
+            '<div class="cd-dm-body">' + esc(m.body) + '</div>' +
+            '<div class="cd-dm-when">' + esc(fmtMsgTime(m.created_at)) + '</div>' +
+          '</div></div>';
+      }).join('');
+      listEl.scrollTop = listEl.scrollHeight;
+    }
+
+    function loadMsgs() {
+      listEl.innerHTML = '<div class="cd-dm-empty">Loading…</div>';
+      return fetch('/api/communities/' + encodeURIComponent(id) + '/members/' + encodeURIComponent(uid) + '/messages', {
+        credentials: 'include'
+      })
+        .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, body: b }; }); })
+        .then(function (res) {
+          if (!res.ok) {
+            listEl.innerHTML = '<div class="cd-dm-empty">' + esc(res.body.error || 'Could not load messages') + '</div>';
+            return;
+          }
+          messages = res.body.messages || [];
+          render();
+        })
+        .catch(function () {
+          listEl.innerHTML = '<div class="cd-dm-empty">Could not load messages.</div>';
+        });
+    }
+
+    form.onsubmit = function (e) {
+      e.preventDefault();
+      var body = input.value.trim();
+      if (!body) return;
+      var btn = form.querySelector('.cd-dm-send');
+      btn.disabled = true;
+      fetch('/api/communities/' + encodeURIComponent(id) + '/members/' + encodeURIComponent(uid) + '/messages', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ body: body })
+      })
+        .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, body: b }; }); })
+        .then(function (res) {
+          btn.disabled = false;
+          if (!res.ok) {
+            showErr(res.body.error || 'Could not send message');
+            return;
+          }
+          input.value = '';
+          if (res.body.message) {
+            messages.push(res.body.message);
+            render();
+          } else {
+            loadMsgs();
+          }
+        })
+        .catch(function () {
+          btn.disabled = false;
+          showErr('Could not send message');
+        });
+    };
+
+    loadMsgs();
+  }
+
+  document.getElementById('cd-sheet-message').addEventListener('click', function () {
+    if (!selectedMember || !selectedMember.user_id) return;
+    var member = selectedMember;
+    fetch('/api/communities/' + encodeURIComponent(id) + '/members/' + encodeURIComponent(member.user_id) + '/open-chat', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}'
+    })
+      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, body: b }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.body.error || 'Could not open chat');
+        if (res.body.mode === 'group' && res.body.url) {
+          closeSheet();
+          window.location.href = res.body.url;
+          return;
+        }
+        openDmChat(member);
+      })
+      .catch(function (e) {
+        openDmChat(member);
+        if (e && e.message) showErr(e.message);
+      });
+  });
+
+  function bindLongPress(row, member) {
+    var timer = null;
+    var armed = false;
+
+    function clear() {
+      if (timer) { clearTimeout(timer); timer = null; }
+      row.classList.remove('is-pressing');
+    }
+    function fire(e) {
+      if (e) e.preventDefault();
+      armed = true;
+      clear();
+      openSheet(member);
+    }
+
+    row.addEventListener('contextmenu', function (e) { e.preventDefault(); fire(e); });
+    row.addEventListener('touchstart', function () {
+      armed = false;
+      row.classList.add('is-pressing');
+      timer = setTimeout(function () { fire(); }, LONG_MS);
+    }, { passive: true });
+    row.addEventListener('touchmove', clear, { passive: true });
+    row.addEventListener('touchend', function (e) {
+      clear();
+      if (armed) e.preventDefault();
+    });
+    row.addEventListener('touchcancel', clear);
+    row.addEventListener('mousedown', function (e) {
+      if (e.button !== 0) return;
+      armed = false;
+      row.classList.add('is-pressing');
+      timer = setTimeout(function () { fire(); }, LONG_MS);
+    });
+    row.addEventListener('mousemove', function () { if (timer) clear(); });
+    row.addEventListener('mouseup', clear);
+    row.addEventListener('mouseleave', clear);
+    row.addEventListener('click', function (e) {
+      if (armed) {
+        e.preventDefault();
+        e.stopPropagation();
+        armed = false;
+        return;
+      }
+      openMemberProfile(member);
+    });
+  }
+
+  function renderMessagesGate() {
+    var panel = document.getElementById('cd-msgs');
+    messagesActivated = false;
+    panel.classList.add('locked');
+    if (!authenticated) {
+      panel.innerHTML =
+        '<div class="cd-gate">' +
+          '<div class="cd-gate-title">Messages are for members</div>' +
+          '<p>Log in and join this community to chat with other members.</p>' +
+          '<a class="cd-gate-btn kb-msg-btn" href="' + esc(loginUrl()) + '">Log in to continue</a>' +
+        '</div>';
+      return;
+    }
+    panel.innerHTML =
+      '<div class="cd-gate">' +
+        '<div class="cd-gate-title">Join to unlock messages</div>' +
+        '<p>Community chat is available once you join this community.</p>' +
+        '<button type="button" class="cd-gate-btn kb-msg-btn" id="cd-msgs-join-cta">Join Community</button>' +
+      '</div>';
+    var cta = document.getElementById('cd-msgs-join-cta');
+    if (cta) {
+      cta.addEventListener('click', function () {
+        setTab('standings');
+        var joinBtn = document.getElementById('cd-join');
+        if (joinBtn && !joinBtn.hidden) {
+          joinBtn.focus();
+          if (community && community.is_public) joinBtn.click();
+        }
+      });
+    }
+  }
+
+  function activateMessages() {
+    messagesActivated = true;
+    var panel = document.getElementById('cd-msgs');
+    panel.classList.remove('locked');
+    panel.innerHTML =
+      '<div class="msg-list" id="cd-msg-list"><div class="msg-empty">Loading…</div></div>' +
+      '<form class="msg-form" id="cd-msg-form">' +
+        '<div class="msg-composer">' +
+          '<input class="msg-input" id="cd-msg-input" maxlength="500" placeholder="Type message" autocomplete="off">' +
+          '<button class="msg-send kb-msg-btn" type="submit" aria-label="Send">' +
+            '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h12M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+          '</button>' +
+        '</div>' +
+      '</form>';
+
+    var listEl = document.getElementById('cd-msg-list');
+    var form = document.getElementById('cd-msg-form');
+    var input = document.getElementById('cd-msg-input');
+    var messages = [];
+
+    function render() {
+      if (!messages.length) {
+        listEl.innerHTML = '<div class="msg-empty">No messages yet — say hello to your community.</div>';
+        return;
+      }
+      listEl.innerHTML = messages.map(function (m) {
+        var mine = viewerId && m.user_id && String(m.user_id) === String(viewerId);
+        var av = m.avatar_url
+          ? '<img src="' + esc(m.avatar_url) + '" alt="">'
+          : esc(initials(m.display_name));
+        return '<div class="msg-row ' + (mine ? 'me' : 'them') + '">' +
+          '<div class="msg-av">' + av + '</div>' +
+          '<div class="msg-bubble">' +
+            '<div class="msg-who">' + esc(m.display_name || 'Member') + '</div>' +
+            '<div class="msg-body">' + esc(m.body) + '</div>' +
+            '<div class="msg-when">' + esc(fmtMsgTime(m.created_at)) + '</div>' +
+          '</div></div>';
+      }).join('');
+      listEl.scrollTop = listEl.scrollHeight;
+    }
+
+    function loadMsgs() {
+      return fetch('/api/communities/' + encodeURIComponent(id) + '/messages', { credentials: 'include' })
+        .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, status: r.status, body: b }; }); })
+        .then(function (res) {
+          if (!res.ok) {
+            if (res.status === 401) {
+              listEl.innerHTML = '<div class="msg-empty">Log in to view messages. <a href="' + esc(loginUrl()) + '">Log in</a></div>';
+              return;
+            }
+            listEl.innerHTML = '<div class="msg-empty">' + esc(res.body.error || 'Could not load messages') + '</div>';
+            return;
+          }
+          messages = res.body.messages || [];
+          render();
+        })
+        .catch(function () {
+          listEl.innerHTML = '<div class="msg-empty">Could not load messages.</div>';
+        });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var body = input.value.trim();
+      if (!body) return;
+      var btn = form.querySelector('.msg-send');
+      btn.disabled = true;
+      fetch('/api/communities/' + encodeURIComponent(id) + '/messages', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ body: body })
+      })
+        .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, body: b }; }); })
+        .then(function (res) {
+          btn.disabled = false;
+          if (!res.ok) {
+            showErr(res.body.error || 'Could not send message');
+            return;
+          }
+          input.value = '';
+          if (res.body.message) {
+            messages.push(res.body.message);
+            render();
+          } else {
+            loadMsgs();
+          }
+        })
+        .catch(function () {
+          btn.disabled = false;
+          showErr('Could not send message');
+        });
+    });
+
+    loadMsgs();
+  }
+
+  document.getElementById('cd-share').addEventListener('click', function () {
+    var link = window.location.origin + '/kibbisave_cause_detail.html?id=' + id;
+    if (navigator.share) { navigator.share({ title: 'Join my KibbiSave community', url: link }); }
+    else {
+      navigator.clipboard && navigator.clipboard.writeText(link);
+      showOk('Link copied: ' + link);
+    }
+  });
+
+  function renderStandings(st) {
+    var box = document.getElementById('cd-standings');
+    st = st || [];
+    if (!st.length) {
+      box.innerHTML = '<div class="empty">No members yet — be the first to join.</div>';
+      return;
+    }
+    box.innerHTML = st.map(function (m) {
+      var lead = Number(m.avg_lead) || 0;
+      var mpct = Math.max(0, Math.min(100, Number(m.pct_reached) || 0));
+      var rank = m.rank || 1;
+      return '<article class="member" role="button" tabindex="0" data-user-id="' + esc(m.user_id || '') + '">' +
+        '<div class="m-top">' +
+          '<div class="m-rank r' + rank + '">' + rank + '</div>' +
+          '<div class="m-av">' + (m.avatar_url ? '<img src="' + esc(m.avatar_url) + '" alt="">' : esc(initials(m.display_name))) + '</div>' +
+          '<div class="m-info">' +
+            '<div class="m-name">' + esc(m.display_name || 'Member') + '</div>' +
+            '<div class="m-sub">Goal ' + fmtUGX(m.total_goal) +
+              (m.group_name ? ' · ' + esc(m.group_name) : '') + '</div>' +
+          '</div>' +
+          '<div class="m-right">' +
+            '<div class="m-amt">' + fmtUGX(m.total_savings) + '</div>' +
+            '<div class="m-amt-lbl">savings</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="m-prog-wrap"><div class="m-prog" style="width:' + mpct + '%"></div></div>' +
+        '<div class="m-foot">' +
+          '<span class="m-sub">Rank #' + rank + ' in community</span>' +
+          '<span class="m-lead ' + (lead >= 0 ? 'ahead' : 'behind') + '">' +
+            (lead > 0 ? '+' : '') + lead.toFixed(2) + '%</span>' +
+        '</div>' +
+      '</article>';
+    }).join('');
+
+    box.querySelectorAll('.member').forEach(function (row, i) {
+      var m = st[i];
+      if (isCreator && m && m.user_id && String(m.user_id) !== String(viewerId)) {
+        bindLongPress(row, m);
+      } else {
+        row.addEventListener('click', function () { openMemberProfile(m); });
+        row.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openMemberProfile(m); }
+        });
+      }
+    });
+  }
+
+  function loadCommunity() {
+    fetch('/api/communities/' + id, { credentials: 'include' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d.error) { showErr(d.error); document.getElementById('cd-standings').innerHTML = ''; return; }
+        community = d.community;
+        authenticated = Boolean(d.authenticated);
+        isMember = Boolean(d.is_member);
+        isCreator = Boolean(d.is_creator);
+        viewerId = d.viewer_id || null;
+        canUseMessages = isMember;
+
+        document.getElementById('cd-name').textContent = community.name;
+        if (stickyName) stickyName.textContent = community.name;
+        document.getElementById('cd-loc').textContent =
+          (community.city ? community.city + ', ' : '') + (community.country || 'Uganda');
+        document.getElementById('cd-about').textContent = community.about || '';
+        document.getElementById('cd-members').textContent = community.total_members || d.member_count || 0;
+        document.getElementById('cd-start').textContent = fmtDate(community.created_at);
+        document.getElementById('cd-total-saved').textContent = fmtUGX(community.total_saved);
+        var pct = Math.max(0, Math.min(100, Number(community.pct_reached) || 0));
+        document.getElementById('cd-prog').style.width = pct + '%';
+        document.getElementById('cd-saved').textContent = fmtUGX(community.total_saved) + ' saved';
+        document.getElementById('cd-pct').textContent = pct + '%';
+
+        renderStandings(d.standings || []);
+
+        var joinBtn = document.getElementById('cd-join');
+        var codeInput = document.getElementById('cd-code');
+        if (!isMember) {
+          joinBtn.hidden = false;
+          if (!community.is_public) {
+            joinBtn.textContent = 'Request to Join';
+            codeInput.style.display = 'block';
+            var codeParam = params.get('code');
+            if (codeParam) codeInput.value = codeParam;
+          } else {
+            joinBtn.textContent = 'Join Community';
+            codeInput.style.display = 'none';
+          }
+          joinBtn.onclick = function () {
+            if (!authenticated) {
+              window.location.href = loginUrl();
+              return;
+            }
+            joinBtn.disabled = true;
+            fetch('/api/communities/' + id + '/join', {
+              method: 'POST', credentials: 'include',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ code: codeInput.value || null })
+            })
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+              joinBtn.disabled = false;
+              if (res.error) return showErr(res.error);
+              showOk('You joined ' + community.name + '! Member standings and messages are unlocked.');
+              joinBtn.hidden = true;
+              codeInput.style.display = 'none';
+              loadCommunity();
+            })
+            .catch(function () { joinBtn.disabled = false; showErr('Could not join. Try again.'); });
+          };
+        } else {
+          joinBtn.hidden = true;
+          codeInput.style.display = 'none';
+        }
+
+        if (!canUseMessages) {
+          renderMessagesGate();
+        } else if (wantMessages || messagesActivated) {
+          activateMessages();
+        }
+
+        if (wantMessages) setTab('messages');
+        else setTab('standings');
+      })
+      .catch(function () {
+        showErr('Could not reach the server. Refresh to retry.');
+        document.getElementById('cd-standings').innerHTML = '';
+      });
+  }
+
+  loadCommunity();
+})();
+</script>
 </body>
 </html>

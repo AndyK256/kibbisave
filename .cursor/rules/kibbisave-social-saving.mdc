@@ -1,0 +1,16 @@
+---
+description: KibbiSave is a social saving app — total savings not followers, Message side actions, history-aware back, cache where needed
+alwaysApply: true
+---
+
+# KibbiSave social saving product
+
+Before generating or editing KibbiSave features, profiles, groups, communities, messages, or navigation:
+
+1. **Read** `.cursor/skills/kibbisave-social-saving/SKILL.md` (and follow `check-project-rules` for brand).
+2. Treat KibbiSave as **social saving**: join/create groups; join communities with shared affinity.
+3. Profiles/members: hero is **total savings** (not followers). Keep **Message** as a primary side action.
+4. Do not add Follow/Follower UI unless explicitly requested.
+5. **Back** buttons: `history.back()` when possible, else parent list (Groups / Communities / Home).
+6. **Cache** stable list/detail data for snappy revisits; invalidate after join/deposit/create/message; never cache secrets.
+7. Keep group ↔ community parity (Member standings + Messages) and brand tokens from `kibbisave-brand-color.mdc`.

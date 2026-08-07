@@ -5,7 +5,7 @@ body.auth-page {
   display: flex;
   flex-direction: column;
   /* Uniform pure KibbiSave blue — no photo wash / muddy gradient */
-  background: #00008b;
+  background: var(--kb-navy, #00008b);
   background-image: none;
   color: #fff;
   /* Auth has no .site-header — undo fixed-chrome top offset from site.css */

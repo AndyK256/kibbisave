@@ -5,5 +5,8 @@
     { "source": "/login", "destination": "/login.html" },
     { "source": "/signup", "destination": "/signup.html" },
     { "source": "/", "destination": "/kibbisave_home_final.html" }
+  ],
+  "crons": [
+    { "path": "/api/cron", "schedule": "0 0 * * *" }
   ]
 }

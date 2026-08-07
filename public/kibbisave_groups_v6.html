@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Groups</title>
   <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css?v=brand-blue-1">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=back-top-1">
   <script>(function(){try{var v=sessionStorage.getItem('kibbi_auth_v1');if(v==='1')document.documentElement.classList.add('kb-authed');if(v==='0'||v==='1')document.documentElement.classList.add('kb-auth-known');if(localStorage.getItem('kibbi_dark_mode')==='1'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}}catch(e){}})();</script>
 </head>
 <body>
@@ -57,7 +57,7 @@
   bottom:0;
   width:50%;
   height:3.5px;
-  background:#00008b;
+  background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));
   border-radius:0;
   transform:translateX(0);
   transition:transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
@@ -70,12 +70,12 @@
   padding:14px 10px 16px;font:inherit;font-size:14px;font-weight:800;
   color:#9aa3b8;cursor:pointer;position:relative;letter-spacing:-0.01em;z-index:1;
 }
-.side-tab.is-active{color:#00008b;font-weight:900;}
+.side-tab.is-active{color: var(--kb-primary, #00008b);font-weight:900;}
 .side-tab .hint{display:block;font-size:9px;font-weight:600;color:#b0b8cc;margin-top:3px;letter-spacing:0;}
 .side-tab.is-active .hint{color:#7a85a0;font-weight:700;}
 
 .swipe-hint{display:flex;align-items:center;justify-content:center;gap:6px;font-size:10px;color:#9aa3b8;margin:10px 0 8px;padding:0 1.25rem;}
-.swipe-hint .arrow{color:#00008b;font-weight:700;letter-spacing:-0.04em;animation:nudge 1.6s ease-in-out infinite;}
+.swipe-hint .arrow{color: var(--kb-primary, #00008b);font-weight:700;letter-spacing:-0.04em;animation:nudge 1.6s ease-in-out infinite;}
 @keyframes nudge{0%,100%{transform:translateX(0);opacity:.7}50%{transform:translateX(4px);opacity:1}}
 
 /* Seamless horizontal panels */
@@ -136,27 +136,27 @@
 .gc-name{font-size:15px;font-weight:800;color:#111;}
 .gc-sub{font-size:10px;color:#7a85a0;margin-top:2px;}
 .gc-right{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;}
-.gc-val{font-size:13px;font-weight:600;color:#00008b;}
+.gc-val{font-size:13px;font-weight:600;color: var(--kb-primary, #00008b);}
 .gc-val-sub{font-size:10px;color:#7a85a0;}
 .gc-badge{display:inline-block;font-size:9px;font-weight:700;color:#1a6e35;background:#e6f4ea;padding:2px 8px;border-radius:20px;margin-top:4px;}
-.gc-badge.private{color:#00008b;background:#e8ecff;}
+.gc-badge.private{color: var(--kb-primary, #00008b);background:#e8ecff;}
 .gc-prog-row{display:flex;justify-content:space-between;align-items:center;margin-top:9px;margin-bottom:4px;}
 .gc-prog-lbl{font-size:10px;color:#7a85a0;}
-.gc-prog-pct{font-size:10px;font-weight:600;color:#00008b;}
+.gc-prog-pct{font-size:10px;font-weight:600;color: var(--kb-primary, #00008b);}
 .gc-prog-wrap{background:#eef0f8;border-radius:4px;height:5px;}
-.gc-prog{background:#00008b;height:5px;border-radius:4px;}
+.gc-prog{background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));height:5px;border-radius:4px;}
 .gc-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:9px;gap:8px;}
 .gc-dates{font-size:9px;color:#7a85a0;line-height:1.45;}
 .gc-dates .closes{color:#c0392b;font-weight:600;}
 .gc-lead{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;flex-shrink:0;}
 .gc-lead.ahead{background:#e6f4ea;color:#1a6e35;}
 .gc-lead.behind{background:#fdecea;color:#a32d2d;}
-.gc-join{display:block;width:100%;box-sizing:border-box;margin-top:12px;padding:12px 0;text-align:center;text-decoration:none;background:#00008b;color:#fff;font-size:13px;font-weight:600;border-radius:22px;border:none;cursor:pointer;}
+.gc-join{display:block;width:100%;box-sizing:border-box;margin-top:12px;padding:12px 0;text-align:center;text-decoration:none;background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;font-size:13px;font-weight:600;border-radius:22px;border:none;cursor:pointer;}
 .gc-join:hover{filter:brightness(1.08);}
 .gc-join:focus-visible{outline:2px solid #00008b;outline-offset:2px;}
 .create-row{display:flex;gap:8px;margin-bottom:12px;}
-.create-btn{flex:1;display:block;text-align:center;text-decoration:none;background:#00008b;color:#fff;border-radius:12px;padding:11px 12px;font-size:12px;font-weight:600;}
-.create-btn.secondary{background:#eef0f8;color:#00008b;}
+.create-btn{flex:1;display:block;text-align:center;text-decoration:none;background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;border-radius:12px;padding:11px 12px;font-size:12px;font-weight:600;}
+.create-btn.secondary{background:#eef0f8;color: var(--kb-primary, #00008b);}
 .kb-illus-wrap--footer{margin:0.75rem auto 0.15rem;}
 .open-create-cta{
   text-align:center;
@@ -258,7 +258,7 @@ body.dark .side-tab.is-active{color:var(--kb-cream,#f5f0e8);}
 </main>
 <footer class="site-footer site-footer--rich"></footer>
 
-<script src="js/kibbisave-site.js?v=groups-footer-2"></script>
+<script src="js/kibbisave-site.js?v=back-top-1"></script>
 <script src="js/kibbisave-groups.js?v=groups-load-1"></script>
 </body>
 </html>

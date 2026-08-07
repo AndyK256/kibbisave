@@ -1,8 +1,16 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const { findOrCreateGoogleUser } = require('../lib/users');
+const {
+  findOrCreateGoogleUser,
+  registerPasswordUser,
+  loginWithPassword,
+  completeUserProfile,
+  getUserAuthState,
+  isProfileComplete,
+} = require('../lib/users');
 const { sendWelcomeEmail } = require('../lib/email');
 const { signSession, COOKIE_OPTS } = require('../lib/session');
+const { requireAuth } = require('../middleware/auth');
 
 const PRODUCTION_URL = 'https://kibbisave.com';
 
@@ -27,16 +35,126 @@ function isGoogleConfigured() {
   );
 }
 
-router.get('/me', (req, res) => {
+function publicUser(user) {
+  if (!user) return null;
+  return {
+    id: user.id || user.userId,
+    email: user.email || null,
+    name: user.display_name || user.name || null,
+    picture: user.avatar_url || user.picture || null,
+    phone: user.phone || null,
+    firstName: user.first_name || null,
+    lastName: user.last_name || null,
+    district: user.district || user.location || null,
+    nationality: user.nationality || null,
+    nin: user.nin || null,
+    profileComplete: isProfileComplete(user),
+  };
+}
+
+function authError(res, err, fallbackStatus) {
+  const map = {
+    DATABASE_NOT_CONFIGURED: 503,
+    INVALID_PHONE: 400,
+    WEAK_PASSWORD: 400,
+    MISSING_NAME: 400,
+    MISSING_DISTRICT: 400,
+    INVALID_NIN: 400,
+    TERMS_REQUIRED: 400,
+    ACCOUNT_EXISTS: 409,
+    MISSING_CREDENTIALS: 400,
+    INVALID_CREDENTIALS: 401,
+    USER_NOT_FOUND: 404,
+  };
+  const status = map[err.code] || fallbackStatus || 500;
+  if (status >= 500) console.error('Auth error:', err);
+  return res.status(status).json({ error: err.message || 'Request failed', code: err.code || null });
+}
+
+router.get('/me', async (req, res) => {
   const token = req.cookies?.kibbisave_token;
   if (!token) {
     return res.json({ authenticated: false });
   }
   try {
-    const user = jwt.verify(token, process.env.JWT_SECRET);
-    return res.json({ authenticated: true, user });
+    const sessionUser = jwt.verify(token, process.env.JWT_SECRET);
+    try {
+      const state = await getUserAuthState(sessionUser);
+      return res.json({
+        authenticated: true,
+        profileComplete: state.profileComplete,
+        missingFields: state.missingFields,
+        user: publicUser(state.user || sessionUser),
+      });
+    } catch {
+      return res.json({
+        authenticated: true,
+        profileComplete: false,
+        missingFields: ['phone', 'nin', 'district', 'nationality'],
+        user: {
+          id: sessionUser.userId,
+          email: sessionUser.email,
+          name: sessionUser.name,
+          picture: sessionUser.picture,
+          profileComplete: false,
+        },
+      });
+    }
   } catch {
     return res.json({ authenticated: false });
+  }
+});
+
+router.post('/register', async (req, res) => {
+  try {
+    const user = await registerPasswordUser(req.body || {});
+    const token = signSession(user);
+    res.cookie('kibbisave_token', token, COOKIE_OPTS);
+    res.json({
+      success: true,
+      profileComplete: true,
+      user: publicUser(user),
+      redirect: '/kibbisave_home_final.html?signed_in=1',
+    });
+  } catch (err) {
+    return authError(res, err);
+  }
+});
+
+router.post('/login', async (req, res) => {
+  try {
+    const body = req.body || {};
+    const identifier = body.phone || body.email || body.identifier || body.mobile;
+    const user = await loginWithPassword(identifier, body.password);
+    const token = signSession(user);
+    res.cookie('kibbisave_token', token, COOKIE_OPTS);
+    const complete = isProfileComplete(user);
+    res.json({
+      success: true,
+      profileComplete: complete,
+      user: publicUser(user),
+      redirect: complete
+        ? '/kibbisave_home_final.html?signed_in=1'
+        : '/login?complete=1',
+    });
+  } catch (err) {
+    return authError(res, err);
+  }
+});
+
+router.post('/complete-profile', requireAuth, async (req, res) => {
+  try {
+    const user = await completeUserProfile(req.user, req.body || {});
+    const token = signSession(user);
+    res.cookie('kibbisave_token', token, COOKIE_OPTS);
+    res.json({
+      success: true,
+      profileComplete: true,
+      user: publicUser(user),
+      redirect: '/kibbisave_home_final.html?signed_in=1',
+    });
+  } catch (err) {
+    return authError(res, err);
   }
 });
 
@@ -111,7 +229,7 @@ router.get('/google/callback', async (req, res) => {
       picture: profile.picture,
     });
 
-    if (user.isNewUser) {
+    if (user.isNewUser && profile.email) {
       try {
         await sendWelcomeEmail({ to: profile.email, name: profile.name });
       } catch (emailErr) {
@@ -121,6 +239,10 @@ router.get('/google/callback', async (req, res) => {
 
     const token = signSession(user);
     res.cookie('kibbisave_token', token, COOKIE_OPTS);
+
+    if (!isProfileComplete(user)) {
+      return res.redirect(`${appUrl}/login?complete=1`);
+    }
     res.redirect(`${appUrl}/kibbisave_home_final.html?signed_in=1`);
   } catch (err) {
     console.error('Google callback error:', err);

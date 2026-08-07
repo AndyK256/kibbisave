@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Join group — KibbiSave</title>
   <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=back-top-1">
   <style>
     .jg-wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
     .jg-phone{width:340px;background:#fff;border-radius:24px;border:1px solid #dde3f0;overflow:hidden;}
-    .jg-top{background:#00008b;padding:16px 18px;}
+    .jg-top{background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));padding:16px 18px;}
     .jg-title{color:#fff;font-size:16px;font-weight:600;}
     .jg-sub{color:rgba(255,255,255,0.7);font-size:11px;margin-top:3px;}
     .jg-steps{display:flex;gap:6px;margin-top:12px;}
@@ -20,20 +20,20 @@
     .jg-lbl{font-size:11px;font-weight:600;color:#374057;margin-bottom:5px;display:block;}
     .jg-lbl .req{color:#c0392b;}
     .jg-input,.jg-select{width:100%;border:1px solid #dde3f0;border-radius:10px;padding:10px 12px;font-size:13px;color:#111;background:#f9fafd;outline:none;box-sizing:border-box;font-family:inherit;}
-    .jg-input:focus,.jg-select:focus{border-color:#00008b;background:#fff;}
+    .jg-input:focus,.jg-select:focus{border-color: var(--kb-primary, #00008b);background:#fff;}
     .jg-hint{font-size:10px;color:#7a85a0;margin-top:3px;}
-    .jg-chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;background:#e8eaf8;color:#00008b;font-weight:600;border-radius:20px;padding:4px 11px;margin:3px 4px 0 0;}
-    .jg-chip button{border:none;background:none;color:#00008b;cursor:pointer;font-size:12px;padding:0;line-height:1;}
-    .jg-btn{width:100%;background:#00008b;color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit;}
+    .jg-chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;background:#e8eaf8;color: var(--kb-primary, #00008b);font-weight:600;border-radius:20px;padding:4px 11px;margin:3px 4px 0 0;}
+    .jg-chip button{border:none;background:none;color: var(--kb-primary, #00008b);cursor:pointer;font-size:12px;padding:0;line-height:1;}
+    .jg-btn{width:100%;background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit;}
     .jg-btn:disabled{opacity:0.55;cursor:default;}
     .jg-btn-ghost{width:100%;background:none;border:none;color:#7a85a0;font-size:12px;padding:10px;cursor:pointer;font-family:inherit;}
     .jg-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
     .jg-ok{display:none;background:#e6f4ea;color:#1a6e35;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
     .jg-summary{background:#f7f8fc;border:1px solid #eef0f8;border-radius:12px;padding:12px;margin-bottom:14px;font-size:12px;color:#374057;}
-    .jg-summary b{color:#00008b;}
+    .jg-summary b{color: var(--kb-primary, #00008b);}
     .jg-pay-row{display:flex;gap:8px;margin-bottom:13px;}
     .jg-pay{flex:1;border:1.5px solid #dde3f0;border-radius:10px;padding:10px 6px;text-align:center;font-size:11px;font-weight:600;color:#374057;cursor:pointer;background:#fff;font-family:inherit;}
-    .jg-pay.on{border-color:#00008b;background:#e8eaf8;color:#00008b;}
+    .jg-pay.on{border-color: var(--kb-primary, #00008b);background:#e8eaf8;color: var(--kb-primary, #00008b);}
     .jg-done{text-align:center;padding:20px 0;}
     .jg-done-icon{font-size:44px;}
     .jg-done-title{font-size:16px;font-weight:700;color:#111;margin-top:8px;}
@@ -135,7 +135,7 @@
 </main>
 <footer class="site-footer">KibbiSave — group savings for Uganda</footer>
 
-<script src="js/kibbisave-site.js"></script>
+<script src="js/kibbisave-site.js?v=back-top-1"></script>
 <script>
 (function () {
   var params = new URLSearchParams(window.location.search);

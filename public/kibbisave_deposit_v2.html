@@ -1,74 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="kb-deposit-open">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Deposit</title>
   <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css?v=back-top-1">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=dep-fullscreen-1">
+  <script>document.documentElement.classList.add('kb-deposit-open');</script>
   <script>(function(){try{var v=sessionStorage.getItem('kibbi_auth_v1');if(v==='1')document.documentElement.classList.add('kb-authed');if(v==='0'||v==='1')document.documentElement.classList.add('kb-auth-known');if(localStorage.getItem('kibbi_dark_mode')==='1'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}}catch(e){}})();</script>
 </head>
-<body>
-<header class="site-header">
-  <div class="site-header-inner">
-    <div class="site-brand"><a href="kibbisave_home_final.html" class="site-logo">Kibbisave</a></div>
-    <nav class="site-nav">
-      <a href="kibbisave_home_final.html">Home</a>
-      <a href="kibbisave_groups_v6.html">Groups</a>
-      <a href="kibbisave_community_explore.html">Community</a>
-      <a href="kibbisave_leaderboard_v5.html">Leaderboard</a>
-      <a href="kibbisave_profile_screen.html">Profile</a>
-      <div class="nav-auth-mobile" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
-      <a href="kibbisave_deposit_v2.html" class="nav-deposit-mobile">+ Deposit</a>
-    </nav>
-    <div class="site-header-actions">
-      <div class="site-auth-pair" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
-      <a href="kibbisave_deposit_v2.html" class="site-btn-deposit">+ Deposit</a>
+<body class="kb-deposit-open">
+<header class="site-header dep-topbar" role="banner">
+  <div class="site-header-inner dep-topbar-inner">
+    <button type="button" class="dep-back" id="dep-back" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="dep-tb-mid">
+      <div class="dep-tb-title">Make a deposit</div>
+      <div class="dep-tb-sub" id="dep-acct">Updates your lead instantly</div>
     </div>
+    <div class="dep-tb-right" aria-hidden="true"></div>
   </div>
 </header>
 <main class="site-main site-main--deposit">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
-.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
-.phone{width:320px;background:#fff;border-radius:24px;border:1px solid #dde3f0;overflow:hidden;display:flex;flex-direction:column;}
-.topbar{background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;}
-.back{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;flex-shrink:0;color:#fff;}
-.tb-mid{display:flex;flex-direction:column;align-items:center;}
-.tb-title{font-size:15px;font-weight:500;color:#fff;}
-.tb-sub{font-size:10px;color:rgba(255,255,255,0.55);margin-top:1px;}
-.tb-right{width:32px;}
-.body{padding:16px 18px 18px;}
+.wrap{background:#f4f6fb;display:flex;flex-direction:column;flex:1;min-height:0;width:100%;padding:0;margin:0;}
+.phone{width:100%;max-width:none;background:#f4f6fb;border:none;border-radius:0;overflow:visible;display:flex;flex-direction:column;flex:1;min-height:0;box-shadow:none;}
+.body{padding:16px 18px 28px;flex:1;min-height:0;}
 .s-title{font-size:16px;font-weight:500;color:#111;margin-bottom:3px;}
 .s-sub{font-size:12px;color:#7a85a0;margin-bottom:16px;}
 .dep-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
 .dep-notice{background:#fff8e6;color:#7a4f00;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
-.group-sel{border:1.5px solid #dde3f0;border-radius:12px;overflow:hidden;margin-bottom:14px;}
+.group-sel{border:1.5px solid #dde3f0;border-radius:12px;overflow:hidden;margin-bottom:14px;background:#fff;}
 .gs-row{display:flex;align-items:center;gap:10px;padding:10px 13px;border-bottom:0.5px solid #eef0f8;cursor:pointer;}
 .gs-row:last-child{border-bottom:none;}
-.gs-row.selected{background:#f0f2ff;border-left:3px solid #00008b;}
+.gs-row.selected{background:#f0f2ff;border-left:3px solid var(--kb-primary,#00008b);}
 .gs-info{flex:1;min-width:0;}
 .gs-name{font-size:12px;font-weight:500;color:#111;}
 .gs-sub{font-size:10px;color:#7a85a0;margin-top:1px;}
 .radio{width:16px;height:16px;border-radius:50%;border:2px solid #dde3f0;flex-shrink:0;}
-.gs-row.selected .radio{border-color: var(--kb-primary, #00008b);background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));}
-.amount-box{background:#f7f8fc;border:1.5px solid #00008b;border-radius:14px;padding:16px 16px 12px;margin-bottom:14px;}
+.gs-row.selected .radio{border-color:var(--kb-primary,#00008b);background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));}
+.amount-box{background:#fff;border:1.5px solid var(--kb-primary,#00008b);border-radius:14px;padding:16px 16px 12px;margin-bottom:14px;}
 .amount-label{font-size:10px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;}
-.amount-input-row{display:flex;align-items:center;gap:6px;border-bottom:2px solid #00008b;padding-bottom:6px;margin-bottom:8px;}
+.amount-input-row{display:flex;align-items:center;gap:6px;border-bottom:2px solid var(--kb-primary,#00008b);padding-bottom:6px;margin-bottom:8px;}
 .amount-currency-lbl{font-size:15px;font-weight:500;color:#7a85a0;}
-.amount-input{font-size:30px;font-weight:500;color: var(--kb-primary, #00008b);letter-spacing:-1px;border:none;background:transparent;outline:none;width:100%;min-width:0;font-family:inherit;}
+.amount-input{font-size:30px;font-weight:500;color:var(--kb-primary,#00008b);letter-spacing:-1px;border:none;background:transparent;outline:none;width:100%;min-width:0;font-family:inherit;}
 .quick-amounts{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;}
-.qa{font-size:11px;font-weight:500;padding:6px 12px;border-radius:20px;border:1.5px solid #dde3f0;color:#7a85a0;background:#fff;cursor:pointer;flex-shrink:0;}
-.qa.active{background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;border-color: var(--kb-primary, #00008b);}
+.qa{font-size:11px;font-weight:500;padding:6px 12px;border-radius:20px;border:1.5px solid #dde3f0;color:#7a85a0;background:#fff;cursor:pointer;flex-shrink:0;font-family:inherit;}
+.qa.active{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;border-color:var(--kb-primary,#00008b);}
 .pay-methods{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
 .pay-opt{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1.5px solid #dde3f0;border-radius:12px;cursor:pointer;background:#fff;}
-.pay-opt.selected{border-color: var(--kb-primary, #00008b);background:#f0f2ff;}
+.pay-opt.selected{border-color:var(--kb-primary,#00008b);background:#f0f2ff;}
 .pay-logo{width:36px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;font-weight:700;color:#fff;}
 .pay-info{flex:1;}
 .pay-name{font-size:12px;font-weight:500;color:#111;}
 .pay-num{font-size:10px;color:#7a85a0;margin-top:1px;}
-.dep-phone{width:100%;border:1px solid #dde3f0;border-radius:10px;padding:10px 12px;font-size:13px;background:#f9fafd;outline:none;margin-bottom:14px;font-family:inherit;}
-.cta-btn{width:100%;background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+.dep-phone{width:100%;border:1px solid #dde3f0;border-radius:10px;padding:10px 12px;font-size:13px;background:#fff;outline:none;margin-bottom:14px;font-family:inherit;}
+.cta-btn{width:100%;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
 .cta-btn:disabled{opacity:0.55;cursor:default;}
 .done{text-align:center;padding:26px 0 10px;}
 .done-icon{font-size:44px;}
@@ -81,12 +70,6 @@
 
 <div class="wrap">
 <div class="phone">
-  <div class="topbar">
-    <button class="back" onclick="history.back()">←</button>
-    <div class="tb-mid"><div class="tb-title">Make a deposit</div><div class="tb-sub" id="dep-acct">Updates your lead instantly</div></div>
-    <div class="tb-right"></div>
-  </div>
-
   <div class="body" id="dep-body">
     <div class="dep-error" id="dep-error" role="alert"></div>
 
@@ -105,27 +88,38 @@
         </div>
       </div>
       <div class="quick-amounts">
-        <button class="qa" data-amt="10000">10k</button>
-        <button class="qa" data-amt="20000">20k</button>
-        <button class="qa" data-amt="50000">50k</button>
-        <button class="qa" data-amt="100000">100k</button>
-        <button class="qa" data-amt="200000">200k</button>
+        <button type="button" class="qa" data-amt="10000">10k</button>
+        <button type="button" class="qa" data-amt="20000">20k</button>
+        <button type="button" class="qa" data-amt="50000">50k</button>
+        <button type="button" class="qa" data-amt="100000">100k</button>
+        <button type="button" class="qa" data-amt="200000">200k</button>
+      </div>
+
+      <div class="s-title">Which community?</div>
+      <div class="s-sub">Your collector (community admin) will approve cash and mobile money</div>
+      <div class="group-sel" id="dep-communities">
+        <div class="skel"></div>
       </div>
 
       <div class="pay-methods">
-        <div class="pay-opt selected" data-provider="mtn_momo">
-          <div class="pay-logo" style="background:#f7c800;color: var(--kb-primary, #00008b);">MTN</div>
-          <div class="pay-info"><div class="pay-name">MTN Mobile Money</div><div class="pay-num">Charged to your MoMo number</div></div>
-          <div class="radio" style="border-color: var(--kb-primary, #00008b);background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));"></div>
+        <div class="pay-opt selected" data-provider="cash">
+          <div class="pay-logo" style="background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));">CASH</div>
+          <div class="pay-info"><div class="pay-name">Cash</div><div class="pay-num">Hand to your community admin</div></div>
+          <div class="radio" style="border-color:var(--kb-primary,#00008b);background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));"></div>
+        </div>
+        <div class="pay-opt" data-provider="mtn_momo">
+          <div class="pay-logo" style="background:#f7c800;color:var(--kb-primary,#00008b);">MTN</div>
+          <div class="pay-info"><div class="pay-name">Mobile Money — MTN</div><div class="pay-num">Admin confirms after they receive it</div></div>
+          <div class="radio"></div>
         </div>
         <div class="pay-opt" data-provider="airtel">
           <div class="pay-logo" style="background:#e40000;">airtel</div>
-          <div class="pay-info"><div class="pay-name">Airtel Money</div><div class="pay-num">Charged to your Airtel number</div></div>
+          <div class="pay-info"><div class="pay-name">Mobile Money — Airtel</div><div class="pay-num">Admin confirms after they receive it</div></div>
           <div class="radio"></div>
         </div>
         <div class="pay-opt" data-provider="bank">
-          <div class="pay-logo" style="background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));">BANK</div>
-          <div class="pay-info"><div class="pay-name">Bank transfer</div><div class="pay-num">Manual reference</div></div>
+          <div class="pay-logo" style="background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));">BANK</div>
+          <div class="pay-info"><div class="pay-name">Bank transfer</div><div class="pay-num">Manual reference — confirms now</div></div>
           <div class="radio"></div>
         </div>
       </div>
@@ -136,22 +130,22 @@
         <span>Your money is protected while it builds toward your group goal.</span>
       </div>
 
-      <button class="cta-btn" id="dep-confirm">Confirm &amp; deposit</button>
+      <button type="button" class="cta-btn" id="dep-confirm">Send deposit request</button>
     </div>
 
     <div class="done" id="dep-done" hidden>
       <img class="kb-illus kb-illus--done" src="/assets/illustrations/svg/06-deposit-success.svg" alt="Character holding phone with checkmark" width="220" height="220" decoding="async">
       <div class="done-title">Deposit confirmed</div>
       <div class="done-sub" id="dep-done-sub"></div>
-      <button class="cta-btn" style="margin-top:16px;" onclick="(function(){try{localStorage.removeItem('kibbi_home_cache_v1');localStorage.removeItem('kibbi_home_cache_v2');}catch(e){}var r='kibbisave_home_final.html?deposited=1';try{var s=sessionStorage.getItem('kb_profile_return');if(s)r=s;}catch(e2){}window.location.href=r;})()">Back</button>
+      <button type="button" class="cta-btn" style="margin-top:16px;" onclick="(function(){try{localStorage.removeItem('kibbi_home_cache_v1');localStorage.removeItem('kibbi_home_cache_v2');}catch(e){}var r='kibbisave_home_final.html?deposited=1';try{var s=sessionStorage.getItem('kb_profile_return');if(s)r=s;}catch(e2){}window.location.href=r;})()">Back</button>
     </div>
   </div>
 </div>
 </div>
 </main>
-<footer class="site-footer">KibbiSave — group savings for Uganda</footer>
+<footer class="site-footer site-footer--rich"></footer>
 
-<script src="js/kibbisave-site.js?v=back-top-1"></script>
+<script src="js/kibbisave-site.js?v=dep-fullscreen-1"></script>
 <script>
 (function () {
   var err = document.getElementById('dep-error');
@@ -160,10 +154,15 @@
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 
   var selectedGroup = null;
-  var provider = 'mtn_momo';
+  var selectedCommunity = null;
+  var provider = 'cash';
   var preselect = new URLSearchParams(window.location.search).get('group');
 
-  // must be signed in and in a group to deposit
+  document.getElementById('dep-back').addEventListener('click', function () {
+    if (window.history.length > 1) history.back();
+    else window.location.href = 'kibbisave_groups_v6.html';
+  });
+
   fetch('/api/home', { credentials: 'include' })
     .then(function (r) { return r.json(); })
     .then(function (d) {
@@ -205,6 +204,33 @@
       });
       var first = preselect ? box.querySelector('.gs-row[data-id="' + preselect + '"]') : null;
       (first || rows[0]).click();
+
+      return fetch('/api/communities/mine', { credentials: 'include' }).then(function (r) { return r.json(); });
+    })
+    .then(function (d) {
+      if (!d) return;
+      var box = document.getElementById('dep-communities');
+      if (!box) return;
+      var mine = (d.communities || []).filter(function (c) { return c.is_public === false || c.kind === 'private'; });
+      if (!mine.length) {
+        box.innerHTML = '<div class="gs-row"><div class="gs-info"><div class="gs-name">No private community yet</div><div class="gs-sub">Ask your collector to register you in Kibbi Admin</div></div></div>';
+        return;
+      }
+      box.innerHTML = mine.map(function (c) {
+        return '<div class="gs-row" data-id="' + esc(c.id) + '">' +
+          '<div class="gs-info"><div class="gs-name">' + esc(c.name) + '</div>' +
+          '<div class="gs-sub">' + (c.is_creator ? 'Your community' : 'Joined') + '</div></div>' +
+          '<div class="radio"></div></div>';
+      }).join('');
+      var rows = box.querySelectorAll('.gs-row[data-id]');
+      rows.forEach(function (row) {
+        row.addEventListener('click', function () {
+          rows.forEach(function (x) { x.classList.remove('selected'); });
+          row.classList.add('selected');
+          selectedCommunity = row.getAttribute('data-id');
+        });
+      });
+      if (rows[0]) rows[0].click();
     })
     .catch(function () { showErr('Could not reach the server. Refresh to retry.'); });
 
@@ -225,7 +251,7 @@
       });
       opt.classList.add('selected');
       opt.querySelector('.radio').style.borderColor = '#00008b';
-      opt.querySelector('.radio').style.background = '#00008b';
+      opt.querySelector('.radio').style.background = 'var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%))';
       provider = opt.getAttribute('data-provider');
     });
   });
@@ -243,7 +269,8 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         group_id: selectedGroup, amount: amt, provider: provider,
-        phone: document.getElementById('dep-phone').value || null
+        phone: document.getElementById('dep-phone').value || null,
+        community_id: selectedCommunity
       })
     })
     .then(function (r) { return r.json(); })
@@ -254,16 +281,24 @@
         localStorage.removeItem('kibbi_home_cache_v2');
       } catch (e) {}
       document.getElementById('dep-form').hidden = true;
-      var m = dep.member || {};
-      document.getElementById('dep-done-sub').textContent =
-        'You now have ' + fmtUGX(m.total_deposited) + ' in ' + (m.group_name || 'your group') +
-        (m.avg_lead != null ? '. Average lead: ' + (m.avg_lead > 0 ? '+' : '') + m.avg_lead + '%' : '') +
-        (m.rank_in_group ? '. Position #' + m.rank_in_group + ' in group.' : '.');
+      var title = document.querySelector('#dep-done .done-title');
+      if (dep.pending) {
+        if (title) title.textContent = 'Request sent to your admin';
+        document.getElementById('dep-done-sub').textContent =
+          dep.message || 'A request has been sent to your admin successfully as you will be contacted within 24hr.';
+      } else {
+        if (title) title.textContent = 'Deposit confirmed';
+        var m = dep.member || {};
+        document.getElementById('dep-done-sub').textContent =
+          'You now have ' + fmtUGX(m.total_deposited) + ' in ' + (m.group_name || 'your group') +
+          (m.avg_lead != null ? '. Average lead: ' + (m.avg_lead > 0 ? '+' : '') + m.avg_lead + '%' : '') +
+          (m.rank_in_group ? '. Position #' + m.rank_in_group + ' in group.' : '.');
+      }
       document.getElementById('dep-done').hidden = false;
     })
     .catch(function (e) {
       showErr(e.message || 'Deposit failed. Try again.');
-      btn.disabled = false; btn.textContent = 'Confirm & deposit';
+      btn.disabled = false; btn.textContent = 'Send deposit request';
     });
   });
 })();

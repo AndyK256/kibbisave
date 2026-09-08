@@ -1,6 +1,7 @@
-require('dotenv').config();
-
 const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env.local') });
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+
 const express = require('express');
 const api = require('../api/index');
 
@@ -15,6 +16,10 @@ app.use(express.static(root));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(root, 'kibbisave_home_final.html'));
+});
+
+app.get(['/admin', '/admin/'], (req, res) => {
+  res.sendFile(path.join(root, 'public', 'admin', 'index.html'));
 });
 
 app.get('/login', (req, res) => {

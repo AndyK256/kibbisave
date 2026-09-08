@@ -260,6 +260,19 @@ async function loginWithPassword(identifier, password) {
     }
   }
 
+  if (!rows.length) {
+    try {
+      rows = await sql`
+        SELECT id, google_id, email, display_name, avatar_url, location, phone,
+               first_name, last_name, district, nationality, nin, password_hash,
+               terms_accepted_at, profile_complete, created_at
+        FROM users WHERE lower(username) = ${raw.toLowerCase()} LIMIT 1
+      `;
+    } catch {
+      rows = [];
+    }
+  }
+
   if (!rows.length || !(await verifyPassword(password, rows[0].password_hash))) {
     const err = new Error('Incorrect mobile number/email or password');
     err.code = 'INVALID_CREDENTIALS';
@@ -418,4 +431,6 @@ module.exports = {
   isProfileComplete,
   missingProfileFields,
   normalizePhone,
+  hashPassword,
+  verifyPassword,
 };

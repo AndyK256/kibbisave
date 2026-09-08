@@ -3,13 +3,14 @@
 // GET  /api/home                 own summary (optional auth)
 // GET  /api/users/:id/home       public social snapshot (no auth)
 // POST /api/groups/:id/join      join an open group (login required)
-// POST /api/deposits             record + confirm deposit (dev mode)
+// POST /api/deposits             cash/MoMo → admin approval; other providers confirm immediately
 // GET  /api/cron                 30-min recalculation (Vercel Cron)
 // ============================================================
 const express = require('express');
 const { getDb, isDbConfigured } = require('../db');
 const { requireAuth, optionalAuth } = require('../middleware/auth');
 const { findUserRecord } = require('../lib/profile');
+const { resolveMemberAdmin, memberSchedule } = require('../../server/community-admin-lib');
 
 const router = express.Router();
 
@@ -597,17 +598,62 @@ router.post('/deposits', requireAuth, async (req, res) => {
     const row = await findUserRecord(req.user);
     if (!row) return res.status(401).json({ error: 'User not found' });
 
-    const { group_id, amount, provider, phone } = req.body || {};
+    const { group_id, amount, provider, phone, community_id } = req.body || {};
     const amt = Math.round(Number(amount) || 0);
     if (!group_id || amt <= 0) {
       return res.status(400).json({ error: 'group_id and a positive amount are required' });
     }
 
     const sql = getDb();
+    const method = String(provider || 'mtn_momo');
+    const needsAdmin = method === 'cash' || method === 'mtn_momo' || method === 'airtel';
+
+    if (needsAdmin) {
+      const assignment = await resolveMemberAdmin(sql, row.id, community_id || null);
+      if (assignment && assignment.ambiguous) {
+        return res.status(400).json({
+          error: 'Choose which community admin should receive this deposit request',
+          communities: assignment.options,
+        });
+      }
+      if (!assignment || !assignment.admin_id) {
+        return res.status(400).json({
+          error: 'No community admin is assigned to approve this deposit. Join a private community first, or ask your collector to register you in Kibbi Admin.',
+        });
+      }
+
+      const schedule = await memberSchedule(sql, row.id, group_id);
+      const inserted = await sql`
+        INSERT INTO admin_deposit_requests (
+          member_id, admin_id, community_id, group_id, amount, amount_on_track_gap,
+          payment_method, phone, status, source
+        ) VALUES (
+          ${row.id}, ${assignment.admin_id}, ${assignment.community_id},
+          ${group_id}::uuid, ${amt}, ${schedule.amountOnTrackGap},
+          ${method}, ${phone || row.phone || null}, 'pending', 'consumer'
+        )
+        RETURNING id, status, amount, created_at
+      `;
+      await sql`
+        INSERT INTO notifications (user_id, type, title, body, data)
+        VALUES (
+          ${assignment.admin_id}::uuid, 'deposit_request', 'Deposit waiting for you',
+          ${(row.display_name || 'A member') + ' requested UGX ' + amt.toLocaleString() + ' via ' + (method === 'cash' ? 'cash' : 'mobile money') + '.'},
+          ${JSON.stringify({ request_id: inserted[0].id, group_id })}::jsonb
+        )
+      `;
+      return res.json({
+        success: true,
+        pending: true,
+        request: inserted[0],
+        message: 'A request has been sent to your admin successfully. You will be contacted within 24 hours.',
+      });
+    }
+
     const rec = await sql`
       SELECT record_deposit(
         ${row.id}::uuid, ${group_id}::uuid, ${amt}::bigint,
-        ${provider || 'mtn_momo'}, ${'DEV-' + Date.now()}, ${phone || row.phone || null}
+        ${method}, ${'DEV-' + Date.now()}, ${phone || row.phone || null}
       ) AS pair_id
     `;
     await sql`SELECT confirm_deposit(${rec[0].pair_id}::uuid)`;

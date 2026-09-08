@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth');
 const communityRoutes = require('./routes/communities');
 const profileRoutes = require('./routes/profile');
 const groupsRoutes = require('./routes/groups');
+const adminRoutes = require('../server/community-admin-routes');
 const { requireAuth } = require('./middleware/auth');
 const { isDbConfigured } = require('./db');
 
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/communities', communityRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api', groupsRoutes);   // /api/home, /api/search, /api/groups, /api/deposits, /api/cron
 
 app.get('/api/health', (req, res) => {

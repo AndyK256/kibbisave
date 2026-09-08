@@ -437,6 +437,7 @@
     var max = Number(raw.max_members) || 7;
     var members = Number(g.members) || 0;
     var href = g.href || ('kibbisave_my_group_detail_v2.html?id=' + encodeURIComponent(g.id || '') + '&open=1');
+    var joinHref = 'kibbisave_join_group.html?id=' + encodeURIComponent(g.id || '');
     var startLabel = g.starts_label || '—';
     var closesLabel = g.closes_label || '—';
     return '' +
@@ -459,7 +460,7 @@
           'Start ' + esc(startLabel) +
           ' · <span class="closes">Closes ' + esc(closesLabel) + '</span>' +
         '</span>' + leadChip(raw.avg_member_lead != null ? raw.avg_member_lead : raw.avg_lead) + '</div>' +
-        '<a class="gc-join" href="' + esc(href) + '">Join this group</a>' +
+        '<a class="gc-join" href="' + esc(joinHref) + '">Join this group</a>' +
       '</div>';
   }
 
@@ -577,9 +578,13 @@
     if (data.public && data.user) applyPublicChrome(data.user.display_name);
     renderSummary(data);
     renderGroups(data);
+    var dash = document.getElementById('home-dash') || document.querySelector('.home-dash');
+    if (dash) dash.classList.remove('is-loading');
   }
 
   function showLoadError(msg) {
+    var dash = document.getElementById('home-dash') || document.querySelector('.home-dash');
+    if (dash) dash.classList.remove('is-loading');
     var grid = document.getElementById('home-groups-grid');
     if (!grid) return;
     if (grid.querySelector('.kibbi-skel-card') || !grid.children.length) {

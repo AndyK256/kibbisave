@@ -142,9 +142,10 @@
     var path = pathname.split('/').pop() || '';
     if (/^login(\.html)?$/i.test(path) || /^signup(\.html)?$/i.test(path)) return;
     if (pathname.indexOf('/legal/') >= 0) return;
-    // Groups + Home end at Stay up to date — skip long legal block below social icons
+    // Groups + Home + Deposit end at Stay up to date — skip long legal block below social icons
     if (/kibbisave_groups/i.test(path)) return;
     if (/kibbisave_home_final/i.test(path) || pathname === '/' || path === '') return;
+    if (/kibbisave_deposit/i.test(path)) return;
     if (!document.querySelector('.site-header') && !document.querySelector('.site-main')) return;
 
     var links = [
@@ -539,7 +540,15 @@
       var next = node.nextSibling;
       if (node.nodeType === 1) {
         var tag = node.tagName;
-        if (node.id === 'kb-bottom-nav' || node.classList.contains('kb-bottom-nav')) break;
+        /* Keep bottom nav outside the scrollport (may sit between header and main) */
+        if (node.id === 'kb-bottom-nav' || node.classList.contains('kb-bottom-nav')) {
+          node = next;
+          continue;
+        }
+        if (node.id === 'kb-back-to-top' || node.classList.contains('kb-back-to-top')) {
+          node = next;
+          continue;
+        }
         // Leave scripts/styles in body so they keep executing normally
         if (tag === 'SCRIPT' || tag === 'LINK' || tag === 'STYLE' || tag === 'TEMPLATE') {
           node = next;
@@ -568,14 +577,13 @@
     var path = (window.location.pathname || '').split('/').pop() || '';
     if (/^login(\.html)?$/i.test(path) || /^signup(\.html)?$/i.test(path)) return;
     if (!document.querySelector('.site-header')) return;
-    if (document.getElementById('kb-bottom-nav')) return;
 
     var tabs = [
-      { id: 'profile', label: 'Profile', href: 'kibbisave_profile_screen.html', match: /kibbisave_profile/i },
-      { id: 'leaderboard', label: 'Leaderboard', href: 'kibbisave_leaderboard_v5.html', match: /kibbisave_leaderboard/i },
-      { id: 'analytics', label: 'Analytics', href: 'kibbisave_home_final.html', match: /kibbisave_home/i },
-      { id: 'groups', label: 'Groups', href: 'kibbisave_groups_v6.html', match: /kibbisave_groups|kibbisave_join_group|kibbisave_create_group|kibbisave_my_group|kibbisave_deposit/i },
-      { id: 'communities', label: 'Communities', href: 'kibbisave_community_explore.html', match: /kibbisave_community|kibbisave_cause/i }
+      { id: 'profile', label: 'Profile', href: 'kibbisave_profile_screen.html', match: /kibbisave_profile/i, soft: false },
+      { id: 'leaderboard', label: 'Leaderboard', href: 'kibbisave_leaderboard_v5.html', match: /kibbisave_leaderboard/i, soft: true },
+      { id: 'analytics', label: 'Analytics', href: 'kibbisave_home_final.html', match: /kibbisave_home/i, soft: true },
+      { id: 'groups', label: 'Groups', href: 'kibbisave_groups_v6.html', match: /kibbisave_groups|kibbisave_join_group|kibbisave_create_group|kibbisave_my_group|kibbisave_deposit/i, soft: true },
+      { id: 'communities', label: 'Communities', href: 'kibbisave_community_explore.html', match: /kibbisave_community|kibbisave_cause/i, soft: true }
     ];
 
     function iconSvg(id) {
@@ -594,38 +602,55 @@
       return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     }
 
-    var activeIndex = 2;
-    var html = '<div class="kb-bnav-wave" aria-hidden="true"></div>';
-    var i;
-    for (i = 0; i < tabs.length; i++) {
-      var t = tabs[i];
-      var active = false;
-      if (t.id === 'analytics' && (!path || path === '/' || path === 'index.html')) {
-        active = true;
-      } else if (t.match) {
-        active = t.match.test(path);
+    function pathFile(href) {
+      try {
+        return (new URL(href, window.location.href).pathname || '').split('/').pop() || '';
+      } catch (e) {
+        return String(href || '').split('/').pop() || '';
       }
-      if (active) activeIndex = i;
-      html +=
-        '<a class="kb-bnav-item' + (active ? ' is-active' : '') + '" href="' + t.href + '"' +
-        ' data-kb-bnav-i="' + i + '"' +
-        (active ? ' aria-current="page"' : '') + '>' +
-        iconSvg(t.id) + '<span>' + t.label + '</span></a>';
     }
 
-    var nav = document.createElement('nav');
-    nav.id = 'kb-bottom-nav';
-    nav.className = 'kb-bottom-nav';
-    nav.setAttribute('aria-label', 'Primary');
-    nav.innerHTML = html;
-    document.body.appendChild(nav);
+    function indexForPath(file) {
+      var i;
+      file = file || '';
+      for (i = 0; i < tabs.length; i++) {
+        if (tabs[i].id === 'analytics' && (!file || file === '/' || file === 'index.html')) return i;
+        if (tabs[i].match && tabs[i].match.test(file)) return i;
+      }
+      return 2;
+    }
+
+    var activeIndex = indexForPath(path);
+    var nav = document.getElementById('kb-bottom-nav');
+    if (!nav) {
+      var html = '<div class="kb-bnav-wave" aria-hidden="true"></div>';
+      var i;
+      for (i = 0; i < tabs.length; i++) {
+        var t = tabs[i];
+        var active = i === activeIndex;
+        html +=
+          '<a class="kb-bnav-item' + (active ? ' is-active' : '') + '" href="' + t.href + '"' +
+          ' data-kb-bnav-i="' + i + '"' +
+          (active ? ' aria-current="page"' : '') + '>' +
+          iconSvg(t.id) + '<span>' + t.label + '</span></a>';
+      }
+      nav = document.createElement('nav');
+      nav.id = 'kb-bottom-nav';
+      nav.className = 'kb-bottom-nav';
+      nav.setAttribute('aria-label', 'Primary');
+      nav.innerHTML = html;
+      document.body.appendChild(nav);
+    } else if (!nav.querySelector('.kb-bnav-wave')) {
+      nav.insertAdjacentHTML('afterbegin', '<div class="kb-bnav-wave" aria-hidden="true"></div>');
+    }
     document.body.classList.add('has-kb-bottom-nav');
 
     var wave = nav.querySelector('.kb-bnav-wave');
     var items = nav.querySelectorAll('.kb-bnav-item');
+    var softNavBusy = false;
+    var softNavGen = 0;
 
     var SETTLE_DELAY_MS = 160;
-    var SLIDE_DELAY_MS = 120;
     var MORPH_MS = 460;
 
     function placeWave(index, animate, opts) {
@@ -658,33 +683,181 @@
       }, MORPH_MS);
     }
 
-    var fromIndex = null;
-    try {
-      var raw = sessionStorage.getItem(WAVE_KEY);
-      if (raw != null && raw !== '') fromIndex = parseInt(raw, 10);
-      sessionStorage.removeItem(WAVE_KEY);
-    } catch (e) {}
+    function setActiveIndex(index, animateWave) {
+      var j;
+      activeIndex = index;
+      for (j = 0; j < items.length; j++) {
+        items[j].classList.toggle('is-active', j === index);
+        if (j === index) items[j].setAttribute('aria-current', 'page');
+        else items[j].removeAttribute('aria-current');
+      }
+      placeWave(index, !!animateWave);
+    }
+
+    function ensureStylesheet(href) {
+      if (!href) return Promise.resolve();
+      var abs;
+      try { abs = new URL(href, window.location.href).href; } catch (e) { abs = href; }
+      var links = document.querySelectorAll('link[rel="stylesheet"]');
+      var k;
+      for (k = 0; k < links.length; k++) {
+        if (links[k].href === abs || links[k].getAttribute('href') === href) {
+          return Promise.resolve();
+        }
+      }
+      return new Promise(function (resolve) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.setAttribute('data-kb-page-style', '1');
+        link.onload = function () { resolve(); };
+        link.onerror = function () { resolve(); };
+        document.head.appendChild(link);
+      });
+    }
+
+    function loadPageScript(src) {
+      return new Promise(function (resolve) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.setAttribute('data-kb-page-script', '1');
+        s.onload = function () { resolve(); };
+        s.onerror = function () { resolve(); };
+        document.body.appendChild(s);
+      });
+    }
+
+    function refreshStaySocial() {
+      var footer = document.querySelector('.site-footer');
+      if (!footer) return;
+      if (footer.querySelector('.kb-stay-social')) return;
+      if (typeof window.KibbiEnsureStaySocial === 'function') {
+        window.KibbiEnsureStaySocial();
+      }
+    }
+
+    function softNavigate(url, opts) {
+      opts = opts || {};
+      var scroll = document.querySelector('.kb-app-scroll');
+      if (!scroll || !window.fetch || !window.DOMParser) {
+        window.location.href = url;
+        return;
+      }
+      /* Join/deposit use a dedicated topbar — hard navigate so chrome swaps cleanly */
+      var hardChrome =
+        document.documentElement.classList.contains('kb-join-open') ||
+        document.body.classList.contains('kb-join-open') ||
+        document.documentElement.classList.contains('kb-deposit-open') ||
+        document.body.classList.contains('kb-deposit-open') ||
+        /kibbisave_join_group|kibbisave_deposit/i.test(String(url || ''));
+      if (hardChrome) {
+        window.location.href = url;
+        return;
+      }
+      if (softNavBusy) return;
+      softNavBusy = true;
+      var gen = ++softNavGen;
+      document.body.classList.add('kb-soft-nav');
+
+      fetch(url, { credentials: 'same-origin', headers: { Accept: 'text/html' } })
+        .then(function (r) {
+          if (!r.ok) throw new Error('soft-nav ' + r.status);
+          return r.text();
+        })
+        .then(function (html) {
+          if (gen !== softNavGen) return;
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var newMain = doc.querySelector('main.site-main');
+          if (!newMain) throw new Error('no main');
+
+          var styleJobs = [];
+          doc.querySelectorAll('link[rel="stylesheet"]').forEach(function (link) {
+            var href = link.getAttribute('href');
+            if (href) styleJobs.push(ensureStylesheet(href));
+          });
+
+          return Promise.all(styleJobs).then(function () {
+            if (gen !== softNavGen) return;
+
+            function apply() {
+              document.querySelectorAll('script[data-kb-page-script]').forEach(function (s) {
+                s.remove();
+              });
+
+              var oldMain = scroll.querySelector('main');
+              var oldFooter = scroll.querySelector('footer');
+              var newFooter = doc.querySelector('footer');
+
+              if (oldMain) oldMain.replaceWith(document.importNode(newMain, true));
+              else scroll.insertBefore(document.importNode(newMain, true), scroll.firstChild);
+
+              if (newFooter) {
+                var footNode = document.importNode(newFooter, true);
+                if (oldFooter) oldFooter.replaceWith(footNode);
+                else scroll.appendChild(footNode);
+              } else if (oldFooter) {
+                oldFooter.remove();
+              }
+
+              document.title = doc.title || document.title;
+              scroll.scrollTop = 0;
+
+              var chain = Promise.resolve();
+              doc.querySelectorAll('script[src]').forEach(function (scr) {
+                var src = scr.getAttribute('src') || '';
+                if (!src || /kibbisave-site\.js/i.test(src)) return;
+                chain = chain.then(function () { return loadPageScript(src); });
+              });
+
+              return chain.then(function () {
+                doc.querySelectorAll('body script:not([src])').forEach(function (scr) {
+                  var typ = (scr.getAttribute('type') || 'text/javascript').toLowerCase();
+                  if (typ && typ !== 'text/javascript' && typ !== 'application/javascript') return;
+                  var code = scr.textContent || '';
+                  if (!code.trim()) return;
+                  var s = document.createElement('script');
+                  s.textContent = code;
+                  s.setAttribute('data-kb-page-script', '1');
+                  document.body.appendChild(s);
+                });
+
+                refreshStaySocial();
+                document.dispatchEvent(new CustomEvent('kb:softnav', { detail: { url: url } }));
+
+                if (!opts.replaceState) {
+                  history.pushState({ kbSoftNav: true }, '', url);
+                } else {
+                  history.replaceState({ kbSoftNav: true }, '', url);
+                }
+              });
+            }
+
+            if (document.startViewTransition) {
+              return document.startViewTransition(function () {
+                return apply();
+              }).finished.catch(function () {});
+            }
+            return apply();
+          });
+        })
+        .catch(function () {
+          window.location.href = url;
+        })
+        .then(function () {
+          softNavBusy = false;
+          document.body.classList.remove('kb-soft-nav');
+        });
+    }
+
+    try { sessionStorage.removeItem(WAVE_KEY); } catch (e) {}
 
     function layoutWave() {
-      if (fromIndex != null && !isNaN(fromIndex) && fromIndex !== activeIndex && fromIndex >= 0 && fromIndex < items.length) {
-        placeWave(fromIndex, false);
-        window.setTimeout(function () {
-          requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-              placeWave(activeIndex, true);
-            });
-          });
-        }, SLIDE_DELAY_MS);
-      } else {
-        /* First load / refresh: start gathered, then settle after a short delay */
-        placeWave(activeIndex, false, { gather: true });
-        window.setTimeout(function () {
-          requestAnimationFrame(function () {
-            placeWave(activeIndex, true);
-          });
-        }, SETTLE_DELAY_MS);
-      }
-      fromIndex = null;
+      placeWave(activeIndex, false, { gather: true });
+      window.setTimeout(function () {
+        requestAnimationFrame(function () {
+          placeWave(activeIndex, true);
+        });
+      }, SETTLE_DELAY_MS);
     }
 
     if (document.readyState === 'complete') layoutWave();
@@ -693,13 +866,79 @@
       placeWave(activeIndex, false);
     });
 
+    /* Prefetch tab destinations so Analytics/Groups/Communities feel instant */
+    function prefetchTabs() {
+      var seen = {};
+      tabs.forEach(function (t) {
+        if (!t.soft || seen[t.href]) return;
+        seen[t.href] = true;
+        try {
+          var l = document.createElement('link');
+          l.rel = 'prefetch';
+          l.href = t.href;
+          l.as = 'document';
+          document.head.appendChild(l);
+        } catch (err) {}
+      });
+      ensureStylesheet('css/kibbisave-home.css');
+    }
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(prefetchTabs, { timeout: 1800 });
+    } else {
+      window.setTimeout(prefetchTabs, 700);
+    }
+
+    if (!document.getElementById('kb-speculation-tabs')) {
+      try {
+        var spec = document.createElement('script');
+        spec.id = 'kb-speculation-tabs';
+        spec.type = 'speculationrules';
+        spec.textContent = JSON.stringify({
+          prerender: [{
+            source: 'list',
+            urls: [
+              '/kibbisave_home_final.html',
+              '/kibbisave_groups_v6.html',
+              '/kibbisave_community_explore.html',
+              '/kibbisave_leaderboard_v5.html'
+            ],
+            eagerness: 'moderate'
+          }]
+        });
+        document.head.appendChild(spec);
+      } catch (err) {}
+    }
+
+    var i;
     for (i = 0; i < items.length; i++) {
       (function (idx) {
-        items[idx].addEventListener('click', function () {
-          try { sessionStorage.setItem(WAVE_KEY, String(activeIndex)); } catch (e) {}
+        items[idx].addEventListener('click', function (e) {
+          var tab = tabs[idx];
+          /* Profile uses guest sheet / overlay handlers (capture phase) */
+          if (!tab || tab.id === 'profile') return;
+          if (idx === activeIndex) {
+            e.preventDefault();
+            return;
+          }
+          setActiveIndex(idx, true);
+          if (!tab.soft) return;
+          e.preventDefault();
+          softNavigate(tab.href);
         });
       })(i);
     }
+
+    window.addEventListener('popstate', function () {
+      var file = (window.location.pathname || '').split('/').pop() || '';
+      var idx = indexForPath(file);
+      setActiveIndex(idx, true);
+      if (tabs[idx] && tabs[idx].soft) {
+        softNavigate(window.location.pathname + window.location.search, { replaceState: true });
+      }
+    });
+
+    /* Sync active highlight if HTML already had a different tab marked */
+    setActiveIndex(activeIndex, false);
   })();
 
   // Guest account menu — BetPawa-style slide-over when Profile is tapped without login
@@ -996,9 +1235,9 @@
     }
 
     function ensureStaySocial() {
-      if (document.querySelector('.kb-stay-social')) return;
       var footer = document.querySelector('.site-footer');
       if (!footer) return;
+      if (footer.querySelector('.kb-stay-social')) return;
       var box = document.createElement('div');
       box.className = 'kb-stay-social';
       box.setAttribute('aria-label', 'Social links');
@@ -1014,6 +1253,8 @@
       else footer.appendChild(box);
       footer.classList.add('site-footer--rich');
     }
+    window.KibbiEnsureStaySocial = ensureStaySocial;
+    document.addEventListener('kb:softnav', function () { ensureStaySocial(); });
 
     function scrollRoot() {
       return document.querySelector('.kb-app-scroll') || document.scrollingElement || document.documentElement;
@@ -1088,6 +1329,7 @@
       'a.dep-btn',
       'a.md-btn',
       'a.gc-join',
+      'a.cm-join',
       'a.oas-join',
       'a.site-auth-btn',
       'a.nav-sign-in-mobile',
@@ -1106,9 +1348,11 @@
       '.cp-btn',
       '.msg-send',
       '.gc-join',
+      '.cm-join',
       '.oas-join',
       '.group-card',
       '.group-card-main',
+      '.cm-card',
       '.home-chart-card',
       '.home-popular-card',
       '.home-open-gc',

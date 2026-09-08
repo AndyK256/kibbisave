@@ -115,14 +115,16 @@
 .msg-row{display:flex;align-items:flex-start;gap:8px;max-width:88%;}
 .msg-row.them{align-self:flex-start;}
 .msg-row.me{align-self:flex-end;flex-direction:row-reverse;}
-.msg-av{width:32px;height:32px;border-radius:50%;background:var(--kb-navy,#00008b);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;margin-top:2px;}
+.msg-av{width:32px;height:32px;border-radius:50%;background:var(--kb-navy,#00008b);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;margin-top:18px;}
 .msg-av img{width:100%;height:100%;object-fit:cover;}
 .msg-row.me .msg-av{display:none;}
+.msg-stack{display:flex;flex-direction:column;min-width:0;max-width:100%;}
+.msg-who{font-size:10px;font-weight:700;color:var(--kb-primary,#00008b);margin:0 4px 4px;line-height:1.2;}
+.msg-row.them .msg-who{text-align:left;}
+.msg-row.me .msg-who{text-align:right;}
 .msg-bubble{position:relative;border-radius:18px;padding:10px 14px;max-width:100%;box-shadow:0 4px 14px rgba(15,23,60,0.08);}
 .msg-row.them .msg-bubble{background:#fff;color:#1a1d26;border:1px solid rgba(0,0,139,0.06);border-top-left-radius:6px;}
 .msg-row.me .msg-bubble{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));border-top-right-radius:6px;}
-.msg-who{font-size:10px;font-weight:700;color:var(--kb-primary,#00008b);margin-bottom:3px;}
-.msg-row.me .msg-who{display:none;}
 .msg-body{font-size:13px;line-height:1.45;white-space:pre-wrap;word-break:break-word;}
 .msg-row.them .msg-body{color:#1a1d26;}
 .msg-row.me .msg-body{color:#fff;}
@@ -144,32 +146,37 @@
 /* ---- Full-screen member profile overlay (tapped from a member card) ---- */
 .mp-screen{position:fixed;inset:0;z-index:100;background:#f4f6fb;display:flex;flex-direction:column;overflow:hidden;}
 .mp-screen[hidden]{display:none!important;}
-.mp-topbar{display:flex;align-items:center;gap:10px;padding:12px 14px;background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));flex-shrink:0;}
-.mp-back{border:none;background:rgba(255,255,255,0.15);color:#fff;width:34px;height:34px;border-radius:50%;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-family:inherit;}
-.mp-topbar-title{color:#fff;font-size:14px;font-weight:600;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mp-topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;background:var(--kb-navy,#00008b);flex-shrink:0;}
+.mp-back{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.22);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-family:inherit;line-height:1;padding:0;}
+.mp-back svg{display:block;width:20px;height:20px;}
+.mp-topbar-title{flex:1;min-width:0;font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;}
+.mp-topbar-right{width:36px;flex-shrink:0;}
 .mp-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 40px;background:#f4f6fb;display:flex;flex-direction:column;gap:12px;}
-.mp-hero{background:linear-gradient(180deg,#fff 0%,#f8f9fd 100%);border:1px solid #dde3f0;border-radius:16px;padding:18px 14px 14px;box-shadow:0 6px 20px rgba(15,23,60,0.07);text-align:center;}
-.mp-lifetime-lbl{font-size:10px;letter-spacing:0.06em;color:#7a85a0;text-transform:uppercase;font-weight:700;}
-.mp-lifetime-val{margin-top:4px;font-size:1.75rem;font-weight:800;color: var(--kb-primary, #00008b);letter-spacing:-0.02em;}
-.mp-id-row{display:flex;align-items:center;gap:12px;margin-top:14px;padding-top:12px;border-top:1px dashed #dde3f0;text-align:left;}
-.mp-av{width:52px;height:52px;border-radius:50%;background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2px solid rgba(0,0,139,0.12);}
+.mp-hero{background:rgba(255,255,255,0.72)!important;border:1px solid rgba(0,0,139,0.1)!important;border-radius:16px;padding:16px 14px 14px;box-shadow:0 6px 20px rgba(15,23,60,0.07);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+.mp-profile-row{display:flex;align-items:center;gap:12px;}
+.mp-av{width:64px;height:64px;border-radius:50%;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2.5px solid rgba(0,0,139,0.12);}
 .mp-av img{width:100%;height:100%;object-fit:cover;}
-.mp-id-info{flex:1;min-width:0;}
-.mp-name{font-size:1.02rem;font-weight:800;color:#111;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.mp-handle{font-size:11px;color:#7a85a0;margin-top:2px;}
-.mp-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.mp-action{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 14px;border-radius:9999px;font-family:inherit;font-size:0.86rem;font-weight:700;letter-spacing:-0.01em;cursor:pointer;text-decoration:none;border:none;box-sizing:border-box;}
-.mp-action--msg{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
+.mp-profile-side{flex:1;min-width:0;display:flex;justify-content:flex-end;}
+.mp-action--msg{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:42px;padding:0 16px;border-radius:9999px;font-family:inherit;font-size:0.86rem;font-weight:700;letter-spacing:-0.01em;cursor:pointer;border:none;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
 .mp-action--msg[disabled],.mp-action--msg.is-disabled{opacity:0.55;cursor:default;box-shadow:none;}
-.mp-action--view{background:rgba(255,255,255,0.8);color:var(--kb-primary,#00008b);border:1.5px solid rgba(0,0,139,0.18);box-shadow:0 2px 8px rgba(0,0,56,0.06);backdrop-filter:blur(8px);}
-.mp-action:active{transform:none;}
-.mp-hero,.mp-section{background:rgba(255,255,255,0.72)!important;border:1px solid rgba(0,0,139,0.1)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
-.mp-section{border-radius:14px;padding:12px 14px;box-shadow:0 2px 8px rgba(15,23,60,0.04);}
+.mp-lifetime-block{margin-top:14px;padding-top:14px;border-top:1px dashed #dde3f0;text-align:center;}
+.mp-lifetime-lbl{font-size:10px;letter-spacing:0.06em;color:#7a85a0;text-transform:uppercase;font-weight:700;}
+.mp-lifetime-val{margin-top:4px;font-size:1.75rem;font-weight:800;color:var(--kb-primary,#00008b);letter-spacing:-0.02em;}
+.mp-handle{font-size:11px;color:#7a85a0;margin-top:4px;}
+.mp-section{background:rgba(255,255,255,0.72)!important;border:1px solid rgba(0,0,139,0.1)!important;border-radius:14px;padding:12px 14px;box-shadow:0 2px 8px rgba(15,23,60,0.04);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
 .mp-sec-title{font-size:10px;letter-spacing:0.06em;color:#7a85a0;text-transform:uppercase;font-weight:700;margin-bottom:10px;}
 .mp-mini-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
 .mp-mini{padding:9px 6px;background:rgba(244,246,251,0.9);border-radius:10px;text-align:center;border:1px solid #eef0f8;}
 .mp-mini-val{font-size:0.95rem;font-weight:800;color:var(--kb-primary,#00008b);}
 .mp-mini-lbl{font-size:9px;color:#7a85a0;margin-top:2px;text-transform:uppercase;letter-spacing:0.04em;font-weight:600;}
+.mp-analytics-goal{margin-top:12px;padding-top:12px;border-top:1px solid #eef0f8;}
+.mp-analytics-meta{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:#7a85a0;margin-bottom:6px;}
+.mp-analytics-pct{font-weight:700;color:var(--kb-primary,#00008b);}
+.mp-analytics-bar{background:#eef0f8;border-radius:5px;height:6px;overflow:hidden;}
+.mp-analytics-fill{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));height:6px;border-radius:5px;width:0%;}
+.mp-analytics-lead{margin-top:10px;text-align:center;}
+.mp-analytics-lead-lbl{font-size:10px;color:#7a85a0;}
+.mp-analytics-lead-val{font-size:1.35rem;font-weight:800;color:var(--kb-primary,#00008b);letter-spacing:-0.02em;margin-top:2px;}
 .mp-group-list{display:flex;flex-direction:column;gap:8px;}
 .mp-group{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(248,249,253,0.9);border:1px solid #eef0f8;border-radius:12px;text-decoration:none;color:inherit;}
 .mp-group-info{flex:1;min-width:0;}
@@ -256,29 +263,29 @@
   <!-- Full-screen member profile overlay (opens when tapping another member's card) -->
   <div class="mp-screen" id="mp-screen" hidden role="dialog" aria-modal="true" aria-labelledby="mp-topbar-title">
     <div class="mp-topbar">
-      <button type="button" class="mp-back" id="mp-close" aria-label="Close member profile">←</button>
-      <div class="mp-topbar-title" id="mp-topbar-title">Member profile</div>
+      <button type="button" class="mp-back" id="mp-close" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="mp-topbar-title" id="mp-topbar-title">Member</div>
+      <div class="mp-topbar-right" aria-hidden="true"></div>
     </div>
     <div class="mp-body" id="mp-body">
-      <section class="mp-hero" aria-label="Lifetime savings">
-        <div class="mp-lifetime-lbl">Lifetime savings</div>
-        <div class="mp-lifetime-val" id="mp-lifetime">UGX 0</div>
-        <div class="mp-id-row">
+      <section class="mp-hero" aria-label="Member profile">
+        <div class="mp-profile-row">
           <div class="mp-av" id="mp-av">—</div>
-          <div class="mp-id-info">
-            <div class="mp-name" id="mp-name">Loading…</div>
-            <div class="mp-handle" id="mp-handle">KibbiSave member</div>
+          <div class="mp-profile-side">
+            <button type="button" class="mp-action--msg" id="mp-msg-btn">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>Message</span>
+            </button>
           </div>
         </div>
+        <div class="mp-lifetime-block">
+          <div class="mp-lifetime-lbl">Lifetime savings</div>
+          <div class="mp-lifetime-val" id="mp-lifetime">UGX 0</div>
+          <div class="mp-handle" id="mp-handle">KibbiSave member</div>
+        </div>
       </section>
-
-      <div class="mp-actions">
-        <button type="button" class="mp-action mp-action--msg" id="mp-msg-btn">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <span>Message</span>
-        </button>
-        <a class="mp-action mp-action--view" id="mp-view-btn" href="#">View full profile</a>
-      </div>
 
       <section class="mp-section" aria-label="Savings snapshot">
         <div class="mp-sec-title">Savings snapshot</div>
@@ -289,15 +296,22 @@
         </div>
       </section>
 
-      <section class="mp-section" aria-label="Public groups">
-        <div class="mp-sec-title">Groups they're in</div>
+      <section class="mp-section" aria-label="Full profile">
+        <div class="mp-sec-title">Their analytics</div>
+        <div class="mp-analytics-goal">
+          <div class="mp-analytics-meta">
+            <span id="mp-goal-label">Goal UGX 0</span>
+            <span class="mp-analytics-pct" id="mp-goal-pct">0% reached</span>
+          </div>
+          <div class="mp-analytics-bar"><div class="mp-analytics-fill" id="mp-goal-fill"></div></div>
+          <div class="mp-analytics-lead">
+            <div class="mp-analytics-lead-lbl" id="mp-lead-label">ahead of savings target by</div>
+            <div class="mp-analytics-lead-val" id="mp-lead-big">0.00%</div>
+          </div>
+        </div>
+        <div class="mp-sec-title" style="margin-top:14px">Groups they're in</div>
         <div class="mp-group-list" id="mp-groups"></div>
         <p class="mp-empty" id="mp-groups-empty" hidden>No public groups to show.</p>
-      </section>
-
-      <section class="mp-section" aria-label="Other communities">
-        <div class="mp-sec-title">Other communities</div>
-        <p class="mp-empty" style="margin-bottom:6px;">Discover the wider KibbiSave community that this member is part of.</p>
         <a class="mp-explore" href="kibbisave_community_explore.html">Explore communities →</a>
       </section>
     </div>
@@ -308,8 +322,8 @@
 </main>
 <footer class="site-footer">KibbiSave — group savings for Uganda</footer>
 
-<script src="js/kibbisave-site.js?v=panel-swipe-1"></script>
-<script src="js/kibbisave-panel-swipe.js?v=panel-swipe-1"></script>
+<script src="js/kibbisave-site.js?v=mp-profile-1"></script>
+<script src="js/kibbisave-panel-swipe.js?v=mp-profile-1"></script>
 <script>
 (function () {
   document.documentElement.classList.add('kb-group-detail-open');
@@ -615,10 +629,12 @@
         : esc(initials(m.display_name));
       return '<div class="msg-row ' + (mine ? 'me' : 'them') + '">' +
         '<div class="msg-av">' + av + '</div>' +
-        '<div class="msg-bubble">' +
+        '<div class="msg-stack">' +
           '<div class="msg-who">' + esc(m.display_name || 'Member') + '</div>' +
-          '<div class="msg-body">' + esc(m.body) + '</div>' +
-          '<div class="msg-when">' + esc(fmtMsgTime(m.created_at)) + '</div>' +
+          '<div class="msg-bubble">' +
+            '<div class="msg-body">' + esc(m.body) + '</div>' +
+            '<div class="msg-when">' + esc(fmtMsgTime(m.created_at)) + '</div>' +
+          '</div>' +
         '</div></div>';
     }).join('');
     box.scrollTop = box.scrollHeight;
@@ -748,12 +764,17 @@
 
     /* Prime the UI immediately with what we already know from the member card */
     setMpText('mp-topbar-title', currentMemberName);
-    setMpText('mp-name', currentMemberName);
     setMpText('mp-handle', 'Loading savings…');
     setMpText('mp-lifetime', 'UGX …');
     setMpText('mp-groups-count', '—');
     setMpText('mp-pct', '—');
     setMpText('mp-lead', '—');
+    setMpText('mp-goal-label', 'Goal UGX …');
+    setMpText('mp-goal-pct', '…');
+    setMpText('mp-lead-label', 'ahead of savings target by');
+    setMpText('mp-lead-big', '…');
+    var fill = document.getElementById('mp-goal-fill');
+    if (fill) fill.style.width = '0%';
     renderMemberAvatar(currentMemberName, member.avatarUrl);
 
     var groupsBox = document.getElementById('mp-groups');
@@ -764,12 +785,6 @@
         '<div class="mp-skel" style="height:10px;width:40%;margin-top:4px">.</div>' +
       '</div></div>';
     if (groupsEmpty) groupsEmpty.hidden = true;
-
-    var viewBtn = document.getElementById('mp-view-btn');
-    if (viewBtn) {
-      viewBtn.setAttribute('href',
-        'kibbisave_home_final.html?user=' + encodeURIComponent(currentMemberId));
-    }
 
     wireMessageButton();
 
@@ -869,7 +884,6 @@
     var name = user.display_name || currentMemberName || 'Member';
     currentMemberName = name;
     setMpText('mp-topbar-title', name);
-    setMpText('mp-name', name);
     renderMemberAvatar(name, user.avatar_url);
 
     /* Lifetime savings = sum of total_deposited across every public group we
@@ -885,10 +899,17 @@
       ? ('In ' + groups.length + ' KibbiSave group' + (groups.length === 1 ? '' : 's'))
       : 'KibbiSave member');
 
-    setMpText('mp-groups-count', String(groups.length));
-    setMpText('mp-pct', (Number(summary.pct_reached) || 0) + '%');
+    var pct = Number(summary.pct_reached) || 0;
     var lead = Number(summary.avg_lead) || 0;
+    setMpText('mp-groups-count', String(summary.active_groups != null ? summary.active_groups : groups.length));
+    setMpText('mp-pct', Math.round(pct) + '%');
     setMpText('mp-lead', (lead > 0 ? '+' : '') + lead.toFixed(2) + '%');
+    setMpText('mp-goal-label', 'Goal ' + fmtUGX(summary.total_goal));
+    setMpText('mp-goal-pct', Math.round(pct) + '% reached');
+    var fill = document.getElementById('mp-goal-fill');
+    if (fill) fill.style.width = Math.max(0, Math.min(100, pct)) + '%';
+    setMpText('mp-lead-label', lead < 0 ? 'behind savings target by' : 'ahead of savings target by');
+    setMpText('mp-lead-big', (lead > 0 ? '+' : '') + lead.toFixed(2) + '%');
 
     var box = document.getElementById('mp-groups');
     var empty = document.getElementById('mp-groups-empty');

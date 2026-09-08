@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Groups</title>
   <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css?v=back-top-1">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=bnav-soft-1">
   <script>(function(){try{var v=sessionStorage.getItem('kibbi_auth_v1');if(v==='1')document.documentElement.classList.add('kb-authed');if(v==='0'||v==='1')document.documentElement.classList.add('kb-auth-known');if(localStorage.getItem('kibbi_dark_mode')==='1'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}}catch(e){}})();</script>
 </head>
 <body>
@@ -27,6 +27,14 @@
     </div>
   </div>
 </header>
+<nav id="kb-bottom-nav" class="kb-bottom-nav" aria-label="Primary">
+  <div class="kb-bnav-wave" aria-hidden="true"></div>
+  <a class="kb-bnav-item" href="kibbisave_profile_screen.html" data-kb-bnav-i="0"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Profile</span></a>
+  <a class="kb-bnav-item" href="kibbisave_leaderboard_v5.html" data-kb-bnav-i="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 5h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4M7 5H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Leaderboard</span></a>
+  <a class="kb-bnav-item" href="kibbisave_home_final.html" data-kb-bnav-i="2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9m5 10V5m5 14v-7m5 7V8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Analytics</span></a>
+  <a class="kb-bnav-item is-active" href="kibbisave_groups_v6.html" data-kb-bnav-i="3" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Groups</span></a>
+  <a class="kb-bnav-item" href="kibbisave_community_explore.html" data-kb-bnav-i="4"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>Communities</span></a>
+</nav>
 <main class="site-main site-main--groups">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
@@ -232,7 +240,7 @@ body.dark .side-tab.is-active{color:var(--kb-cream,#f5f0e8);}
             <div class="skel"></div><div class="skel"></div><div class="skel"></div>
           </div>
           <div class="kb-illus-wrap kb-illus-wrap--footer" id="open-groups-footer-illus" hidden style="--kb-illus-w:200px">
-            <img class="kb-illus" src="/assets/illustrations/png/02-join-group-handshake-navy.png" alt="Two characters shaking hands" width="200" height="200" decoding="async">
+            <img class="kb-illus" src="/assets/illustrations/svg/02-join-group-handshake.svg" alt="Two characters shaking hands" width="200" height="200" decoding="async">
           </div>
           <div class="open-create-cta" id="open-groups-footer-cta" hidden>
             <p class="open-create-cta-title">Failed to find a group?</p>
@@ -258,7 +266,7 @@ body.dark .side-tab.is-active{color:var(--kb-cream,#f5f0e8);}
 </main>
 <footer class="site-footer site-footer--rich"></footer>
 
-<script src="js/kibbisave-site.js?v=back-top-1"></script>
+<script src="js/kibbisave-site.js?v=bnav-soft-1"></script>
 <script src="js/kibbisave-groups.js?v=groups-load-1"></script>
 </body>
 </html>

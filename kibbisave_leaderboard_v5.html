@@ -29,41 +29,47 @@
 <main class="site-main site-main--leaderboard">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
-.wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
-.board{width:min(560px,94vw);}
-.lb-hero{background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));border-radius:16px;padding:18px 20px;color:#fff;margin-bottom:14px;}
-.lb-title{font-size:17px;font-weight:600;}
-.lb-sub{font-size:11px;color:rgba(255,255,255,0.65);margin-top:4px;line-height:1.5;}
+.wrap{background:#f4f6fb;display:flex;justify-content:center;align-items:flex-start;padding:1.25rem 16px 2.25rem;width:100%;}
+.board{width:100%;max-width:480px;margin:0 auto;}
+.lb-hero{background:var(--kb-navy,#00008b);border-radius:18px;padding:18px 20px;color:#fff;margin-bottom:14px;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
+.lb-title{font-size:17px;font-weight:700;}
+.lb-sub{font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;line-height:1.5;}
 .lb-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
-.lb-row{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #dde3f0;border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,56,0.04);}
-.lb-rank{width:30px;height:30px;border-radius:50%;background:#eef0f8;color:#374057;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.lb-rank.r1{background:#fff3cd;color:#7a4f00;}
+#lb-list{width:100%;}
+.lb-row{display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg,#fff 0%,#f9fafd 100%);border:1px solid #dde3f0;border-radius:18px;padding:1.05rem 1.15rem;margin:0 auto 12px;width:100%;cursor:pointer;box-shadow:-14px 8px 32px -12px rgba(15,23,60,0.28),-4px 2px 12px -4px rgba(15,23,60,0.12);transition:transform .2s ease,box-shadow .2s ease,border-color .15s;user-select:none;-webkit-user-select:none;}
+.lb-row:hover{border-color:#c5cce0;transform:translateY(-2px);box-shadow:-16px 10px 36px -12px rgba(15,23,60,0.32),-6px 4px 14px -4px rgba(15,23,60,0.14);}
+.lb-row:focus-visible{outline:2px solid var(--kb-primary,#00008b);outline-offset:2px;}
+.lb-top{display:flex;align-items:flex-start;gap:12px;}
+.lb-rank{width:28px;height:28px;border-radius:50%;background:#eef0f8;color:#374057;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lb-rank.r1{background:#e8eaf8;color:var(--kb-primary,#00008b);}
 .lb-rank.r2{background:#eff0f2;color:#4a5568;}
-.lb-rank.r3{background:#fbe9d9;color:#8a4b12;}
-.lb-move{font-size:11px;width:16px;text-align:center;flex-shrink:0;}
+.lb-rank.r3{background:#eef0f8;color:#5c667a;}
+.lb-av{width:40px;height:40px;border-radius:12px;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lb-info{flex:1;min-width:0;}
+.lb-name{font-size:1.02rem;font-weight:800;color:#111;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-meta{font-size:11px;color:#7a85a0;margin-top:3px;line-height:1.35;}
+.lb-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0;}
+.lb-saved{font-size:0.95rem;font-weight:700;color:var(--kb-primary,#00008b);}
+.lb-saved-lbl{font-size:9px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.04em;}
+.lb-prog-wrap{background:#eef0f8;border-radius:5px;height:6px;overflow:hidden;}
+.lb-prog{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));height:6px;border-radius:5px;}
+.lb-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.lb-pct{font-size:11px;color:#7a85a0;line-height:1.35;}
+.lb-move{font-size:11px;margin-right:4px;}
 .lb-move.up{color:#1a8a3c;}
 .lb-move.down{color:#c0392b;}
 .lb-move.same{color:#9aa0ac;}
-.lb-info{flex:1;min-width:0;}
-.lb-name{font-size:13px;font-weight:600;color:#111;}
-.lb-meta{font-size:10px;color:#7a85a0;margin-top:2px;}
-.lb-prog-wrap{background:#eef0f8;border-radius:4px;height:4px;margin-top:6px;}
-.lb-prog{background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));height:4px;border-radius:4px;}
-.lb-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
-.lb-saved{font-size:12px;font-weight:600;color: var(--kb-primary, #00008b);}
-.lb-saved-lbl{font-size:9px;color:#7a85a0;}
-.lb-lead{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;}
+.lb-lead{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;}
 .lb-lead.ahead{background:#e6f4ea;color:#1a6e35;}
 .lb-lead.behind{background:#fdecea;color:#a32d2d;}
-.lb-prog-lbl{font-size:9px;color:#7a85a0;margin-top:4px;}
-.empty{padding:22px;text-align:center;font-size:12px;color:#7a85a0;background:#fff;border:1px dashed #dde3f0;border-radius:14px;}
-.skel{position:relative;overflow:hidden;background:#e8ecf5;border-radius:14px;height:64px;margin-bottom:9px;}
+.empty{padding:22px;text-align:center;font-size:12px;color:#7a85a0;background:#fff;border:1px dashed #dde3f0;border-radius:18px;}
+.skel{position:relative;overflow:hidden;background:#e8ecf5;border-radius:18px;height:110px;margin:0 auto 12px;width:100%;}
 .skel::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);animation:sh 1.2s infinite;}
 @keyframes sh{100%{transform:translateX(100%)}}
 .lb-end-cta{text-align:center;margin:1.1rem auto 0.5rem;max-width:320px;padding:0 8px;}
 .lb-end-cta-illus{width:min(200px,62%);height:auto;display:block;margin:0.15rem auto 0.35rem;}
 .lb-end-cta-copy{margin:0 0 10px;font-size:12px;font-weight:600;color:#7a85a0;line-height:1.4;}
-.lb-end-cta-btn{display:inline-flex;align-items:center;justify-content:center;width:100%;max-width:240px;margin:0 auto;padding:12px 16px;border-radius:22px;background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;font-size:13px;font-weight:700;letter-spacing:0.04em;text-decoration:none;border:none;cursor:pointer;font-family:inherit;}
+.lb-end-cta-btn{display:inline-flex;align-items:center;justify-content:center;width:100%;max-width:240px;margin:0 auto;padding:12px 16px;border-radius:22px;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;font-size:13px;font-weight:700;letter-spacing:0.04em;text-decoration:none;border:none;cursor:pointer;font-family:inherit;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
 .lb-end-cta-btn:hover{filter:brightness(1.08);color:#fff;}
 .lb-end-cta-note{margin:10px 0 0;font-size:10px;color:#9aa3b5;line-height:1.45;}
 </style>
@@ -101,30 +107,41 @@
         box.innerHTML = '<div class="empty">No ranked groups yet.<br>A public group joins the leaderboard once it closes — at 10 members, or 7 days after the first join.</div>';
         return;
       }
+      function initials(name) {
+        var parts = String(name || 'G').trim().split(/\s+/).filter(Boolean);
+        if (!parts.length) return 'G';
+        if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+      }
       box.innerHTML = groups.map(function (g) {
         var rank = g.leaderboard_rank;
         var prev = g.leaderboard_prev_rank;
-        var move = (prev == null || prev === rank) ? ['same','—']
-                 : (prev > rank ? ['up','▲'] : ['down','▼']);
+        var move = (prev == null || prev === rank) ? ['same', '—']
+                 : (prev > rank ? ['up', '▲'] : ['down', '▼']);
         var lead = Number(g.avg_member_lead) || 0;
         var pct = Math.max(0, Math.min(100, Number(g.target_pct) || 0));
-        return '<div class="lb-row" data-href="kibbisave_my_group_detail_v2.html?id=' + esc(g.id) + '">' +
-          '<div class="lb-rank r' + rank + '">' + rank + '</div>' +
-          '<div class="lb-move ' + move[0] + '">' + move[1] + '</div>' +
-          '<div class="lb-info">' +
-            '<div class="lb-name">' + esc(g.name || g.code || 'Group') + '</div>' +
-            '<div class="lb-meta">' + (g.current_members || 0) + '/' + (g.max_members || 10) + ' members · ' +
-              g.period_months + ' months · goal ' + fmtUGX(g.target_amount) + '</div>' +
-            '<div class="lb-prog-wrap"><div class="lb-prog" style="width:' + pct + '%"></div></div>' +
-            '<div class="lb-prog-lbl">Group target ' + pct + '%</div>' +
+        var name = g.name || g.code || 'Group';
+        return '<article class="lb-row" role="button" tabindex="0" data-href="kibbisave_my_group_detail_v2.html?id=' + esc(g.id) + '">' +
+          '<div class="lb-top">' +
+            '<div class="lb-rank r' + rank + '">' + rank + '</div>' +
+            '<div class="lb-av" aria-hidden="true">' + esc(initials(name)) + '</div>' +
+            '<div class="lb-info">' +
+              '<div class="lb-name">' + esc(name) + '</div>' +
+              '<div class="lb-meta">' + (g.current_members || 0) + '/' + (g.max_members || 10) + ' members · ' +
+                g.period_months + ' months · Goal ' + fmtUGX(g.target_amount) + '</div>' +
+            '</div>' +
+            '<div class="lb-right">' +
+              '<div class="lb-saved">' + fmtUGX(g.total_saved) + '</div>' +
+              '<div class="lb-saved-lbl">savings</div>' +
+            '</div>' +
           '</div>' +
-          '<div class="lb-right">' +
-            '<div class="lb-saved">' + fmtUGX(g.total_saved) + '</div>' +
-            '<div class="lb-saved-lbl">group saved</div>' +
+          '<div class="lb-prog-wrap"><div class="lb-prog" style="width:' + pct + '%"></div></div>' +
+          '<div class="lb-foot">' +
+            '<span class="lb-pct"><span class="lb-move ' + move[0] + '">' + move[1] + '</span>' + Math.round(pct) + '%</span>' +
             '<span class="lb-lead ' + (lead >= 0 ? 'ahead' : 'behind') + '">' +
-              'avg lead ' + (lead > 0 ? '+' : '') + lead.toFixed(2) + '%</span>' +
+              (lead > 0 ? '+' : '') + lead.toFixed(2) + '%</span>' +
           '</div>' +
-        '</div>';
+        '</article>';
       }).join('') +
         '<div class="lb-end-cta">' +
           '<img class="lb-end-cta-illus" src="/assets/illustrations/png/27-goal-smashed.png?v=1" alt="Goal smashed celebration" width="200" height="200" decoding="async">' +
@@ -133,8 +150,10 @@
           '<p class="lb-end-cta-note">Please consider saving with your friends to keep motivated</p>' +
         '</div>';
       box.querySelectorAll('.lb-row').forEach(function (row) {
-        row.addEventListener('click', function () {
-          window.location.href = row.getAttribute('data-href');
+        function go() { window.location.href = row.getAttribute('data-href'); }
+        row.addEventListener('click', go);
+        row.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
         });
       });
     })

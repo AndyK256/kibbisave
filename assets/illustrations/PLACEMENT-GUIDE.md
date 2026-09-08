@@ -1,15 +1,18 @@
 # KibbiSave Illustration Set — Placement Guide (for the coding AI)
 
-20 illustrations for kibbisave.com. Style: faceless doodle characters, white fill, brand-blue (#1B66DB) outlines, light-blue (#D9E8FB) props, TRANSPARENT background.
+**Canonical set:** `_graphics_preview/images/` (39 illustrations). Deploy via `node scripts/copy-illustrations.js` → `public/assets/illustrations/` and `assets/illustrations/`.
 
-- `png/` — 2048×2048 transparent PNGs (production use)
-- `svg/` — vector sources (infinitely sharp; prefer these on web if possible)
+Style: faceless doodle characters, white fill, brand-navy (`#00008b` / `--kb-primary`) outlines, light navy-tint (`#e8eaf8`) props, TRANSPARENT background.
+
+- `png/` — 2048×2048 transparent PNGs (fallback)
+- `svg/` — vector sources (prefer these on web)
 
 General rules (be conservative):
 - Display centered above the state's heading/CTA unless noted.
 - Never stretch; keep square aspect ratio. Recommended render widths below.
-- Transparent background works on both white pages and blue (#1B66DB) banners.
+- Transparent background works on both white pages and navy (`#00008b` / `--kb-navy`) banners.
 - Add `alt` text as given.
+- Do **not** use `#1B66DB` for strokes or chrome — that hex is obsolete; match `kibbisave-brand-color.mdc`.
 
 | # | File | Screen (URL) | Exact placement | Width | Alt text |
 |---|------|--------------|-----------------|-------|----------|
@@ -33,5 +36,24 @@ General rules (be conservative):
 | 18 | 18-no-notifications.png | Notifications panel empty state | Above "You're all caught up" | 180px | Character beside a sleeping bell |
 | 19 | 19-safe-and-secure.png | Login/KYC screens; deposit trust footer | Beside "Your money is protected" copy | 160–200px | Character hugging a shield |
 | 20 | 20-withdrawal-success.png | Withdraw flow confirmation screen | Centered above payout amount | 220px | Character with open hands catching coins |
+| 21 | 21-friends-hangout.png | kibbisave_community_explore.html hero; social / "invite your circle" banners | Centered in hero or beside banner copy | 260–320px | Four friends sitting on the floor together |
+| 22 | 22-grow-your-savings.png | Home growth/summary card; "grow your savings" onboarding | Beside growth copy | 200–240px | Character pouring coins along a forward arrow |
+| 23 | 23-your-balance.png | Home balance / total-savings card; profile net-worth | Above or beside balance figure | 180–220px | Character standing proudly on a roll of cash |
+| 24 | 24-stay-on-track.png | Reminder / at-risk state: behind on a savings target | Above "get back on track" copy | 200px | Character balancing on a tall wobbly coin stack |
+| 25 | 25-low-balance.png | Deposit/withdraw: insufficient funds / low balance state | Above "top up" copy | 200px | Character with empty pockets |
+| 26 | 26-build-your-savings.png | Groups/Home: building-savings explainer; progress card | Beside progress copy | 220–260px | Character scooping coins into rising stacks |
+| 27 | 27-goal-smashed.png | Goal-complete celebration modal; big-milestone toast | Centered above "goal smashed" | 220–260px | Character celebrating in a pile of cash |
+| 28 | 28-earn-rewards.png | Rewards / interest / referral-earnings screen | Beside rewards copy | 200–240px | Character fishing for coins with a dollar as bait |
+| 29 | 29-your-group.png | kibbisave_groups_v6.html group detail header; "your savings group" overview | Header / hero of a group page | 240–300px | Team seated around a meeting table |
+| 30 | 30-group-agreement.png | Group join-request approval; group rules/agreement screen | Above "agree" / approval copy | 220–260px | Two members reaching across the table to agree |
+| 31 | 31-review-together.png | Group contributions / statements review; admin ledger | Beside review copy | 240–300px | Group reviewing papers together at a table |
+| 32 | 32-plan-together.png | Create-group / set-goal flow; group planning | Above planning copy | 240–280px | A presenter and seated group planning |
+| 33 | 33-community-meetup.png | kibbisave_community_explore.html; events / meetup cards | Hero or beside meetup copy | 240–300px | Relaxed community meetup around a table with coffee |
+| 34 | 34-sit-back-relax.png | Auto-save enabled confirmation; "you're all set" states | Above reassurance copy | 200–240px | Character relaxing and reading in an armchair |
+| 35 | 35-feet-up.png | Passive/idle dashboard; "nothing to do" states | Beside copy | 220–260px | Character with feet up on a sofa |
+| 36 | 36-grow-while-you-sleep.png | Interest/growth explainer; "your savings grow while you sleep" | Above copy | 220–260px | Character sleeping in bed with Zzz |
+| 37 | 37-auto-save.png | Auto-save / recurring-deposit setup & confirmation | Beside auto-save copy | 200–240px | Character relaxing with a remote, savings on the screen |
+| 38 | 38-save-for-holiday.png | Goal type: holiday/vacation; goal-picker illustration | In goal card | 220–260px | Character on a sun lounger |
+| 39 | 39-set-and-forget.png | "Set it and forget it" onboarding; recurring-savings success | Above copy | 200–240px | Character with feet up checking savings on a phone |
 
-Brand palette used: primary blue #1B66DB, light blue fill #D9E8FB, white #FFFFFF.
+Brand palette used: primary navy `#00008b` (`--kb-primary` / `--kb-navy`), light fill `#e8eaf8`, white `#FFFFFF`.

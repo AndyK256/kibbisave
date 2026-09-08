@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="kb-join-open">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Join group — KibbiSave</title>
   <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css?v=back-top-1">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=jg-fullscreen-1">
+  <script>document.documentElement.classList.add('kb-join-open');</script>
+  <script>(function(){try{var v=sessionStorage.getItem('kibbi_auth_v1');if(v==='1')document.documentElement.classList.add('kb-authed');if(v==='0'||v==='1')document.documentElement.classList.add('kb-auth-known');if(localStorage.getItem('kibbi_dark_mode')==='1'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}}catch(e){}})();</script>
   <style>
-    .jg-wrap{background:#f4f6fb;display:flex;justify-content:center;padding:1.5rem 0 2rem;}
-    .jg-phone{width:340px;background:#fff;border-radius:24px;border:1px solid #dde3f0;overflow:hidden;}
-    .jg-top{background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));padding:16px 18px;}
-    .jg-title{color:#fff;font-size:16px;font-weight:600;}
-    .jg-sub{color:rgba(255,255,255,0.7);font-size:11px;margin-top:3px;}
-    .jg-steps{display:flex;gap:6px;margin-top:12px;}
-    .jg-step{flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.25);}
-    .jg-step.on{background:#ffd700;}
-    .jg-body{padding:18px;}
+    .jg-wrap{background:#f4f6fb;display:flex;flex-direction:column;flex:1;min-height:0;width:100%;padding:0;margin:0;}
+    .jg-phone{width:100%;max-width:none;background:#f4f6fb;border:none;border-radius:0;overflow:visible;display:flex;flex-direction:column;flex:1;min-height:0;box-shadow:none;}
+    .jg-steps-row{display:flex;gap:6px;padding:12px 18px 0;background:#f4f6fb;}
+    .jg-step{flex:1;height:4px;border-radius:4px;background:#dde3f0;}
+    .jg-step.on{background:var(--kb-primary,#00008b);}
+    .jg-body{padding:16px 18px 28px;flex:1;min-height:0;}
     .jg-field{margin-bottom:13px;}
     .jg-lbl{font-size:11px;font-weight:600;color:#374057;margin-bottom:5px;display:block;}
     .jg-lbl .req{color:#c0392b;}
@@ -24,51 +23,49 @@
     .jg-hint{font-size:10px;color:#7a85a0;margin-top:3px;}
     .jg-chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;background:#e8eaf8;color: var(--kb-primary, #00008b);font-weight:600;border-radius:20px;padding:4px 11px;margin:3px 4px 0 0;}
     .jg-chip button{border:none;background:none;color: var(--kb-primary, #00008b);cursor:pointer;font-size:12px;padding:0;line-height:1;}
-    .jg-btn{width:100%;background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit;}
+    .jg-btn{width:100%;background: var(--kb-msg-gradient, linear-gradient(148deg, #00008b 0%, #00008b 52%, #0a0aff 100%));color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
     .jg-btn:disabled{opacity:0.55;cursor:default;}
     .jg-btn-ghost{width:100%;background:none;border:none;color:#7a85a0;font-size:12px;padding:10px;cursor:pointer;font-family:inherit;}
     .jg-error{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
     .jg-ok{display:none;background:#e6f4ea;color:#1a6e35;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
-    .jg-summary{background:#f7f8fc;border:1px solid #eef0f8;border-radius:12px;padding:12px;margin-bottom:14px;font-size:12px;color:#374057;}
+    .jg-summary{background:var(--kb-glass-bg,rgba(255,255,255,0.72));border:1px solid var(--kb-glass-border,rgba(0,0,139,0.1));backdrop-filter:var(--kb-glass-blur,blur(14px));-webkit-backdrop-filter:var(--kb-glass-blur,blur(14px));border-radius:12px;padding:12px;margin-bottom:14px;font-size:12px;color:#374057;}
     .jg-summary b{color: var(--kb-primary, #00008b);}
     .jg-pay-row{display:flex;gap:8px;margin-bottom:13px;}
     .jg-pay{flex:1;border:1.5px solid #dde3f0;border-radius:10px;padding:10px 6px;text-align:center;font-size:11px;font-weight:600;color:#374057;cursor:pointer;background:#fff;font-family:inherit;}
     .jg-pay.on{border-color: var(--kb-primary, #00008b);background:#e8eaf8;color: var(--kb-primary, #00008b);}
     .jg-done{text-align:center;padding:20px 0;}
-    .jg-done-icon{font-size:44px;}
     .jg-done-title{font-size:16px;font-weight:700;color:#111;margin-top:8px;}
     .jg-done-sub{font-size:12px;color:#7a85a0;margin-top:5px;line-height:1.5;}
   </style>
 </head>
-<body>
-<header class="site-header">
-  <div class="site-header-inner">
-    <a href="kibbisave_home_final.html" class="site-logo"><img class="site-logo-mark" src="/assets/kibbisave-icon.jpg" alt="">kibbi<span>save</span></a>
-    <div class="site-header-actions">
-      <div class="site-auth-pair" data-auth-link><a href="/login?tab=join" class="site-btn-join">JOIN NOW</a><a href="/login?tab=login" class="site-btn-login">LOGIN</a></div>
+<body class="kb-join-open">
+<header class="site-header dep-topbar" role="banner">
+  <div class="site-header-inner dep-topbar-inner">
+    <button type="button" class="dep-back" id="jg-top-back" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="dep-tb-mid">
+      <div class="dep-tb-title" id="jg-title">Join group</div>
+      <div class="dep-tb-sub" id="jg-group-info">Loading group…</div>
     </div>
+    <div class="dep-tb-right" aria-hidden="true"></div>
   </div>
 </header>
 
-<main class="site-main">
+<main class="site-main site-main--join">
 <div class="jg-wrap">
 <div class="jg-phone">
 
-  <div class="jg-top">
-    <div class="jg-title" id="jg-title">Join group</div>
-    <div class="jg-sub" id="jg-group-info">Loading group…</div>
-    <div class="jg-steps"><div class="jg-step on" id="step-bar-1"></div><div class="jg-step" id="step-bar-2"></div></div>
+  <div class="jg-steps-row" aria-hidden="true">
+    <div class="jg-step on" id="step-bar-1"></div>
+    <div class="jg-step" id="step-bar-2"></div>
   </div>
 
   <div class="jg-body">
     <div class="jg-error" id="jg-error" role="alert"></div>
     <div class="jg-ok" id="jg-ok"></div>
 
-    <div class="kb-illus-wrap" id="jg-handshake" style="--kb-illus-w:200px">
-      <img class="kb-illus" src="/assets/illustrations/svg/02-join-group-handshake.svg" alt="Two characters shaking hands" width="200" height="200" decoding="async">
-    </div>
-
-    <!-- STEP 1 — onboarding (spec sketch) -->
+    <!-- STEP 1 — onboarding -->
     <form id="jg-step1" onsubmit="return false;">
       <div class="jg-field">
         <label class="jg-lbl">Period <span class="req">*</span></label>
@@ -100,7 +97,7 @@
       <button class="jg-btn" id="jg-continue">Continue to deposit</button>
     </form>
 
-    <!-- STEP 2 — first deposit (joining happens through deposit, spec) -->
+    <!-- STEP 2 — first deposit -->
     <form id="jg-step2" hidden onsubmit="return false;">
       <div class="jg-summary" id="jg-summary"></div>
       <div class="jg-field">
@@ -133,14 +130,17 @@
 </div>
 </div>
 </main>
-<footer class="site-footer">KibbiSave — group savings for Uganda</footer>
+<footer class="site-footer kb-legal-footer site-footer--rich"></footer>
 
-<script src="js/kibbisave-site.js?v=back-top-1"></script>
+<script src="js/kibbisave-site.js?v=jg-fullscreen-1"></script>
 <script>
 (function () {
+  document.documentElement.classList.add('kb-join-open');
+  document.body.classList.add('kb-join-open');
+
   var params = new URLSearchParams(window.location.search);
   var groupId = params.get('id');
-  var CACHE_KEY = 'kibbi_join_form_' + (groupId || 'none'); // spec: cache form data
+  var CACHE_KEY = 'kibbi_join_form_' + (groupId || 'none');
 
   var err = document.getElementById('jg-error');
   var ok = document.getElementById('jg-ok');
@@ -149,13 +149,20 @@
   function fmtUGX(n) { return 'UGX ' + (Number(n) || 0).toLocaleString('en-US'); }
 
   var group = null;
-  var chosenCommunities = [];   // up to 2 (spec)
+  var chosenCommunities = [];
   var provider = 'mtn_momo';
   var authenticated = false;
 
+  document.getElementById('jg-top-back').addEventListener('click', function () {
+    if (window.history.length > 1) {
+      window.history.back();
+      return;
+    }
+    window.location.href = 'kibbisave_groups_v6.html';
+  });
+
   if (!groupId) { showErr('No group selected. Go back and tap a group card.'); return; }
 
-  // ---- load group + communities + auth in parallel ----
   fetch('/api/groups/' + groupId, { credentials: 'include' })
     .then(function (r) { return r.json(); })
     .then(function (d) {
@@ -184,7 +191,6 @@
         o.value = c.id; o.textContent = c.name + (c.is_public ? '' : ' (private)');
         sel.appendChild(o);
       });
-      // spec: can be pre-filled when arriving from a community page
       var pre = params.get('community');
       if (pre) addCommunity(pre, sel);
     })
@@ -221,7 +227,6 @@
     addCommunity(this.value, this);
   });
 
-  // ---- cache form (spec: never lose data going back and forth) ----
   function save() {
     try {
       localStorage.setItem(CACHE_KEY, JSON.stringify({
@@ -251,18 +256,15 @@
   ['jg-amount','jg-saving-for','jg-suggest-name','jg-code','jg-dep-amount','jg-dep-phone']
     .forEach(function (id) { document.getElementById(id).addEventListener('input', save); });
 
-  // link/code autofill (spec)
   var codeParam = params.get('code');
   if (codeParam) document.getElementById('jg-code').value = codeParam;
 
-  // ---- step 1 → step 2 ----
   document.getElementById('jg-continue').addEventListener('click', function () {
     showErr('');
     var amt = Math.round(Number(document.getElementById('jg-amount').value) || 0);
     if (amt <= 0) return showErr('Enter the amount you are saving towards.');
     if (group && group.tier === 'upto_3m' && amt > 3000000) return showErr('This group is for goals up to UGX 3,000,000 — pick the other 8-month group.');
     if (group && group.tier === 'above_3m' && amt <= 3000000) return showErr('This group is for goals above UGX 3,000,000 — pick the other 8-month group.');
-    // spec: login required when joining (browsing is free)
     if (!authenticated) {
       save();
       window.location.href = '/login?next=' + encodeURIComponent(window.location.pathname + window.location.search);
@@ -291,7 +293,6 @@
     });
   });
 
-  // ---- join + deposit ----
   document.getElementById('jg-deposit').addEventListener('click', function () {
     showErr('');
     var btn = this;
@@ -323,7 +324,6 @@
     })
     .then(function (r) { return r.json(); })
     .then(function (join) {
-      // "already in this group" is fine — go straight to deposit
       if (join.error && !/already in this group/i.test(join.error)) throw new Error(join.error);
       return deposit();
     })
@@ -336,8 +336,6 @@
       } catch (e) {}
       document.getElementById('jg-step2').hidden = true;
       document.getElementById('jg-done').hidden = false;
-      var hs = document.getElementById('jg-handshake');
-      if (hs) hs.hidden = true;
       var m = dep.member || {};
       document.getElementById('jg-done-sub').textContent =
         'You now have ' + fmtUGX(m.total_deposited) + ' in ' + (m.group_name || 'your group') +

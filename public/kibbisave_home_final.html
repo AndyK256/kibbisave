@@ -6,7 +6,7 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>KibbiSave</title>
   <link rel="icon" href="/assets/kibbisave-icon.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css?v=back-top-1">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=bnav-soft-1">
   <script>(function(){try{var v=sessionStorage.getItem('kibbi_auth_v1');if(v==='1')document.documentElement.classList.add('kb-authed');if(v==='0'||v==='1')document.documentElement.classList.add('kb-auth-known');if(localStorage.getItem('kibbi_dark_mode')==='1'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}}catch(e){}})();</script>
   <link rel="stylesheet" href="css/kibbisave-home.css?v=lead-tone-1">
   <style>
@@ -22,6 +22,33 @@
     .kibbi-skel-card{display:flex;flex-direction:column;gap:10px;min-height:150px}
     .kibbi-skel-line{height:12px}
     .kibbi-skel-bar{height:8px;width:100%}
+    /* Full analytics skeleton while home metrics load */
+    .home-dash.is-loading .home-live{visibility:hidden}
+    .home-dash.is-loading .home-skel-block{display:block}
+    .home-skel-block{display:none;position:absolute;inset:0;z-index:5;pointer-events:none}
+    .home-card-ambient{position:relative}
+    .home-skel-panel{
+      position:absolute;inset:0;border-radius:22px;overflow:hidden;
+      background:linear-gradient(148deg,#00006a 0%,#00008b 55%,#0a0aff 100%);
+    }
+    .home-skel-panel .kibbi-skel{background:rgba(255,255,255,.14);border-radius:8px}
+    .home-skel-panel .kibbi-skel::after{
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+    }
+    .home-skel-inner{padding:1.35rem 1.5rem 1.2rem;display:flex;flex-direction:column;gap:12px;height:100%;box-sizing:border-box}
+    .home-skel-amt{height:34px;width:58%;border-radius:10px!important}
+    .home-skel-row{display:flex;justify-content:space-between;gap:12px}
+    .home-skel-meta{height:12px;width:42%}
+    .home-skel-meta2{height:12px;width:28%}
+    .home-skel-bar-lg{height:10px;width:100%;border-radius:999px!important;margin-top:4px}
+    .home-skel-chart{
+      position:absolute;inset:0;border-radius:18px;background:rgba(232,236,245,.95);
+      padding:1.25rem 1.1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;box-sizing:border-box;
+    }
+    .home-skel-chart .kibbi-skel{background:#dde3f0}
+    .home-skel-eye{height:12px;width:55%}
+    .home-skel-pct{height:42px;width:40%;border-radius:12px!important}
+    .home-skel-dead{height:12px;width:48%}
     /* Whole card acts as its action button (spec) */
     .gc-tappable{cursor:pointer}
     .gc-tappable:focus-visible{outline:2px solid #00008b;outline-offset:2px}
@@ -54,12 +81,34 @@
     </div>
   </div>
 </header>
+<nav id="kb-bottom-nav" class="kb-bottom-nav" aria-label="Primary">
+  <div class="kb-bnav-wave" aria-hidden="true"></div>
+  <a class="kb-bnav-item" href="kibbisave_profile_screen.html" data-kb-bnav-i="0"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Profile</span></a>
+  <a class="kb-bnav-item" href="kibbisave_leaderboard_v5.html" data-kb-bnav-i="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 5h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4M7 5H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Leaderboard</span></a>
+  <a class="kb-bnav-item is-active" href="kibbisave_home_final.html" data-kb-bnav-i="2" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9m5 10V5m5 14v-7m5 7V8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Analytics</span></a>
+  <a class="kb-bnav-item" href="kibbisave_groups_v6.html" data-kb-bnav-i="3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Groups</span></a>
+  <a class="kb-bnav-item" href="kibbisave_community_explore.html" data-kb-bnav-i="4"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>Communities</span></a>
+</nav>
 
 <main class="site-main site-main--home">
-  <div class="home-dash">
+  <div class="home-dash is-loading" id="home-dash">
 
     <div class="home-card-ambient home-card-ambient--savings">
-      <section class="home-savings-panel" aria-label="Total savings">
+      <div class="home-skel-block" aria-hidden="true">
+        <div class="home-skel-panel">
+          <div class="home-skel-inner">
+            <div class="kibbi-skel" style="height:12px;width:36%"></div>
+            <div class="kibbi-skel home-skel-amt"></div>
+            <div class="home-skel-row">
+              <div class="kibbi-skel home-skel-meta"></div>
+              <div class="kibbi-skel home-skel-meta2"></div>
+            </div>
+            <div class="kibbi-skel home-skel-bar-lg"></div>
+            <div class="kibbi-skel" style="height:12px;width:44%;margin-top:6px"></div>
+          </div>
+        </div>
+      </div>
+      <section class="home-savings-panel home-live" aria-label="Total savings">
         <div class="home-savings-top">
           <div class="home-savings-label-row">
             <div class="home-savings-label">My total savings</div>
@@ -142,7 +191,14 @@
       </div>
 
       <div class="home-card-ambient home-card-ambient--target home-col-chart">
-        <section class="home-glass home-chart-card" aria-label="Savings target">
+        <div class="home-skel-block" aria-hidden="true">
+          <div class="home-skel-chart">
+            <div class="kibbi-skel home-skel-eye"></div>
+            <div class="kibbi-skel home-skel-pct"></div>
+            <div class="kibbi-skel home-skel-dead"></div>
+          </div>
+        </div>
+        <section class="home-glass home-chart-card home-live" aria-label="Savings target">
           <div class="home-target-body">
             <div class="chart-eyebrow" id="home-lead-label">ahead of your savings target by</div>
             <div class="chart-pct" id="home-lead-pct">0.00%</div>
@@ -160,8 +216,8 @@
 
 <footer class="site-footer site-footer--rich"></footer>
 
-<script src="js/kibbisave-site.js?v=back-top-1"></script>
+<script src="js/kibbisave-site.js?v=bnav-soft-1"></script>
 <script src="js/kibbisave-home.js"></script>
-<script src="js/kibbisave-home-data.js?v=lead-tone-1"></script>
+<script src="js/kibbisave-home-data.js?v=home-skel-1"></script>
 </body>
 </html>

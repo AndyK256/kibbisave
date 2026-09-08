@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Community</title>
   <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css?v=cd-premium-cards-1">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=cd-join-onboard-1">
   <script>document.documentElement.classList.add('kb-cause-detail-open');</script>
 </head>
 <body class="kb-cause-detail-open">
@@ -32,17 +32,17 @@
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
 .wrap{background:#fff;display:flex;flex-direction:column;justify-content:flex-start;padding:0;margin:0;height:100%;min-height:0;width:100%;flex:1;}
 .col{width:100%;max-width:none;flex:1;min-height:0;display:flex;flex-direction:column;height:100%;}
-.cd-chrome{flex:0 0 auto;background:var(--kb-navy,#00008b);z-index:40;position:sticky;top:0;}
+.cd-chrome{flex:0 0 auto;background:var(--kb-navy,#00008b);z-index:40;}
 .cd-sticky{background:var(--kb-navy,#00008b);padding:10px 16px 8px;z-index:42;}
 .cd-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;}
 .cd-back{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.22);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-family:inherit;line-height:1;padding:0;}
 .cd-back svg{display:block;width:20px;height:20px;}
 .cd-sticky-name{flex:1;min-width:0;font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .2s ease,transform .2s ease;text-align:center;}
-.cd-chrome.is-compact .cd-sticky-name,.cd-chrome.is-messages .cd-sticky-name{opacity:1;transform:translateY(0);pointer-events:auto;}
+.cd-chrome.is-messages .cd-sticky-name{opacity:1;transform:translateY(0);pointer-events:auto;}
 .cd-share{width:36px;height:36px;border-radius:50%;padding:0;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.22);color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-family:inherit;line-height:1;}
 .cd-share svg{display:block;width:18px;height:18px;}
-.cd-hero{background:var(--kb-navy,#00008b);padding:2px 16px 14px;color:#fff;margin:0;border-radius:0;overflow:hidden;max-height:280px;opacity:1;transition:max-height .28s cubic-bezier(.22,1,.36,1),opacity .2s ease,padding .28s ease;}
-.cd-chrome.is-compact .cd-hero,.cd-chrome.is-messages .cd-hero{max-height:0;opacity:0;padding-top:0;padding-bottom:0;pointer-events:none;}
+.cd-hero{background:var(--kb-navy,#00008b);padding:2px 16px 14px;color:#fff;margin:0;border-radius:0;overflow:hidden;max-height:320px;opacity:1;transition:max-height .28s cubic-bezier(.22,1,.36,1),opacity .2s ease,padding .28s ease;}
+.cd-chrome.is-messages .cd-hero{max-height:0;opacity:0;padding-top:0;padding-bottom:0;pointer-events:none;}
 .cd-title-block{min-width:0;margin-top:0;padding-left:2px;}
 .cd-name{font-size:18px;font-weight:700;line-height:1.25;}
 .cd-loc{font-size:11px;color:rgba(255,255,255,0.65);margin-top:3px;}
@@ -67,12 +67,13 @@
 .cd-chrome.is-messages ~ .cd-body .cd-swipe-hint{display:none;}
 .cd-swipe-hint .arrow{color:var(--kb-primary,#00008b);font-weight:700;letter-spacing:-0.04em;animation:cd-nudge 1.6s ease-in-out infinite;}
 @keyframes cd-nudge{0%,100%{transform:translateX(0);opacity:.7}50%{transform:translateX(4px);opacity:1}}
-.cd-panels-viewport{flex:1;min-height:0;overflow:hidden;touch-action:pan-y;width:100%;background:#f4f6fb;}
+.cd-panels-viewport{flex:1 1 auto;min-height:0;overflow:hidden;touch-action:pan-y;width:100%;background:#f4f6fb;}
 .cd-panels{display:flex;width:200%;height:100%;min-height:0;transition:transform .32s cubic-bezier(.22,1,.36,1);will-change:transform;transform:translateX(0);}
 .cd-panels.is-dragging{transition:none;}
-.cd-panel{width:50%;flex:0 0 50%;min-height:0;height:100%;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:8px 16px 32px;background:#f4f6fb;}
-#panel-messages{display:flex;flex-direction:column;padding:0;background:#f7f8fc;overflow:hidden;}
-.sec-head{display:flex;justify-content:space-between;align-items:center;margin:0 0 6px;padding:2px 0;}
+.cd-panel{width:50%;flex:0 0 50%;min-height:0;height:100%;display:flex;flex-direction:column;padding:0;background:#f4f6fb;box-sizing:border-box;overflow:hidden;}
+#panel-messages{background:#f7f8fc;}
+.sec-head{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;margin:0;padding:8px 16px 6px;background:#f4f6fb;}
+.cd-scroll{flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding:8px 16px 56px;background:#f4f6fb;}
 .sec-title{font-size:11px;font-weight:600;color:#7a85a0;letter-spacing:0.02em;}
 .race{font-size:9px;color:var(--kb-primary,#00008b);font-weight:600;}
 .member{display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg,#fff 0%,#f9fafd 100%);border:1px solid #dde3f0;border-radius:18px;padding:1.05rem 1.15rem;margin-bottom:12px;cursor:pointer;box-shadow:-14px 8px 32px -12px rgba(15,23,60,0.28),-4px 2px 12px -4px rgba(15,23,60,0.12);transition:transform .2s ease,box-shadow .2s ease,border-color .15s;user-select:none;-webkit-user-select:none;backdrop-filter:none;-webkit-backdrop-filter:none;}
@@ -98,9 +99,58 @@
 .m-lead{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;}
 .m-lead.ahead{background:#e6f4ea;color:#1a6e35;}
 .m-lead.behind{background:#fdecea;color:#a32d2d;}
-.cd-join{width:100%;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;border:none;border-radius:14px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;font-family:inherit;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
+.cd-join{width:100%;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;border:none;border-radius:14px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;margin-bottom:12px;font-family:inherit;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
 .cd-join:disabled{opacity:0.55;}
 .cd-code{width:100%;border:1px solid #dde3f0;border-radius:12px;padding:10px 12px;font-size:13px;background:#fff;outline:none;margin-top:10px;font-family:inherit;display:none;}
+/* Join community onboarding — full-screen sheet over community */
+.cd-join-sheet{
+  position:fixed;inset:0;z-index:520;display:none;flex-direction:column;
+  background:#f4f6fb;
+}
+.cd-join-sheet.is-open{display:flex;}
+.cd-join-bar{
+  flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:calc(10px + env(safe-area-inset-top,0px)) 16px 12px;
+  background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));
+}
+.cd-join-bar .cd-back{flex-shrink:0;}
+.cd-join-bar-mid{flex:1;min-width:0;text-align:center;}
+.cd-join-bar-title{font-size:15px;font-weight:600;color:#fff;line-height:1.2;}
+.cd-join-bar-sub{font-size:10px;color:rgba(255,255,255,0.55);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cd-join-bar-right{width:36px;flex-shrink:0;}
+.cd-join-body{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;padding:18px 18px 28px;}
+.cd-join-card{
+  background:var(--kb-glass-bg,rgba(255,255,255,0.72));
+  border:1px solid var(--kb-glass-border,rgba(0,0,139,0.1));
+  backdrop-filter:var(--kb-glass-blur,blur(14px));
+  -webkit-backdrop-filter:var(--kb-glass-blur,blur(14px));
+  border-radius:16px;padding:16px;margin-bottom:14px;
+}
+.cd-join-name{font-size:18px;font-weight:800;color:#111;letter-spacing:-0.02em;line-height:1.25;}
+.cd-join-meta{font-size:12px;color:#7a85a0;margin-top:6px;line-height:1.4;}
+.cd-join-about{font-size:13px;color:#374057;margin-top:12px;line-height:1.5;}
+.cd-join-field{margin-top:14px;}
+.cd-join-lbl{display:block;font-size:11px;font-weight:600;color:#374057;margin-bottom:6px;}
+.cd-join-input{
+  width:100%;box-sizing:border-box;border:1px solid #dde3f0;border-radius:12px;
+  padding:12px 14px;font-size:14px;background:#fff;outline:none;font-family:inherit;
+}
+.cd-join-input:focus{border-color:var(--kb-primary,#00008b);}
+.cd-join-err{display:none;background:#fdecea;color:#a32d2d;font-size:12px;border-radius:10px;padding:9px 12px;margin-bottom:12px;}
+.cd-join-confirm{
+  width:100%;margin-top:8px;padding:14px 16px;border:none;border-radius:14px;cursor:pointer;
+  background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));
+  color:#fff;font:inherit;font-size:14px;font-weight:700;
+  box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));
+}
+.cd-join-confirm:disabled{opacity:0.55;cursor:default;}
+.cd-join-hint{font-size:11px;color:#7a85a0;margin-top:10px;line-height:1.45;text-align:center;}
+html.cd-join-open .kb-bottom-nav,
+body.cd-join-open .kb-bottom-nav,
+html.cd-join-open .kb-back-to-top,
+body.cd-join-open .kb-back-to-top{display:none!important;visibility:hidden!important;pointer-events:none!important;}
+html.cd-join-open,
+body.cd-join-open{overflow:hidden!important;}
 .empty{padding:18px;text-align:center;font-size:12px;color:#7a85a0;background:#fff;border:1px dashed #dde3f0;border-radius:16px;}
 .cd-gate{padding:28px 18px;text-align:center;font-size:12px;color:#7a85a0;background:transparent;border:none;border-radius:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;}
 .cd-gate-title{font-size:14px;font-weight:700;color:var(--kb-primary,#00008b);margin-bottom:6px;}
@@ -116,14 +166,16 @@
 .msg-row{display:flex;align-items:flex-start;gap:8px;max-width:88%;}
 .msg-row.them{align-self:flex-start;}
 .msg-row.me{align-self:flex-end;flex-direction:row-reverse;}
-.msg-av{width:32px;height:32px;border-radius:50%;background:var(--kb-navy,#00008b);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;margin-top:2px;}
+.msg-av{width:32px;height:32px;border-radius:50%;background:var(--kb-navy,#00008b);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;margin-top:18px;}
 .msg-av img{width:100%;height:100%;object-fit:cover;}
 .msg-row.me .msg-av{display:none;}
+.msg-stack{display:flex;flex-direction:column;min-width:0;max-width:100%;}
+.msg-who{font-size:10px;font-weight:700;color:var(--kb-primary,#00008b);margin:0 4px 4px;line-height:1.2;}
+.msg-row.them .msg-who{text-align:left;}
+.msg-row.me .msg-who{text-align:right;}
 .msg-bubble{position:relative;border-radius:18px;padding:10px 14px;max-width:100%;box-shadow:0 4px 14px rgba(15,23,60,0.08);}
 .msg-row.them .msg-bubble{background:#fff;color:#1a1d26;border:1px solid rgba(0,0,139,0.06);border-top-left-radius:6px;}
 .msg-row.me .msg-bubble{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));border-top-right-radius:6px;}
-.msg-who{font-size:10px;font-weight:700;color:var(--kb-primary,#00008b);margin-bottom:3px;}
-.msg-row.me .msg-who{display:none;}
 .msg-body{font-size:13px;line-height:1.45;white-space:pre-wrap;word-break:break-word;}
 .msg-row.them .msg-body{color:#1a1d26;}
 .msg-row.me .msg-body{color:#fff;}
@@ -158,11 +210,13 @@
 .cd-dm-av{width:28px;height:28px;border-radius:50%;background:var(--kb-navy,#00008b);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
 .cd-dm-av img{width:100%;height:100%;object-fit:cover;}
 .cd-dm-row.me .cd-dm-av{display:none;}
+.cd-dm-stack{display:flex;flex-direction:column;min-width:0;max-width:100%;}
+.cd-dm-who{font-size:10px;font-weight:700;color:var(--kb-primary,#00008b);margin:0 4px 4px;line-height:1.2;}
+.cd-dm-row.them .cd-dm-who{text-align:left;}
+.cd-dm-row.me .cd-dm-who{text-align:right;}
 .cd-dm-bubble{border-radius:16px;padding:9px 12px;box-shadow:0 3px 12px rgba(15,23,60,0.08);}
 .cd-dm-row.them .cd-dm-bubble{background:#fff;border:1px solid rgba(0,0,139,0.06);border-top-left-radius:5px;}
 .cd-dm-row.me .cd-dm-bubble{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));border-top-right-radius:5px;}
-.cd-dm-who{font-size:10px;font-weight:700;color:var(--kb-primary,#00008b);margin-bottom:2px;}
-.cd-dm-row.me .cd-dm-who{display:none;}
 .cd-dm-body{font-size:13px;line-height:1.4;white-space:pre-wrap;word-break:break-word;}
 .cd-dm-row.me .cd-dm-body{color:#fff;}
 .cd-dm-when{font-size:9px;color:#9aa3b8;margin-top:4px;}
@@ -175,36 +229,52 @@
 .cd-dm-send{flex-shrink:0;width:34px;height:34px;border:none;border-radius:50%;padding:0;display:inline-flex;align-items:center;justify-content:center;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;cursor:pointer;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));font-family:inherit;}
 .cd-dm-send svg{display:block;width:15px;height:15px;}
 .cd-dm-send:disabled{opacity:0.55;}
-.mp-screen{position:fixed;inset:0;z-index:100;background:rgba(244,246,251,0.92);display:flex;flex-direction:column;overflow:hidden;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.mp-screen{position:fixed;inset:0;z-index:100;background:#f4f6fb;display:flex;flex-direction:column;overflow:hidden;}
 .mp-screen[hidden]{display:none!important;}
-.mp-topbar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 55%,#0a0aff 100%));flex-shrink:0;}
-.mp-back{border:none;background:rgba(255,255,255,0.15);color:#fff;width:34px;height:34px;border-radius:50%;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-family:inherit;}
-.mp-topbar-title{color:#fff;font-size:14px;font-weight:600;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.mp-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 40px;display:flex;flex-direction:column;gap:12px;}
-.mp-hero{background:var(--kb-glass-bg,rgba(255,255,255,0.72));border:1px solid var(--kb-glass-border,rgba(0,0,139,0.1));border-radius:16px;padding:18px 14px 14px;box-shadow:0 6px 20px rgba(15,23,60,0.07);text-align:center;backdrop-filter:var(--kb-glass-blur,blur(14px));-webkit-backdrop-filter:var(--kb-glass-blur,blur(14px));}
+.mp-topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;background:var(--kb-navy,#00008b);flex-shrink:0;}
+.mp-back{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.22);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-family:inherit;line-height:1;padding:0;}
+.mp-back svg{display:block;width:20px;height:20px;}
+.mp-topbar-title{flex:1;min-width:0;font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;}
+.mp-topbar-right{width:36px;flex-shrink:0;}
+.mp-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 40px;display:flex;flex-direction:column;gap:12px;background:#f4f6fb;}
+.mp-hero{background:var(--kb-glass-bg,rgba(255,255,255,0.72));border:1px solid var(--kb-glass-border,rgba(0,0,139,0.1));border-radius:16px;padding:16px 14px 14px;box-shadow:0 6px 20px rgba(15,23,60,0.07);backdrop-filter:var(--kb-glass-blur,blur(14px));-webkit-backdrop-filter:var(--kb-glass-blur,blur(14px));}
+.mp-profile-row{display:flex;align-items:center;gap:12px;}
+.mp-av{width:64px;height:64px;border-radius:50%;background:var(--kb-navy,#00008b);color:#fff;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2.5px solid rgba(0,0,139,0.12);}
+.mp-av img{width:100%;height:100%;object-fit:cover;}
+.mp-profile-side{flex:1;min-width:0;display:flex;justify-content:flex-end;}
+.mp-action--msg{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:42px;padding:0 16px;border-radius:9999px;font-family:inherit;font-size:0.86rem;font-weight:700;letter-spacing:-0.01em;cursor:pointer;border:none;background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
+.mp-action--msg[disabled],.mp-action--msg.is-disabled{opacity:0.55;cursor:default;box-shadow:none;}
+.mp-lifetime-block{margin-top:14px;padding-top:14px;border-top:1px dashed #dde3f0;text-align:center;}
 .mp-lifetime-lbl{font-size:10px;letter-spacing:0.06em;color:#7a85a0;text-transform:uppercase;font-weight:700;}
 .mp-lifetime-val{margin-top:4px;font-size:1.75rem;font-weight:800;color:var(--kb-primary,#00008b);letter-spacing:-0.02em;}
-.mp-id-row{display:flex;align-items:center;gap:12px;margin-top:14px;padding-top:12px;border-top:1px dashed #dde3f0;text-align:left;}
-.mp-av{width:52px;height:52px;border-radius:50%;background:var(--kb-navy,#00008b);color:#fff;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2px solid rgba(0,0,139,0.12);}
-.mp-av img{width:100%;height:100%;object-fit:cover;}
-.mp-id-info{flex:1;min-width:0;}
-.mp-name{font-size:1.02rem;font-weight:800;color:#111;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.mp-handle{font-size:11px;color:#7a85a0;margin-top:2px;}
-.mp-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.mp-action{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 14px;border-radius:9999px;font-family:inherit;font-size:0.86rem;font-weight:700;letter-spacing:-0.01em;cursor:pointer;text-decoration:none;border:none;box-sizing:border-box;}
-.mp-action--msg{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));color:#fff;box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));}
-.mp-action--msg[disabled],.mp-action--msg.is-disabled{opacity:0.55;cursor:default;box-shadow:none;}
-.mp-action--view{background:rgba(255,255,255,0.8);color:var(--kb-primary,#00008b);border:1.5px solid rgba(0,0,139,0.18);box-shadow:0 2px 8px rgba(0,0,56,0.06);backdrop-filter:blur(8px);}
+.mp-handle{font-size:11px;color:#7a85a0;margin-top:4px;}
 .mp-section{background:var(--kb-glass-bg,rgba(255,255,255,0.72));border:1px solid var(--kb-glass-border,rgba(0,0,139,0.1));border-radius:14px;padding:12px 14px;box-shadow:0 2px 8px rgba(15,23,60,0.04);backdrop-filter:var(--kb-glass-blur,blur(14px));-webkit-backdrop-filter:var(--kb-glass-blur,blur(14px));}
 .mp-sec-title{font-size:10px;letter-spacing:0.06em;color:#7a85a0;text-transform:uppercase;font-weight:700;margin-bottom:10px;}
 .mp-mini-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
 .mp-mini{padding:9px 6px;background:rgba(244,246,251,0.9);border-radius:10px;text-align:center;border:1px solid #eef0f8;}
 .mp-mini-val{font-size:0.95rem;font-weight:800;color:var(--kb-primary,#00008b);}
 .mp-mini-lbl{font-size:9px;color:#7a85a0;margin-top:2px;text-transform:uppercase;letter-spacing:0.04em;font-weight:600;}
+.mp-analytics-goal{margin-top:12px;padding-top:12px;border-top:1px solid #eef0f8;}
+.mp-analytics-meta{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:#7a85a0;margin-bottom:6px;}
+.mp-analytics-pct{font-weight:700;color:var(--kb-primary,#00008b);}
+.mp-analytics-bar{background:#eef0f8;border-radius:5px;height:6px;overflow:hidden;}
+.mp-analytics-fill{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));height:6px;border-radius:5px;width:0%;}
+.mp-analytics-lead{margin-top:10px;text-align:center;}
+.mp-analytics-lead-lbl{font-size:10px;color:#7a85a0;}
+.mp-analytics-lead-val{font-size:1.35rem;font-weight:800;color:var(--kb-primary,#00008b);letter-spacing:-0.02em;margin-top:2px;}
+.mp-group-list{display:flex;flex-direction:column;gap:8px;}
+.mp-group{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(248,249,253,0.9);border:1px solid #eef0f8;border-radius:12px;text-decoration:none;color:inherit;}
+.mp-group-info{flex:1;min-width:0;}
+.mp-group-name{font-size:12.5px;font-weight:700;color:#111;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mp-group-sub{font-size:10px;color:#7a85a0;margin-top:2px;}
+.mp-group-right{text-align:right;flex-shrink:0;}
+.mp-group-amt{font-size:12px;font-weight:700;color:var(--kb-primary,#00008b);}
+.mp-group-lbl{font-size:9px;color:#7a85a0;text-transform:uppercase;letter-spacing:0.04em;}
 .mp-empty{font-size:12px;color:#7a85a0;text-align:center;padding:6px 0;}
 .mp-explore{display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(238,240,248,0.9);color:var(--kb-primary,#00008b);border-radius:12px;padding:11px 14px;text-decoration:none;font-size:12.5px;font-weight:700;margin-top:8px;}
 .mp-toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#111;color:#fff;font-size:12px;padding:10px 16px;border-radius:24px;box-shadow:0 8px 24px rgba(0,0,0,0.25);z-index:200;pointer-events:none;opacity:0;transition:opacity 0.2s;}
 .mp-toast.is-visible{opacity:1;}
+.mp-skel{background:linear-gradient(90deg,#e8ecf5 0%,#f4f6fb 40%,#e8ecf5 80%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:8px;color:transparent!important;}
 @media (prefers-reduced-motion: reduce) {
   .cd-tab-slider,.cd-panels,.cd-swipe-hint .arrow{transition:none;animation:none;}
 }
@@ -269,11 +339,13 @@
             <span class="sec-title">Race to the top</span>
             <span class="race">🏁</span>
           </div>
-          <div id="cd-standings">
-            <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+          <div class="cd-scroll" id="cd-standings-scroll">
+            <div id="cd-standings">
+              <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+            </div>
+            <input class="cd-code" id="cd-code" placeholder="Enter the community join code">
+            <button class="cd-join" id="cd-join" hidden>Join Community</button>
           </div>
-          <input class="cd-code" id="cd-code" placeholder="Enter the community join code">
-          <button class="cd-join" id="cd-join" hidden>Join Community</button>
         </div>
 
         <div class="cd-panel" id="panel-messages" role="tabpanel" aria-labelledby="tab-messages">
@@ -319,28 +391,29 @@
 
 <div class="mp-screen" id="mp-screen" hidden role="dialog" aria-modal="true" aria-labelledby="mp-topbar-title">
   <div class="mp-topbar">
-    <button type="button" class="mp-back" id="mp-close" aria-label="Close member profile">←</button>
-    <div class="mp-topbar-title" id="mp-topbar-title">Member profile</div>
+    <button type="button" class="mp-back" id="mp-close" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="mp-topbar-title" id="mp-topbar-title">Member</div>
+    <div class="mp-topbar-right" aria-hidden="true"></div>
   </div>
   <div class="mp-body" id="mp-body">
-    <section class="mp-hero" aria-label="Lifetime savings">
-      <div class="mp-lifetime-lbl">Lifetime savings</div>
-      <div class="mp-lifetime-val" id="mp-lifetime">UGX 0</div>
-      <div class="mp-id-row">
+    <section class="mp-hero" aria-label="Member profile">
+      <div class="mp-profile-row">
         <div class="mp-av" id="mp-av">—</div>
-        <div class="mp-id-info">
-          <div class="mp-name" id="mp-name">Loading…</div>
-          <div class="mp-handle" id="mp-handle">KibbiSave member</div>
+        <div class="mp-profile-side">
+          <button type="button" class="mp-action--msg kb-msg-btn" id="mp-msg-btn">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>Message</span>
+          </button>
         </div>
       </div>
+      <div class="mp-lifetime-block">
+        <div class="mp-lifetime-lbl">Lifetime savings</div>
+        <div class="mp-lifetime-val" id="mp-lifetime">UGX 0</div>
+        <div class="mp-handle" id="mp-handle">KibbiSave member</div>
+      </div>
     </section>
-    <div class="mp-actions">
-      <button type="button" class="mp-action mp-action--msg kb-msg-btn" id="mp-msg-btn">
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <span>Message</span>
-      </button>
-      <a class="mp-action mp-action--view" id="mp-view-btn" href="#">View full profile</a>
-    </div>
     <section class="mp-section" aria-label="Savings snapshot">
       <div class="mp-sec-title">Savings snapshot</div>
       <div class="mp-mini-stats">
@@ -349,18 +422,60 @@
         <div class="mp-mini"><div class="mp-mini-val" id="mp-lead">0%</div><div class="mp-mini-lbl">Avg lead</div></div>
       </div>
     </section>
-    <section class="mp-section" aria-label="Explore">
-      <div class="mp-sec-title">Communities</div>
+    <section class="mp-section" aria-label="Full profile">
+      <div class="mp-sec-title">Their analytics</div>
+      <div class="mp-analytics-goal">
+        <div class="mp-analytics-meta">
+          <span id="mp-goal-label">Goal UGX 0</span>
+          <span class="mp-analytics-pct" id="mp-goal-pct">0% reached</span>
+        </div>
+        <div class="mp-analytics-bar"><div class="mp-analytics-fill" id="mp-goal-fill"></div></div>
+        <div class="mp-analytics-lead">
+          <div class="mp-analytics-lead-lbl" id="mp-lead-label">ahead of savings target by</div>
+          <div class="mp-analytics-lead-val" id="mp-lead-big">0.00%</div>
+        </div>
+      </div>
+      <div class="mp-sec-title" style="margin-top:14px">Groups they're in</div>
+      <div class="mp-group-list" id="mp-groups"></div>
+      <p class="mp-empty" id="mp-groups-empty" hidden>No public groups to show.</p>
       <a class="mp-explore" href="kibbisave_community_explore.html">Explore communities →</a>
     </section>
   </div>
 </div>
 <div class="mp-toast" id="mp-toast" role="status" aria-live="polite"></div>
+
+<!-- Join community onboarding (from Explore Join CTA) -->
+<div class="cd-join-sheet" id="cd-join-sheet" hidden role="dialog" aria-modal="true" aria-labelledby="cd-join-bar-title">
+  <div class="cd-join-bar">
+    <button type="button" class="cd-back" id="cd-join-back" aria-label="Back to community">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="cd-join-bar-mid">
+      <div class="cd-join-bar-title" id="cd-join-bar-title">Join community</div>
+      <div class="cd-join-bar-sub" id="cd-join-bar-sub">Loading…</div>
+    </div>
+    <div class="cd-join-bar-right" aria-hidden="true"></div>
+  </div>
+  <div class="cd-join-body">
+    <div class="cd-join-err" id="cd-join-err" role="alert"></div>
+    <div class="cd-join-card">
+      <div class="cd-join-name" id="cd-join-name">Loading…</div>
+      <div class="cd-join-meta" id="cd-join-meta">—</div>
+      <p class="cd-join-about" id="cd-join-about"></p>
+      <div class="cd-join-field" id="cd-join-code-wrap" hidden>
+        <label class="cd-join-lbl" for="cd-join-code-input">Join code <span style="color:#c0392b">*</span></label>
+        <input class="cd-join-input" id="cd-join-code-input" placeholder="Enter the community join code" autocomplete="off">
+      </div>
+    </div>
+    <button type="button" class="cd-join-confirm" id="cd-join-confirm">Join Community</button>
+    <p class="cd-join-hint" id="cd-join-hint">You’ll unlock member standings chat once you join.</p>
+  </div>
+</div>
 </main>
 <footer class="site-footer">KibbiSave — group savings for Uganda</footer>
 
-<script src="js/kibbisave-site.js?v=cd-gate-flat-1"></script>
-<script src="js/kibbisave-panel-swipe.js?v=cd-gate-flat-1"></script>
+<script src="js/kibbisave-site.js?v=mp-profile-1"></script>
+<script src="js/kibbisave-panel-swipe.js?v=mp-profile-1"></script>
 <script>
 (function () {
   document.documentElement.classList.add('kb-cause-detail-open');
@@ -369,6 +484,8 @@
   var params = new URLSearchParams(window.location.search);
   var id = params.get('id');
   var wantMessages = String(params.get('tab') || '').toLowerCase() === 'messages';
+  var wantJoin = /^(1|true|yes)$/i.test(String(params.get('join') || ''));
+  var joinSheetOpen = false;
   var err = document.getElementById('cd-error');
   var ok = document.getElementById('cd-ok');
   var tabSlider = document.getElementById('cd-tab-slider');
@@ -417,43 +534,159 @@
   var dm = document.getElementById('cd-dm');
   var mpScreen = document.getElementById('mp-screen');
 
+  var joinSheet = document.getElementById('cd-join-sheet');
+  var joinErr = document.getElementById('cd-join-err');
+  function showJoinErr(m) {
+    if (!joinErr) return;
+    joinErr.textContent = m || '';
+    joinErr.style.display = m ? 'block' : 'none';
+  }
+  function setJoinUrlFlag(on) {
+    try {
+      var u = new URL(window.location.href);
+      if (on) u.searchParams.set('join', '1');
+      else u.searchParams.delete('join');
+      u.searchParams.delete('tab');
+      history.replaceState(null, '', u.pathname + u.search);
+    } catch (e) {}
+    wantJoin = !!on;
+  }
+  function fillJoinSheet() {
+    if (!community) return;
+    var name = community.name || 'Community';
+    var members = community.total_members || 0;
+    var place = (community.city ? community.city + ', ' : '') + (community.country || 'Uganda');
+    var barSub = document.getElementById('cd-join-bar-sub');
+    var nm = document.getElementById('cd-join-name');
+    var meta = document.getElementById('cd-join-meta');
+    var about = document.getElementById('cd-join-about');
+    var codeWrap = document.getElementById('cd-join-code-wrap');
+    var codeInput = document.getElementById('cd-join-code-input');
+    var confirm = document.getElementById('cd-join-confirm');
+    var hint = document.getElementById('cd-join-hint');
+    if (barSub) barSub.textContent = name;
+    if (nm) nm.textContent = name;
+    if (meta) {
+      meta.textContent =
+        (community.is_public ? 'Public' : 'Private') +
+        ' · ' + members + (members === 1 ? ' member' : ' members') +
+        ' · ' + place;
+    }
+    if (about) about.textContent = community.about || 'Join this circle and save with people who share your goal.';
+    if (codeWrap) codeWrap.hidden = !!community.is_public;
+    if (codeInput) {
+      var codeParam = params.get('code');
+      if (codeParam && !codeInput.value) codeInput.value = codeParam;
+    }
+    if (confirm) confirm.textContent = community.is_public ? 'Join Community' : 'Request to Join';
+    if (hint) {
+      hint.textContent = community.is_public
+        ? 'You’ll unlock community messages once you join.'
+        : 'Private communities need a join code from a member.';
+    }
+  }
+  function openJoinOnboarding() {
+    if (isMember) {
+      closeJoinOnboarding();
+      return;
+    }
+    if (!joinSheet) return;
+    fillJoinSheet();
+    showJoinErr('');
+    joinSheet.hidden = false;
+    joinSheet.classList.add('is-open');
+    joinSheet.removeAttribute('hidden');
+    document.documentElement.classList.add('cd-join-open');
+    document.body.classList.add('cd-join-open');
+    joinSheetOpen = true;
+    setJoinUrlFlag(true);
+    setTab('standings');
+    var codeWrap = document.getElementById('cd-join-code-wrap');
+    var codeInput = document.getElementById('cd-join-code-input');
+    if (codeWrap && !codeWrap.hidden && codeInput) {
+      setTimeout(function () { try { codeInput.focus(); } catch (e) {} }, 80);
+    }
+  }
+  function closeJoinOnboarding() {
+    if (joinSheet) {
+      joinSheet.classList.remove('is-open');
+      joinSheet.hidden = true;
+    }
+    document.documentElement.classList.remove('cd-join-open');
+    document.body.classList.remove('cd-join-open');
+    joinSheetOpen = false;
+    setJoinUrlFlag(false);
+    showJoinErr('');
+    setTab('standings');
+  }
+  function submitJoinOnboarding() {
+    var confirm = document.getElementById('cd-join-confirm');
+    var codeInput = document.getElementById('cd-join-code-input');
+    showJoinErr('');
+    if (!authenticated) {
+      setJoinUrlFlag(true);
+      window.location.href = loginUrl();
+      return;
+    }
+    if (community && !community.is_public) {
+      var code = (codeInput && codeInput.value || '').trim();
+      if (!code) return showJoinErr('Enter the community join code.');
+    }
+    if (confirm) { confirm.disabled = true; confirm.textContent = 'Joining…'; }
+    fetch('/api/communities/' + id + '/join', {
+      method: 'POST', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: (codeInput && codeInput.value) || null })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (res) {
+      if (confirm) {
+        confirm.disabled = false;
+        confirm.textContent = (community && !community.is_public) ? 'Request to Join' : 'Join Community';
+      }
+      if (res.error) return showJoinErr(res.error);
+      closeJoinOnboarding();
+      showOk('You joined ' + (community && community.name ? community.name : 'the community') + '! Member standings and messages are unlocked.');
+      loadCommunity();
+    })
+    .catch(function () {
+      if (confirm) {
+        confirm.disabled = false;
+        confirm.textContent = (community && !community.is_public) ? 'Request to Join' : 'Join Community';
+      }
+      showJoinErr('Could not join. Try again.');
+    });
+  }
+
+  /* Open join sheet immediately when arriving from Explore Join CTA */
+  if (wantJoin && joinSheet) {
+    joinSheet.hidden = false;
+    joinSheet.classList.add('is-open');
+    joinSheet.removeAttribute('hidden');
+    document.documentElement.classList.add('cd-join-open');
+    document.body.classList.add('cd-join-open');
+    joinSheetOpen = true;
+  }
+
+  document.getElementById('cd-join-back').addEventListener('click', function () {
+    /* Back from onboarding → opened community, Member standings */
+    closeJoinOnboarding();
+  });
+  document.getElementById('cd-join-confirm').addEventListener('click', submitJoinOnboarding);
+
   document.getElementById('cd-back').addEventListener('click', function () {
+    if (joinSheetOpen) {
+      closeJoinOnboarding();
+      return;
+    }
     if (window.history.length > 1) history.back();
     else window.location.href = 'kibbisave_community_explore.html';
   });
-
-  function setChromeCompact(on) {
-    if (!chrome) return;
-    chrome.classList.toggle('is-compact', !!on);
-  }
 
   function setMessagesChrome(on) {
     if (!chrome) return;
     chrome.classList.toggle('is-messages', !!on);
   }
-
-  function activePanel() {
-    if (!panels) return null;
-    return currentTab === 'messages'
-      ? document.getElementById('panel-messages')
-      : document.getElementById('panel-standings');
-  }
-
-  function syncChromeFromScroll() {
-    if (currentTab === 'messages') {
-      setMessagesChrome(true);
-      return;
-    }
-    setMessagesChrome(false);
-    var panel = activePanel();
-    setChromeCompact(panel && panel.scrollTop > 28);
-  }
-
-  ['panel-standings', 'panel-messages'].forEach(function (pid) {
-    var el = document.getElementById(pid);
-    if (!el) return;
-    el.addEventListener('scroll', syncChromeFromScroll, { passive: true });
-  });
 
   function applyTabUi(name, flags) {
     flags = flags || {};
@@ -467,7 +700,6 @@
     if (tabSlider) tabSlider.classList.toggle('is-messages', isMsg);
     if (panels) panels.classList.toggle('is-messages', isMsg);
     setMessagesChrome(isMsg);
-    if (!isMsg) setChromeCompact(false);
     try {
       var u = new URL(window.location.href);
       if (isMsg) u.searchParams.set('tab', 'messages');
@@ -481,7 +713,6 @@
         renderMessagesGate();
       }
     }
-    syncChromeFromScroll();
   }
 
   function setTab(name, flags) {
@@ -558,34 +789,104 @@
       return;
     }
     profileMember = member;
+    var name = member.display_name || 'Member';
     mpScreen.hidden = false;
-    document.getElementById('mp-topbar-title').textContent = member.display_name || 'Member profile';
-    document.getElementById('mp-name').textContent = member.display_name || 'Member';
-    document.getElementById('mp-handle').textContent = 'KibbiSave member';
+    document.getElementById('mp-topbar-title').textContent = name;
+    document.getElementById('mp-handle').textContent = 'Loading savings…';
     document.getElementById('mp-lifetime').textContent = fmtUGX(member.total_savings);
     document.getElementById('mp-groups-count').textContent = String(member.active_groups || 0);
     document.getElementById('mp-pct').textContent = Math.round(Number(member.pct_reached) || 0) + '%';
     document.getElementById('mp-lead').textContent = (Number(member.avg_lead) || 0).toFixed(1) + '%';
+    document.getElementById('mp-goal-label').textContent = 'Goal UGX …';
+    document.getElementById('mp-goal-pct').textContent = '…';
+    document.getElementById('mp-goal-fill').style.width = '0%';
+    document.getElementById('mp-lead-big').textContent = '…';
     var av = document.getElementById('mp-av');
     av.innerHTML = member.avatar_url
       ? '<img src="' + esc(member.avatar_url) + '" alt="">'
-      : esc(initials(member.display_name));
-    document.getElementById('mp-view-btn').href =
-      'kibbisave_home_final.html?user=' + encodeURIComponent(member.user_id);
+      : esc(initials(name));
+    var groupsBox = document.getElementById('mp-groups');
+    var groupsEmpty = document.getElementById('mp-groups-empty');
+    if (groupsBox) {
+      groupsBox.innerHTML =
+        '<div class="mp-group"><div class="mp-group-info">' +
+          '<div class="mp-skel" style="height:12px;width:60%">.</div>' +
+          '<div class="mp-skel" style="height:10px;width:40%;margin-top:4px">.</div>' +
+        '</div></div>';
+    }
+    if (groupsEmpty) groupsEmpty.hidden = true;
 
     fetch('/api/users/' + encodeURIComponent(member.user_id) + '/home', { credentials: 'omit' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
-        if (!d || !d.profile) return;
-        document.getElementById('mp-lifetime').textContent = fmtUGX(d.profile.lifetime_savings || d.profile.total_savings || member.total_savings);
-        if (d.profile.display_name) document.getElementById('mp-name').textContent = d.profile.display_name;
-        if (d.stats) {
-          if (d.stats.active_groups != null) document.getElementById('mp-groups-count').textContent = String(d.stats.active_groups);
-          if (d.stats.pct_reached != null) document.getElementById('mp-pct').textContent = Math.round(d.stats.pct_reached) + '%';
-          if (d.stats.avg_lead != null) document.getElementById('mp-lead').textContent = Number(d.stats.avg_lead).toFixed(1) + '%';
-        }
+        if (!d) return;
+        renderMemberAnalytics(d, member);
       })
-      .catch(function () {});
+      .catch(function () {
+        document.getElementById('mp-handle').textContent = 'Could not load this profile.';
+      });
+  }
+
+  function renderMemberAnalytics(data, fallback) {
+    var user = data.user || {};
+    var summary = data.summary || {};
+    var groups = data.my_groups || [];
+    var name = user.display_name || (fallback && fallback.display_name) || 'Member';
+    document.getElementById('mp-topbar-title').textContent = name;
+    if (user.avatar_url) {
+      document.getElementById('mp-av').innerHTML = '<img src="' + esc(user.avatar_url) + '" alt="">';
+    }
+
+    var lifetime = 0;
+    for (var i = 0; i < groups.length; i++) lifetime += Number(groups[i].total_deposited) || 0;
+    if (!lifetime && summary.total_savings) lifetime = Number(summary.total_savings) || 0;
+    document.getElementById('mp-lifetime').textContent = fmtUGX(lifetime);
+    document.getElementById('mp-handle').textContent = groups.length
+      ? ('In ' + groups.length + ' KibbiSave group' + (groups.length === 1 ? '' : 's'))
+      : 'KibbiSave member';
+
+    var pct = Number(summary.pct_reached) || 0;
+    var lead = Number(summary.avg_lead) || 0;
+    document.getElementById('mp-groups-count').textContent = String(summary.active_groups != null ? summary.active_groups : groups.length);
+    document.getElementById('mp-pct').textContent = Math.round(pct) + '%';
+    document.getElementById('mp-lead').textContent = (lead > 0 ? '+' : '') + lead.toFixed(1) + '%';
+    document.getElementById('mp-goal-label').textContent = 'Goal ' + fmtUGX(summary.total_goal);
+    document.getElementById('mp-goal-pct').textContent = Math.round(pct) + '% reached';
+    document.getElementById('mp-goal-fill').style.width = Math.max(0, Math.min(100, pct)) + '%';
+    document.getElementById('mp-lead-label').textContent = lead < 0
+      ? 'behind savings target by'
+      : 'ahead of savings target by';
+    document.getElementById('mp-lead-big').textContent = (lead > 0 ? '+' : '') + lead.toFixed(2) + '%';
+
+    var box = document.getElementById('mp-groups');
+    var empty = document.getElementById('mp-groups-empty');
+    if (!groups.length) {
+      if (box) box.innerHTML = '';
+      if (empty) empty.hidden = false;
+      return;
+    }
+    if (empty) empty.hidden = true;
+    if (box) {
+      box.innerHTML = groups.map(function (g) {
+        var gid = g.group_id ? String(g.group_id) : '';
+        var status = String(g.status || '').toLowerCase();
+        var sub = (g.period_months ? g.period_months + ' months' : '—') +
+          (status ? ' · ' + status : '');
+        var link = gid
+          ? 'kibbisave_my_group_detail_v2.html?id=' + encodeURIComponent(gid)
+          : '#';
+        return '<a class="mp-group" href="' + esc(link) + '">' +
+          '<div class="mp-group-info">' +
+            '<div class="mp-group-name">' + esc(g.group_name || 'Group') + '</div>' +
+            '<div class="mp-group-sub">' + esc(sub) + '</div>' +
+          '</div>' +
+          '<div class="mp-group-right">' +
+            '<div class="mp-group-amt">' + fmtUGX(g.total_deposited) + '</div>' +
+            '<div class="mp-group-lbl">saved</div>' +
+          '</div>' +
+        '</a>';
+      }).join('');
+    }
   }
 
   document.getElementById('mp-msg-btn').addEventListener('click', function () {
@@ -651,10 +952,12 @@
           : esc(initials(m.display_name));
         return '<div class="cd-dm-row ' + (mine ? 'me' : 'them') + '">' +
           '<div class="cd-dm-av">' + av + '</div>' +
-          '<div class="cd-dm-bubble">' +
+          '<div class="cd-dm-stack">' +
             '<div class="cd-dm-who">' + esc(m.display_name || 'Member') + '</div>' +
-            '<div class="cd-dm-body">' + esc(m.body) + '</div>' +
-            '<div class="cd-dm-when">' + esc(fmtMsgTime(m.created_at)) + '</div>' +
+            '<div class="cd-dm-bubble">' +
+              '<div class="cd-dm-body">' + esc(m.body) + '</div>' +
+              '<div class="cd-dm-when">' + esc(fmtMsgTime(m.created_at)) + '</div>' +
+            '</div>' +
           '</div></div>';
       }).join('');
       listEl.scrollTop = listEl.scrollHeight;
@@ -809,12 +1112,7 @@
     var cta = document.getElementById('cd-msgs-join-cta');
     if (cta) {
       cta.addEventListener('click', function () {
-        setTab('standings');
-        var joinBtn = document.getElementById('cd-join');
-        if (joinBtn && !joinBtn.hidden) {
-          joinBtn.focus();
-          if (community && community.is_public) joinBtn.click();
-        }
+        openJoinOnboarding();
       });
     }
   }
@@ -851,10 +1149,12 @@
           : esc(initials(m.display_name));
         return '<div class="msg-row ' + (mine ? 'me' : 'them') + '">' +
           '<div class="msg-av">' + av + '</div>' +
-          '<div class="msg-bubble">' +
+          '<div class="msg-stack">' +
             '<div class="msg-who">' + esc(m.display_name || 'Member') + '</div>' +
-            '<div class="msg-body">' + esc(m.body) + '</div>' +
-            '<div class="msg-when">' + esc(fmtMsgTime(m.created_at)) + '</div>' +
+            '<div class="msg-bubble">' +
+              '<div class="msg-body">' + esc(m.body) + '</div>' +
+              '<div class="msg-when">' + esc(fmtMsgTime(m.created_at)) + '</div>' +
+            '</div>' +
           '</div></div>';
       }).join('');
       listEl.scrollTop = listEl.scrollHeight;
@@ -952,7 +1252,7 @@
         '</div>' +
         '<div class="m-prog-wrap"><div class="m-prog" style="width:' + mpct + '%"></div></div>' +
         '<div class="m-foot">' +
-          '<span class="m-sub">Rank #' + rank + ' in community</span>' +
+          '<span class="m-sub">' + Math.round(mpct) + '%</span>' +
           '<span class="m-lead ' + (lead >= 0 ? 'ahead' : 'behind') + '">' +
             (lead > 0 ? '+' : '') + lead.toFixed(2) + '%</span>' +
         '</div>' +
@@ -1001,42 +1301,14 @@
 
         var joinBtn = document.getElementById('cd-join');
         var codeInput = document.getElementById('cd-code');
+        /* Join CTA opens onboarding sheet; code entry lives on that sheet */
+        codeInput.style.display = 'none';
         if (!isMember) {
           joinBtn.hidden = false;
-          if (!community.is_public) {
-            joinBtn.textContent = 'Request to Join';
-            codeInput.style.display = 'block';
-            var codeParam = params.get('code');
-            if (codeParam) codeInput.value = codeParam;
-          } else {
-            joinBtn.textContent = 'Join Community';
-            codeInput.style.display = 'none';
-          }
-          joinBtn.onclick = function () {
-            if (!authenticated) {
-              window.location.href = loginUrl();
-              return;
-            }
-            joinBtn.disabled = true;
-            fetch('/api/communities/' + id + '/join', {
-              method: 'POST', credentials: 'include',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: codeInput.value || null })
-            })
-            .then(function (r) { return r.json(); })
-            .then(function (res) {
-              joinBtn.disabled = false;
-              if (res.error) return showErr(res.error);
-              showOk('You joined ' + community.name + '! Member standings and messages are unlocked.');
-              joinBtn.hidden = true;
-              codeInput.style.display = 'none';
-              loadCommunity();
-            })
-            .catch(function () { joinBtn.disabled = false; showErr('Could not join. Try again.'); });
-          };
+          joinBtn.textContent = community.is_public ? 'Join Community' : 'Request to Join';
+          joinBtn.onclick = function () { openJoinOnboarding(); };
         } else {
           joinBtn.hidden = true;
-          codeInput.style.display = 'none';
         }
 
         if (!canUseMessages) {
@@ -1045,8 +1317,14 @@
           activateMessages();
         }
 
-        if (wantMessages) setTab('messages');
+        if (wantMessages && !wantJoin) setTab('messages');
         else setTab('standings');
+
+        /* Explore Join CTA / ?join=1 — open onboarding immediately */
+        if (wantJoin) {
+          if (isMember) closeJoinOnboarding();
+          else openJoinOnboarding();
+        }
       })
       .catch(function () {
         showErr('Could not reach the server. Refresh to retry.');

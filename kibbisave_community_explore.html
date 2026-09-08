@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KibbiSave — Community</title>
   <link rel="icon" href="/assets/kibbisave.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="css/kibbisave-site.css?v=cx-info-i-1">
+  <link rel="stylesheet" href="css/kibbisave-site.css?v=cm-card-3">
   <script>(function(){try{var v=sessionStorage.getItem('kibbi_auth_v1');if(v==='1')document.documentElement.classList.add('kb-authed');if(v==='0'||v==='1')document.documentElement.classList.add('kb-auth-known');if(localStorage.getItem('kibbi_dark_mode')==='1'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}}catch(e){}})();</script>
 </head>
 <body>
@@ -27,6 +27,14 @@
     </div>
   </div>
 </header>
+<nav id="kb-bottom-nav" class="kb-bottom-nav" aria-label="Primary">
+  <div class="kb-bnav-wave" aria-hidden="true"></div>
+  <a class="kb-bnav-item" href="kibbisave_profile_screen.html" data-kb-bnav-i="0"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Profile</span></a>
+  <a class="kb-bnav-item" href="kibbisave_leaderboard_v5.html" data-kb-bnav-i="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 5h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4M7 5H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Leaderboard</span></a>
+  <a class="kb-bnav-item" href="kibbisave_home_final.html" data-kb-bnav-i="2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9m5 10V5m5 14v-7m5 7V8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Analytics</span></a>
+  <a class="kb-bnav-item" href="kibbisave_groups_v6.html" data-kb-bnav-i="3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Groups</span></a>
+  <a class="kb-bnav-item is-active" href="kibbisave_community_explore.html" data-kb-bnav-i="4" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>Communities</span></a>
+</nav>
 <main class="site-main site-main--community">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans);}
@@ -116,71 +124,136 @@ body.dark .cx-page-search input:focus{background:rgba(245,240,232,0.04);}
 }
 .cx-info-create:hover{text-decoration:underline;}
 
-/* Shared horizontal rail — free scroll, no snap, no scrollbar */
+/* Horizontal rail — cards only, no wash / shadow strip behind */
 .cx-rail{
   display:flex;flex-wrap:nowrap;gap:12px;
-  padding:2px 0 14px;
-  overflow-x:auto;overflow-y:hidden;
+  width:100%;
+  margin:0;
+  padding:2px 2px 14px;
+  min-height:264px;
+  overflow-x:auto;overflow-y:visible;
   scroll-snap-type:none;overscroll-behavior-x:contain;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;-ms-overflow-style:none;
   align-items:stretch;
+  background:transparent;
+  border:none;outline:none;box-shadow:none;
 }
-.cx-rail::before,.cx-rail::after{content:"";flex:0 0 1.1rem;}
 .cx-rail::-webkit-scrollbar{display:none;height:0;width:0;}
+.cx-rail-empty{
+  flex:1 1 auto;width:100%;max-width:100%;
+  min-height:248px;
+  padding:10px 8px 6px;
+  background:transparent;border:none;box-shadow:none;
+  text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.cx-rail-empty-tip{font-size:10px;color:#9aa3b8;line-height:1.35;margin:0 0 4px;font-weight:500;}
+.cx-rail-empty-cta{
+  appearance:none;border:none;background:none;padding:0;margin:0;
+  font:inherit;font-size:10px;font-weight:700;color:var(--kb-primary,#00008b);
+  text-decoration:underline;cursor:pointer;
+}
 
-/* Community card — tighter goal-first layout */
+/* Community card — clean card only (no deep left wash / glass override) */
 .cm-card{
-  --cm-card-w:83%;
-  --cm-card-h:268px;
+  --cm-card-w:min(340px,88vw);
+  --cm-side:132px;
+  position:relative;
   display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;
   flex:0 0 var(--cm-card-w);
   width:var(--cm-card-w);max-width:var(--cm-card-w);
-  height:var(--cm-card-h);min-height:var(--cm-card-h);max-height:var(--cm-card-h);
+  min-height:248px;
   box-sizing:border-box;
-  background:var(--kb-glass-bg,rgba(255,255,255,0.72));
-  border:1px solid var(--kb-glass-border,rgba(0,0,139,0.1));
-  border-radius:18px;
-  padding:16px 16px 14px;
-  backdrop-filter:var(--kb-glass-blur,blur(14px));
-  -webkit-backdrop-filter:var(--kb-glass-blur,blur(14px));
-  box-shadow:0 2px 10px rgba(0,0,56,0.05);
-  transition:transform 0.15s ease, box-shadow 0.15s ease;
+  background:var(--kb-surface,#fff)!important;
+  border:1px solid var(--kb-border,#dde3f0)!important;
+  border-radius:14px;
+  padding:14px 14px 13px;
+  box-shadow:0 1px 3px rgba(0,0,56,0.05)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  transition:transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   overflow:hidden;cursor:pointer;
+  isolation:isolate;
 }
-.cm-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,56,0.1);}
-.cm-card--empty{cursor:default;justify-content:center;gap:14px;text-align:center;}
-.cm-card--empty:hover{transform:none;box-shadow:0 2px 10px rgba(0,0,56,0.05);}
-.cm-empty-tip{font-size:13px;color:#7a85a0;line-height:1.45;padding:0 6px;}
-.cm-goal{font-size:1.35rem;font-weight:800;color:var(--kb-primary,#00008b);letter-spacing:-0.02em;line-height:1.15;}
-.cm-goal-lbl{font-size:10px;color:#7a85a0;margin-top:2px;margin-bottom:10px;font-weight:600;}
-.cm-name{font-size:1.15rem;font-weight:800;color:#111;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.cm-sub{font-size:11px;color:#7a85a0;margin-top:4px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cm-card:hover{
+  transform:translateY(-2px);
+  border-color:#c5cce0!important;
+  box-shadow:0 4px 14px rgba(15,23,60,0.08)!important;
+}
+.cm-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:2px;padding-right:var(--cm-side);}
+.cm-info{flex:1;min-width:0;}
+.cm-name{
+  font-size:15px;font-weight:800;color:#111;line-height:1.25;letter-spacing:-0.01em;
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;
+}
+.cm-sub{font-size:10px;color:#7a85a0;margin-top:3px;line-height:1.35;}
 .cm-badge{
-  display:inline-block;font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;
-  letter-spacing:0.03em;margin-top:6px;
+  position:absolute;top:12px;right:12px;z-index:3;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;padding:3px 9px;border-radius:20px;
+  letter-spacing:0.03em;margin:0;line-height:1.1;
   background:#e8eaf8;color:var(--kb-primary,#00008b);
 }
 .cm-badge.priv{background:#fff3cd;color:#7a4f00;}
-.cm-badge.org{background:#e8f5e9;color:#1a6e35;}
+.cm-badge.org{background:#e6f4ea;color:#1a6e35;}
 .cm-badge.don{background:#fce8f0;color:#9b1b4d;}
-.cm-prog-wrap{background:#eef0f8;border-radius:4px;height:4px;overflow:hidden;flex-shrink:0;margin-top:10px;}
-.cm-prog{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));height:4px;border-radius:4px;transition:width 0.3s;}
-.cm-foot{margin-top:auto;flex-shrink:0;padding-top:12px;}
+.cm-savings{
+  position:absolute;top:38px;right:10px;bottom:72px;z-index:2;
+  display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:2px;
+  width:var(--cm-side);max-width:var(--cm-side);text-align:right;pointer-events:none;
+}
+.cm-savings-ugx{
+  font-size:9px;font-weight:700;color:#7a85a0;letter-spacing:0.06em;
+  text-transform:uppercase;line-height:1;
+}
+.cm-savings-hero{
+  font-size:clamp(1.85rem,7.2vw,2.35rem);font-weight:800;color:var(--kb-primary,#00008b);
+  letter-spacing:-0.045em;line-height:0.92;
+  transform:scaleY(1.18);transform-origin:right center;
+  display:block;max-width:100%;
+}
+.cm-savings-lbl{
+  font-size:8px;color:#7a85a0;font-weight:600;text-transform:uppercase;
+  letter-spacing:0.04em;line-height:1.2;margin-top:4px;
+}
+.cm-about-wrap{margin:8px 0 2px;min-height:0;padding-right:var(--cm-side);}
+.cm-about{
+  font-size:11px;color:#5a6478;line-height:1.45;margin:0;
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;
+}
+.cm-read-more{
+  display:inline;padding:0;margin:0 0 0 0.25em;
+  font:inherit;font-size:11px;font-weight:700;color:var(--kb-primary,#00008b);
+  cursor:pointer;text-decoration:underline;vertical-align:baseline;
+}
+.cm-read-more:hover{text-decoration:underline;filter:brightness(1.08);color:var(--kb-primary,#00008b);}
+.cm-prog-row{
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  margin-top:auto;margin-bottom:4px;flex-shrink:0;
+}
+.cm-pct{font-size:11px;font-weight:700;color:var(--kb-primary,#00008b);line-height:1.2;}
+.cm-goal-amt{font-size:10px;font-weight:600;color:#7a85a0;line-height:1.2;text-align:right;letter-spacing:0;}
+.cm-prog-wrap{background:#eef0f8;border-radius:5px;height:6px;overflow:hidden;flex-shrink:0;margin-bottom:0;}
+.cm-prog{background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));height:6px;border-radius:5px;transition:width 0.3s;}
+.cm-foot{margin-top:8px;flex-shrink:0;padding-top:0;}
 .cm-join{
-  display:block;width:100%;box-sizing:border-box;padding:11px 0;text-align:center;
-  text-decoration:none;
+  position:relative;display:block;width:100%;box-sizing:border-box;margin-top:0;padding:12px 0;text-align:center;
+  text-decoration:none;overflow:hidden;
   background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));
-  color:#fff;font-size:13px;font-weight:700;border-radius:22px;border:none;cursor:pointer;
+  color:#fff;font-size:13px;font-weight:600;border-radius:22px;border:none;cursor:pointer;
   box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));
-  font-family:inherit;
+  font-family:inherit;z-index:2;
 }
 .cm-join:hover{filter:brightness(1.08);}
 .cm-join:focus-visible{outline:2px solid var(--kb-primary,#00008b);outline-offset:2px;}
 
-.skel-rail{display:flex;gap:12px;padding:2px 1.1rem 14px;overflow:hidden;}
-.skel-rail .skel{flex:0 0 83%;height:268px;border-radius:18px;position:relative;overflow:hidden;background:#e8ecf5;}
-.skel{height:268px;border-radius:18px;position:relative;overflow:hidden;background:#e8ecf5;}
+.skel-rail{
+  display:flex;gap:12px;padding:2px 2px 14px;overflow:hidden;
+  width:100%;margin:0;background:transparent;
+}
+.skel-rail .skel{flex:0 0 min(340px,88vw);height:248px;border-radius:14px;position:relative;overflow:hidden;background:#e8ecf5;}
+.skel{height:248px;border-radius:14px;position:relative;overflow:hidden;background:#e8ecf5;}
 .skel::after,.skel-rail .skel::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);animation:sh 1.2s infinite;}
 @keyframes sh{100%{transform:translateX(100%)}}
 
@@ -201,25 +274,44 @@ body.dark .cx-page-search input:focus{background:rgba(245,240,232,0.04);}
 }
 .cx-empty-cta:hover{transform:translateY(-1px);filter:brightness(1.08);}
 
-/* create modal */
+/* create community — full-screen sheet over top + bottom nav */
 .modal-bg{
   display:none;position:fixed;inset:0;
-  background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));
-  z-index:220;align-items:stretch;justify-content:center;padding:0;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
+  background:#f4f6fb;
+  z-index:500;align-items:stretch;justify-content:center;padding:0;
 }
 .modal-bg.open{display:flex;}
 .modal{
-  width:100%;max-width:480px;height:100%;max-height:none;margin:0 auto;
-  background:transparent;border-radius:0;padding:18px 16px 28px;
-  overflow:auto;-webkit-overflow-scrolling:touch;box-sizing:border-box;
+  width:100%;max-width:none;height:100%;max-height:none;margin:0;
+  background:#f4f6fb;border-radius:0;padding:0;
+  display:flex;flex-direction:column;overflow:hidden;box-sizing:border-box;
+}
+.md-topbar{
+  flex:0 0 auto;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:14px 16px 12px;
+  padding-top:calc(14px + env(safe-area-inset-top,0px));
+  background:var(--kb-msg-gradient,linear-gradient(148deg,#00008b 0%,#00008b 52%,#0a0aff 100%));
+}
+.md-back{
+  width:36px;height:36px;border-radius:50%;padding:0;
+  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.22);
+  color:#fff;display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;font-family:inherit;line-height:1;
+}
+.md-back svg{display:block;width:20px;height:20px;}
+.md-topbar-mid{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;}
+.md-topbar-title{font-size:15px;font-weight:600;color:#fff;line-height:1.2;}
+.md-topbar-sub{font-size:10px;color:rgba(255,255,255,0.55);margin-top:2px;line-height:1.25;}
+.md-topbar-right{width:36px;flex-shrink:0;}
+.md-scroll{
+  flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;padding:16px 16px calc(28px + env(safe-area-inset-bottom,0px));
+  background:#f4f6fb;
 }
 .md-card{
-  background:linear-gradient(180deg,#fff 0%,#f9fafd 100%);
-  border:1px solid #dde3f0;border-radius:18px;
-  padding:1.15rem 1.2rem 1.25rem;
-  box-shadow:-14px 8px 32px -12px rgba(15,23,60,0.28),-4px 2px 12px -4px rgba(15,23,60,0.12);
+  background:#f4f6fb;border:none;border-radius:0;
+  padding:0;box-shadow:none;min-height:100%;
 }
 .md-title{font-size:1.05rem;font-weight:800;color:var(--kb-primary,#00008b);margin-bottom:4px;letter-spacing:-0.01em;}
 .md-lead{font-size:12px;color:#7a85a0;margin:0 0 14px;line-height:1.45;}
@@ -248,8 +340,7 @@ body.dark .cx-page-search input:focus{background:rgba(245,240,232,0.04);}
   box-shadow:var(--kb-msg-shadow,0 4px 14px rgba(0,0,139,0.22));
 }
 .md-btn:disabled{opacity:0.55;cursor:not-allowed;box-shadow:none;}
-.md-cancel{width:100%;background:none;border:none;color:rgba(255,255,255,0.78);font-size:12px;padding:12px;cursor:pointer;font-family:inherit;margin-top:8px;}
-.md-share-note{font-size:12px;color:#7a85a0;line-height:1.45;margin:-4px 0 12px;}
+.md-share-note{font-size:12px;color:#7a85a0;line-height:1.45;margin:0 0 12px;}
 .md-share-box{background:#f7f8fc;border:1px solid #dde3f0;border-radius:14px;padding:12px;margin-bottom:8px;}
 .md-share-lbl{font-size:10px;font-weight:700;color:#7a85a0;text-transform:uppercase;letter-spacing:0.06em;}
 .md-share-val{font-size:12px;color:var(--kb-primary,#00008b);font-weight:600;margin-top:4px;word-break:break-all;}
@@ -283,20 +374,30 @@ body.dark .cx-page-search input:focus{background:rgba(245,240,232,0.04);}
 html[data-theme="dark"] .cm-card,
 html.dark .cm-card,
 body.dark .cm-card{
-  background:linear-gradient(160deg,rgba(245,240,232,0.06) 0%,rgba(245,240,232,0.015) 40%,transparent 62%),#000 !important;
+  background:var(--kb-surface,#050508) !important;
   border:1px solid var(--kb-border,rgba(245,240,232,0.18)) !important;
   color:var(--kb-text,#f5f0e8);
-  box-shadow:var(--kb-shadow),inset 0 1px 0 rgba(245,240,232,0.12);
+  box-shadow:0 1px 3px rgba(0,0,0,0.35) !important;
 }
 html[data-theme="dark"] .cm-name,
-html[data-theme="dark"] .cm-goal,
-html.dark .cm-name,html.dark .cm-goal,
-body.dark .cm-name,body.dark .cm-goal{color:var(--kb-cream,#f5f0e8)!important;}
+html[data-theme="dark"] .cm-savings-hero,
+html[data-theme="dark"] .cm-pct,
+html.dark .cm-name,html.dark .cm-savings-hero,html.dark .cm-pct,
+body.dark .cm-name,body.dark .cm-savings-hero,body.dark .cm-pct{color:var(--kb-cream,#f5f0e8)!important;}
+html[data-theme="dark"] .cm-goal-amt,
+html.dark .cm-goal-amt,
+body.dark .cm-goal-amt{color:var(--kb-muted,#a8aeb8)!important;}
+html[data-theme="dark"] .cm-about,
 html[data-theme="dark"] .cm-sub,
-html[data-theme="dark"] .cm-goal-lbl,
-html[data-theme="dark"] .cm-empty-tip,
-html.dark .cm-sub,html.dark .cm-goal-lbl,html.dark .cm-empty-tip,
-body.dark .cm-sub,body.dark .cm-goal-lbl,body.dark .cm-empty-tip{color:var(--kb-muted,#a8aeb8)!important;}
+html[data-theme="dark"] .cm-savings-ugx,
+html[data-theme="dark"] .cm-savings-lbl,
+html[data-theme="dark"] .cx-rail-empty-tip,
+html.dark .cm-about,html.dark .cm-sub,html.dark .cm-savings-ugx,html.dark .cm-savings-lbl,html.dark .cx-rail-empty-tip,
+body.dark .cm-about,body.dark .cm-sub,body.dark .cm-savings-ugx,body.dark .cm-savings-lbl,body.dark .cx-rail-empty-tip{color:var(--kb-muted,#a8aeb8)!important;}
+html[data-theme="dark"] .cm-read-more,
+html[data-theme="dark"] .cx-rail-empty-cta,
+html.dark .cm-read-more,html.dark .cx-rail-empty-cta,
+body.dark .cm-read-more,body.dark .cx-rail-empty-cta{color:var(--kb-cream,#f5f0e8)!important;}
 html[data-theme="dark"] .cm-badge,
 html.dark .cm-badge,
 body.dark .cm-badge{background:rgba(245,240,232,0.12)!important;color:var(--kb-cream,#f5f0e8)!important;}
@@ -306,6 +407,12 @@ body.dark .cm-prog-wrap{background:var(--kb-track,#1a1a1c)!important;}
 html[data-theme="dark"] .cm-prog,
 html.dark .cm-prog,
 body.dark .cm-prog{background:var(--kb-cream,#f5f0e8)!important;}
+html[data-theme="dark"] .cx-rail,
+html.dark .cx-rail,
+body.dark .cx-rail,
+html[data-theme="dark"] .skel-rail,
+html.dark .skel-rail,
+body.dark .skel-rail{background:transparent!important;}
 html[data-theme="dark"] .cm-join,
 html.dark .cm-join,
 body.dark .cm-join{
@@ -366,59 +473,68 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
 </div>
 </div>
 
-<!-- Create community -->
-<div class="modal-bg" id="cx-modal">
-  <div class="modal">
-    <div class="md-card" id="md-step-details">
-      <div class="md-title">Create Community</div>
-      <p class="md-lead">Start a circle friends can join and save with.</p>
-      <label class="md-lbl" for="md-name">Name of the Community *</label>
-      <input class="md-input" id="md-name" maxlength="40" placeholder="e.g. Campus Savers">
-      <label class="md-lbl" for="md-about">About the community</label>
-      <textarea class="md-area" id="md-about" maxlength="150" placeholder="What brings this community together?"></textarea>
-      <div class="md-count"><span id="md-about-count">0</span>/150</div>
-      <label class="md-lbl" for="md-country">Location — country</label>
-      <input class="md-input" id="md-country" value="Uganda">
-      <label class="md-lbl" for="md-city">City</label>
-      <input class="md-input" id="md-city" placeholder="e.g. Kampala">
-      <span class="md-lbl">Community type</span>
-      <div class="md-kind-grid" id="md-kind-grid" role="listbox" aria-label="Choose community type">
-        <button type="button" class="md-kind-opt selected" data-kind="public" role="option" aria-selected="true">Public</button>
-        <button type="button" class="md-kind-opt" data-kind="private" role="option" aria-selected="false">Private</button>
-        <button type="button" class="md-kind-opt" data-kind="organisation" role="option" aria-selected="false">Organisation</button>
-        <button type="button" class="md-kind-opt" data-kind="donating" role="option" aria-selected="false">Donating</button>
+<!-- Create community — inside main so soft-nav keeps the sheet -->
+<div class="modal-bg" id="cx-modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="md-topbar-title">
+    <header class="md-topbar">
+      <button type="button" class="md-back" id="md-back" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="md-topbar-mid">
+        <div class="md-topbar-title" id="md-topbar-title">Create Community</div>
+        <div class="md-topbar-sub" id="md-topbar-sub">Start a circle friends can join and save with</div>
       </div>
-      <p class="md-kind-hint" id="md-kind-hint">Open to everyone — anyone can join and save together.</p>
-      <span class="md-lbl">Community icon</span>
-      <div class="cx-icon-grid" id="md-icon-grid" role="listbox" aria-label="Choose a community icon"></div>
-      <div class="cx-icon-preview">
-        <div class="cx-icon-preview-ico" id="md-icon-preview">👥</div>
-        <div>
-          <div class="cx-icon-preview-lbl">Card preview</div>
-          <div class="cx-icon-preview-val" id="md-icon-preview-name">Your community</div>
+      <div class="md-topbar-right" aria-hidden="true"></div>
+    </header>
+    <div class="md-scroll">
+      <div class="md-card" id="md-step-details">
+        <label class="md-lbl" for="md-name">Name of the Community *</label>
+        <input class="md-input" id="md-name" maxlength="40" placeholder="e.g. Campus Savers">
+        <label class="md-lbl" for="md-about">About the community</label>
+        <textarea class="md-area" id="md-about" maxlength="150" placeholder="What brings this community together?"></textarea>
+        <div class="md-count"><span id="md-about-count">0</span>/150</div>
+        <label class="md-lbl" for="md-country">Location — country</label>
+        <input class="md-input" id="md-country" value="Uganda">
+        <label class="md-lbl" for="md-city">City</label>
+        <input class="md-input" id="md-city" placeholder="e.g. Kampala">
+        <span class="md-lbl">Community type</span>
+        <div class="md-kind-grid" id="md-kind-grid" role="listbox" aria-label="Choose community type">
+          <button type="button" class="md-kind-opt selected" data-kind="public" role="option" aria-selected="true">Public</button>
+          <button type="button" class="md-kind-opt" data-kind="private" role="option" aria-selected="false">Private</button>
+          <button type="button" class="md-kind-opt" data-kind="organisation" role="option" aria-selected="false">Organisation</button>
+          <button type="button" class="md-kind-opt" data-kind="donating" role="option" aria-selected="false">Donating</button>
         </div>
+        <p class="md-kind-hint" id="md-kind-hint">Open to everyone — anyone can join and save together.</p>
+        <span class="md-lbl">Community icon</span>
+        <div class="cx-icon-grid" id="md-icon-grid" role="listbox" aria-label="Choose a community icon"></div>
+        <div class="cx-icon-preview">
+          <div class="cx-icon-preview-ico" id="md-icon-preview">👥</div>
+          <div>
+            <div class="cx-icon-preview-lbl">Card preview</div>
+            <div class="cx-icon-preview-val" id="md-icon-preview-name">Your community</div>
+          </div>
+        </div>
+        <button type="button" class="md-btn" id="md-confirm">Confirm and create</button>
       </div>
-      <button class="md-btn" id="md-confirm">Confirm and create</button>
-    </div>
-    <button class="md-cancel" id="md-cancel">Cancel</button>
 
-    <div class="md-card" id="md-step-share" hidden>
-      <div class="md-title">Share invite link</div>
-      <p class="md-share-note">Sharing is compulsory — you can’t finish without inviting members.</p>
-      <div class="md-share-box">
-        <div class="md-share-lbl">Invite link</div>
-        <div class="md-share-val" id="md-share-link"></div>
-        <div class="md-share-actions">
-          <button type="button" class="md-share-btn" id="md-share">Share</button>
-          <button type="button" class="md-copy-btn" id="md-copy">Copy link</button>
+      <div class="md-card" id="md-step-share" hidden>
+        <div class="md-title">Share invite link</div>
+        <p class="md-share-note">Sharing is compulsory — you can’t finish without inviting members.</p>
+        <div class="md-share-box">
+          <div class="md-share-lbl">Invite link</div>
+          <div class="md-share-val" id="md-share-link"></div>
+          <div class="md-share-actions">
+            <button type="button" class="md-share-btn" id="md-share">Share</button>
+            <button type="button" class="md-copy-btn" id="md-copy">Copy link</button>
+          </div>
         </div>
+        <div class="md-share-box" id="md-code-box" hidden>
+          <div class="md-share-lbl">Join code</div>
+          <div class="md-share-val" id="md-join-code"></div>
+        </div>
+        <p class="md-share-gate" id="md-share-gate">Share or copy the invite link to finish.</p>
+        <button type="button" class="md-btn" id="md-finish" disabled>Finish</button>
       </div>
-      <div class="md-share-box" id="md-code-box" hidden>
-        <div class="md-share-lbl">Join code</div>
-        <div class="md-share-val" id="md-join-code"></div>
-      </div>
-      <p class="md-share-gate" id="md-share-gate">Share or copy the invite link to finish.</p>
-      <button class="md-btn" id="md-finish" disabled>Finish</button>
     </div>
   </div>
 </div>
@@ -426,7 +542,7 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
 </main>
 <footer class="site-footer site-footer--rich"></footer>
 
-<script src="js/kibbisave-site.js?v=cx-info-i-1"></script>
+<script src="js/kibbisave-site.js?v=cm-tap-1"></script>
 <script>
 (function () {
   var err = document.getElementById('cx-error');
@@ -478,6 +594,23 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
   function showErr(m) { err.textContent = m || ''; err.style.display = m ? 'block' : 'none'; }
   function showOk(m) { ok.textContent = m || ''; ok.style.display = m ? 'block' : 'none'; }
   function fmtUGX(n) { return 'UGX ' + (Number(n) || 0).toLocaleString('en-US'); }
+  function fmtShortHero(n) {
+    n = Number(n) || 0;
+    var abs = Math.abs(n);
+    var sign = n < 0 ? '-' : '';
+    function trim(v) {
+      return String(v).replace(/\.0+$/, '').replace(/(\.\d)0$/, '$1');
+    }
+    if (abs >= 1e9) return sign + trim((abs / 1e9).toFixed(abs >= 1e10 ? 1 : 2)) + 'B';
+    if (abs >= 1e6) return sign + trim((abs / 1e6).toFixed(abs >= 1e7 ? 1 : 2)) + 'M';
+    if (abs >= 1e3) {
+      if (abs >= 1e5) return sign + Math.round(abs / 1e3) + 'k';
+      return sign + trim((abs / 1e3).toFixed(abs % 1000 === 0 ? 0 : 1)) + 'k';
+    }
+    return sign + String(Math.round(abs));
+  }
+  function fmtUGXShort(n) { return 'UGX ' + fmtShortHero(n); }
+  function fmtGoalFull(n) { return (Number(n) || 0).toLocaleString('en-US'); }
   function fmtDate(iso) {
     if (!iso) return '—';
     var d = new Date(iso);
@@ -504,13 +637,26 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
     return c && c.is_public ? 'public' : 'private';
   }
 
+  function setCreateTopbar(mode) {
+    var title = document.getElementById('md-topbar-title');
+    var sub = document.getElementById('md-topbar-sub');
+    if (!title || !sub) return;
+    if (mode === 'share') {
+      title.textContent = 'Share invite link';
+      sub.textContent = 'Invite members to finish creating';
+    } else {
+      title.textContent = 'Create Community';
+      sub.textContent = 'Start a circle friends can join and save with';
+    }
+  }
+
   function resetCreateModal() {
     shareDone = false;
     pendingShareLink = '';
     pendingCommunityName = '';
     document.getElementById('md-step-details').hidden = false;
     document.getElementById('md-step-share').hidden = true;
-    document.getElementById('md-cancel').hidden = false;
+    setCreateTopbar('details');
     document.getElementById('md-finish').disabled = true;
     document.getElementById('md-code-box').hidden = true;
     var gate = document.getElementById('md-share-gate');
@@ -532,20 +678,28 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
 
   function openCreate(kind) {
     if (!authenticated) {
-      window.location.href = '/login?next=' + encodeURIComponent(window.location.pathname);
+      window.location.href = '/login?next=' + encodeURIComponent(window.location.pathname + window.location.search);
       return;
     }
+    var modal = document.getElementById('cx-modal');
+    if (!modal) return;
     setSelectedIcon('👥');
     setSelectedKind(kind || createPrefKind || 'public');
     createPrefKind = null;
     resetCreateModal();
     document.documentElement.classList.add('cx-create-open');
     document.body.classList.add('cx-create-open');
-    document.getElementById('cx-modal').classList.add('open');
+    modal.hidden = false;
+    modal.removeAttribute('hidden');
+    modal.classList.add('open');
   }
 
   function closeCreate() {
-    document.getElementById('cx-modal').classList.remove('open');
+    var modal = document.getElementById('cx-modal');
+    if (modal) {
+      modal.classList.remove('open');
+      modal.hidden = true;
+    }
     document.documentElement.classList.remove('cx-create-open');
     document.body.classList.remove('cx-create-open');
     resetCreateModal();
@@ -609,8 +763,8 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
     pendingCommunityName = (d.community && d.community.name) || document.getElementById('md-name').value.trim();
     shareDone = false;
     document.getElementById('md-step-details').hidden = true;
-    document.getElementById('md-cancel').hidden = true;
     document.getElementById('md-step-share').hidden = false;
+    setCreateTopbar('share');
     document.getElementById('md-share-link').textContent = pendingShareLink;
     document.getElementById('md-finish').disabled = true;
     var gate = document.getElementById('md-share-gate');
@@ -655,20 +809,41 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
     var kind = communityKind(c);
     var meta = KIND_META[kind];
     var href = 'kibbisave_cause_detail.html?id=' + esc(c.id);
+    var joinHref = href + '&join=1';
     var members = Number(c.total_members) || 0;
     var place = (c.city && String(c.city).trim()) || (c.country && String(c.country).trim()) || 'Uganda';
     var mineMark = mine.indexOf(c.id) !== -1 ? ' ✓' : '';
     var goal = Number(c.total_goal) || 0;
+    var saved = Number(c.total_saved) || 0;
+    var about = (c.about && String(c.about).trim()) ||
+      ((members === 1 ? '1 member' : members + ' members') + ' saving together in ' + place + '.');
     return (
       '<article class="cm-card" data-href="' + href + '">' +
-        '<div class="cm-goal">' + fmtUGX(goal) + '</div>' +
-        '<div class="cm-goal-lbl">members\' goal</div>' +
-        '<div class="cm-name">' + esc(c.name) + mineMark + '</div>' +
-        '<div class="cm-sub">' + members + (members === 1 ? ' member' : ' members') + ' · ' + esc(place) + '</div>' +
         '<span class="cm-badge ' + meta.badgeClass + '">' + esc(meta.badge) + '</span>' +
+        '<div class="cm-savings" aria-label="Total savings">' +
+          '<span class="cm-savings-ugx">UGX</span>' +
+          '<span class="cm-savings-hero">' + esc(fmtShortHero(saved)) + '</span>' +
+          '<span class="cm-savings-lbl">total savings</span>' +
+        '</div>' +
+        '<div class="cm-top">' +
+          '<div class="cm-info">' +
+            '<div class="cm-name">' + esc(c.name) + mineMark + '</div>' +
+            '<div class="cm-sub">' + members + (members === 1 ? ' member' : ' members') +
+              ' · ' + esc(place) + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="cm-about-wrap">' +
+          '<p class="cm-about">' + esc(about) +
+            ' <a class="cm-read-more" href="' + href + '">read more</a>' +
+          '</p>' +
+        '</div>' +
+        '<div class="cm-prog-row">' +
+          '<span class="cm-pct">' + Math.round(pct) + '%</span>' +
+          '<span class="cm-goal-amt">' + esc(fmtGoalFull(goal)) + '</span>' +
+        '</div>' +
         '<div class="cm-prog-wrap"><div class="cm-prog" style="width:' + pct + '%"></div></div>' +
         '<div class="cm-foot">' +
-          '<a class="cm-join" href="' + href + '">Join community</a>' +
+          '<a class="cm-join" href="' + joinHref + '">Join community</a>' +
         '</div>' +
       '</article>'
     );
@@ -677,12 +852,12 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
   function emptyRailCard(kind) {
     var meta = KIND_META[kind];
     return (
-      '<article class="cm-card cm-card--empty">' +
-        '<p class="cm-empty-tip">' + esc(meta.empty) + '</p>' +
-        '<button type="button" class="cm-join" data-cx-create data-kind="' + kind + '">' +
+      '<div class="cx-rail-empty">' +
+        '<p class="cx-rail-empty-tip">' + esc(meta.empty) + '</p>' +
+        '<button type="button" class="cx-rail-empty-cta" data-cx-create data-kind="' + kind + '">' +
           esc(meta.createLabel) +
         '</button>' +
-      '</article>'
+      '</div>'
     );
   }
 
@@ -710,11 +885,18 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
   function bindCards(root) {
     root.querySelectorAll('.cm-card:not(.cm-card--empty)').forEach(function (card) {
       function go(e) {
-        if (e && e.target && e.target.closest && e.target.closest('.cm-join')) return;
+        if (e && e.target && e.target.closest &&
+          e.target.closest('.cm-join, .cm-read-more, .kb-tap-ink-layer')) return;
         var href = card.getAttribute('data-href');
         if (href) window.location.href = href;
       }
       card.addEventListener('click', go);
+      var join = card.querySelector('a.cm-join');
+      if (join) {
+        join.addEventListener('click', function (e) {
+          e.stopPropagation();
+        });
+      }
     });
   }
 
@@ -818,33 +1000,39 @@ body.dark .wrap:not(.is-empty){background:var(--kb-bg,#000)!important;}
     }
   });
 
-  document.getElementById('md-cancel').addEventListener('click', closeCreate);
-  document.getElementById('md-about').addEventListener('input', function () {
-    document.getElementById('md-about-count').textContent = this.value.length;
+  function on(id, ev, fn) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener(ev, fn);
+  }
+  on('md-back', 'click', closeCreate);
+  on('md-about', 'input', function () {
+    var c = document.getElementById('md-about-count');
+    if (c) c.textContent = this.value.length;
   });
-  document.getElementById('md-name').addEventListener('input', function () {
-    document.getElementById('md-icon-preview-name').textContent = this.value.trim() || 'Your community';
+  on('md-name', 'input', function () {
+    var p = document.getElementById('md-icon-preview-name');
+    if (p) p.textContent = this.value.trim() || 'Your community';
   });
-  document.getElementById('md-icon-grid').addEventListener('click', function (e) {
+  on('md-icon-grid', 'click', function (e) {
     var btn = e.target.closest('.cx-icon-opt');
     if (btn) setSelectedIcon(btn.getAttribute('data-icon'));
   });
-  document.getElementById('md-kind-grid').addEventListener('click', function (e) {
+  on('md-kind-grid', 'click', function (e) {
     var btn = e.target.closest('.md-kind-opt');
     if (btn) setSelectedKind(btn.getAttribute('data-kind'));
   });
-  document.getElementById('md-share').addEventListener('click', shareCommunityLink);
-  document.getElementById('md-copy').addEventListener('click', function () {
+  on('md-share', 'click', shareCommunityLink);
+  on('md-copy', 'click', function () {
     copyCommunityLink(this);
   });
-  document.getElementById('md-finish').addEventListener('click', function () {
+  on('md-finish', 'click', function () {
     if (!shareDone) return;
     closeCreate();
     showOk('Community created — invite shared.');
     load();
   });
 
-  document.getElementById('md-confirm').addEventListener('click', function () {
+  on('md-confirm', 'click', function () {
     var btn = this;
     var name = document.getElementById('md-name').value.trim();
     if (!name) return alert('Give your community a name.');

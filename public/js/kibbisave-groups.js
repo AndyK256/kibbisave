@@ -103,6 +103,7 @@
     var startLabel = fmtDate(g.created_at || g.starts_at);
     var closesLabel = fmtDate(g.closes_at);
     var href = 'kibbisave_my_group_detail_v2.html?id=' + encodeURIComponent(g.id) + '&open=1';
+    var joinHref = 'kibbisave_join_group.html?id=' + encodeURIComponent(g.id);
     return '<div class="group-card" data-href="' + esc(href) + '">' +
       '<div class="gc-top"><div class="gc-info">' +
         '<div class="gc-name">' + esc(g.name || (g.period_months + ' month group')) + '</div>' +
@@ -119,7 +120,7 @@
         'Start ' + esc(startLabel) +
         ' · <span class="closes">Closes ' + esc(closesLabel) + '</span>' +
       '</span>' + leadChip(g.avg_member_lead) + '</div>' +
-      joinBtn(href) + '</div>';
+      joinBtn(joinHref) + '</div>';
   }
 
   function wireCards(box) {

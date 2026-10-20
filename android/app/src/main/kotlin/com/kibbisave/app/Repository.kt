@@ -10,6 +10,19 @@ class Repository(private val store: SecureStore) {
     fun login(identifier: String, password: String): Session {
         val path = if (BuildConfig.ADMIN_APP) "/api/admin/login" else "/api/auth/login"
         val result = api.request(path, JSONObject().put("identifier", identifier).put("password", password), false)
+        return establishSession(result)
+    }
+
+    fun googleChallenge(): JSONObject = api.request(
+        "/api/auth/google/native/challenge?audience=" + if (BuildConfig.ADMIN_APP) "admin" else "user",
+        authenticated = false
+    ).body
+
+    fun googleLogin(idToken: String, challenge: String): Session = establishSession(api.request(
+        "/api/auth/google/native", JSONObject().put("idToken", idToken).put("challenge", challenge), false
+    ))
+
+    private fun establishSession(result: ApiReply): Session {
         if (!result.body.optBoolean("success")) throw ApiException(401, "Sign-in was not confirmed.")
         val user = result.body.optJSONObject("user") ?: throw ApiException(502, "No account was returned.")
         val id = user.optString("id").ifBlank { user.optString("userId") }

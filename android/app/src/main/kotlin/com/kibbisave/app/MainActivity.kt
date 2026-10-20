@@ -1,6 +1,16 @@
 package com.kibbisave.app
 
 import androidx.activity.ComponentActivity
+import androidx.credentials.CredentialManager
+import androidx.credentials.CredentialManagerCallback
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.GetCredentialCancellationException
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import java.util.concurrent.Executor
 import androidx.activity.OnBackPressedCallback
 import android.app.AlertDialog
 import android.content.Context
@@ -154,24 +164,29 @@ class MainActivity : ComponentActivity() {
     private fun loginScreen(message: String? = null) {
         tab = "Home"
         screen(if (BuildConfig.ADMIN_APP) "Welcome, admin" else "Save together.\nGrow together.", false)
-        label(content, "Sign in with your existing phone number or email and password.", 16)
+        label(content, "Sign in with Google, or use your existing phone number or email and password.", 16)
         if (message != null) note(message)
         val identifier = field(content, "Phone number or email", InputType.TYPE_CLASS_TEXT)
         val password = field(content, "Password", InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
         password.isSaveEnabled = false
+        val googleButton = action(content, "Sign in with Google", false) {}
+        label(content, "or use your password", 14)
         val button = action(content, "Sign in") {}
+        googleButton.setOnClickListener { googleSignIn(googleButton, button) }
         button.setOnClickListener {
             val name = identifier.text.toString().trim()
             val secret = password.text.toString()
             if (name.isEmpty() || secret.isEmpty()) { toast("Enter your phone/email and password."); return@setOnClickListener }
             if (!online()) { toast("Sign-in requires internet."); return@setOnClickListener }
             button.isEnabled = false
+            googleButton.isEnabled = false
             button.text = "Signing in…"
             task({ repository.login(name, secret) }, {
                 password.text.clear()
                 navigate("Home")
             }, {
                 button.isEnabled = true
+                googleButton.isEnabled = true
                 button.text = "Sign in"
                 note(errorMessage(it))
             })
@@ -180,7 +195,47 @@ class MainActivity : ComponentActivity() {
         action(content, if (BuildConfig.ADMIN_APP) "Admin account setup on website" else "Create an account on website", false) {
             openWebsite(if (BuildConfig.ADMIN_APP) "https://kibbi-admin.vercel.app/" else "https://kibbisave.com/login")
         }
-        label(content, "This native version uses password sign-in. Google sign-in and account onboarding remain on the website for now.", 13)
+        label(content, "Google sign-in uses the same account as the website. New accounts must finish their profile setup on the website.", 13)
+    }
+
+    private fun googleSignIn(googleButton: Button, passwordButton: Button) {
+        if (!online()) { toast("Sign-in requires internet."); return }
+        googleButton.isEnabled = false
+        passwordButton.isEnabled = false
+        val ticket = generation
+        fun failed(error: Exception) {
+            if (isDestroyed || generation != ticket) return
+            googleButton.isEnabled = true
+            passwordButton.isEnabled = true
+            if (error !is GetCredentialCancellationException) note(when (error) {
+                is GetCredentialException -> "Google sign-in is unavailable. Check that a Google account is on this device and this app is registered in Google Cloud."
+                else -> errorMessage(error)
+            })
+        }
+        task({ repository.googleChallenge() }, { flow ->
+            try {
+                val option = GetSignInWithGoogleOption.Builder(flow.getString("clientId"))
+                    .setNonce(flow.getString("nonce")).build()
+                val request = GetCredentialRequest.Builder().addCredentialOption(option).build()
+                CredentialManager.create(this).getCredentialAsync(
+                    this, request, null, Executor { main.post(it) },
+                    object : CredentialManagerCallback<GetCredentialResponse, GetCredentialException> {
+                        override fun onResult(result: GetCredentialResponse) {
+                            if (isDestroyed || generation != ticket) return
+                            try {
+                                val credential = result.credential
+                                check(credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                                    "Google did not return a sign-in credential."
+                                }
+                                val token = GoogleIdTokenCredential.createFrom(credential.data).idToken
+                                task({ repository.googleLogin(token, flow.getString("challenge")) },
+                                    { navigate("Home") }, { failed(it) })
+                            } catch (error: Exception) { failed(error) }
+                        }
+                        override fun onError(e: GetCredentialException) { failed(e) }
+                    })
+            } catch (error: Exception) { failed(error) }
+        }, { failed(it) })
     }
 
     private fun home() {

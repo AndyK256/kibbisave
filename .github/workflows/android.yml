@@ -24,6 +24,21 @@ jobs:
           gradle-version: '8.13'
       - name: Install Android SDK
         run: sdkmanager 'platforms;android-36' 'build-tools;35.0.0'
+      - name: Restore stable debug signing certificate
+        env:
+          DEBUG_KEYSTORE: ${{ secrets.KIBBISAVE_DEBUG_KEYSTORE }}
+        run: |
+          python3 - <<'PYTHON'
+          import base64, os
+          from pathlib import Path
+          payload = os.environ.get('DEBUG_KEYSTORE')
+          if not payload:
+              raise SystemExit('KIBBISAVE_DEBUG_KEYSTORE is required for registered Google sign-in builds')
+          target = Path.home() / '.android' / 'debug.keystore'
+          target.parent.mkdir(exist_ok=True)
+          target.write_bytes(base64.b64decode(payload, validate=True))
+          target.chmod(0o600)
+          PYTHON
       - name: Test, build and lint native Kotlin apps
         working-directory: android
         env:

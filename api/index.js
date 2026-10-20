@@ -16,6 +16,7 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 
+app.use('/api/auth/google/native', require('../server/native-google-routes')());
 app.use('/api/auth', authRoutes);
 app.use('/api/communities', communityRoutes);
 app.use('/api/profile', profileRoutes);

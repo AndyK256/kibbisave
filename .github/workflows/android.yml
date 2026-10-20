@@ -38,6 +38,8 @@ jobs:
           target.parent.mkdir(exist_ok=True)
           target.write_bytes(base64.b64decode(payload, validate=True))
           target.chmod(0o600)
+          with open(os.environ['GITHUB_ENV'], 'a') as output:
+              output.write(f'KIBBISAVE_DEBUG_KEYSTORE_PATH={target}\n')
           PYTHON
       - name: Test, build and lint native Kotlin apps
         working-directory: android
@@ -45,6 +47,21 @@ jobs:
           ORG_GRADLE_PROJECT_kibbisaveApiUrl: ${{ vars.KIBBISAVE_API_URL || 'https://kibbisave.com' }}
           ORG_GRADLE_PROJECT_kibbisaveAdminApiUrl: ${{ vars.KIBBISAVE_ADMIN_API_URL || 'https://kibbisave.com' }}
         run: gradle --no-daemon :app:testUserDebugUnitTest :app:testAdminDebugUnitTest :app:assembleUserDebug :app:assembleAdminDebug :app:lintUserDebug :app:lintAdminDebug :app:bundleUserRelease :app:bundleAdminRelease
+      - name: Verify registered Google sign-in certificate
+        run: |
+          python3 - <<'PYTHON'
+          import os, pathlib, subprocess
+          sdk = pathlib.Path(os.environ['ANDROID_HOME'])
+          signer = sdk / 'build-tools' / '35.0.0' / 'apksigner'
+          expected = '778574b6a13fad07dce757ebe5e1f9355eda54cb'
+          for audience in ('user', 'admin'):
+              apk = f'android/app/build/outputs/apk/{audience}/debug/app-{audience}-debug.apk'
+              result = subprocess.run([str(signer), 'verify', '--print-certs', apk], check=True, capture_output=True, text=True)
+              digest = next(line.split(': ', 1)[1].strip() for line in result.stdout.splitlines() if 'certificate SHA-1 digest:' in line)
+              if digest.lower() != expected:
+                  raise SystemExit(f'{audience} APK certificate does not match Google Cloud registration')
+              print(f'{audience}: registered signing certificate verified')
+          PYTHON
       - uses: actions/upload-artifact@v4
         with:
           name: kibbisave-user-native-apk

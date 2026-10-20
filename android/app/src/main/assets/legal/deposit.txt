@@ -1,0 +1,175 @@
+← Back to KibbiSave
+
+How deposits work
+
+Last updated: 11 July 2026
+
+Deposits on KibbiSave are contributions you send into a savings group you have joined. Amounts are shown in Ugandan shillings (UGX). This page explains what a deposit means on our platform, how confirmation usually works, what risks you should understand before you send money, and how group contributions differ from regulated bank deposits. It is written for everyday savers in Uganda who use Mobile Money and digital group tools.
+
+KibbiSave is a group-savings coordination platform. We are not a bank, not a microfinance deposit-taking institution, and not a licensed insurer. Money you contribute is subject to your group’s rules and to the behaviour of fellow members. There is no bank-style deposit guarantee on group funds.
+
+What a “deposit” means on KibbiSave
+
+In everyday language, people say “deposit” when they put money into a bank account. On KibbiSave, “deposit” means a recorded contribution toward a group savings cycle or goal. The platform helps you:
+
+Choose a group you have already joined (or join first, then contribute).
+
+See the expected contribution amount and schedule set by that group’s rules.
+
+Initiate payment through a supported channel (for example MTN MoMo or Airtel Money when available).
+
+Track whether a contribution is pending, confirmed, or failed.
+
+See how your standing and the group’s progress update after confirmation.
+
+Your contribution is not the same as placing funds in a regulated savings account at a supervised financial institution. Outcomes depend on group design, member honesty, payment-provider confirmation, and the rules you accepted when you joined.
+
+Before you deposit
+
+Take a few minutes before every contribution. Responsible group saving starts with clarity, not speed.
+
+Confirm the group. Check the group name, creator, contribution size, frequency, cycle length, and any late-payment or exit rules.
+
+Read the rules. Open groups and private groups can differ. If anything is unclear, ask the organiser or leave before sending money.
+
+Use a payment method you control. Prefer your own Mobile Money wallet or linked method. Do not share PINs, OTPs, or agent codes with anyone claiming to “help you deposit.”
+
+Affordability. Only deposit money you can afford to lock for the group period. Keep a separate emergency buffer outside the group if you can.
+
+One cycle at a time. Joining many groups at once can create cash-flow stress. Start with one commitment you can keep.
+
+Beware of off-app requests. KibbiSave will not ask you to send money to a personal number “to unlock” a deposit. Prefer in-app flows.
+
+Typical deposit flow
+
+You open the deposit screen for a group you belong to.
+
+You review amount, group, and payment method.
+
+You approve the payment with your provider (PIN/OTP as required by that provider).
+
+The provider processes the transfer; status may show as pending briefly.
+
+When confirmation arrives, KibbiSave updates your group standing and history.
+
+If confirmation fails or times out, the contribution may remain pending or show as failed — check history before depositing again.
+
+Network delays, wallet limits, insufficient balance, or provider outages can interrupt a payment. If a status looks wrong, wait a short period, refresh history, and contact support with the time of the attempt — never by sharing your PIN.
+
+After you deposit
+
+Confirmed deposits update your group standing and savings history. Pending deposits may take a short time to confirm depending on the payment provider. Keep screenshots or transaction IDs from your Mobile Money statement where useful for your own records.
+
+Group progress bars, leaderboards, and member lists are tools for transparency among members. They are not a promise of investment return, interest, or insurance payout.
+
+Mobile Money caution (Bank of Uganda themes)
+
+Uganda’s Mobile Money ecosystem is widely used for everyday payments and savings transfers. Public consumer-protection themes associated with Bank of Uganda (BoU) guidance on payment services and financial consumer awareness commonly emphasise:
+
+Knowing who you are paying and why.
+
+Protecting PINs, OTPs, and SIM cards.
+
+Checking transaction confirmations before leaving an agent or closing an app.
+
+Understanding that payment services and deposit-taking banks are regulated differently.
+
+Reporting fraud promptly to your provider and, where appropriate, to authorities.
+
+Citation (informational reference): Bank of Uganda consumer-protection and payment-system awareness materials. These references are educational. They do not mean BoU has licensed or endorsed KibbiSave.
+
+How this differs from a bank deposit
+
+Under Uganda’s financial-sector framework, licensed deposit-taking institutions operate under supervision associated with the Financial Institutions Act (Cap. 57) and related BoU oversight. Those institutions may offer regulated deposit products with defined consumer protections that do not automatically apply to informal or platform-coordinated group savings.
+
+KibbiSave does not claim to be a licensed bank or deposit-taking institution. Group contributions are not covered by a bank deposit guarantee. If you need a regulated savings account, consider products from supervised institutions and compare fees, access, and protection carefully.
+
+Citation (informational reference): Financial Institutions Act (Cap. 57) themes on who may take regulated deposits — educational only, not a licence claim.
+
+Risk disclosure (insurance-style themes, not insurance)
+
+Insurers and risk educators often teach people to name risks before they transfer money. We use that framing for clarity — we are not selling insurance and we do not underwrite group outcomes. Risks that commonly apply to group savings include:
+
+Member default risk. Someone may miss contributions or leave early, affecting the group plan.
+
+Liquidity / lock-in risk. Rules may prevent early withdrawal until a cycle ends.
+
+Operational risk. Payment delays, app outages, or mis-typed amounts.
+
+Fraud / social-engineering risk. Impersonation, fake “support,” or pressure to pay outside the app.
+
+Governance risk. Unclear rules, disputed leadership, or weak record-keeping in a group.
+
+Concentration risk. Putting too much of your cash into one group or many overlapping cycles.
+
+No platform can remove all of these risks. Clear rules, trusted members, modest amounts, and careful Mobile Money hygiene reduce them.
+
+Financial inclusion themes (World Bank — general principles)
+
+World Bank and related financial-inclusion work often highlights that digital tools can help people save, but only when products are transparent, suitable, and paired with consumer protection. Principles commonly discussed in that literature include:
+
+Clear disclosure of costs, rules, and risks before commitment.
+
+Fair treatment and channels to raise complaints.
+
+Data protection and secure handling of personal information.
+
+Avoiding over-indebtedness and unsuitable products.
+
+Recognising that informal and semi-formal savings groups remain important in many communities.
+
+KibbiSave aims to support transparent group rules and visible contribution history. That design intent is not a guarantee of outcomes and is not an endorsement by the World Bank.
+
+Citation (informational reference): World Bank financial inclusion and consumer-protection themes — paraphrased for education only.
+
+Tax awareness (URA — informational)
+
+Most ordinary personal savings contributions are about setting money aside, not about earning taxable business income. Still, Uganda Revenue Authority (URA) public education often reminds people that:
+
+Income, business profits, and certain gains may have tax implications under Ugandan tax law.
+
+Keeping personal records of money movements can help if you later need to explain a transaction.
+
+If a group activity becomes a business, investment club with taxable income, or paid service, seek independent tax advice.
+
+KibbiSave does not provide tax advice. This section is general awareness only.
+
+Citation (informational reference): Uganda Revenue Authority public tax-awareness themes — not tax advice and not URA endorsement.
+
+Fees, limits, and provider charges
+
+Your Mobile Money provider or bank may charge transfer fees, impose daily limits, or apply agent charges. Those costs sit with the payment provider’s terms, not with “interest” from KibbiSave. Always check the amount you approve on the provider screen before confirming. If an agent assists you, confirm the destination and amount on the phone screen yourself — a common consumer-awareness tip in Mobile Money education.
+
+Record-keeping tips
+
+Keep Mobile Money SMS or in-app receipts for large contributions
+
+Note the group name and cycle date in a personal notebook or phone note
+
+Screenshot confirmed KibbiSave history if you anticipate a dispute
+
+If your activity might have tax relevance later, URA awareness themes favour keeping orderly records — without implying every savings contribution is taxable
+
+Disputes and corrections
+
+If you believe a deposit was recorded incorrectly:
+
+Check your Mobile Money or bank statement for the transaction ID and timestamp.
+
+Compare with your KibbiSave deposit history for the same group.
+
+Contact support with account email, group name, amount, and time — never with PIN or OTP.
+
+If the issue is with the payment provider, also use that provider’s dispute channel.
+
+Related guides
+
+Group savings rules
+
+Responsible Saving
+
+Help Center
+
+Terms of Use
+
+ Citations (informational): Themes in Bank of Uganda consumer-protection guidance for payment services; Financial Institutions Act (Cap. 57); World Bank financial-inclusion consumer-protection principles; URA tax-awareness materials. These references are educational only and do not mean KibbiSave is a licensed bank, deposit-taking institution, insurer, or that any regulator has endorsed this app. License No: Pending — to be updated.

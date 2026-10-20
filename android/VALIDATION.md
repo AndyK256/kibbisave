@@ -1,19 +1,16 @@
-# Native Kotlin validation status
+# Native website UI validation
 
-## Confirmed in the editing workspace
+## Confirmed
 
-- Android manifest, flavor manifests, vector icons, strings, and theme files parse as XML.
-- GitHub Actions workflow parses as YAML and contains separate user/admin build, test, lint, and artifact paths.
-- The native source replaces the browser launcher; no browser-rendering dependency remains in the build.
-- The native upload contains only Android project files and its workflow, preserving the newer deployed website code.
-- Public endpoint checks: `https://kibbisave.com/api/auth/me` returns HTTP 200 with `authenticated:false`; the protected `/api/admin/me` route returns HTTP 401. That admin route is HTTP 404 on `kibbi-admin.vercel.app`.
-- API request/response shapes were inspected in the deployed-branch backend source at commit `3909e602ce4d2bd2f55232590d8ad5328758dcb1`.
+- Production reference: `https://kibbisave.com`, including its `/admin/` interface, verified with Vercel inspect.
+- Website home, mobile login, groups, guest profile/account sheet, community category cards and admin dashboard inspected in the browser; deployed HTML/CSS/JS and API handlers inspected for the remaining routes.
+- Original website illustrations, DM Sans font/license and Google logo used in native resources.
+- Previous native redesign build `39401486299` passed compilation, unit tests, lint and artifact generation for both flavors. Final UI/resource refinements are verified by the subsequent workflow run linked in the delivery.
+- Unit coverage includes offline expiry, origin/path boundaries, amount validation and unresolved-result protection for consumer deposits, admin approvals, manual deposits and member registration with an opening balance.
 
-## Not yet verified
+## Limits
 
-- Kotlin compilation, Android lint, and the eight JVM tests in `DomainTest.kt`. The workspace has no Kotlin compiler, Gradle, or Android SDK; its configured network proxy cannot download them.
-- Installation and UI behavior on a real Android device or emulator.
-- Successful user/admin sign-in, revoked sessions, real data rendering, Keystore persistence, and offline/rotation/device-restart behavior.
-- Deposits, approvals, incorrect PINs, uncertain responses, and concurrent operations against a test financial backend. No money-changing requests were sent.
-
-The GitHub workflow runs the JVM tests and compilation/lint gates once these files are uploaded. It does not run device tests or validate the financial backend.
+- Matching native layouts have not been established to be pixel-identical to every website page/state. Native app windows are not exposed to the browser inspection tools in this session.
+- Successful Google/password sign-in, account creation, KYC photo capture, notification/settings persistence and admin role-specific flows require a test account/device review.
+- No real deposit, member opening balance, ledger approval, community creation/deletion or other production write was submitted during this UI work.
+- Backend transactional idempotency and concurrent approvals remain separate backend concerns. The UI retains pending-result protection and never fabricates a successful financial response.

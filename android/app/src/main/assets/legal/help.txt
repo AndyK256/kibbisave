@@ -1,0 +1,161 @@
+← Back to KibbiSave
+
+Help Center
+
+Last updated: 11 July 2026
+
+Need a hand with KibbiSave? Start here. This Help Center covers getting started, deposits, groups, safety, privacy, and where to find longer legal guides. KibbiSave is a group-savings platform for Uganda — not a bank — so many answers focus on clarity, trust, and Mobile Money caution as much as on buttons and screens.
+
+Quick links (footer documents)
+
+Deposits — how contributions work, confirmation, and risks
+
+Rules — group and platform expectations
+
+Responsible Saving — stay safe with group money
+
+Privacy Policy — how we handle your data
+
+Cookies Policy — cookies and device storage
+
+About — what KibbiSave is (and is not)
+
+Terms of Use — the agreement for using the service
+
+News — product updates and announcements
+
+Getting started
+
+Create an account
+
+Use a real email and phone number you control. Accurate details help with account recovery and deposit matching. Choose a strong password and do not reuse passwords from other apps.
+
+Complete your profile
+
+Add a display name and photo if you wish. Profile information helps members recognise each other in groups. Only share what you are comfortable showing to fellow savers.
+
+Join or create a group
+
+Browse open groups or use an invite for private groups. Before joining, read contribution amount, schedule, and rules. Creating a group makes you responsible for clear rules and fair organisation — see the Rules guide.
+
+Deposits and payments
+
+How do I deposit?
+
+Open the group, choose Deposit, confirm the amount, and complete payment with your provider (for example MTN MoMo or Airtel Money when available). Approve only screens you understand. Full detail: How deposits work.
+
+My deposit is pending
+
+Pending status often means the payment provider has not yet confirmed. Wait a short time, refresh history, and check your Mobile Money statement. Avoid depositing twice for the same contribution until you know the first attempt failed.
+
+I was charged but the group did not update
+
+Note the transaction ID, amount, time, and group name. Contact support with those details. Also check with your payment provider if the debit looks wrong. Never share PIN or OTP with support.
+
+Can I withdraw anytime?
+
+Not necessarily. Group rules may lock contributions until a cycle ends. Read rules before you deposit. KibbiSave does not provide a bank-style on-demand withdrawal guarantee for group funds.
+
+Groups, invites, and leaderboards
+
+Private invites. Share codes only with intended members. Anyone with a code may try to join.
+
+Open groups. Extra caution: you may not know every member personally. Judge rules and reputation carefully.
+
+Leaderboards. Rankings are for motivation and transparency, not a promise of prizes or investment returns unless a group clearly states otherwise in its own rules.
+
+Leaving a group. Exit options depend on group rules. Leaving mid-cycle may not return money automatically.
+
+Safety and Responsible Saving
+
+Protect yourself with habits that match public consumer-awareness themes for Mobile Money and savings:
+
+KibbiSave staff will never ask for your Mobile Money PIN or OTP.
+
+Do not send money to personal numbers to “verify” an account.
+
+Be wary of guaranteed high returns or pressure to join many groups at once.
+
+Save only what you can afford to lock for the group period.
+
+Keep an emergency buffer outside group cycles when possible.
+
+Read the full guide: Responsible Saving.
+
+Citation (informational reference): Bank of Uganda consumer-awareness themes on payments and savings caution — educational only.
+
+Account, privacy, and cookies
+
+Update profile details in the app when your phone or email changes.
+
+See Privacy Policy for data use under themes of Uganda’s Data Protection and Privacy Act, 2019.
+
+See Cookies Policy for session storage, preferences, and how to clear site data.
+
+Enable dark mode under Profile → App settings if available on your build.
+
+Tax and business questions (high level)
+
+Ordinary personal group contributions are usually about saving, not running a tax practice. If your activity looks like a business, paid service, or taxable income, Uganda Revenue Authority (URA) public materials encourage proper record-keeping and seeking advice. KibbiSave does not give tax advice.
+
+If a community wants a formal legal entity, Uganda Registration Services Bureau (URSB) public guidance covers registration of certain business forms. Creating a KibbiSave group is not URSB registration.
+
+Citation (informational reference): URA and URSB public awareness themes — not advice or endorsement.
+
+Troubleshooting checklist
+
+Confirm you are signed in with the correct account.
+
+Check network connectivity and try again after a short wait.
+
+Verify Mobile Money balance and daily limits with your provider.
+
+Confirm you selected the correct group and amount.
+
+Review deposit history and provider SMS/app confirmation.
+
+Clear cache only if you understand you may need to sign in again.
+
+Contact support with facts if the problem persists.
+
+Contact
+
+For account or payment issues, use the in-app profile options or email support through the address published on the About page when available. Include:
+
+Your account email
+
+Group name
+
+Approximate time and amount of any payment issue
+
+Transaction ID from your provider if you have it
+
+Never share PINs, OTPs, passwords, or full card/wallet secrets.
+
+What KibbiSave support can and cannot do
+
+Can: Help investigate recording mismatches, account access issues, and product how-to questions.
+
+Can: Point you to rules, privacy, and responsible-saving guidance.
+
+Cannot: Guarantee group outcomes or insure member defaults.
+
+Cannot: Reverse a Mobile Money transfer that already succeeded at the provider without following provider processes.
+
+Cannot: Act as your lawyer, tax adviser, or bank.
+
+Glossary (short)
+
+Cycle — the time window for a round of contributions under group rules
+
+Deposit / contribution — money you send into a group (not a bank deposit guarantee)
+
+Open group — a group others can discover and request to join
+
+Private group — typically invite-based membership
+
+Pending — payment started but not yet confirmed to the group record
+
+ROSCA — a common label in public education for rotating savings associations; KibbiSave groups may resemble or differ from classic ROSCAs depending on rules
+
+ Citations (informational): BoU consumer-awareness themes; Data Protection and Privacy Act, 2019 themes; URA/URSB public awareness. Educational only — not regulatory endorsement. License No: Pending — to be updated.

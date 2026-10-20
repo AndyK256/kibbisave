@@ -1,0 +1,125 @@
+← Back to KibbiSave
+
+About KibbiSave
+
+Last updated: 11 July 2026
+
+KibbiSave helps people in Uganda save together in open and private groups — with clear progress, deposits, and friendly competition on the leaderboard. We build for mobile-first use, Mobile Money–friendly contributions, and transparent group rules so members know what they are joining.
+
+Our tagline is simple: Kibbisave — group savings for Uganda. This About page explains our purpose, what we are not, and how we think about trust, inclusion, and responsibility.
+
+Our purpose
+
+Many Ugandans already save with friends, family, workplaces, and community circles. Public descriptions of ROSCAs and savings groups show that mutual saving is a global practice with deep local roots. KibbiSave aims to make coordination easier: clearer rules, visible contribution history, and tools that fit phones people already use.
+
+We focus on:
+
+Open and private savings groups
+
+Deposit flows designed around everyday Mobile Money habits
+
+Progress tracking and leaderboards for motivation and transparency
+
+Help and legal pages that emphasise caution as much as features
+
+Responsible Saving as a first-class message, not fine print only
+
+Citation (informational reference): Public encyclopedic framing of ROSCAs and savings groups — paraphrased for context.
+
+What KibbiSave is
+
+A digital platform for creating and joining savings groups
+
+A record-keeping and coordination layer for contributions and standing
+
+A consumer product that tries to make risks and rules visible
+
+What KibbiSave is not
+
+Not a licensed bank or deposit-taking microfinance institution
+
+Not a provider of deposit insurance or bank-style guarantees
+
+Not an insurer and not a seller of insurance policies
+
+Not a guaranteed-return investment product
+
+Not a substitute for regulated savings accounts when you need those protections
+
+Not automatic registration of your group as a company or business name
+
+Themes in the Financial Institutions Act (Cap. 57) remind the public that regulated deposit-taking is a supervised activity. We do not claim that status.
+
+Citation (informational reference): Financial Institutions Act (Cap. 57) themes — educational only.
+
+Our focus for Uganda
+
+We design for Ugandan shillings (UGX), Mobile Money realities, and group cultures that already exist in communities. Bank of Uganda consumer-awareness themes on payments and savings caution inform how we talk about risk — without claiming BoU endorsement.
+
+World Bank financial-inclusion themes on transparency and consumer protection inform our preference for clear rules and visible history — without claiming World Bank partnership or endorsement unless separately announced in News.
+
+Citation (informational reference): BoU and World Bank public themes — educational only.
+
+Communities, groups, and formal entities (URSB awareness)
+
+A savings group on KibbiSave can be a small circle of trusted people. As communities grow, some may want a formal legal identity for contracts, assets, or public-facing work. Uganda Registration Services Bureau (URSB) publishes information on registering certain business names and entities. Using KibbiSave does not register your group with URSB. Seek independent advice if you need a formal entity.
+
+Citation (informational reference): URSB public registration-awareness themes — not legal advice.
+
+Tax awareness (URA)
+
+We do not provide tax advice. Uganda Revenue Authority public materials encourage people to understand when income or business activity may be taxable and to keep useful records. Personal group contributions are usually about saving; unusual structures may need professional advice.
+
+Citation (informational reference): URA public tax-awareness themes — informational only.
+
+Privacy and trust
+
+We handle personal data with awareness of principles in Uganda’s Data Protection and Privacy Act, 2019. Read our Privacy Policy and Cookies Policy for detail. Trust among members remains essential: technology records contributions; it cannot replace honesty.
+
+Responsible Saving
+
+We ask every member to read Responsible Saving before locking money into a cycle. Group saving works best when people contribute amounts they can afford, understand lock-in, and reject pressure tactics.
+
+License status
+
+KibbiSave is a group-savings platform. We are not presenting ourselves as a licensed deposit-taking institution. License details will be published here when available.
+
+License No: Pending — to be updated
+
+How we talk about risk
+
+We prefer plain-language cautions over marketing that sounds like a bank prospectus. Insurance-style risk naming (default, liquidity, fraud, operations) appears in our guides because naming risks helps people decide — not because we sell insurance. Bank of Uganda consumer-awareness themes on Mobile Money caution appear because most deposits travel through payment rails people already use.
+
+Product principles
+
+Clarity before commitment — rules and amounts should be readable before money moves
+
+Visibility for members — contribution history supports mutual accountability
+
+Mobile-first Uganda — design for phones, UGX, and Mobile Money habits
+
+No fake authority — we do not invent licence numbers or claim endorsements
+
+Responsible Saving first — safety guidance is part of the product story
+
+Who KibbiSave is for
+
+KibbiSave is for adults in Uganda who want to save with others toward shared or personal goals — friends, family circles, workplace groups, community projects, and open groups with transparent rules. It is not designed for people seeking leveraged trading, guaranteed yield products, or anonymous high-risk schemes.
+
+If you need a supervised savings account with institutional deposit frameworks, compare offerings from licensed institutions. You can use both: a regulated account for core safety and a KibbiSave group for social discipline — provided you can afford both commitments.
+
+Contact
+
+Support and partnership contacts will be published here and in the Help Center as channels become available. For payment issues, include account email, group name, and transaction timing — never PINs or OTPs.
+
+Related documents
+
+Terms of Use
+
+Responsible Saving
+
+How deposits work
+
+News
+
+ Citations (informational): Financial Institutions Act (Cap. 57); Bank of Uganda consumer-awareness themes; World Bank financial-inclusion themes; URSB and URA public awareness; Data Protection and Privacy Act, 2019; public ROSCA/savings-group framing. Educational only — not endorsement. License No: Pending — to be updated.

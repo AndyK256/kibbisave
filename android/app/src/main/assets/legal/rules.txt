@@ -1,0 +1,155 @@
+← Back to KibbiSave
+
+Group savings rules
+
+Last updated: 11 July 2026
+
+Every KibbiSave group has rules set by its creator and agreed by members. Typical rules cover contribution size, frequency, join windows, and what happens if someone misses a payment. This page explains how group rules and platform rules work together, why clear rules matter for trust, and how traditional savings-group practices relate to digital tools in Uganda.
+
+Rules are not decoration. They are the agreement that turns a collection of people into a workable savings circle. If you do not understand a group’s rules, do not join and do not deposit.
+
+Savings groups in plain language (ROSCAs and related forms)
+
+Around the world, people have long saved together without a bank branch. Public encyclopedic descriptions of rotating savings and credit associations (ROSCAs) and related savings groups generally describe arrangements where members contribute regularly and take turns receiving a lump sum, or pool money toward a shared goal, or combine saving with small internal lending under locally agreed rules. Names and designs vary by country and community — including merry-go-rounds, village savings groups, and other mutual-aid circles.
+
+Common themes in those descriptions include:
+
+Regular contributions of a known amount.
+
+Trust, reputation, and social accountability among members.
+
+Clear turn-taking or payout / goal rules.
+
+Risk if a member defaults or if record-keeping is weak.
+
+Flexibility to adapt rules to local needs — which also means rules can be unclear if not written down.
+
+KibbiSave digitises coordination, visibility, and contribution tracking for groups in Uganda. It does not turn every group into a bank, cooperative society, or licensed microfinance institution. Traditional strengths (trust, discipline) and traditional risks (default, disputes) still apply.
+
+Citation (informational reference): Public encyclopedic framing of ROSCAs and savings groups — paraphrased for education; not a claim that KibbiSave is identical to any one traditional model.
+
+What group rules usually cover
+
+When you open a group’s details on KibbiSave, look for answers to these questions:
+
+Contribution amount. How much is expected each period, in UGX?
+
+Frequency. Daily, weekly, monthly, or another schedule?
+
+Cycle length. When does the current round start and end?
+
+Membership. Open to anyone, invite-only, or capped at a maximum number?
+
+Join window. Can new members join mid-cycle? Under what conditions?
+
+Missed payments. Warnings, penalties, removal, or catch-up rules?
+
+Early exit. Can someone leave early? What happens to contributions already made?
+
+Payout or goal. Is money returned at cycle end, rotated, or aimed at a named goal?
+
+Leadership. Who can change rules, remove members, or close the group?
+
+Communication. How are disputes raised among members?
+
+If a group page does not answer these clearly, treat that as a warning sign. Ask before you commit money.
+
+Your responsibilities as a member
+
+Read the group rules before joining or depositing.
+
+Keep your commitments for the full cycle you agreed to.
+
+Do not share private invite codes outside your intended members.
+
+Use your own payment credentials; never hand PINs or OTPs to another member “to deposit for you.”
+
+Update your profile contact details so organisers and support can reach you about genuine account issues.
+
+Raise concerns early — silence often turns small misunderstandings into group conflict.
+
+Do not pressure others to join more groups than they can afford.
+
+Your responsibilities as a group creator / organiser
+
+Write rules that ordinary members can understand without legal training.
+
+Do not promise guaranteed returns, bank-like safety, or insurance cover you cannot provide.
+
+Keep membership appropriate — people who know each other, or open groups with transparent expectations.
+
+Avoid changing material rules mid-cycle without clear notice and member agreement where your rules require it.
+
+Do not collect contributions outside the app in ways that hide balances from members.
+
+If your community grows into a formal organisation, consider whether registration or other legal steps apply (see URSB note below).
+
+Platform rules
+
+In addition to each group’s local rules, KibbiSave applies platform-wide expectations:
+
+Accurate account information and secure login practices.
+
+No fraud, payment abuse, impersonation, or harassment.
+
+No use of the service for illegal activity.
+
+Respect for other members’ privacy — do not scrape or publish personal data from groups without a lawful basis.
+
+Cooperation with reasonable requests to verify identity or resolve disputes where the platform can assist with records.
+
+Abuse, fraud, or attempts to misuse payment flows may lead to account restriction. KibbiSave may update platform rules; material changes will be reflected in Terms and in-app notices where practical.
+
+Trust, transparency, and consumer-protection themes
+
+World Bank and related consumer-protection guidance for financial services often stresses disclosure, fair treatment, and complaint handling. Applied to group savings, that means members should know the rules, the risks, and how to raise a problem before money moves.
+
+Bank of Uganda public consumer-awareness themes around savings and payments similarly encourage people to understand products, protect credentials, and avoid schemes that sound too good to be true. Group organisers should not market KibbiSave groups as risk-free or as regulated bank deposits.
+
+Citation (informational reference): World Bank consumer-protection principles and BoU consumer-awareness themes — educational only; not regulatory endorsement.
+
+Entity awareness for communities (URSB themes)
+
+Many savings groups remain informal. That can be fine for small circles of trusted people. As a community grows — hiring staff, owning assets, signing contracts, or operating as a business — Uganda Registration Services Bureau (URSB) public information commonly explains that certain entities may need formal registration (for example companies, business names, or other recognised forms, depending on the activity).
+
+KibbiSave does not register your group with URSB automatically. Creating a group in the app is not the same as incorporating a company or registering a business name. If your community needs a formal legal personality, seek independent advice and use official URSB channels.
+
+Citation (informational reference): URSB public guidance on business and entity registration — awareness only, not legal advice.
+
+Disputes inside a group
+
+Most disputes are about missed payments, unclear rules, or disagreements over early exit. Suggested steps:
+
+Re-read the written group rules together.
+
+Compare contribution history visible in the app.
+
+Discuss calmly with the organiser and affected members.
+
+If the issue is a platform recording error, contact KibbiSave support with facts (not PINs).
+
+For serious fraud or threats, consider reporting to appropriate authorities and your payment provider.
+
+KibbiSave can often help with technical records. We cannot replace police, courts, or a group’s own social agreement.
+
+Changing rules mid-cycle
+
+Material mid-cycle changes (amount, payout method, membership caps) can harm trust. Best practice:
+
+Prefer changing rules between cycles.
+
+If a change is unavoidable, document it and notify all members.
+
+Do not use rule changes to trap people into larger contributions they never agreed to.
+
+Related guides
+
+How deposits work
+
+Responsible Saving
+
+Terms of Use
+
+Help Center
+
+ Citations (informational): Public encyclopedic themes on ROSCAs/savings groups; World Bank consumer-protection principles; Bank of Uganda consumer-awareness themes; URSB entity-registration awareness. Educational only — not endorsement, and not a claim that KibbiSave is a licensed bank or registered entity on your behalf. License No: Pending — to be updated.

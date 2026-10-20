@@ -247,7 +247,11 @@ class MainActivity : ComponentActivity() {
                     insets
                 }
             }
-        if (!BuildConfig.ADMIN_APP || authPage) {
+        val profileSheet = !BuildConfig.ADMIN_APP && tab == "Profile" && !authPage
+        window.statusBarColor = if (profileSheet) canvasColor else navy
+        window.decorView.systemUiVisibility =
+            if (profileSheet && !dark) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR else 0
+        if ((!BuildConfig.ADMIN_APP || authPage) && !profileSheet) {
             val header =
                 LinearLayout(this).apply {
                     gravity = Gravity.CENTER_VERTICAL
@@ -274,6 +278,26 @@ class MainActivity : ComponentActivity() {
             }
             root.addView(header)
         }
+        if (profileSheet) {
+            val closeBar =
+                LinearLayout(this).apply {
+                    gravity = Gravity.END
+                    setPadding(dp(12), dp(5), dp(12), 0)
+                }
+            val close =
+                TextView(this).apply {
+                    text = "×"
+                    textSize = 26f
+                    setTextColor(ink)
+                    gravity = Gravity.CENTER
+                    contentDescription = "Close account menu"
+                    setOnClickListener {
+                        if (subpage) navigate("Profile") else navigate("Analytics")
+                    }
+                }
+            closeBar.addView(close, LinearLayout.LayoutParams(dp(44), dp(44)))
+            root.addView(closeBar)
+        }
         connectionLabel =
             TextView(this).apply {
                 textSize = 12f
@@ -295,7 +319,7 @@ class MainActivity : ComponentActivity() {
         scroll.addView(content)
         root.addView(scroll, LinearLayout.LayoutParams(-1, 0, 1f))
         if (title.isNotBlank() && !authPage) label(content, title, 24, true)
-        if (!authPage) bottomNavigation()
+        if (!authPage && !profileSheet) bottomNavigation()
         setContentView(root)
     }
 
@@ -447,7 +471,26 @@ class MainActivity : ComponentActivity() {
         panel.addView(show)
         label(panel, "Min. 4 Characters", 12).setTextColor(Color.rgb(179, 179, 219))
         val button = action(panel, "LOG IN") {}
-        val googleButton = action(panel, "Continue with Google", false) {}
+        label(panel, "or", 12).apply {
+            setTextColor(Color.rgb(179, 179, 219))
+            gravity = Gravity.CENTER
+        }
+        val googleButton =
+            action(panel, "", false) {}
+                .apply {
+                    contentDescription = "Continue with Google"
+                    val mark = getDrawable(R.drawable.google_mark)!!
+                    mark.setBounds(0, 0, dp(24), dp(24))
+                    setCompoundDrawables(mark, null, null, null)
+                    setPadding(dp(14), dp(14), dp(14), dp(14))
+                    minimumWidth = 0
+                    layoutParams =
+                        LinearLayout.LayoutParams(dp(54), dp(54)).apply {
+                            gravity = Gravity.CENTER_HORIZONTAL
+                            topMargin = dp(14)
+                            bottomMargin = dp(12)
+                        }
+                }
         googleButton.setOnClickListener { googleSignIn(googleButton, button) }
         button.setOnClickListener {
             val name = identifier.text.toString().trim()
@@ -643,13 +686,28 @@ class MainActivity : ComponentActivity() {
     private fun groups() {
         screen("")
         val toggles = row(content)
-        chip(toggles, "Open groups\njoin anytime", !privateGroups) {
-            privateGroups = false
-            groups()
-        }
-        chip(toggles, "Private groups\ninvite-only", privateGroups) {
-            privateGroups = true
-            groups()
+        for ((index, title) in listOf("Open groups", "Private groups").withIndex()) {
+            val selected = privateGroups == (index == 1)
+            val item =
+                LinearLayout(this).apply {
+                    orientation = LinearLayout.VERTICAL
+                    gravity = Gravity.CENTER
+                }
+            toggles.addView(item, LinearLayout.LayoutParams(0, -2, 1f))
+            label(item, title, 15, true).apply {
+                gravity = Gravity.CENTER
+                setTextColor(if (selected) ink else muted)
+            }
+            label(item, if (index == 0) "join anytime" else "slide → invite-only", 12).gravity =
+                Gravity.CENTER
+            item.addView(
+                View(this).apply { setBackgroundColor(if (selected) navy else Color.TRANSPARENT) },
+                LinearLayout.LayoutParams(-1, dp(3)).apply { topMargin = dp(12) },
+            )
+            item.setOnClickListener {
+                privateGroups = index == 1
+                groups()
+            }
         }
         label(
             content,
@@ -813,16 +871,44 @@ class MainActivity : ComponentActivity() {
     private fun account() {
         screen("")
         if (store.session() == null) {
-            emptyState("12-complete-your-profile", "Your savings story starts here")
-            action(content, "LOG IN") { loginScreen() }
-            action(content, "JOIN NOW", false) { registration() }
+            val welcome = card()
+            label(
+                welcome,
+                "Join KibbiSave to track your groups, deposits, and savings progress — or log in if you already have an account.",
+                15,
+            )
+            val choices = row(welcome)
+            chip(choices, "JOIN NOW") { registration() }
+            chip(choices, "LOG IN", false) { loginScreen() }
+            menu("lock", "Deposit", "") { selectDepositGroup() }
+            val themeCard = card()
+            val theme =
+                Switch(this).apply {
+                    text = "Dark Theme"
+                    textSize = 16f
+                    setTextColor(ink)
+                    isChecked = dark
+                    setOnCheckedChangeListener { _, checked ->
+                        dark = checked
+                        appearance.edit().putBoolean("dark", dark).apply()
+                        account()
+                    }
+                }
+            themeCard.addView(theme)
+            menu("bell", "Help Center", "") { legalMenu(true) }
+            menu("communities", "More on KibbiSave", "") { legalMenu(false) }
             return
         }
         load(if (BuildConfig.ADMIN_APP) "/api/admin/profile" else "/api/profile") { saved ->
             val data = saved.data
             val user = data.optJSONObject("user") ?: data.optJSONObject("profile") ?: data
             val hero = card(content, navy, 22)
-            avatar(hero, user.optString("name", store.session()?.name ?: "Member"), 68)
+            avatar(
+                hero,
+                user.optString("name", store.session()?.name ?: "Member"),
+                68,
+                user.optString("picture"),
+            )
             label(
                     hero,
                     user.optString(
@@ -850,7 +936,7 @@ class MainActivity : ComponentActivity() {
                 chip(r, "Deposit") { selectDepositGroup() }
                 chip(r, "+ Create group") { createGroup() }
             }
-            menu("profile", "Personal details", "Name, phone, location") { personalDetails(user) }
+            menu("profile", "Personal details", "Name, phone, location") { navigate("Profile") }
             if (BuildConfig.ADMIN_APP) {
                 menu("lock", "Approval PIN", "Change your four-digit approval PIN") { changePin() }
                 menu("groups", "Managed communities", "Members and collected savings") {
@@ -927,7 +1013,140 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun consumerCommunities() {
+        screen("")
+        load("/api/communities", public = true) { saved ->
+            val list = saved.data.optJSONArray("communities") ?: JSONArray()
+            for ((kind, heading) in
+                listOf(
+                    "public" to "Public communities",
+                    "private" to "Private communities",
+                    "organisation" to "Organisation communities",
+                    "donating" to "Donating communities",
+                )) {
+                val headingRow = row(content)
+                label(headingRow, heading, 19, true).layoutParams =
+                    LinearLayout.LayoutParams(0, -2, 1f)
+                iconButton(headingRow, "communities") {
+                    AlertDialog.Builder(this)
+                        .setTitle(heading)
+                        .setMessage(
+                            when (kind) {
+                                "private" ->
+                                    "A community for your circle. Joining may require a code."
+                                "organisation" -> "Save together with your team or organisation."
+                                "donating" -> "Bring people together to save for a cause."
+                                else -> "Find people with shared goals and save together."
+                            }
+                        )
+                        .setPositiveButton("Close", null)
+                        .show()
+                }
+                val members =
+                    (0 until list.length())
+                        .map { list.getJSONObject(it) }
+                        .filter {
+                            it.optString("kind").ifBlank {
+                                if (it.optBoolean("is_public")) "public" else "private"
+                            } == kind
+                        }
+                if (members.isEmpty()) {
+                    val empty = card()
+                    label(
+                            empty,
+                            "No $kind communities yet. Create one for ${if (kind == "private") "your circle" else if (kind == "organisation") "your team" else if (kind == "donating") "a cause" else "people saving together"}.",
+                            13,
+                        )
+                        .gravity = Gravity.CENTER
+                    action(
+                        empty,
+                        "Create ${if (kind == "organisation") "an" else "a"} $kind community",
+                        false,
+                    ) {
+                        requireLogin { createCommunity(false, kind) }
+                    }
+                } else {
+                    val carousel =
+                        HorizontalScrollView(this).apply {
+                            isHorizontalScrollBarEnabled = false
+                            clipToPadding = false
+                        }
+                    val cards = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+                    carousel.addView(cards)
+                    content.addView(carousel, LinearLayout.LayoutParams(-1, -2))
+                    for (community in members) {
+                        val card = card(cards)
+                        card.layoutParams =
+                            LinearLayout.LayoutParams(
+                                    (resources.displayMetrics.widthPixels /
+                                            resources.displayMetrics.density)
+                                        .toInt()
+                                        .let { dp(it - 48) },
+                                    -2,
+                                )
+                                .apply { setMargins(dp(3), dp(8), dp(14), dp(14)) }
+                        val top = row(card)
+                        label(top, community.optString("name"), 17, true).apply {
+                            setTextColor(if (dark) ink else Color.rgb(17, 17, 17))
+                            layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
+                        }
+                        label(top, kind.replaceFirstChar { it.uppercase() }, 10, true).apply {
+                            background =
+                                round(if (dark) canvasColor else Color.rgb(238, 240, 255), 9)
+                            setPadding(dp(7), dp(3), dp(7), dp(3))
+                            layoutParams = LinearLayout.LayoutParams(-2, -2)
+                        }
+                        label(
+                            card,
+                            "${community.optInt("total_members")} members · ${community.optString("city").takeUnless { it == "null" || it.isBlank() } ?: community.optString("country", "Uganda")}",
+                            11,
+                        )
+                        label(card, community.optString("about"), 13)
+                        label(card, "read more", 12, true).setOnClickListener {
+                            communityDetail(community.getString("id"))
+                        }
+                        label(card, "UGX", 10).gravity = Gravity.END
+                        val amount = community.optDouble("total_saved")
+                        label(
+                                card,
+                                if (amount >= 1000000)
+                                    String.format(Locale.UK, "%.1fM", amount / 1000000)
+                                else if (amount >= 1000) "${(amount / 1000).toInt()}k"
+                                else NumberFormat.getIntegerInstance(Locale.UK).format(amount),
+                                36,
+                                true,
+                            )
+                            .gravity = Gravity.END
+                        label(card, "TOTAL SAVINGS", 9).gravity = Gravity.END
+                        val totals = row(card)
+                        label(totals, "${community.optDouble("pct_reached").toInt()}%", 12, true)
+                            .layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
+                        label(
+                                totals,
+                                NumberFormat.getIntegerInstance(Locale.UK)
+                                    .format(community.optDouble("total_goal")),
+                                11,
+                            )
+                            .apply {
+                                gravity = Gravity.END
+                                layoutParams = LinearLayout.LayoutParams(-2, -2)
+                            }
+                        progress(card, community.optDouble("pct_reached"))
+                        action(card, "Join community") {
+                            communityDetail(community.getString("id"))
+                        }
+                    }
+                }
+            }
+            footer()
+        }
+    }
+
     private fun communities() {
+        if (!BuildConfig.ADMIN_APP) {
+            consumerCommunities()
+            return
+        }
         screen(if (BuildConfig.ADMIN_APP) "Communities" else "Discover communities")
         if (BuildConfig.ADMIN_APP && store.session() == null) {
             emptyState("09-community-together", "Log in to manage your communities.")
@@ -1069,7 +1288,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun createCommunity(admin: Boolean) {
+    private fun createCommunity(admin: Boolean, defaultKind: String? = null) {
         subpage = true
         screen("Create community")
         val name = field(content, "Community name")
@@ -1084,6 +1303,12 @@ class MainActivity : ComponentActivity() {
                     listOf("Public", "Private", "Organisation", "Donating"),
                 )
             else null
+        if (kind != null && defaultKind != null)
+            kind.setSelection(
+                listOf("public", "private", "organisation", "donating")
+                    .indexOf(defaultKind)
+                    .coerceAtLeast(0)
+            )
         val pin =
             if (admin)
                 field(
@@ -1179,7 +1404,7 @@ class MainActivity : ComponentActivity() {
         subpage = true
         screen("Personal details")
         val c = card()
-        avatar(c, user.optString("name", "Member"), 72)
+        avatar(c, user.optString("name", "Member"), 72, user.optString("picture"))
         action(c, "Update photo", false) {
             photoResult = { image ->
                 change("/api/profile/avatar", JSONObject().put("image", image), "PUT") {
@@ -1404,7 +1629,7 @@ class MainActivity : ComponentActivity() {
                     "Terms and Conditions" to "terms",
                     "Responsible saving" to "responsible-saving",
                 )) menu("lock", title, "") {
-                openWebsite("${BuildConfig.API_URL}/legal/$path.html")
+                legalScreen(title, path)
             }
         }
     }
@@ -1530,7 +1755,11 @@ class MainActivity : ComponentActivity() {
 
     private fun registration() {
         subpage = true
-        screen("Join Now", false)
+        screen(if (BuildConfig.ADMIN_APP) "Create account" else "__auth", false)
+        if (!BuildConfig.ADMIN_APP) {
+            content = card(content, Color.rgb(31, 31, 153), 18)
+            label(content, "Join Now", 22, true).setTextColor(Color.WHITE)
+        }
         note(
             if (BuildConfig.ADMIN_APP) "Create your verified community admin account."
             else "Create your KibbiSave account."
@@ -1587,7 +1816,7 @@ class MainActivity : ComponentActivity() {
             }
         content.addView(terms)
         action(content, "Read Terms and Conditions", false) {
-            openWebsite("${BuildConfig.API_URL}/legal/terms.html")
+            legalDialog("Terms and Conditions", "terms")
         }
         val submit = action(content, "Create account") {}
         submit.setOnClickListener {
@@ -1965,7 +2194,11 @@ class MainActivity : ComponentActivity() {
     private fun load(path: String, public: Boolean = false, render: (Snapshot) -> Unit) {
         val status = label(content, "Loading…", 14)
         task(
-            { if (public) repository.publicLoad(path) else repository.load(path) },
+            {
+                if (public && (path != "/api/home" || store.session() == null))
+                    repository.publicLoad(path)
+                else repository.load(path)
+            },
             { saved ->
                 content.removeView(status)
                 lastSnapshotOffline = saved.offline
@@ -2034,7 +2267,11 @@ class MainActivity : ComponentActivity() {
             text = value
             textSize = size.toFloat()
             typeface = Typeface.create(font, if (bold) Typeface.BOLD else Typeface.NORMAL)
-            setTextColor(if (size <= 14) muted else ink)
+            setTextColor(
+                if (authPage) {
+                    if (size <= 14) Color.rgb(190, 190, 230) else Color.WHITE
+                } else if (size <= 14) muted else ink
+            )
             setLineSpacing(dp(2).toFloat(), 1f)
             includeFontPadding = false
             setPadding(0, dp(5), 0, dp(5))
@@ -2153,6 +2390,70 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    private fun legalDialog(title: String, name: String) {
+        val text =
+            TextView(this).apply {
+                this.text =
+                    try {
+                        assets.open("legal/$name.txt").bufferedReader().use { it.readText() }
+                    } catch (_: IOException) {
+                        "This page is unavailable."
+                    }
+                textSize = 15f
+                typeface = font
+                setTextColor(Color.rgb(25, 25, 35))
+                setPadding(dp(20), dp(16), dp(20), dp(16))
+            }
+        val scroll = ScrollView(this).apply { addView(text) }
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setView(scroll)
+            .setPositiveButton("Close", null)
+            .show()
+    }
+
+    private fun legalMenu(help: Boolean) {
+        val items =
+            if (help)
+                listOf(
+                    "Help" to "help",
+                    "Deposit" to "deposit",
+                    "Rules" to "rules",
+                    "Responsible saving" to "responsible-saving",
+                )
+            else
+                listOf(
+                    "About" to "about",
+                    "Privacy policy" to "privacy",
+                    "Cookies policy" to "cookies",
+                    "Terms and Conditions" to "terms",
+                    "News" to "news",
+                )
+        AlertDialog.Builder(this)
+            .setTitle(if (help) "Help Center" else "More on KibbiSave")
+            .setItems(items.map { it.first }.toTypedArray()) { _, index ->
+                legalScreen(items[index].first, items[index].second)
+            }
+            .show()
+    }
+
+    private fun legalScreen(title: String, name: String) {
+        subpage = true
+        screen(title)
+        try {
+            label(
+                content,
+                assets.open("legal/$name.txt").bufferedReader().use { it.readText() },
+                15,
+            )
+        } catch (_: IOException) {
+            note("This page is unavailable offline.")
+            action(content, "Open website", false) {
+                openWebsite("${BuildConfig.API_URL}/legal/$name.html")
+            }
+        }
+    }
+
     private fun menu(icon: String, title: String, subtitle: String, click: () -> Unit) {
         val c = card()
         val r = row(c)
@@ -2202,24 +2503,11 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    private fun avatar(parent: LinearLayout, name: String, size: Int) {
-        val v =
-            TextView(this).apply {
-                text =
-                    name
-                        .trim()
-                        .split(Regex("\\s+"))
-                        .filter { it.isNotBlank() }
-                        .take(2)
-                        .map { it.first().uppercase() }
-                        .joinToString("")
-                textSize = (size / 3).toFloat()
-                typeface = Typeface.create(font, Typeface.BOLD)
-                gravity = Gravity.CENTER
-                setTextColor(Color.WHITE)
-                background = round(navy, size / 2, Color.rgb(155, 155, 224))
-            }
-        parent.addView(v, LinearLayout.LayoutParams(dp(size), dp(size)))
+    private fun avatar(parent: LinearLayout, name: String, size: Int, picture: String? = null) {
+        parent.addView(
+            AvatarView(this, name, picture, dp(size), font),
+            LinearLayout.LayoutParams(dp(size), dp(size)),
+        )
     }
 
     private fun illustration(parent: LinearLayout, name: String, height: Int) {

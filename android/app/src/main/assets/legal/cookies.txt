@@ -1,0 +1,117 @@
+← Back to KibbiSave
+
+Cookies Policy
+
+Last updated: 11 July 2026
+
+KibbiSave uses cookies and similar storage technologies — including localStorage and sessionStorage — to keep you signed in, remember preferences such as dark mode, protect sessions, and improve performance. This policy explains what that means in practice, why we use storage on your device, and how you can manage it.
+
+Public explanations of cookies generally describe them as small pieces of data a website stores in your browser so the site can recognise a session or preference on later visits. Modern apps also use related browser storage APIs that are not always labelled “cookies” but serve similar purposes. We cover both here for honesty and clarity.
+
+Why this matters for a savings app
+
+Group savings involves accounts, contribution history, and trust. Session security helps ensure that the person viewing your groups is you. Preference storage makes the app usable on repeat visits. At the same time, Uganda’s Data Protection and Privacy Act, 2019 themes encourage purpose limitation and transparency — so we describe storage categories plainly.
+
+Citation (informational reference): Data Protection and Privacy Act, 2019 themes on fair and transparent processing — educational only.
+
+Types of storage we use
+
+Essential / strictly necessary
+
+Session and authentication markers so you stay logged in securely while using the app
+
+Security-related tokens that help prevent unauthorised use of your session
+
+Load-balancing or routing cookies that infrastructure may set to keep the site available
+
+Without essential storage, core features such as signing in and viewing your groups may not work reliably.
+
+Functional preferences
+
+Dark mode / theme preference (for example a localStorage key)
+
+UI state that remembers simple choices so you do not have to repeat them every visit
+
+Flags that help the app know whether auth state was already checked in this browser tab
+
+Performance and diagnostics
+
+We may use limited technical logs and client-side signals to understand errors and improve reliability. If we introduce third-party performance tools that set their own cookies, we will name them here.
+
+Analytics and marketing (if added later)
+
+If we add analytics or marketing cookies later, we will update this page and, where required, ask for consent before non-essential tracking. Until then, do not assume advertising profiles are being built from KibbiSave browsing.
+
+Examples of client-side keys (illustrative)
+
+Depending on the build you use, the browser may store keys such as:
+
+Authentication / session indicators used to show signed-in navigation
+
+Dark-mode preference (for example kibbi_dark_mode)
+
+Short-lived session flags for auth-known state
+
+Exact key names can change as we improve the product. The categories above matter more than any single key name.
+
+How long storage lasts
+
+Session storage — typically cleared when the browser tab or session ends
+
+Local storage / persistent cookies — may remain until you clear site data or we expire them
+
+Server sessions — may expire after inactivity or logout for security
+
+Third parties
+
+Payment providers (for example Mobile Money operators) operate their own apps, websites, and cookies under their own policies when you approve a payment. KibbiSave does not control those third-party cookies. Read your provider’s notices as well.
+
+Hosting and security providers may process technical data needed to deliver the site. See also our Privacy Policy.
+
+Mobile Money and phishing caution
+
+Cookies and storage do not replace good security habits. Bank of Uganda consumer-awareness themes for digital payments commonly warn against sharing OTPs, clicking unknown links, or entering PINs on fake pages. A real KibbiSave session will not ask you to paste your Mobile Money PIN into a random chat message.
+
+Citation (informational reference): BoU digital-payment caution themes — educational only; not BoU endorsement of KibbiSave.
+
+How to manage or clear cookies and site data
+
+Use your browser settings to view cookies and site data for the KibbiSave domain.
+
+Clear cookies, localStorage, and sessionStorage for this site if you want a clean slate.
+
+Sign out in the app when you use a shared device.
+
+Understand that clearing data may sign you out and reset preferences such as dark mode.
+
+On some mobile browsers, “Clear browsing data” or “Site settings” controls the same storage. Device-level app storage may also apply if you use an installed web app shortcut.
+
+Do Not Track and browser controls
+
+Browsers offer different privacy controls. We aim to honour meaningful consent and preference mechanisms as we add optional analytics. Essential storage required to run the logged-in service may still be necessary.
+
+Children
+
+KibbiSave is aimed at adults. We do not knowingly use cookies to profile children for marketing.
+
+Shared devices and internet cafés
+
+If you use KibbiSave on a shared phone or public computer, sign out when finished and avoid “remember me” behaviour on devices you do not control. Clearing site data after use reduces the chance that the next person inherits your session. This is especially important for a savings app where group membership and balances may be visible when signed in.
+
+Cookies vs Mobile Money app data
+
+Your Mobile Money provider’s app stores its own data under its own policy. Approving a KibbiSave deposit may open or call that provider’s flow. Cookie controls in your browser do not erase provider-app data on your phone. Manage both carefully.
+
+Changes
+
+We will update this Cookies Policy when our storage practices change materially — for example if we add analytics vendors. Check the “Last updated” date and the News page.
+
+Related documents
+
+Privacy Policy
+
+Terms of Use
+
+Help Center
+
+ Citations (informational): Data Protection and Privacy Act, 2019 themes; Bank of Uganda digital-payment awareness themes. Educational only — not regulatory endorsement. License No: Pending — to be updated.

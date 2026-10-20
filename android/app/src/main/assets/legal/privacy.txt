@@ -1,0 +1,187 @@
+← Back to KibbiSave
+
+Privacy Policy
+
+Last updated: 11 July 2026
+
+This Privacy Policy explains how KibbiSave (“we”, “us”) collects, uses, stores, and shares information when you use our group-savings app and related websites in Uganda. It is written in plain language so members, organisers, and visitors can understand what happens to their data.
+
+Public encyclopedic and legal summaries of data protection generally describe personal data as information that identifies or can identify a person — for example a name, phone number, email, or online identifier. Uganda’s Data Protection and Privacy Act, 2019 sets out principles for lawful, fair, and secure processing. We design our practices with awareness of those themes. This notice is informational and does not replace formal registrations, filings, or advice that may be required as the product scales.
+
+Who this policy applies to
+
+People who create KibbiSave accounts
+
+Members and organisers of savings groups
+
+Visitors who browse marketing or help pages
+
+People who contact support
+
+Information we collect
+
+Account and profile
+
+Name, display name, email, phone number
+
+Password (stored in a protected form, not as plain text)
+
+Profile photo or avatar you upload
+
+Preferences such as dark mode
+
+Group and savings activity
+
+Groups you create, join, or leave
+
+Contribution amounts, timestamps, and status (pending, confirmed, failed)
+
+Leaderboard and standing information derived from activity
+
+Invite codes you create or use (as needed to operate groups)
+
+Payments (limited)
+
+Payment providers process Mobile Money or other transfers under their own terms. We may receive confirmation references, amounts, status, and identifiers needed to match a payment to your account and group. We do not need your Mobile Money PIN, and you should never send PINs or OTPs to us.
+
+Device, session, and technical data
+
+Login sessions and authentication cookies / tokens
+
+Basic device and browser information
+
+IP address and approximate logs used for security and diagnostics
+
+Error reports and performance signals
+
+Support communications
+
+If you email or message support, we keep the content needed to resolve your request, including attachments you choose to send (avoid sending secrets).
+
+How we use information
+
+Operate accounts, groups, deposits, and history
+
+Show rankings, progress, and member lists within groups as designed
+
+Prevent fraud, abuse, and unauthorised access
+
+Improve reliability, usability, and customer support
+
+Send service notices (for example security or material terms updates)
+
+Comply with law where we are legally required to do so
+
+We do not sell your personal data.
+
+Legal and principle themes (Data Protection and Privacy Act, 2019)
+
+At a high level, Uganda’s Data Protection and Privacy Act, 2019 is commonly described as requiring personal data to be processed lawfully, for specified purposes, with appropriate security, and with respect for data-subject rights. Themes often highlighted in public summaries include:
+
+Collecting data for clear purposes related to the service
+
+Not keeping data longer than needed for those purposes (subject to legal retention needs)
+
+Taking reasonable steps to keep data accurate and secure
+
+Respecting rights of access and correction where applicable
+
+Being careful with sensitive categories of data
+
+Citation (informational reference): Data Protection and Privacy Act, 2019 — themes summarised for education; not a full legal commentary and not a claim of completed regulatory filings.
+
+Sharing
+
+We may share limited data with:
+
+Payment providers — to initiate or confirm deposits
+
+Hosting and infrastructure vendors — to run the app securely
+
+Other group members — profile and activity visibility that is inherent to group savings (for example names and contribution standing inside a group)
+
+Authorities — when required by applicable law, court order, or lawful request
+
+Professional advisers — under confidentiality, where needed for legal or compliance work
+
+If we ever use analytics or marketing tools that set additional cookies, we will update the Cookies Policy and this notice as needed.
+
+Visibility inside groups
+
+Group savings only works if members can see enough information to trust the circle. That usually includes display names and contribution progress. Do not join a group if you are uncomfortable with that level of visibility. Organisers should not publish member lists outside the app without a lawful basis and member awareness.
+
+Security
+
+We use technical and organisational measures appropriate to a consumer app — such as encrypted transport (HTTPS), access controls, and protected password storage. No method of transmission or storage is perfectly secure. You also play a role: protect your password, device lock, SIM, and Mobile Money PIN.
+
+Bank of Uganda consumer-awareness themes for digital payments often stress credential protection and caution against social engineering. Those habits protect privacy as well as money.
+
+Citation (informational reference): BoU payment-security awareness themes — educational only.
+
+Retention
+
+We keep account and transaction records for as long as needed to operate the service, resolve disputes, meet bookkeeping or legal obligations, and improve security. When data is no longer needed, we aim to delete or anonymise it where practical.
+
+Children
+
+KibbiSave is intended for adults who can enter binding agreements and manage money responsibly. If you believe a child has created an account inappropriately, contact us so we can review.
+
+International processing
+
+Infrastructure providers may process data in more than one country. Where that occurs, we seek appropriate safeguards consistent with our security and privacy goals and applicable law.
+
+Your choices and rights
+
+Update profile details in the app
+
+Request access to or correction of personal data we hold, where applicable
+
+Request deletion where the law allows and where we do not need to retain data for legal or security reasons
+
+Clear cookies and site storage in your browser (see Cookies Policy)
+
+To make a privacy request, use the contact channel on the About page or in-app support. We may need to verify it is really you before fulfilling the request.
+
+Anti-money-laundering and integrity checks
+
+Themes in Uganda’s Anti-Money Laundering framework commonly include knowing your customer and monitoring for suspicious activity. We may request additional verification or restrict accounts where integrity checks require it. This is about platform safety, not an accusation against ordinary savers.
+
+Citation (informational reference): Anti-Money Laundering Act themes — educational only.
+
+Data minimisation in practice
+
+We aim to collect what we need to run groups and deposits — not every possible data point. Organisers should follow the same spirit: do not demand unnecessary personal documents in chat, and do not publish member phone numbers outside the circle without a clear reason and member awareness.
+
+World Bank consumer-protection discussions around digital finance often link privacy to trust: people use savings tools more confidently when they understand who sees their information. That is why this policy separates account data, group visibility, and payment confirmations.
+
+Breach awareness
+
+If we become aware of a security incident that materially affects your personal data, we will take steps consistent with applicable law and good practice — including containment, assessment, and user or authority notification where required. You can reduce impact by using unique passwords and enabling device locks.
+
+Marketing communications
+
+Service messages (security, material terms changes, deposit confirmations where applicable) are part of operating the product. Optional product news or tips, if introduced, will be distinguishable where practical, and you may be able to opt out of non-essential marketing without losing core account access.
+
+Automated decisions
+
+We may use automated signals (for example repeated failed logins or unusual deposit patterns) to protect accounts. These are integrity and fraud-prevention tools, not credit scoring for bank loans. If an automated control restricts your account, contact support for a human review path where available.
+
+Group organisers and other people’s data
+
+If you administer a group, you may see member names and contribution activity needed to run the circle. Treat that information as confidential to the group. Do not export member lists for spam, shaming, or sale. Public data-protection themes emphasise purpose limitation — use member data for running the savings group, not unrelated commercial exploitation.
+
+Members should also respect each other’s privacy in chats and screenshots. Visibility inside a group is for accountability, not for public humiliation.
+
+Changes to this policy
+
+We may update this Privacy Policy as the product evolves. The “Last updated” date will change, and material updates may also be highlighted in News or in-app notices.
+
+Related documents
+
+Cookies Policy
+
+Terms of Use
+
+Help Center
+
+ Citations (informational): Data Protection and Privacy Act, 2019; Bank of Uganda digital-payment awareness themes; Anti-Money Laundering Act themes. Educational only — not endorsement and not a substitute for formal compliance advice. License No: Pending — to be updated.

@@ -1,0 +1,167 @@
+← Back to KibbiSave
+
+Terms of Use
+
+Last updated: 11 July 2026
+
+By creating an account, joining a group, making a deposit, or otherwise using KibbiSave, you agree to these Terms of Use (“Terms”). If you do not agree, do not use the service. These Terms work together with our Privacy Policy, Cookies Policy, Rules, and Responsible Saving guidance.
+
+KibbiSave provides group-savings tools for users in Uganda. We are not a bank. License No: Pending — to be updated.
+
+1. The service
+
+KibbiSave provides tools to create and join savings groups, record deposits, view related activity, and use features such as progress views and leaderboards. Features may change as we improve the product. We may add, modify, or discontinue functionality with notice where practical.
+
+The service is a coordination and record-keeping platform. It does not convert group contributions into regulated bank deposits, insured products, or guaranteed investments.
+
+2. Eligibility and accounts
+
+You must be able to enter a binding agreement under applicable Ugandan law.
+
+You must provide accurate registration information and keep it updated.
+
+You are responsible for safeguarding login credentials and for activity under your account.
+
+Notify us promptly if you suspect unauthorised access.
+
+One person should not create multiple accounts to evade limits, bans, or group rules.
+
+3. Groups and money
+
+When you join a group, you agree to that group’s rules in addition to these Terms. Group outcomes depend on member behaviour, payment confirmation, and the rules you accepted. KibbiSave does not guarantee returns, interest, or recovery of contributions if members default or if rules restrict early exit.
+
+Deposits are contributions toward a group cycle or goal. Confirmation depends on payment providers. Pending, failed, or delayed statuses can occur. Review How deposits work before contributing.
+
+You should only contribute money you can afford to lock for the group period. See Responsible Saving.
+
+4. Not a bank; no deposit guarantee
+
+Themes in the Financial Institutions Act (Cap. 57) address licensed deposit-taking under supervision. KibbiSave does not claim to be a licensed bank or deposit-taking institution. Group funds are not covered by a bank deposit guarantee. If you need regulated deposit protections, consider supervised institutions.
+
+Citation (informational reference): Financial Institutions Act (Cap. 57) themes — educational only, not a licence claim or BoU endorsement.
+
+5. Payments and third-party providers
+
+Mobile Money and other payment channels are operated by third parties under their own terms and fees. You authorise us to receive confirmation data needed to match payments to your account and groups. We never need your Mobile Money PIN; sharing PINs with anyone is at your own risk and violates responsible use.
+
+Bank of Uganda consumer-awareness themes for payment services commonly emphasise credential protection and careful confirmation of payees. Those habits are part of acceptable use on KibbiSave.
+
+Citation (informational reference): BoU payment consumer-awareness themes — educational only.
+
+6. Acceptable use
+
+You agree not to:
+
+Use the app for fraud, money mule activity, harassment, or other illegal activity
+
+Impersonate KibbiSave staff, payment providers, or other members
+
+Probe, disrupt, or overload the service except through documented support channels
+
+Scrape personal data of members for unrelated commercial use
+
+Misrepresent group funds as insured, guaranteed, or bank deposits
+
+Pressure others through threats, deception, or abusive tactics to contribute
+
+Bypass security or payment controls
+
+We may suspend or terminate accounts that violate these Terms or create risk for other users.
+
+7. Integrity, AML, and verification
+
+Anti-Money Laundering Act themes commonly include customer due diligence and attention to suspicious activity. We may request additional information, delay certain actions, or restrict accounts where integrity, fraud prevention, or legal compliance reasonably requires it.
+
+Citation (informational reference): Anti-Money Laundering Act themes — educational only.
+
+8. Organiser responsibilities
+
+If you create or administer a group, you must set understandable rules, avoid false claims of bank-like safety or guaranteed returns, and treat members fairly. You are responsible for your communications with members. Creating a group does not register a legal entity with URSB; seek advice if your community needs formal registration.
+
+Citation (informational reference): URSB entity-registration awareness — not legal advice.
+
+9. Tax
+
+You are responsible for understanding your own tax obligations. KibbiSave does not provide tax advice. URA public awareness materials may be relevant if your activities generate taxable income or constitute a business.
+
+Citation (informational reference): URA tax-awareness themes — informational only.
+
+10. Intellectual property
+
+KibbiSave branding, software, and content we publish are protected by applicable intellectual-property laws. You may not copy or reuse them except as allowed by these Terms or with written permission. You retain rights to content you submit, but grant us a licence to host and display it as needed to operate groups and the service.
+
+11. Privacy
+
+Our handling of personal data is described in the Privacy Policy, written with awareness of Uganda’s Data Protection and Privacy Act, 2019 themes. Group participation necessarily shares certain profile and activity information with other members.
+
+12. Disclaimers
+
+To the extent allowed by Ugandan law, KibbiSave is provided “as is” and “as available” without warranties beyond those we expressly state. We do not warrant uninterrupted service, error-free payment matching in all cases, or that group members will meet their commitments.
+
+World Bank consumer-protection literature often stresses disclosure of risks; this section is part of that disclosure culture for our product, not an endorsement by the World Bank.
+
+13. Limitation of liability
+
+To the extent allowed by applicable law, KibbiSave and its operators are not liable for indirect, incidental, or consequential losses, or for losses arising from member default, group-rule lock-in, third-party payment failures, or unauthorised access caused by your credential sharing. Nothing in these Terms excludes liability that cannot be excluded under Ugandan law.
+
+14. Indemnity
+
+You agree to indemnify KibbiSave against claims arising from your misuse of the service, your violation of these Terms, or your violation of group rules that causes harm to others, to the extent permitted by law.
+
+15. Changes
+
+We may update these Terms. The “Last updated” date will change. Material changes may also appear in News or in-app notices. Continued use after changes become effective constitutes acceptance where permitted by law.
+
+16. Governing law
+
+These Terms are governed by the laws of Uganda, without prejudice to mandatory consumer protections that apply to you.
+
+17. Service availability and force majeure
+
+We aim for reliable uptime but do not promise uninterrupted access. Maintenance, network failures, payment-provider outages, power issues, or events beyond reasonable control may delay deposits, history updates, or login. During disruptions, do not send duplicate payments until you have checked both KibbiSave history and your Mobile Money statement.
+
+18. Complaints and escalation
+
+World Bank-style consumer-protection themes often emphasise accessible complaint channels. If you have a problem:
+
+Check Help Center guides for self-serve answers.
+
+Contact KibbiSave support with factual details (no PINs).
+
+For provider-side payment issues, also use your Mobile Money operator’s dispute process.
+
+For suspected criminal fraud, consider reporting to appropriate authorities.
+
+We will review platform-side issues in good faith. We cannot force another member to pay, and we cannot rewrite a group’s social agreement for you.
+
+19. Relationship to group rules
+
+Group rules govern member-to-member expectations inside a circle. These Terms govern your relationship with the KibbiSave platform. If group rules conflict with these Terms or with law, the platform Terms and applicable law prevail for platform use. Illegal group rules are not enforceable through KibbiSave.
+
+Public descriptions of ROSCAs and savings groups show that informal rules can be powerful socially even when they are not court-ready contracts. Write clearly anyway — clarity prevents harm.
+
+20. Risk acknowledgement
+
+By depositing, you acknowledge that you have read the risk themes in Responsible Saving and How deposits work, including lock-in, member default, operational delay, and fraud risks. You acknowledge that KibbiSave is not selling insurance and is not providing a bank deposit guarantee.
+
+21. Severability and entire agreement
+
+If a court finds part of these Terms unenforceable, the rest remains in effect. These Terms, together with the Privacy Policy, Cookies Policy, and any in-product notices we expressly incorporate, form the agreement between you and KibbiSave for use of the service. Informal chat messages from individuals do not amend these Terms unless we publish a formal update.
+
+22. Contact
+
+Questions about these Terms can be sent through channels listed on the About page or Help Center when published. For licensing status, see the placeholder below until a real number is published.
+
+23. Practical examples (non-exhaustive)
+
+Joining a private workplace group and depositing the stated weekly amount through the in-app flow is ordinary use.
+
+Promising members “guaranteed 5× returns like a bank” is not allowed and misrepresents the product.
+
+Asking members to send MoMo to a personal number “because the app is down” is a warning sign; prefer official channels and support.
+
+Creating a group for a community project is fine; claiming the group is URSB-registered solely because it exists in KibbiSave is not accurate.
+
+When unsure, read Responsible Saving and ask before you send money.
+
+ Citations (informational): Financial Institutions Act (Cap. 57); Bank of Uganda payment consumer-awareness themes; Anti-Money Laundering Act themes; Data Protection and Privacy Act, 2019; URA and URSB public awareness; World Bank consumer-protection disclosure themes; public ROSCA/savings-group framing. Educational only — not regulatory endorsement. License No: Pending — to be updated.

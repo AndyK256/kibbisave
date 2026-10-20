@@ -71,6 +71,14 @@ class SecureStore(context: Context) {
         persist()
     }
 
+    /** Refresh account details without discarding an unresolved payment reminder. */
+    @Synchronized fun refreshSession(session: Session) {
+        check(state.optJSONObject("session")?.optString("id") == session.id) { "Account changed. Sign in again." }
+        state.put("session", JSONObject().put("id", session.id).put("name", session.name)
+            .put("cookie", session.cookie).put("expires", session.expires))
+        persist()
+    }
+
     @Synchronized fun saveSnapshot(path: String, data: JSONObject) {
         val session = session() ?: return
         if (!OfflinePolicy.maySave(path, BuildConfig.ADMIN_APP)) return

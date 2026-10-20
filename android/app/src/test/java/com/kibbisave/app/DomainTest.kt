@@ -58,4 +58,20 @@ class DomainTest {
             assertThrows(IllegalArgumentException::class.java) { ApiAddress.resolve(origin, "/api/home") }
         }
     }
+    @Test fun `all ledger changing admin and user actions retain uncertain result protection`() {
+        for (path in listOf("/api/deposits", "/api/admin/approvals/123/approve",
+            "/api/admin/members/123/deposits", "/api/admin/members")) {
+            assertTrue(path, FinancialPolicy.requiresConfirmation(path))
+        }
+        for (path in listOf("/api/profile", "/api/groups", "/api/communities", "/api/profile/payment-methods")) {
+            assertFalse(path, FinancialPolicy.requiresConfirmation(path))
+        }
+    }
+
+    @Test fun `search query encoding preserves the API path and origin`() {
+        val uri = ApiAddress.resolve("https://kibbisave.com", "/api/search?q=one%20two%23three")
+        assertEquals("/api/search", uri.path)
+        assertEquals("kibbisave.com", uri.host)
+        assertEquals("q=one%20two%23three", uri.rawQuery)
+    }
 }

@@ -75,7 +75,11 @@ class MainActivity : ComponentActivity() {
     private val photoPicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         if (uri != null) task({ contentResolver.openInputStream(uri)?.use { stream ->
             val bytes=stream.readBytes();require(bytes.size <= 8*1024*1024) { "Choose a photo under 8 MB." }
-            val bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.size) ?: error("Choose a valid image.")
+            val bounds=BitmapFactory.Options().apply{inJustDecodeBounds=true}
+            BitmapFactory.decodeByteArray(bytes,0,bytes.size,bounds)
+            require(bounds.outWidth>0 && bounds.outHeight>0){"Choose a valid image."}
+            var sample=1;while(maxOf(bounds.outWidth,bounds.outHeight)/sample>1800)sample*=2
+            val bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.size,BitmapFactory.Options().apply{inSampleSize=sample}) ?: error("Choose a valid image.")
             encodePhoto(bitmap)
         } ?: error("Could not open photo.") }, { photoResult?.invoke(it);photoResult=null })
     }
@@ -189,14 +193,14 @@ class MainActivity : ComponentActivity() {
                 val bar=row(popular);avatar(bar,community.optString("name"),40)
                 val text=LinearLayout(this).apply{orientation=LinearLayout.VERTICAL;setPadding(dp(10),0,dp(8),0)};bar.addView(text,LinearLayout.LayoutParams(0,-2,1f))
                 label(text,community.optString("icon")+" "+community.optString("name"),15,true);label(text,"${community.optInt("total_members")} people saving",12)
-                chip(bar,"EXPLORE"){communityDetail(community.getString("id"))}
+                chip(bar,"EXPLORE",compact=true){communityDetail(community.getString("id"))}
             }
             val target=card();label(target,"AHEAD OF YOUR SAVINGS TARGET BY",12,true).apply{gravity=Gravity.CENTER;setTextColor(muted);setPadding(0,dp(14),0,0)}
             label(target,"${pct(summary.optDouble("avg_lead"))}%",64,true).gravity=Gravity.CENTER
             label(target,if(summary.optDouble("avg_lead")<0)"Behind target" else "◷  On target",12).apply{gravity=Gravity.CENTER;setPadding(0,0,0,dp(14))}
             val mine=data.optJSONArray("my_groups")?:JSONArray()
             if(mine.length()>0){section("My savings groups");groupCards(mine,saved.offline)}
-            val head=row(content);label(head,"Open Groups",19,true).layoutParams=LinearLayout.LayoutParams(0,-2,1f);chip(head,"Filter"){groupFilter(data.optJSONArray("open_groups")?:JSONArray())}
+            val head=row(content);label(head,"Open Groups",19,true).layoutParams=LinearLayout.LayoutParams(0,-2,1f);chip(head,"Filter",compact=true){groupFilter(data.optJSONArray("open_groups")?:JSONArray())}
             groupCards(data.optJSONArray("open_groups")?:JSONArray(),false,open=true)
             val start=card();illustration(start,"03-team-high-five",140);label(start,"Start your own group with friends and family",18,true).gravity=Gravity.CENTER
             action(start,"+ Create group"){requireLogin{createGroup()}};footer()
@@ -361,11 +365,24 @@ class MainActivity : ComponentActivity() {
         label(c,"${user.optString("handle","@member")} · ${user.optString("location","Uganda")}",13);label(c,"Member since ${user.optString("memberSince","—")}",12)
         val name=field(content,"Full name").apply{setText(user.optString("name"))};val phone=field(content,"Phone / account number",InputType.TYPE_CLASS_PHONE).apply{setText(user.optString("phone").takeUnless{it=="null"}?:"")};val location=field(content,"Location").apply{setText(user.optString("location"))};label(content,"Email: ${user.optString("email")}",14)
         action(content,"Save personal details"){change("/api/profile",JSONObject().put("display_name",name.text.toString()).put("phone",phone.text.toString()).put("location",location.text.toString()),"PATCH"){result->
-            val updated=result.getJSONObject("user");store.session()?.let{store.saveSession(it.copy(name=updated.optString("name",it.name)))};navigate("Profile")}}
+            val updated=result.getJSONObject("user");store.session()?.let{store.refreshSession(it.copy(name=updated.optString("name",it.name)))};navigate("Profile")}}
     }
-    private fun memberships(){
-        subpage=true;screen("Communities and groups");section("Communities")
-        load("/api/communities/mine"){saved->val list=saved.data.optJSONArray("communities")?:JSONArray();if(list.length()==0)note("No communities in your history yet.");for(i in 0 until list.length()){val c=list.getJSONObject(i);menu("communities",c.optString("name"),"${c.optInt("total_members")} people saving"){communityDetail(c.getString("id"))}};section("Groups");load("/api/groups/mine"){groupCards(it.data.optJSONArray("groups")?:JSONArray(),it.offline)}
+    private fun memberships() {
+        subpage = true
+        screen("Communities and groups")
+        section("Communities")
+        load("/api/communities/mine") { saved ->
+            val list = saved.data.optJSONArray("communities") ?: JSONArray()
+            if (list.length() == 0) note("No communities in your history yet.")
+            for (i in 0 until list.length()) {
+                val community = list.getJSONObject(i)
+                menu("communities", community.optString("name"), "${community.optInt("total_members")} people saving") {
+                    communityDetail(community.getString("id"))
+                }
+            }
+            section("Groups")
+            load("/api/groups/mine") { groupCards(it.data.optJSONArray("groups") ?: JSONArray(), it.offline) }
+        }
     }
     private fun activity(list:JSONArray){subpage=true;screen("Recent activity");if(list.length()==0)emptyState("26-build-your-savings","No activity yet — join a group and make your first deposit.");for(i in 0 until list.length()){val t=list.getJSONObject(i);val c=card();label(c,t.optString("title",t.optString("action")),17,true);label(c,t.optString("sub"),13);label(c,t.optString("amount"),18,true);label(c,t.optString("date",shortDate(t.optString("created_at"))),12)}}
     private fun notifications(){
@@ -498,7 +515,7 @@ class MainActivity : ComponentActivity() {
         parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply{topMargin=dp(10);bottomMargin=dp(6)})
     }
     private fun label(parent:LinearLayout,value:String,size:Int=16,bold:Boolean=false):TextView=TextView(this).apply{
-        text=value;textSize=size.toFloat();typeface=Typeface.create(font,if(bold)Typeface.BOLD else Typeface.NORMAL);setTextColor(if(size<=14)muted else ink);setLineSpacing(dp(2).toFloat(),1f);setPadding(0,dp(5),0,dp(5));parent.addView(this,LinearLayout.LayoutParams(-1,-2))
+        text=value;textSize=size.toFloat();typeface=Typeface.create(font,if(bold)Typeface.BOLD else Typeface.NORMAL);setTextColor(if(size<=14)muted else ink);setLineSpacing(dp(2).toFloat(),1f);includeFontPadding=false;setPadding(0,dp(5),0,dp(5));parent.addView(this,LinearLayout.LayoutParams(-1,-2))
     }
     private fun section(title:String){label(content,title,19,true).setPadding(0,dp(22),0,dp(6))}
     private fun field(parent:LinearLayout,title:String,type:Int=InputType.TYPE_CLASS_TEXT):EditText{
@@ -515,9 +532,9 @@ class MainActivity : ComponentActivity() {
         setPadding(dp(12),dp(8),dp(12),dp(8));minimumHeight=dp(48);isFocusable=true
         parent.addView(this,LinearLayout.LayoutParams(-1,-2).apply{topMargin=dp(10);bottomMargin=dp(4)});setOnClickListener{click()}
     }
-    private fun chip(parent:LinearLayout,title:String,active:Boolean=true,click:()->Unit){
+    private fun chip(parent:LinearLayout,title:String,active:Boolean=true,compact:Boolean=false,click:()->Unit){
         val text=TextView(this).apply{this.text=title;textSize=12f;typeface=Typeface.create(font,Typeface.BOLD);gravity=Gravity.CENTER;setTextColor(if(active)Color.WHITE else ink);background=round(if(active)navy else paper,10,lineColor);setPadding(dp(12),dp(10),dp(12),dp(10));setOnClickListener{click()};isFocusable=true}
-        parent.addView(text,LinearLayout.LayoutParams(0,-2,1f).apply{setMargins(dp(3),dp(6),dp(3),dp(6))})
+        parent.addView(text,LinearLayout.LayoutParams(if(compact)-2 else 0,-2,if(compact)0f else 1f).apply{setMargins(dp(3),dp(6),dp(3),dp(6))})
     }
     private fun menu(icon:String,title:String,subtitle:String,click:()->Unit){
         val c=card();val r=row(c);r.addView(BrandIcon(this,icon,ink),LinearLayout.LayoutParams(dp(27),dp(27)));val text=LinearLayout(this).apply{orientation=LinearLayout.VERTICAL;setPadding(dp(13),0,dp(8),0)};r.addView(text,LinearLayout.LayoutParams(0,-2,1f));label(text,title,16,true);if(subtitle.isNotBlank())label(text,subtitle,12);r.addView(BrandIcon(this,"arrow",muted),LinearLayout.LayoutParams(dp(18),dp(18)));c.setOnClickListener{click()};c.contentDescription=title;c.isFocusable=true
@@ -639,39 +656,45 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    private fun joinGroup(id: String, name: String) {
-        screen("Join $name")
-        val goal = field(content, "Your savings goal (UGX)", InputType.TYPE_CLASS_NUMBER)
-        val purpose = field(content, "What are you saving for?")
-        val code = field(content, "Joining code (if required)")
-        action(content, "Join group") {
-            val value = Money.positiveUgx(goal.text.toString())
-            if (value == null) { toast("Enter a positive whole UGX goal."); return@action }
-            write("/api/groups/$id/join", JSONObject().put("goal_amount", value)
-                .put("saving_for", purpose.text.toString()).put("code", code.text.toString()), "You joined the group.", "Groups")
-        }.isEnabled = online()
-    }
-
-
-    private fun createGroup() {
-        screen("Create a group")
-        val name = field(content, "Group name (up to 10 characters)")
-        label(content, "Savings period", 14, true)
-        val duration = Spinner(this).apply {
-            adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, listOf("3 months", "5 months", "8 months", "12 months"))
+    private fun joinGroup(id:String,name:String){
+        subpage=true;screen("Join group");label(content,name,23,true)
+        val goal=field(content,"Total amount (UGX) *",InputType.TYPE_CLASS_NUMBER)
+        val purpose=field(content,"What are you saving for?")
+        val suggestion=field(content,"Suggest group name (max 10 characters)")
+        val code=field(content,"Joining code (private groups)")
+        val selected=mutableSetOf<Int>();var choices=JSONArray()
+        val chooser=action(content,"Choose community (optional — up to 2)",false){}
+        task({repository.publicLoad("/api/communities").data.optJSONArray("communities")?:JSONArray()},{list->choices=list;chooser.setOnClickListener{
+            val names=Array(list.length()){list.getJSONObject(it).optString("name")};val pending=selected.toMutableSet()
+            AlertDialog.Builder(this).setTitle("Choose up to two communities").setMultiChoiceItems(names,BooleanArray(names.size){it in pending}){dialog,which,checked->
+                if(checked && pending.size>=2){(dialog as AlertDialog).listView.setItemChecked(which,false);toast("Choose at most two communities.")}else if(checked)pending.add(which)else pending.remove(which)
+            }.setNegativeButton("Cancel",null).setPositiveButton("Choose"){_,_->selected.clear();selected.addAll(pending);chooser.text=if(selected.isEmpty())"Choose community (optional — up to 2)" else selected.joinToString(", "){names[it]}}.show()
+        }})
+        action(content,"Continue to deposit"){
+            val amount=Money.positiveUgx(goal.text.toString());if(amount==null){toast("Enter a positive savings goal.");return@action}
+            if(suggestion.text.length>10){toast("Use at most ten characters for the group name.");return@action}
+            val communityIds=JSONArray();for(index in selected)communityIds.put(choices.getJSONObject(index).getString("id"))
+            val body=JSONObject().put("goal_amount",amount).put("saving_for",purpose.text.toString()).put("suggest_name",suggestion.text.toString().trim()).put("community_ids",communityIds).put("code",code.text.toString().trim())
+            change("/api/groups/$id/join",body){deposit(id,name)}
         }
-        content.addView(duration)
-        val open = CheckBox(this).apply { text = "Anyone can join"; isChecked = true }
-        content.addView(open)
-        action(content, "Create group") {
-            val title = name.text.toString().trim()
-            if (title.isEmpty() || title.length > 10) { toast("Use a name with 1–10 characters."); return@action }
-            write("/api/groups", JSONObject().put("name", title)
-                .put("period_months", listOf(3, 5, 8, 12)[duration.selectedItemPosition]).put("anyone_can_join", open.isChecked),
-                "Group created. You can find its code under My groups.", "Groups")
-        }.isEnabled = online()
     }
-
+    private fun createGroup(){
+        subpage=true;screen("Create private group");note("Share the link with friends so they can join and save together.")
+        val name=field(content,"Group name * (max 10 characters)");val period=select(content,"Period *",listOf("3 months","5 months","8 months","12 months"))
+        val open=CheckBox(this).apply{text="Anyone can join group";isChecked=true;setTextColor(ink)};content.addView(open)
+        note("On: anyone with the link joins. Off: they must enter your joining code.")
+        action(content,"Create group"){
+            val value=name.text.toString().trim();if(value.isBlank()||value.length>10){toast("Use a name with 1–10 characters.");return@action}
+            change("/api/groups",JSONObject().put("name",value).put("period_months",listOf(3,5,8,12)[period.selectedItemPosition]).put("anyone_can_join",open.isChecked)){result->
+                screen("Group created — share to finish");subpage=true
+                val group=result.getJSONObject("group");val path=result.getString("share_link");val url=BuildConfig.API_URL+path
+                val c=card();label(c,"Invite link",13,true);label(c,url,14);label(c,"Joining code: ${result.optString("joining_code")}",20,true)
+                val next=action(content,"Continue — join my group"){joinGroup(group.getString("id"),value)};next.isEnabled=false
+                action(c,"Share"){share(url);next.isEnabled=true};action(c,"Copy link",false){copy(url);next.isEnabled=true}
+                note("Share or copy the invite link to continue — a group needs members.")
+            }
+        }
+    }
 
     private fun write(path: String, body: JSONObject, success: String, returnTab: String) {
         if (!online()) { toast("This action requires internet. Nothing has been queued."); return }

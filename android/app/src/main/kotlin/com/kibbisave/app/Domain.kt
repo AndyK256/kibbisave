@@ -34,3 +34,11 @@ object ApiAddress {
         return destination
     }
 }
+
+/** Every money-affecting native write needs the unresolved-result guard. */
+object FinancialPolicy {
+    fun requiresConfirmation(path: String): Boolean = path == "/api/deposits" ||
+        path.startsWith("/api/admin/approvals/") ||
+        (path.startsWith("/api/admin/members/") && path.endsWith("/deposits")) ||
+        path == "/api/admin/members"
+}

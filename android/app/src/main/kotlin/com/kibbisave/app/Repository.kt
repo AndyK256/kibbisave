@@ -37,9 +37,19 @@ class Repository(private val store: SecureStore) {
     }
 
     fun publicLoad(path: String): Snapshot {
-        val data = api.request(path, authenticated = store.session() != null).body
-        if (data.has("error") || data.has("notice")) throw ApiException(503, data.optString("error", data.optString("notice")))
-        return Snapshot(data, System.currentTimeMillis(), false)
+        try {
+            val signedIn = store.session() != null
+            val data = api.request(path, authenticated = signedIn).body
+            if (signedIn && data.has("authenticated") && !data.optBoolean("authenticated")) {
+                throw ApiException(401, "Your session has expired. Sign in again.")
+            }
+            if (data.has("error") || data.has("notice")) throw ApiException(503, data.optString("error", data.optString("notice")))
+            return Snapshot(data, System.currentTimeMillis(), false)
+        } catch (error: ApiException) {
+            if (error.status == 401) store.clear()
+            if (error.status == 403) store.clearSnapshots()
+            throw error
+        }
     }
 
     fun register(body: JSONObject): Session = establishSession(api.request(
@@ -49,7 +59,7 @@ class Repository(private val store: SecureStore) {
         if (store.session() == null) throw ApiException(401, "Sign in to continue.")
         val reply = api.request(path, body, method = method)
         if (!reply.body.optBoolean("success")) throw ApiException(502, "The server did not confirm this action.")
-        reply.sessionCookie?.let { cookie -> store.session()?.let { store.saveSession(it.copy(cookie = cookie, expires = reply.expires)) } }
+        reply.sessionCookie?.let { cookie -> store.session()?.let { store.refreshSession(it.copy(cookie = cookie, expires = reply.expires)) } }
         store.clearSnapshots()
         return reply.body
     }
@@ -97,7 +107,7 @@ class Repository(private val store: SecureStore) {
 
     fun post(path: String, body: JSONObject): JSONObject {
         if (store.session() == null) throw ApiException(401, "Sign in to continue.")
-        val financial = path == "/api/deposits" || (path.startsWith("/api/admin/approvals/") || path.endsWith("/deposits") || path == "/api/admin/members")
+        val financial = FinancialPolicy.requiresConfirmation(path)
         if (financial) store.beginWrite(path)
         try {
             val result = api.request(path, body).body

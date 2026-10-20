@@ -9,13 +9,13 @@ data class ApiReply(val body: JSONObject, val sessionCookie: String?, val expire
 
 /** No browser, WebView, automatic redirects, request queue, or automatic write retries. */
 class ApiClient(private val store: SecureStore) {
-    fun request(path: String, body: JSONObject? = null, authenticated: Boolean = true): ApiReply {
+    fun request(path: String, body: JSONObject? = null, authenticated: Boolean = true, method: String = if (body == null) "GET" else "POST"): ApiReply {
         val connection = ApiAddress.resolve(BuildConfig.API_URL, path).toURL().openConnection() as HttpURLConnection
         connection.connectTimeout = 8_000
         connection.readTimeout = 15_000
         connection.instanceFollowRedirects = false
         connection.useCaches = false
-        connection.requestMethod = if (body == null) "GET" else "POST"
+        connection.requestMethod = method
         connection.setRequestProperty("Accept", "application/json")
         connection.setRequestProperty("Cache-Control", "no-store")
         if (authenticated) store.session()?.let { connection.setRequestProperty("Cookie", it.cookie) }

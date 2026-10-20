@@ -21,8 +21,8 @@ android {
         applicationId 'com.kibbisave.app'
         minSdk 23
         targetSdk 36
-        versionCode 3
-        versionName '0.3.0-google'
+        versionCode 4
+        versionName '0.4.0-website-native'
     }
     flavorDimensions += 'audience'
     productFlavors {

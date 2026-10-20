@@ -36,6 +36,24 @@ class Repository(private val store: SecureStore) {
         return session
     }
 
+    fun publicLoad(path: String): Snapshot {
+        val data = api.request(path, authenticated = store.session() != null).body
+        if (data.has("error") || data.has("notice")) throw ApiException(503, data.optString("error", data.optString("notice")))
+        return Snapshot(data, System.currentTimeMillis(), false)
+    }
+
+    fun register(body: JSONObject): Session = establishSession(api.request(
+        if (BuildConfig.ADMIN_APP) "/api/admin/register" else "/api/auth/register", body, false))
+
+    fun change(path: String, body: JSONObject, method: String = "POST"): JSONObject {
+        if (store.session() == null) throw ApiException(401, "Sign in to continue.")
+        val reply = api.request(path, body, method = method)
+        if (!reply.body.optBoolean("success")) throw ApiException(502, "The server did not confirm this action.")
+        reply.sessionCookie?.let { cookie -> store.session()?.let { store.saveSession(it.copy(cookie = cookie, expires = reply.expires)) } }
+        store.clearSnapshots()
+        return reply.body
+    }
+
     fun load(path: String): Snapshot {
         if (store.session() == null) throw ApiException(401, "Sign in to continue.")
         try {
@@ -79,7 +97,7 @@ class Repository(private val store: SecureStore) {
 
     fun post(path: String, body: JSONObject): JSONObject {
         if (store.session() == null) throw ApiException(401, "Sign in to continue.")
-        val financial = path == "/api/deposits" || path.startsWith("/api/admin/approvals/")
+        val financial = path == "/api/deposits" || (path.startsWith("/api/admin/approvals/") || path.endsWith("/deposits") || path == "/api/admin/members")
         if (financial) store.beginWrite(path)
         try {
             val result = api.request(path, body).body

@@ -1,0 +1,70 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+def userApi = providers.gradleProperty('kibbisaveApiUrl').getOrElse('https://kibbisave.com')
+// The inspected backend mounts administrator routes at /api/admin on this API host.
+def adminApi = providers.gradleProperty('kibbisaveAdminApiUrl').getOrElse(userApi)
+[userApi, adminApi].each { value ->
+    def uri = new URI(value)
+    if (uri.scheme != 'https' || !uri.host || uri.rawUserInfo || uri.port != -1 ||
+            uri.rawQuery || uri.rawFragment || !(uri.path in ['', '/'])) {
+        throw new GradleException('API URLs must be HTTPS origins without credentials, ports or paths.')
+    }
+}
+
+android {
+    namespace 'com.kibbisave.app'
+    compileSdk 36
+    defaultConfig {
+        applicationId 'com.kibbisave.app'
+        minSdk 23
+        targetSdk 36
+        versionCode 2
+        versionName '0.2.0-native'
+    }
+    flavorDimensions += 'audience'
+    productFlavors {
+        user {
+            dimension 'audience'
+            buildConfigField 'String', 'API_URL', '"' + userApi.replaceAll('/+$', '') + '"'
+            buildConfigField 'boolean', 'ADMIN_APP', 'false'
+        }
+        admin {
+            dimension 'audience'
+            applicationIdSuffix '.admin'
+            buildConfigField 'String', 'API_URL', '"' + adminApi.replaceAll('/+$', '') + '"'
+            buildConfigField 'boolean', 'ADMIN_APP', 'true'
+        }
+    }
+    buildFeatures { buildConfig true }
+    // Ignore any leftover Java browser launcher when applying this native-only upload.
+    sourceSets { main { java.setSrcDirs(['src/main/kotlin']) } }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions { jvmTarget = '17' }
+    signingConfigs {
+        release {
+            if (System.getenv('KIBBISAVE_KEYSTORE')) {
+                storeFile file(System.getenv('KIBBISAVE_KEYSTORE'))
+                storePassword System.getenv('KIBBISAVE_STORE_PASSWORD')
+                keyAlias System.getenv('KIBBISAVE_KEY_ALIAS')
+                keyPassword System.getenv('KIBBISAVE_KEY_PASSWORD')
+            }
+        }
+    }
+    buildTypes {
+        release {
+            if (System.getenv('KIBBISAVE_KEYSTORE')) signingConfig signingConfigs.release
+        }
+    }
+}
+
+dependencies { testImplementation 'junit:junit:4.13.2' }
+
+kotlin {
+    sourceSets { main { kotlin.setSrcDirs(['src/main/kotlin']) } }
+}

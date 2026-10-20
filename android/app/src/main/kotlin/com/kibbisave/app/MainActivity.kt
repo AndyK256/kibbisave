@@ -1,6 +1,7 @@
 package com.kibbisave.app
 
-import android.app.Activity
+import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -13,7 +14,6 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.net.Uri
 import android.os.Bundle
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.text.InputType
@@ -30,7 +30,7 @@ import java.util.Date
 import java.util.Locale
 
 /** Native Android Views written in Kotlin. No website rendering or embedded browser. */
-class MainActivity : Activity() {
+class MainActivity : ComponentActivity() {
     private val app get() = application as NativeApplication
     private val store get() = app.store
     private val repository get() = app.repository
@@ -57,9 +57,9 @@ class MainActivity : Activity() {
         connectivity = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         connectivity.registerNetworkCallback(NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build(), networkCallback)
-        if (Build.VERSION.SDK_INT >= 33) {
-            onBackInvokedDispatcher.registerOnBackInvokedCallback(android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT) { goBack() }
-        }
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { goBack() }
+        })
         if (store.session() == null) loginScreen() else navigate(savedInstanceState?.getString("tab") ?: "Home")
     }
 
@@ -72,11 +72,6 @@ class MainActivity : Activity() {
         generation++
         connectivity.unregisterNetworkCallback(networkCallback)
         super.onDestroy()
-    }
-
-    @Deprecated("Platform back navigation")
-    override fun onBackPressed() {
-        goBack()
     }
 
     private fun goBack() {

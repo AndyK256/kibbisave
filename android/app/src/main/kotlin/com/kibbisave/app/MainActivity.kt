@@ -80,9 +80,16 @@ class MainActivity : ComponentActivity() {
 
     private val font by lazy {
         try {
-            Typeface.createFromAsset(assets, "fonts/DMSans.ttf")
+            Typeface.createFromAsset(assets, "fonts/DMSans-Regular.ttf")
         } catch (_: Exception) {
             Typeface.create("sans-serif", Typeface.NORMAL)
+        }
+    }
+    private val boldFont by lazy {
+        try {
+            Typeface.createFromAsset(assets, "fonts/DMSans-Bold.ttf")
+        } catch (_: Exception) {
+            Typeface.create(font, Typeface.BOLD)
         }
     }
     private lateinit var root: LinearLayout
@@ -265,7 +272,7 @@ class MainActivity : ComponentActivity() {
                     gravity = Gravity.CENTER_VERTICAL
                     includeFontPadding = false
                     textSize = 21.6f
-                    typeface = Typeface.create(font, Typeface.BOLD)
+                    typeface = boldFont
                     setTextColor(Color.WHITE)
                     setOnClickListener {
                         navigate(if (BuildConfig.ADMIN_APP) "Home" else "Analytics")
@@ -291,7 +298,8 @@ class MainActivity : ComponentActivity() {
                     headerText(header, "JOIN NOW", true) { registration() }
                     headerText(header, "LOGIN", false) { loginScreen() }
                 } else headerText(header, "+ DEPOSIT", true) { selectDepositGroup() }
-                iconButton(header, "search", Color.WHITE) { searchScreen() }
+                iconButton(header, "search", Color.WHITE) { searchScreen() }.background =
+                    round(Color.TRANSPARENT, 6, Color.argb(90, 255, 255, 255))
             }
             root.addView(header)
         }
@@ -378,10 +386,16 @@ class MainActivity : ComponentActivity() {
                         background =
                             if (BuildConfig.ADMIN_APP) round(navy, 18)
                             else
-                                WebsiteSurface(
-                                    resources.displayMetrics.density,
-                                    if (dark) WebsiteSurface.Kind.DARK_NAV
-                                    else WebsiteSurface.Kind.NAV,
+                                android.graphics.drawable.InsetDrawable(
+                                    WebsiteSurface(
+                                        resources.displayMetrics.density,
+                                        if (dark) WebsiteSurface.Kind.DARK_NAV
+                                        else WebsiteSurface.Kind.NAV,
+                                    ),
+                                    dp(4),
+                                    dp(5),
+                                    dp(4),
+                                    dp(5),
                                 )
                 }
             item.addView(
@@ -424,7 +438,7 @@ class MainActivity : ComponentActivity() {
             TextView(this).apply {
                 text = title
                 textSize = 11.2f
-                typeface = Typeface.create(font, Typeface.BOLD)
+                typeface = boldFont
                 gravity = Gravity.CENTER
                 setTextColor(if (filled) navy else Color.WHITE)
                 background =
@@ -2613,7 +2627,7 @@ class MainActivity : ComponentActivity() {
         TextView(this).apply {
             text = value
             textSize = size.toFloat()
-            typeface = Typeface.create(font, if (bold) Typeface.BOLD else Typeface.NORMAL)
+            typeface = if (bold) boldFont else font
             setTextColor(
                 if (authPage) {
                     if (size <= 14) Color.rgb(190, 190, 230) else Color.WHITE
@@ -2687,7 +2701,7 @@ class MainActivity : ComponentActivity() {
             text = title
             isAllCaps = false
             textSize = if (authPage) 15.2f else 14f
-            typeface = Typeface.create(font, Typeface.BOLD)
+            typeface = boldFont
             val inverse = authPage && primary
             setTextColor(
                 if (inverse) navy else if (primary) Color.WHITE else if (authPage) navy else ink
@@ -2726,7 +2740,7 @@ class MainActivity : ComponentActivity() {
             TextView(this).apply {
                 this.text = title
                 textSize = 12f
-                typeface = Typeface.create(font, Typeface.BOLD)
+                typeface = boldFont
                 gravity = Gravity.CENTER
                 setTextColor(if (active) Color.WHITE else ink)
                 background = round(if (active) navy else paper, 10, lineColor)

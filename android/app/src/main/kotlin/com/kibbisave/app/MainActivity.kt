@@ -568,34 +568,120 @@ class MainActivity : ComponentActivity() {
             label(meta, if (groups == 0) "No active groups yet" else "$groups active groups", 12)
                 .apply {
                     setTextColor(Color.rgb(198, 198, 236))
+                    setPadding(0, 0, 0, 0)
                     layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
                 }
-            label(meta, "${pct(summary.optDouble("pct_reached"))}% reached", 12)
-                .setTextColor(Color.WHITE)
+            label(meta, "${summary.optDouble("pct_reached").toInt()}% reached", 12).apply {
+                setTextColor(Color.WHITE)
+                setPadding(0, 0, 0, 0)
+            }
             progress(hero, summary.optDouble("pct_reached"), true)
             label(hero, "Goal ${ugx(summary.optDouble("total_goal"))}", 12).apply {
                 setTextColor(Color.rgb(198, 198, 236))
                 gravity = Gravity.END
+                setPadding(0, 0, 0, 0)
             }
             data.optJSONObject("top_community")?.let { community ->
-                val popular = card()
-                label(popular, "POPULAR COMMUNITY", 10, true)
-                val bar = row(popular)
-                avatar(bar, community.optString("name"), 40)
+                val popular =
+                    card(radius = 12).apply {
+                        setPadding(dp(8), dp(8), dp(8), dp(8))
+                        (layoutParams as LinearLayout.LayoutParams).apply {
+                            topMargin = dp(8)
+                            bottomMargin = 0
+                        }
+                    }
+                label(popular, "POPULAR COMMUNITY", 9, true).apply {
+                    setTextColor(muted)
+                    letterSpacing = .08f
+                    setPadding(0, 0, 0, dp(6))
+                }
+                val bar =
+                    row(popular).apply {
+                        setPadding(dp(8), dp(8), dp(7), dp(8))
+                        background = round(paper, 12, lineColor)
+                        minimumHeight = dp(62)
+                    }
+                val count = community.optInt("total_members")
+                val stack = FrameLayout(this)
+                val seed =
+                    kotlin.math.abs(
+                        community.optString("id", community.optString("name")).hashCode().toLong()
+                    )
+                val colors =
+                    intArrayOf(
+                        Color.rgb(192, 57, 43),
+                        Color.rgb(26, 110, 53),
+                        Color.rgb(123, 45, 139),
+                        navy,
+                        Color.rgb(183, 121, 31),
+                        Color.rgb(14, 116, 144),
+                    )
+                val circles = minOf(3, maxOf(1, count))
+                for (index in 0 until circles) {
+                    val initials =
+                        if (index == 0)
+                            community.optString("name").trim().split(Regex("\\s+")).let { words ->
+                                if (words.size == 1) words[0].take(2).uppercase()
+                                else words.take(2).joinToString("") { it.take(1).uppercase() }
+                            }
+                        else ('A'.code + ((seed + index * 3) % 26).toInt()).toChar().toString()
+                    stack.addView(
+                        TextView(this).apply {
+                            text = initials
+                            textSize = 9f
+                            typeface = boldFont
+                            gravity = Gravity.CENTER
+                            includeFontPadding = false
+                            setTextColor(Color.WHITE)
+                            background =
+                                round(
+                                    colors[((seed + index) % colors.size).toInt()],
+                                    14,
+                                    Color.WHITE,
+                                )
+                        },
+                        FrameLayout.LayoutParams(dp(28), dp(28)).apply {
+                            leftMargin = dp(index * 21)
+                        },
+                    )
+                }
+                bar.addView(stack, LinearLayout.LayoutParams(dp(28 + (circles - 1) * 21), dp(28)))
                 val text =
                     LinearLayout(this).apply {
                         orientation = LinearLayout.VERTICAL
-                        setPadding(dp(10), 0, dp(8), 0)
+                        setPadding(dp(8), 0, dp(8), 0)
                     }
                 bar.addView(text, LinearLayout.LayoutParams(0, -2, 1f))
                 label(
-                    text,
-                    community.optString("icon") + " " + community.optString("name"),
-                    15,
-                    true,
+                        text,
+                        community.optString("icon") + " " + community.optString("name"),
+                        14,
+                        true,
+                    )
+                    .apply {
+                        maxLines = 1
+                        ellipsize = android.text.TextUtils.TruncateAt.END
+                        setPadding(0, 0, 0, 0)
+                    }
+                label(text, "$count ${if (count == 1) "person" else "people"} saving", 11).apply {
+                    maxLines = 1
+                    ellipsize = android.text.TextUtils.TruncateAt.END
+                    setPadding(0, dp(2), 0, 0)
+                }
+                bar.addView(
+                    TextView(this).apply {
+                        this.text = "EXPLORE"
+                        textSize = 9f
+                        typeface = boldFont
+                        gravity = Gravity.CENTER
+                        setTextColor(if (dark) navy else Color.WHITE)
+                        background = messageBackground(8)
+                        setOnClickListener { communityDetail(community.getString("id")) }
+                        isFocusable = true
+                    },
+                    LinearLayout.LayoutParams(dp(70), dp(44)),
                 )
-                label(text, "${community.optInt("total_members")} people saving", 12)
-                chip(bar, "EXPLORE", compact = true) { communityDetail(community.getString("id")) }
+                bar.setOnClickListener { communityDetail(community.getString("id")) }
             }
             val target =
                 card().apply {
@@ -781,7 +867,11 @@ class MainActivity : ComponentActivity() {
         for (i in 0 until groups.length()) {
             val g = groups.getJSONObject(i)
             val id = g.optString("group_id").ifBlank { g.optString("id") }
-            val name = groupName(g)
+            val name =
+                if (open)
+                    g.optString("name").takeUnless { it.isBlank() || it == "null" }
+                        ?: "${g.optInt("period_months")} month group"
+                else groupName(g)
             val c =
                 card().apply {
                     setPadding(dp(16), dp(16), dp(16), dp(14))
@@ -843,7 +933,7 @@ class MainActivity : ComponentActivity() {
                     12,
                 )
                 .layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
-            text(metrics, "${pct(g.optDouble("target_pct"))}%", 10, true)
+            text(metrics, "${g.optDouble("target_pct").toInt()}%", 10, true)
             c.addView(
                 WebsiteProgress(
                     this,
@@ -861,7 +951,7 @@ class MainActivity : ComponentActivity() {
             val dates =
                 text(
                     foot,
-                    "Start ${shortDate(g.optString("starts_at"))} · Closes ${shortDate(g.optString("closes_at"))}",
+                    "Start ${shortDate(if (open) g.optString("created_at").ifBlank { g.optString("starts_at") } else g.optString("starts_at"))} · Closes ${shortDate(g.optString("closes_at"))}",
                     11,
                 )
             dates.layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
@@ -2637,7 +2727,13 @@ class MainActivity : ComponentActivity() {
             setLineSpacing(dp(2).toFloat(), 1f)
             includeFontPadding = false
             setPadding(0, dp(5), 0, dp(5))
-            parent.addView(this, LinearLayout.LayoutParams(-1, -2))
+            parent.addView(
+                this,
+                LinearLayout.LayoutParams(
+                    if (parent.orientation == LinearLayout.HORIZONTAL) -2 else -1,
+                    -2,
+                ),
+            )
         }
 
     private fun section(title: String) {

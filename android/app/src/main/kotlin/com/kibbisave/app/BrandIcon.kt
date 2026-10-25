@@ -8,11 +8,34 @@ import android.view.View
 
 /** Small native outline icons matching the website navigation. */
 class BrandIcon(context: Context, private val kind: String, private val ink: Int) : View(context) {
+    private val websiteDrawable =
+        when (kind) {
+            "profile" -> R.drawable.website_profile
+            "groups" -> R.drawable.website_groups
+            "leaderboard" -> R.drawable.website_leaderboard
+            "analytics" -> R.drawable.website_analytics
+            "communities" -> R.drawable.website_communities
+            else -> null
+        }?.let { context.getDrawable(it)?.mutate()?.apply { setTint(ink) } }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        val scale = minOf(width, height) / 24f
+        val availableWidth = width - paddingLeft - paddingRight
+        val availableHeight = height - paddingTop - paddingBottom
+        val scale = minOf(availableWidth, availableHeight) / 24f
+        websiteDrawable?.let {
+            val size = minOf(availableWidth, availableHeight)
+            val x = paddingLeft + (availableWidth - size) / 2
+            val y = paddingTop + (availableHeight - size) / 2
+            it.setBounds(x, y, x + size, y + size)
+            it.draw(canvas)
+            return
+        }
         canvas.save()
-        canvas.translate((width - 24 * scale) / 2, (height - 24 * scale) / 2)
+        canvas.translate(
+            paddingLeft + (availableWidth - 24 * scale) / 2,
+            paddingTop + (availableHeight - 24 * scale) / 2,
+        )
         canvas.scale(scale, scale)
         val p =
             Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -63,6 +86,25 @@ class BrandIcon(context: Context, private val kind: String, private val ink: Int
                 canvas.drawCircle(10f, 10f, 6.5f, p)
                 line(15f, 15f, 21f, 21f)
             }
+            "sun" -> {
+                canvas.drawCircle(12f, 12f, 4f, p)
+                for (i in 0..7) {
+                    val angle = i * Math.PI / 4
+                    line(
+                        (12 + 7 * kotlin.math.cos(angle)).toFloat(),
+                        (12 + 7 * kotlin.math.sin(angle)).toFloat(),
+                        (12 + 10 * kotlin.math.cos(angle)).toFloat(),
+                        (12 + 10 * kotlin.math.sin(angle)).toFloat(),
+                    )
+                }
+            }
+            "help" -> {
+                canvas.drawCircle(12f, 12f, 9f, p)
+                canvas.drawArc(9f, 6f, 15f, 12f, 190f, 250f, false, p)
+                line(12f, 12f, 12f, 14f)
+                line(12f, 17f, 12f, 17.2f)
+            }
+            "down" -> path(6f, 9f, 12f, 15f, 18f, 9f)
             "back" -> path(15f, 4f, 7f, 12f, 15f, 20f)
             "arrow" -> path(9f, 5f, 16f, 12f, 9f, 19f)
             "plus" -> {

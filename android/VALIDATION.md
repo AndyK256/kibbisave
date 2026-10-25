@@ -14,3 +14,9 @@
 - Successful Google/password sign-in, account creation, KYC photo capture, notification/settings persistence and admin role-specific flows require a test account/device review.
 - No real deposit, member opening balance, ledger approval, community creation/deletion or other production write was submitted during this UI work.
 - Backend transactional idempotency and concurrent approvals remain separate backend concerns. The UI retains pending-result protection and never fabricates a successful financial response.
+
+## 25 October 2026 parity pass
+
+Re-fetched all 22 previously captured production HTML/CSS/JS references; contents were unchanged. Measured the live mobile site at 393 × 800 CSS pixels and inspected home, sign-in, account overlay and groups. Matched shared header dimensions, original SVG navigation paths and logo, native progress tracks, group-card hierarchy, guest account grouping/accordions, consumer sign-in and registration structure. CSS surfaces are recreated with Android paint rather than a WebView.
+
+This is a parity improvement, not a claim of zero differences. Remaining verification requires screenshots of the native apps at the same viewport/font scale and authenticated website/app states. In particular, community/detail/admin screens and form dropdowns still need an exhaustive comparison; native system dialogs and Google account selection intentionally use Android controls. No production financial requests or account creation were performed.

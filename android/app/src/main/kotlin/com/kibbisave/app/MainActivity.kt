@@ -19,6 +19,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.InputType
+import android.text.method.PasswordTransformationMethod
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -255,20 +256,34 @@ class MainActivity : ComponentActivity() {
             val header =
                 LinearLayout(this).apply {
                     gravity = Gravity.CENTER_VERTICAL
-                    setPadding(dp(16), 0, dp(16), 0)
+                    setPadding(dp(20), 0, dp(20), 0)
                     setBackgroundColor(navy)
                 }
             val brand =
                 TextView(this).apply {
                     text = "Kibbisave"
-                    textSize = 21f
+                    textSize = 21.6f
                     typeface = Typeface.create(font, Typeface.BOLD)
                     setTextColor(Color.WHITE)
                     setOnClickListener {
                         navigate(if (BuildConfig.ADMIN_APP) "Home" else "Analytics")
                     }
                 }
-            header.addView(brand, LinearLayout.LayoutParams(0, dp(60), 1f))
+            if (authPage) {
+                header.addView(
+                    ImageView(this).apply {
+                        setImageDrawable(
+                            android.graphics.drawable.Drawable.createFromStream(
+                                assets.open("illustrations/kibbisave-logo-white.png"),
+                                null,
+                            )
+                        )
+                        importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+                    },
+                    LinearLayout.LayoutParams(dp(27), dp(27)).apply { marginEnd = dp(6) },
+                )
+            }
+            header.addView(brand, LinearLayout.LayoutParams(0, dp(if (authPage) 60 else 64), 1f))
             if (!authPage) {
                 if (store.session() == null) {
                     headerText(header, "JOIN NOW", true) { registration() }
@@ -282,7 +297,7 @@ class MainActivity : ComponentActivity() {
             val closeBar =
                 LinearLayout(this).apply {
                     gravity = Gravity.END
-                    setPadding(dp(12), dp(5), dp(12), 0)
+                    setPadding(dp(12), dp(12), dp(12), 0)
                 }
             val close =
                 TextView(this).apply {
@@ -295,7 +310,7 @@ class MainActivity : ComponentActivity() {
                         if (subpage) navigate("Profile") else navigate("Analytics")
                     }
                 }
-            closeBar.addView(close, LinearLayout.LayoutParams(dp(44), dp(44)))
+            closeBar.addView(close, LinearLayout.LayoutParams(dp(40), dp(40)))
             root.addView(closeBar)
         }
         connectionLabel =
@@ -314,7 +329,12 @@ class MainActivity : ComponentActivity() {
         content =
             LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
-                setPadding(dp(16), dp(if (authPage) 0 else 18), dp(16), dp(24))
+                setPadding(
+                    dp(if (profileSheet) 12 else if (authPage) 16 else 20),
+                    dp(if (authPage || profileSheet) 0 else 20),
+                    dp(if (profileSheet) 12 else if (authPage) 16 else 20),
+                    dp(24),
+                )
             }
         scroll.addView(content)
         root.addView(scroll, LinearLayout.LayoutParams(-1, 0, 1f))
@@ -326,9 +346,11 @@ class MainActivity : ComponentActivity() {
     private fun bottomNavigation() {
         val dock =
             LinearLayout(this).apply {
-                gravity = Gravity.CENTER_VERTICAL
-                setPadding(dp(4), dp(5), dp(4), dp(5))
-                setBackgroundColor(if (BuildConfig.ADMIN_APP) paper else navy)
+                gravity = Gravity.TOP
+                setPadding(0, 0, 0, dp(8))
+                setBackgroundColor(
+                    if (BuildConfig.ADMIN_APP) paper else if (dark) Color.BLACK else navy
+                )
                 elevation = dp(12).toFloat()
             }
         val tabs =
@@ -337,7 +359,11 @@ class MainActivity : ComponentActivity() {
             else listOf("Profile", "Leaderboard", "Analytics", "Groups", "Communities")
         for (name in tabs) {
             val active = tab == name
-            val tint = if (BuildConfig.ADMIN_APP && !active) muted else Color.WHITE
+            val tint =
+                if (BuildConfig.ADMIN_APP && !active) muted
+                else if (dark) {
+                    if (active) ink else muted
+                } else if (active) Color.WHITE else Color.argb(199, 255, 255, 255)
             val item =
                 LinearLayout(this).apply {
                     orientation = LinearLayout.VERTICAL
@@ -348,7 +374,13 @@ class MainActivity : ComponentActivity() {
                     setOnClickListener { navigate(name) }
                     if (active)
                         background =
-                            round(if (BuildConfig.ADMIN_APP) navy else Color.rgb(27, 27, 171), 18)
+                            if (BuildConfig.ADMIN_APP) round(navy, 18)
+                            else
+                                WebsiteSurface(
+                                    resources.displayMetrics.density,
+                                    if (dark) WebsiteSurface.Kind.DARK_NAV
+                                    else WebsiteSurface.Kind.NAV,
+                                )
                 }
             item.addView(
                 BrandIcon(
@@ -360,21 +392,21 @@ class MainActivity : ComponentActivity() {
                     },
                     tint,
                 ),
-                LinearLayout.LayoutParams(dp(23), dp(24)),
+                LinearLayout.LayoutParams(dp(21), dp(21)),
             )
             val text =
                 TextView(this).apply {
                     this.text = if (name == "Home") "Home" else name
-                    textSize = 9f
+                    textSize = 8.8f
                     typeface = font
                     gravity = Gravity.CENTER
                     setTextColor(tint)
-                    setPadding(0, dp(3), 0, 0)
+                    setPadding(0, dp(2), 0, 0)
                 }
             item.addView(text)
             dock.addView(
                 item,
-                LinearLayout.LayoutParams(0, dp(54), 1f).apply { setMargins(dp(2), 0, dp(2), 0) },
+                LinearLayout.LayoutParams(0, dp(58), 1f),
             )
         }
         root.addView(dock)
@@ -389,20 +421,20 @@ class MainActivity : ComponentActivity() {
         val v =
             TextView(this).apply {
                 text = title
-                textSize = 10f
+                textSize = 11.2f
                 typeface = Typeface.create(font, Typeface.BOLD)
                 gravity = Gravity.CENTER
                 setTextColor(if (filled) navy else Color.WHITE)
                 background =
                     round(
                         if (filled) Color.WHITE else navy,
-                        5,
+                        4,
                         if (filled) Color.WHITE else Color.rgb(150, 150, 211),
                     )
-                setPadding(dp(9), 0, dp(9), 0)
+                setPadding(dp(10), 0, dp(10), 0)
                 setOnClickListener { click() }
             }
-        parent.addView(v, LinearLayout.LayoutParams(-2, dp(34)).apply { marginEnd = dp(5) })
+        parent.addView(v, LinearLayout.LayoutParams(-2, dp(32)).apply { marginEnd = dp(6) })
     }
 
     private fun iconButton(
@@ -428,53 +460,14 @@ class MainActivity : ComponentActivity() {
 
     private fun loginScreen(message: String? = null) {
         screen("__auth", false)
-        val panel = card(content, Color.rgb(31, 31, 153), 18)
-        val tabs = row(panel)
-        val login =
-            label(tabs, "Log In", 16, true).apply {
-                setTextColor(Color.WHITE)
-                gravity = Gravity.CENTER
-                setPadding(0, dp(10), 0, dp(16))
-            }
-        login.layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
-        val join =
-            label(tabs, "Join Now", 16, true).apply {
-                setTextColor(Color.rgb(173, 173, 220))
-                gravity = Gravity.CENTER
-                setPadding(0, dp(10), 0, dp(16))
-                setOnClickListener { registration() }
-            }
-        join.layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
-        divider(panel, Color.rgb(121, 121, 197))
+        val panel = authPanel(false)
         if (message != null) label(panel, message, 14).setTextColor(Color.WHITE)
-        val identifier = field(panel, "Mobile Number or Email", InputType.TYPE_CLASS_TEXT)
-        identifier.hint = "7XXXXXXXX or email"
-        label(panel, "Uganda mobile without country code, or your email.", 12)
-            .setTextColor(Color.rgb(179, 179, 219))
-        val password =
-            field(
-                panel,
-                "Password",
-                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,
-            )
-        val show =
-            CheckBox(this).apply {
-                text = "Show password"
-                setTextColor(Color.WHITE)
-                setOnCheckedChangeListener { _, checked ->
-                    password.inputType =
-                        InputType.TYPE_CLASS_TEXT or
-                            if (checked) InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                            else InputType.TYPE_TEXT_VARIATION_PASSWORD
-                }
-            }
-        panel.addView(show)
-        label(panel, "Min. 4 Characters", 12).setTextColor(Color.rgb(179, 179, 219))
+        val identifier = phoneField(panel, "Mobile Number or Email", "7XXXXXXXX or email")
+        authHint(panel, "Uganda mobile without country code, or your email.", 14)
+        val password = passwordField(panel)
+        authHint(panel, "Min. 4 Characters", 14)
         val button = action(panel, "LOG IN") {}
-        label(panel, "or", 12).apply {
-            setTextColor(Color.rgb(179, 179, 219))
-            gravity = Gravity.CENTER
-        }
+        authOr(panel)
         val googleButton =
             action(panel, "", false) {}
                 .apply {
@@ -485,10 +478,10 @@ class MainActivity : ComponentActivity() {
                     setPadding(dp(14), dp(14), dp(14), dp(14))
                     minimumWidth = 0
                     layoutParams =
-                        LinearLayout.LayoutParams(dp(54), dp(54)).apply {
+                        LinearLayout.LayoutParams(dp(52), dp(52)).apply {
                             gravity = Gravity.CENTER_HORIZONTAL
-                            topMargin = dp(14)
-                            bottomMargin = dp(12)
+                            topMargin = 0
+                            bottomMargin = dp(18)
                         }
                 }
         googleButton.setOnClickListener { googleSignIn(googleButton, button) }
@@ -514,12 +507,12 @@ class MainActivity : ComponentActivity() {
                 },
             )
         }
-        label(panel, "Don't have an account? Join Now", 14).apply {
+        label(panel, "Don’t have an account? Join Now", 13).apply {
             setTextColor(Color.WHITE)
             gravity = Gravity.CENTER
             setOnClickListener { registration() }
         }
-        label(panel, "Continue without signing in", 14).apply {
+        label(panel, "Continue without signing in", 13).apply {
             setTextColor(Color.rgb(179, 179, 219))
             gravity = Gravity.CENTER
             setOnClickListener { navigate(if (BuildConfig.ADMIN_APP) "Home" else "Analytics") }
@@ -535,10 +528,25 @@ class MainActivity : ComponentActivity() {
         load("/api/home", public = true) { saved ->
             val data = saved.data
             val summary = data.optJSONObject("summary") ?: JSONObject()
-            val hero = card(content, navy, 22)
-            label(hero, "MY TOTAL SAVINGS", 11, true).setTextColor(Color.rgb(198, 198, 236))
-            val amount = label(hero, ugx(summary.optDouble("total_savings")), 36, true)
+            val hero =
+                card(content, navy, 22).apply {
+                    setPadding(dp(24), dp(22), dp(24), dp(19))
+                    background =
+                        WebsiteSurface(
+                            resources.displayMetrics.density,
+                            WebsiteSurface.Kind.SAVINGS,
+                        )
+                    (layoutParams as LinearLayout.LayoutParams).topMargin = 0
+                }
+            label(hero, "MY TOTAL SAVINGS", 11, true).apply {
+                setTextColor(Color.argb(179, 255, 255, 255))
+                letterSpacing = .08f
+                setPadding(0, 0, 0, 0)
+            }
+            val amount = label(hero, ugx(summary.optDouble("total_savings")), 30, true)
             amount.setTextColor(Color.WHITE)
+            amount.letterSpacing = -.02f
+            amount.setPadding(0, dp(6), 0, dp(16))
             val meta = row(hero)
             val groups = summary.optInt("active_groups")
             label(meta, if (groups == 0) "No active groups yet" else "$groups active groups", 12)
@@ -573,13 +581,18 @@ class MainActivity : ComponentActivity() {
                 label(text, "${community.optInt("total_members")} people saving", 12)
                 chip(bar, "EXPLORE", compact = true) { communityDetail(community.getString("id")) }
             }
-            val target = card()
+            val target =
+                card().apply {
+                    minimumHeight = dp(280)
+                    gravity = Gravity.CENTER
+                    background = round(if (dark) paper else Color.rgb(249, 250, 253), 18, lineColor)
+                }
             label(target, "AHEAD OF YOUR SAVINGS TARGET BY", 12, true).apply {
                 gravity = Gravity.CENTER
                 setTextColor(muted)
                 setPadding(0, dp(14), 0, 0)
             }
-            label(target, "${pct(summary.optDouble("avg_lead"))}%", 64, true).gravity =
+            label(target, "${pct(summary.optDouble("avg_lead"))}%", 54, true).gravity =
                 Gravity.CENTER
             label(
                     target,
@@ -753,37 +766,132 @@ class MainActivity : ComponentActivity() {
             val g = groups.getJSONObject(i)
             val id = g.optString("group_id").ifBlank { g.optString("id") }
             val name = groupName(g)
-            val c = card()
-            val top = row(c)
-            label(top, name, 18, true).layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
-            label(top, "${g.optInt("current_members")}/${g.optInt("max_members",7)}", 12, true)
-            label(
-                c,
-                "${g.optInt("period_months")} months · ${if(g.optBoolean("is_private"))"Private group" else "closes at ${g.optInt("max_members",7)} members"}",
-                12,
-            )
-            if (g.optString("name").let { it.isBlank() || it == "null" })
-                label(c, "First to join names it", 12)
+            val c =
+                card().apply {
+                    setPadding(dp(16), dp(16), dp(16), dp(14))
+                    (layoutParams as LinearLayout.LayoutParams).apply {
+                        topMargin = dp(14)
+                        bottomMargin = dp(14)
+                    }
+                }
+            fun text(
+                parent: LinearLayout,
+                value: String,
+                size: Int,
+                bold: Boolean = false,
+                tint: Int? = null,
+            ): TextView =
+                label(parent, value, size, bold).apply {
+                    setPadding(0, 0, 0, 0)
+                    if (tint != null) setTextColor(tint)
+                }
+            val top = row(c).apply { gravity = Gravity.TOP }
+            val info = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+            top.addView(info, LinearLayout.LayoutParams(0, -2, 1f))
+            text(info, name, 17, true, if (dark) ink else Color.rgb(17, 17, 17))
+            text(
+                    info,
+                    "${g.optInt("period_months")} months · ${if(g.optBoolean("is_private"))"Private group" else "closes at ${g.optInt("max_members",7)} members"}",
+                    12,
+                )
+                .apply {
+                    setPadding(0, dp(4), 0, 0)
+                }
+            val members =
+                LinearLayout(this).apply {
+                    orientation = LinearLayout.VERTICAL
+                    gravity = Gravity.END
+                }
+            top.addView(members, LinearLayout.LayoutParams(-2, -2))
+            text(members, "${g.optInt("current_members")}/${g.optInt("max_members",7)}", 13, true)
+                .gravity = Gravity.END
+            text(members, "members", 12).apply {
+                gravity = Gravity.END
+                setPadding(0, dp(5), 0, 0)
+            }
+            if (g.optString("name").let { it.isBlank() || it == "null" }) {
+                text(c, "First to join names it", 10, true, Color.rgb(26, 110, 53)).apply {
+                    background = round(Color.rgb(230, 244, 234), 20)
+                    letterSpacing = .04f
+                    setPadding(dp(8), dp(3), dp(8), dp(3))
+                    layoutParams = LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(8) }
+                }
+            }
             val own = g.has("total_deposited")
-            label(
-                c,
-                (if (own) "Your savings: " else "Group total: ") +
-                    ugx(g.optDouble(if (own) "total_deposited" else "total_saved")),
-                14,
-                true,
+            val metrics = row(c)
+            metrics.layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) }
+            text(
+                    metrics,
+                    (if (own) "Your savings: " else "Group total: ") +
+                        ugx(g.optDouble(if (own) "total_deposited" else "total_saved")),
+                    12,
+                )
+                .layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
+            text(metrics, "${pct(g.optDouble("target_pct"))}%", 10, true)
+            c.addView(
+                WebsiteProgress(
+                    this,
+                    g.optDouble("target_pct"),
+                    ink,
+                    if (dark) lineColor else Color.rgb(238, 240, 248),
+                    false,
+                ),
+                LinearLayout.LayoutParams(-1, dp(5)).apply {
+                    topMargin = dp(6)
+                    bottomMargin = dp(16)
+                },
             )
-            progress(c, g.optDouble("target_pct"))
-            label(
-                c,
-                "Start ${shortDate(g.optString("starts_at"))} · Closes ${shortDate(g.optString("closes_at"))}",
-                11,
-            )
-            label(c, "${pct(g.optDouble("avg_member_lead",g.optDouble("avg_lead")))}% ahead", 12)
+            val foot = row(c)
+            val dates =
+                text(
+                    foot,
+                    "Start ${shortDate(g.optString("starts_at"))} · Closes ${shortDate(g.optString("closes_at"))}",
+                    11,
+                )
+            dates.layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
+            val closes = dates.text.indexOf("Closes")
+            if (closes >= 0)
+                dates.text =
+                    android.text.SpannableString(dates.text).apply {
+                        setSpan(
+                            android.text.style.ForegroundColorSpan(Color.rgb(192, 57, 43)),
+                            closes,
+                            length,
+                            0,
+                        )
+                        setSpan(android.text.style.StyleSpan(Typeface.BOLD), closes, length, 0)
+                    }
+            val lead = g.optDouble("avg_member_lead", g.optDouble("avg_lead"))
+            text(
+                    foot,
+                    (if (lead < 0) "▼ " else "▲ ") + pct(lead) + "%",
+                    10,
+                    true,
+                    if (lead < 0) Color.rgb(163, 45, 45) else Color.rgb(26, 110, 53),
+                )
+                .apply {
+                    background =
+                        round(
+                            if (lead < 0) Color.rgb(253, 236, 234) else Color.rgb(230, 244, 234),
+                            20,
+                        )
+                    setPadding(dp(9), dp(3), dp(9), dp(3))
+                    layoutParams = LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) }
+                }
             if (id.isNotBlank()) {
-                action(c, if (open) "Join this group" else "View group", false) {
+                action(c, if (open) "Join this group" else "View group") {
+                        if (open) requireLogin { joinGroup(id, name) } else groupDetail(id)
+                    }
+                    .apply {
+                        textSize = 13f
+                        background = messageBackground(22)
+                        setTextColor(if (dark) navy else Color.WHITE)
+                        minimumHeight = dp(44)
+                        minHeight = dp(44)
+                    }
+                c.setOnClickListener {
                     if (open) requireLogin { joinGroup(id, name) } else groupDetail(id)
                 }
-                c.setOnClickListener { groupDetail(id) }
             }
         }
     }
@@ -871,22 +979,39 @@ class MainActivity : ComponentActivity() {
     private fun account() {
         screen("")
         if (store.session() == null) {
-            val welcome = card()
+            content.setBackgroundColor(if (dark) canvasColor else Color.rgb(242, 242, 243))
+            root.setBackgroundColor(if (dark) canvasColor else Color.rgb(242, 242, 243))
+            val welcome =
+                card(radius = 14).apply {
+                    setPadding(dp(12), dp(14), dp(12), dp(12))
+                    background = round(paper, 14)
+                }
             label(
-                welcome,
-                "Join KibbiSave to track your groups, deposits, and savings progress — or log in if you already have an account.",
-                15,
-            )
+                    welcome,
+                    "Join KibbiSave to track your groups, deposits, and savings progress — or log in if you already have an account.",
+                    15,
+                )
+                .apply {
+                    setPadding(0, 0, 0, dp(10))
+                    setLineSpacing(dp(5).toFloat(), 1f)
+                }
             val choices = row(welcome)
             chip(choices, "JOIN NOW") { registration() }
             chip(choices, "LOG IN", false) { loginScreen() }
-            menu("lock", "Deposit", "") { selectDepositGroup() }
-            val themeCard = card()
-            val theme =
+            val actions =
+                card(radius = 14).apply {
+                    setPadding(0, 0, 0, 0)
+                    background = round(paper, 14)
+                }
+            accountRow(actions, "lock", "Deposit") { selectDepositGroup() }
+            actions.addView(
+                View(this).apply { setBackgroundColor(lineColor) },
+                LinearLayout.LayoutParams(-1, dp(1)),
+            )
+            val theme = accountRow(actions, "sun", "Dark Theme") {}
+            val toggle =
                 Switch(this).apply {
-                    text = "Dark Theme"
-                    textSize = 16f
-                    setTextColor(ink)
+                    contentDescription = "Dark theme"
                     isChecked = dark
                     setOnCheckedChangeListener { _, checked ->
                         dark = checked
@@ -894,9 +1019,36 @@ class MainActivity : ComponentActivity() {
                         account()
                     }
                 }
-            themeCard.addView(theme)
-            menu("bell", "Help Center", "") { legalMenu(true) }
-            menu("communities", "More on KibbiSave", "") { legalMenu(false) }
+            theme.addView(toggle, LinearLayout.LayoutParams(dp(46), dp(32)))
+            theme.setOnClickListener { toggle.isChecked = !toggle.isChecked }
+            val help =
+                card(radius = 14).apply {
+                    setPadding(0, 0, 0, 0)
+                    background = round(paper, 14)
+                }
+            accountAccordion(
+                help,
+                "help",
+                "Help Center",
+                listOf(
+                    "Help" to "help",
+                    "Deposit" to "deposit",
+                    "Rules" to "rules",
+                    "Responsible saving" to "responsible-saving",
+                ),
+            )
+            accountAccordion(
+                help,
+                "communities",
+                "More on KibbiSave",
+                listOf(
+                    "About" to "about",
+                    "News" to "news",
+                    "Terms and Conditions" to "terms",
+                    "Privacy" to "privacy",
+                    "Cookies" to "cookies",
+                ),
+            )
             return
         }
         load(if (BuildConfig.ADMIN_APP) "/api/admin/profile" else "/api/profile") { saved ->
@@ -1756,38 +1908,41 @@ class MainActivity : ComponentActivity() {
     private fun registration() {
         subpage = true
         screen(if (BuildConfig.ADMIN_APP) "Create account" else "__auth", false)
-        if (!BuildConfig.ADMIN_APP) {
-            content = card(content, Color.rgb(31, 31, 153), 18)
-            label(content, "Join Now", 22, true).setTextColor(Color.WHITE)
-        }
-        note(
-            if (BuildConfig.ADMIN_APP) "Create your verified community admin account."
-            else "Create your KibbiSave account."
-        )
-        val first = field(content, "First name")
-        val last = field(content, "Last name")
-        val phone = field(content, "Mobile number", InputType.TYPE_CLASS_PHONE)
+        if (!BuildConfig.ADMIN_APP) content = authPanel(true)
+        if (BuildConfig.ADMIN_APP) note("Create your verified community admin account.")
+        val phone =
+            if (BuildConfig.ADMIN_APP) field(content, "Mobile number", InputType.TYPE_CLASS_PHONE)
+            else phoneField(content, "Mobile Number", "7XXXXXXXX")
+        if (!BuildConfig.ADMIN_APP)
+            authHint(content, "Uganda numbers only, without country code.", 14)
+        val password =
+            if (BuildConfig.ADMIN_APP)
+                field(
+                    content,
+                    "Password",
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                )
+            else passwordField(content)
+        if (!BuildConfig.ADMIN_APP) authHint(content, "Min. 4 Characters", 14)
+        val first = field(content, "First Name")
+        val last = field(content, "Last Name")
         val email =
             if (BuildConfig.ADMIN_APP)
                 field(content, "Email", InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
             else null
-        val location = field(content, if (BuildConfig.ADMIN_APP) "Address" else "District")
+        val location = field(content, if (BuildConfig.ADMIN_APP) "Address" else "Location")
         val nation =
             if (!BuildConfig.ADMIN_APP) field(content, "Nationality").apply { setText("Ugandan") }
             else null
-        val nin = field(content, "National Identification Number (NIN)")
-        val password =
-            field(
-                content,
-                "Password",
-                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,
-            )
+        val nin = field(content, "National Identification Number")
         val confirm =
-            field(
-                content,
-                "Confirm password",
-                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,
-            )
+            if (BuildConfig.ADMIN_APP)
+                field(
+                    content,
+                    "Confirm password",
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                )
+            else null
         val pin =
             if (BuildConfig.ADMIN_APP)
                 field(
@@ -1811,20 +1966,21 @@ class MainActivity : ComponentActivity() {
             }
         val terms =
             CheckBox(this).apply {
-                text = "I accept the Terms and Conditions"
-                setTextColor(ink)
+                text = "By creating an account you accept the Terms and Conditions"
+                textSize = 12.5f
+                setTextColor(if (authPage) Color.rgb(190, 190, 230) else ink)
             }
         content.addView(terms)
         action(content, "Read Terms and Conditions", false) {
             legalDialog("Terms and Conditions", "terms")
         }
-        val submit = action(content, "Create account") {}
+        val submit = action(content, if (BuildConfig.ADMIN_APP) "Create account" else "JOIN NOW") {}
         submit.setOnClickListener {
             if (!terms.isChecked) {
                 toast("Read and accept the terms to continue.")
                 return@setOnClickListener
             }
-            if (password.text.toString() != confirm.text.toString()) {
+            if (confirm != null && password.text.toString() != confirm.text.toString()) {
                 toast("Passwords do not match.")
                 return@setOnClickListener
             }
@@ -1853,7 +2009,7 @@ class MainActivity : ComponentActivity() {
                 { repository.register(body) },
                 {
                     password.text.clear()
-                    confirm.text.clear()
+                    confirm?.text?.clear()
                     pin?.text?.clear()
                     navigate(if (BuildConfig.ADMIN_APP) "Home" else "Analytics")
                 },
@@ -1863,7 +2019,26 @@ class MainActivity : ComponentActivity() {
                 },
             )
         }
-        action(content, "Already have an account? Log in", false) { loginScreen() }
+        if (!BuildConfig.ADMIN_APP) {
+            authOr(content)
+            val google = action(content, "", false) {}
+            google.apply {
+                contentDescription = "Continue with Google"
+                val mark = getDrawable(R.drawable.google_mark)!!
+                mark.setBounds(0, 0, dp(22), dp(22))
+                setCompoundDrawables(mark, null, null, null)
+                setPadding(dp(15), 0, dp(15), 0)
+                layoutParams =
+                    LinearLayout.LayoutParams(dp(52), dp(52)).apply {
+                        gravity = Gravity.CENTER_HORIZONTAL
+                    }
+                setOnClickListener { googleSignIn(google, submit) }
+            }
+            label(content, "Already have an account? Log In", 13).apply {
+                gravity = Gravity.CENTER
+                setOnClickListener { loginScreen() }
+            }
+        } else action(content, "Already have an account? Log in", false) { loginScreen() }
     }
 
     private fun adminCommunity(community: JSONObject) {
@@ -2222,12 +2397,182 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    private fun authPanel(joining: Boolean): LinearLayout {
+        val panel =
+            card(content, Color.rgb(26, 26, 151), 16).apply {
+                setPadding(dp(16), dp(16), dp(16), dp(24))
+                background = round(Color.rgb(26, 26, 151), 16, Color.argb(56, 255, 255, 255))
+                (layoutParams as LinearLayout.LayoutParams).apply {
+                    topMargin = 0
+                    bottomMargin = 0
+                }
+            }
+        val tabs = row(panel)
+        for ((index, title) in listOf("Log In", "Join Now").withIndex()) {
+            val selected = joining == (index == 1)
+            val item = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+            tabs.addView(item, LinearLayout.LayoutParams(0, dp(47), 1f))
+            val text =
+                label(item, title, 15, true).apply {
+                    gravity = Gravity.CENTER
+                    setPadding(0, 0, 0, 0)
+                    setTextColor(if (selected) Color.WHITE else Color.argb(140, 255, 255, 255))
+                }
+            text.layoutParams = LinearLayout.LayoutParams(-1, 0, 1f)
+            item.addView(
+                View(this).apply {
+                    setBackgroundColor(if (selected) Color.WHITE else Color.argb(51, 255, 255, 255))
+                },
+                LinearLayout.LayoutParams(-1, dp(if (selected) 3 else 2)),
+            )
+            item.setOnClickListener { if (index == 1) registration() else loginScreen() }
+        }
+        panel.addView(Space(this), LinearLayout.LayoutParams(1, dp(20)))
+        return panel
+    }
+
+    private fun authHint(parent: LinearLayout, value: String, bottom: Int = 0) {
+        label(parent, value, 13).apply {
+            setTextColor(Color.argb(140, 255, 255, 255))
+            setPadding(0, dp(6), 0, dp(bottom))
+        }
+    }
+
+    private fun authOr(parent: LinearLayout) {
+        val r = row(parent)
+        r.layoutParams =
+            LinearLayout.LayoutParams(-1, dp(18)).apply {
+                topMargin = dp(18)
+                bottomMargin = dp(14)
+            }
+        fun line() {
+            r.addView(
+                View(this).apply { setBackgroundColor(Color.argb(38, 255, 255, 255)) },
+                LinearLayout.LayoutParams(0, dp(1), 1f),
+            )
+        }
+        line()
+        label(r, "or", 12).apply {
+            gravity = Gravity.CENTER
+            setPadding(0, 0, 0, 0)
+            layoutParams = LinearLayout.LayoutParams(dp(36), -1)
+        }
+        line()
+    }
+
+    private fun phoneField(parent: LinearLayout, title: String, hintText: String): EditText {
+        val edit = field(parent, title, InputType.TYPE_CLASS_TEXT).apply { hint = hintText }
+        parent.removeView(edit)
+        val r = row(parent).apply { background = round(Color.WHITE, 6, lineColor) }
+        r.layoutParams = LinearLayout.LayoutParams(-1, dp(44)).apply { topMargin = dp(3) }
+        label(r, "+256", 15, true).apply {
+            setTextColor(Color.rgb(17, 17, 17))
+            setPadding(dp(12), 0, dp(12), 0)
+            gravity = Gravity.CENTER
+            background = round(Color.rgb(249, 250, 253), 6)
+            layoutParams = LinearLayout.LayoutParams(-2, -1)
+        }
+        edit.background = null
+        r.addView(edit, LinearLayout.LayoutParams(0, -1, 1f))
+        return edit
+    }
+
+    private fun passwordField(parent: LinearLayout): EditText {
+        val edit =
+            field(
+                parent,
+                "Password",
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,
+            )
+        parent.removeView(edit)
+        val r = row(parent).apply { background = round(Color.WHITE, 6, lineColor) }
+        r.layoutParams = LinearLayout.LayoutParams(-1, dp(44)).apply { topMargin = dp(3) }
+        edit.background = null
+        r.addView(edit, LinearLayout.LayoutParams(0, -1, 1f))
+        val show =
+            label(r, "Show", 13, true).apply {
+                setTextColor(navy)
+                gravity = Gravity.CENTER
+                setPadding(dp(8), 0, dp(12), 0)
+                layoutParams = LinearLayout.LayoutParams(dp(60), -1)
+                contentDescription = "Show password"
+                isFocusable = true
+            }
+        show.setOnClickListener {
+            val visible = edit.transformationMethod != null
+            edit.transformationMethod =
+                if (visible) null else PasswordTransformationMethod.getInstance()
+            show.text = if (visible) "Hide" else "Show"
+            show.contentDescription = if (visible) "Hide password" else "Show password"
+            edit.setSelection(edit.text.length)
+        }
+        return edit
+    }
+
+    private fun accountRow(
+        parent: LinearLayout,
+        icon: String,
+        title: String,
+        click: () -> Unit,
+    ): LinearLayout {
+        val r =
+            row(parent).apply {
+                minimumHeight = dp(48)
+                setPadding(dp(16), 0, dp(16), 0)
+                contentDescription = title
+                isFocusable = true
+                setOnClickListener { click() }
+            }
+        r.addView(
+            BrandIcon(this, icon, if (dark) ink else Color.rgb(35, 39, 43)),
+            LinearLayout.LayoutParams(dp(18), dp(18)),
+        )
+        label(r, title, 15).apply {
+            setPadding(dp(14), dp(10), dp(8), dp(10))
+            setTextColor(if (dark) ink else Color.rgb(17, 17, 17))
+            layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
+        }
+        return r
+    }
+
+    private fun accountAccordion(
+        parent: LinearLayout,
+        icon: String,
+        title: String,
+        links: List<Pair<String, String>>,
+    ) {
+        val body =
+            LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                visibility = View.GONE
+            }
+        val r =
+            accountRow(parent, icon, title) {
+                body.visibility = if (body.visibility == View.GONE) View.VISIBLE else View.GONE
+            }
+        r.addView(BrandIcon(this, "down", muted), LinearLayout.LayoutParams(dp(14), dp(14)))
+        parent.addView(body, LinearLayout.LayoutParams(-1, -2))
+        for ((name, path) in links) label(body, name, 14).apply {
+            setPadding(dp(48), dp(12), dp(12), dp(12))
+            setOnClickListener { legalScreen(name, path) }
+            isFocusable = true
+        }
+    }
+
     private fun row(parent: LinearLayout) =
         LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             parent.addView(this, LinearLayout.LayoutParams(-1, -2))
         }
+
+    private fun messageBackground(radius: Int) =
+        GradientDrawable(
+                GradientDrawable.Orientation.TL_BR,
+                if (dark) intArrayOf(ink, Color.rgb(247, 243, 235))
+                else intArrayOf(navy, navy, Color.rgb(10, 10, 255)),
+            )
+            .apply { cornerRadius = dp(radius).toFloat() }
 
     private fun round(color: Int, radius: Int, border: Int? = null) =
         GradientDrawable().apply {
@@ -2270,7 +2615,8 @@ class MainActivity : ComponentActivity() {
             setTextColor(
                 if (authPage) {
                     if (size <= 14) Color.rgb(190, 190, 230) else Color.WHITE
-                } else if (size <= 14) muted else ink
+                } else if (bold) ink
+                else if (size <= 14) muted else if (dark) ink else Color.rgb(17, 17, 17)
             )
             setLineSpacing(dp(2).toFloat(), 1f)
             includeFontPadding = false
@@ -2300,11 +2646,11 @@ class MainActivity : ComponentActivity() {
             typeface = font
             setTextColor(navy)
             setHintTextColor(Color.rgb(141, 147, 163))
-            background = round(Color.WHITE, 7, lineColor)
+            background = round(Color.WHITE, 6, lineColor)
             setPadding(dp(13), 0, dp(13), 0)
             parent.addView(
                 this,
-                LinearLayout.LayoutParams(-1, dp(48)).apply {
+                LinearLayout.LayoutParams(-1, dp(if (authPage) 44 else 48)).apply {
                     topMargin = dp(3)
                     bottomMargin = dp(9)
                 },
@@ -2338,7 +2684,7 @@ class MainActivity : ComponentActivity() {
         Button(this).apply {
             text = title
             isAllCaps = false
-            textSize = 14f
+            textSize = if (authPage) 15.2f else 14f
             typeface = Typeface.create(font, Typeface.BOLD)
             val inverse = authPage && primary
             setTextColor(
@@ -2347,11 +2693,15 @@ class MainActivity : ComponentActivity() {
             background =
                 round(
                     if (inverse || authPage) Color.WHITE else if (primary) navy else paper,
-                    if (authPage) 7 else 12,
+                    if (authPage) 6 else 12,
                     if (primary) null else lineColor,
                 )
             setPadding(dp(12), dp(8), dp(12), dp(8))
-            minimumHeight = dp(48)
+            minimumHeight = dp(49)
+            minHeight = dp(49)
+            minimumWidth = 0
+            minWidth = 0
+            stateListAnimator = null
             isFocusable = true
             parent.addView(
                 this,
@@ -2474,21 +2824,19 @@ class MainActivity : ComponentActivity() {
 
     private fun progress(parent: LinearLayout, percent: Double, inverse: Boolean = false) {
         val bar =
-            ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
-                max = 1000
-                progress = (percent.coerceIn(0.0, 100.0) * 10).toInt()
-                progressTintList =
-                    android.content.res.ColorStateList.valueOf(if (inverse) Color.WHITE else navy)
-                progressBackgroundTintList =
-                    android.content.res.ColorStateList.valueOf(
-                        if (inverse) Color.rgb(73, 73, 177) else Color.rgb(231, 234, 247)
-                    )
-            }
+            WebsiteProgress(
+                this,
+                percent,
+                if (inverse) Color.WHITE else ink,
+                if (inverse) Color.argb(46, 255, 255, 255)
+                else if (dark) lineColor else Color.rgb(238, 240, 248),
+                inverse,
+            )
         parent.addView(
             bar,
-            LinearLayout.LayoutParams(-1, dp(8)).apply {
-                topMargin = dp(12)
-                bottomMargin = dp(10)
+            LinearLayout.LayoutParams(-1, dp(if (inverse) 10 else 8)).apply {
+                topMargin = dp(9)
+                bottomMargin = dp(9)
             },
         )
     }

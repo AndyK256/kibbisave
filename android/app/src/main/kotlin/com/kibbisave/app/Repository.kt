@@ -4,8 +4,11 @@ import java.io.IOException
 import org.json.JSONArray
 import org.json.JSONObject
 
-class Repository(private val store: SecureStore) {
-    private val api = ApiClient(store)
+class Repository(
+    private val store: SecureStore,
+    legacyTls: javax.net.ssl.SSLSocketFactory? = null,
+) {
+    private val api = ApiClient(store, legacyTls)
 
     fun login(identifier: String, password: String): Session {
         val path = if (BuildConfig.ADMIN_APP) "/api/admin/login" else "/api/auth/login"

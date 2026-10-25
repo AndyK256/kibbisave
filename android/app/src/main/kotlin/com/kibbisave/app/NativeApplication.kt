@@ -8,5 +8,11 @@ class NativeApplication : Application() {
     val executor = Executors.newSingleThreadExecutor()
     val imageExecutor = Executors.newFixedThreadPool(2)
     val store by lazy { SecureStore(this) }
-    val repository by lazy { Repository(store) }
+    val repository by lazy {
+        val legacyTls =
+            if (android.os.Build.VERSION.SDK_INT <= 25)
+                resources.openRawResource(R.raw.isrg_root_x1).use { WebsiteTls.factory(it) }
+            else null
+        Repository(store, legacyTls)
+    }
 }

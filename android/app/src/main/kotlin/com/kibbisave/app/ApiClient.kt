@@ -9,7 +9,10 @@ class ApiException(val status: Int, message: String) : Exception(message)
 data class ApiReply(val body: JSONObject, val sessionCookie: String?, val expires: Long)
 
 /** No browser, WebView, automatic redirects, request queue, or automatic write retries. */
-class ApiClient(private val store: SecureStore) {
+class ApiClient(
+    private val store: SecureStore,
+    private val legacyTls: javax.net.ssl.SSLSocketFactory? = null,
+) {
     fun request(
         path: String,
         body: JSONObject? = null,
@@ -19,6 +22,8 @@ class ApiClient(private val store: SecureStore) {
         val connection =
             ApiAddress.resolve(BuildConfig.API_URL, path).toURL().openConnection()
                 as HttpURLConnection
+        if (legacyTls != null && connection is javax.net.ssl.HttpsURLConnection)
+            connection.sslSocketFactory = legacyTls
         connection.connectTimeout = 8_000
         connection.readTimeout = 15_000
         connection.instanceFollowRedirects = false

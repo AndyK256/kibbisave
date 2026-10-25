@@ -262,6 +262,8 @@ class MainActivity : ComponentActivity() {
             val brand =
                 TextView(this).apply {
                     text = "Kibbisave"
+                    gravity = Gravity.CENTER_VERTICAL
+                    includeFontPadding = false
                     textSize = 21.6f
                     typeface = Typeface.create(font, Typeface.BOLD)
                     setTextColor(Color.WHITE)

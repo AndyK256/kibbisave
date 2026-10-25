@@ -98,6 +98,11 @@ class BrandIcon(context: Context, private val kind: String, private val ink: Int
                     )
                 }
             }
+            "info" -> {
+                canvas.drawCircle(12f, 12f, 9f, p)
+                line(12f, 10f, 12f, 17f)
+                line(12f, 7f, 12f, 7.2f)
+            }
             "help" -> {
                 canvas.drawCircle(12f, 12f, 9f, p)
                 canvas.drawArc(9f, 6f, 15f, 12f, 190f, 250f, false, p)

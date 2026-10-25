@@ -1271,6 +1271,118 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun communityCard(parent: LinearLayout, community: JSONObject, kind: String) {
+        val width =
+            minOf(
+                340,
+                (resources.displayMetrics.widthPixels / resources.displayMetrics.density * .88f)
+                    .toInt(),
+            )
+        val card =
+            card(parent, radius = 14).apply {
+                setPadding(dp(14), dp(14), dp(14), dp(13))
+                elevation = dp(1).toFloat()
+                layoutParams =
+                    LinearLayout.LayoutParams(dp(width), dp(248)).apply {
+                        setMargins(dp(3), dp(8), dp(14), dp(14))
+                    }
+            }
+        fun text(p: LinearLayout, value: String, size: Int, bold: Boolean = false) =
+            label(p, value, size, bold).apply { setPadding(0, 0, 0, 0) }
+        val hero = FrameLayout(this)
+        card.addView(hero, LinearLayout.LayoutParams(-1, 0, 1f))
+        val info = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        hero.addView(info, FrameLayout.LayoutParams(dp(width - 28 - 132), -2))
+        text(info, community.optString("name"), 15, true).apply {
+            maxLines = 2
+            setTextColor(if (dark) ink else Color.rgb(17, 17, 17))
+        }
+        text(
+                info,
+                "${community.optInt("total_members")} members · ${community.optString("city").takeUnless { it == "null" || it.isBlank() } ?: community.optString("country", "Uganda")}",
+                10,
+            )
+            .apply { setPadding(0, dp(3), 0, dp(8)) }
+        text(info, community.optString("about"), 11).apply {
+            maxLines = 3
+            setLineSpacing(dp(3).toFloat(), 1f)
+        }
+        text(info, "read more", 11, true).apply {
+            paintFlags = paintFlags or android.graphics.Paint.UNDERLINE_TEXT_FLAG
+            setOnClickListener { communityDetail(community.getString("id")) }
+        }
+        hero.addView(
+            TextView(this).apply {
+                this.text = kind.replaceFirstChar { it.uppercase() }
+                textSize = 9f
+                typeface = boldFont
+                setTextColor(ink)
+                background = round(if (dark) canvasColor else Color.rgb(232, 234, 248), 20)
+                setPadding(dp(9), dp(3), dp(9), dp(3))
+                includeFontPadding = false
+            },
+            FrameLayout.LayoutParams(-2, -2, Gravity.TOP or Gravity.END),
+        )
+        val savings =
+            LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = Gravity.CENTER_VERTICAL or Gravity.END
+            }
+        hero.addView(
+            savings,
+            FrameLayout.LayoutParams(dp(132), -1, Gravity.END).apply {
+                topMargin = dp(24)
+                bottomMargin = dp(8)
+            },
+        )
+        text(savings, "UGX", 9, true).apply {
+            gravity = Gravity.END
+            setTextColor(muted)
+        }
+        val amount = community.optDouble("total_saved")
+        val compact =
+            if (amount >= 1000000) String.format(Locale.UK, "%.1fM", amount / 1000000)
+            else if (amount >= 1000) "${(amount/1000).toInt()}k"
+            else NumberFormat.getIntegerInstance(Locale.UK).format(amount)
+        text(savings, compact, 30, true).apply {
+            gravity = Gravity.END
+            letterSpacing = -.045f
+            scaleY = 1.18f
+        }
+        text(savings, "TOTAL SAVINGS", 8).apply {
+            gravity = Gravity.END
+            setPadding(0, dp(4), 0, 0)
+            letterSpacing = .04f
+        }
+        val metrics = row(card)
+        text(metrics, "${community.optDouble("pct_reached").toInt()}%", 11, true).layoutParams =
+            LinearLayout.LayoutParams(0, -2, 1f)
+        text(
+            metrics,
+            NumberFormat.getIntegerInstance(Locale.UK).format(community.optDouble("total_goal")),
+            10,
+        )
+        card.addView(
+            WebsiteProgress(
+                this,
+                community.optDouble("pct_reached"),
+                ink,
+                if (dark) lineColor else Color.rgb(238, 240, 248),
+                false,
+            ),
+            LinearLayout.LayoutParams(-1, dp(6)).apply { topMargin = dp(4) },
+        )
+        action(card, "Join community") { communityDetail(community.getString("id")) }
+            .apply {
+                textSize = 13f
+                background = messageBackground(22)
+                setTextColor(if (dark) navy else Color.WHITE)
+                minHeight = dp(44)
+                minimumHeight = dp(44)
+                layoutParams = LinearLayout.LayoutParams(-1, dp(44)).apply { topMargin = dp(8) }
+            }
+    }
+
     private fun consumerCommunities() {
         screen("")
         load("/api/communities", public = true) { saved ->
@@ -1282,10 +1394,9 @@ class MainActivity : ComponentActivity() {
                     "organisation" to "Organisation communities",
                     "donating" to "Donating communities",
                 )) {
-                val headingRow = row(content)
-                label(headingRow, heading, 19, true).layoutParams =
-                    LinearLayout.LayoutParams(0, -2, 1f)
-                iconButton(headingRow, "communities") {
+                val headingRow = row(content).apply { setPadding(dp(18), 0, 0, 0) }
+                label(headingRow, heading, 18, true)
+                iconButton(headingRow, "info") {
                     AlertDialog.Builder(this)
                         .setTitle(heading)
                         .setMessage(
@@ -1309,20 +1420,30 @@ class MainActivity : ComponentActivity() {
                             } == kind
                         }
                 if (members.isEmpty()) {
-                    val empty = card()
+                    val empty =
+                        card().apply {
+                            minimumHeight = dp(248)
+                            gravity = Gravity.CENTER
+                            background = null
+                            elevation = 0f
+                        }
                     label(
                             empty,
                             "No $kind communities yet. Create one for ${if (kind == "private") "your circle" else if (kind == "organisation") "your team" else if (kind == "donating") "a cause" else "people saving together"}.",
-                            13,
+                            10,
                         )
                         .gravity = Gravity.CENTER
-                    action(
-                        empty,
-                        "Create ${if (kind == "organisation") "an" else "a"} $kind community",
-                        false,
-                    ) {
-                        requireLogin { createCommunity(false, kind) }
-                    }
+                    label(
+                            empty,
+                            "Create ${if (kind == "organisation") "an" else "a"} $kind community",
+                            10,
+                            true,
+                        )
+                        .apply {
+                            gravity = Gravity.CENTER
+                            paintFlags = paintFlags or android.graphics.Paint.UNDERLINE_TEXT_FLAG
+                            setOnClickListener { requireLogin { createCommunity(false, kind) } }
+                        }
                 } else {
                     val carousel =
                         HorizontalScrollView(this).apply {
@@ -1332,68 +1453,7 @@ class MainActivity : ComponentActivity() {
                     val cards = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
                     carousel.addView(cards)
                     content.addView(carousel, LinearLayout.LayoutParams(-1, -2))
-                    for (community in members) {
-                        val card = card(cards)
-                        card.layoutParams =
-                            LinearLayout.LayoutParams(
-                                    (resources.displayMetrics.widthPixels /
-                                            resources.displayMetrics.density)
-                                        .toInt()
-                                        .let { dp(it - 48) },
-                                    -2,
-                                )
-                                .apply { setMargins(dp(3), dp(8), dp(14), dp(14)) }
-                        val top = row(card)
-                        label(top, community.optString("name"), 17, true).apply {
-                            setTextColor(if (dark) ink else Color.rgb(17, 17, 17))
-                            layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
-                        }
-                        label(top, kind.replaceFirstChar { it.uppercase() }, 10, true).apply {
-                            background =
-                                round(if (dark) canvasColor else Color.rgb(238, 240, 255), 9)
-                            setPadding(dp(7), dp(3), dp(7), dp(3))
-                            layoutParams = LinearLayout.LayoutParams(-2, -2)
-                        }
-                        label(
-                            card,
-                            "${community.optInt("total_members")} members · ${community.optString("city").takeUnless { it == "null" || it.isBlank() } ?: community.optString("country", "Uganda")}",
-                            11,
-                        )
-                        label(card, community.optString("about"), 13)
-                        label(card, "read more", 12, true).setOnClickListener {
-                            communityDetail(community.getString("id"))
-                        }
-                        label(card, "UGX", 10).gravity = Gravity.END
-                        val amount = community.optDouble("total_saved")
-                        label(
-                                card,
-                                if (amount >= 1000000)
-                                    String.format(Locale.UK, "%.1fM", amount / 1000000)
-                                else if (amount >= 1000) "${(amount / 1000).toInt()}k"
-                                else NumberFormat.getIntegerInstance(Locale.UK).format(amount),
-                                36,
-                                true,
-                            )
-                            .gravity = Gravity.END
-                        label(card, "TOTAL SAVINGS", 9).gravity = Gravity.END
-                        val totals = row(card)
-                        label(totals, "${community.optDouble("pct_reached").toInt()}%", 12, true)
-                            .layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
-                        label(
-                                totals,
-                                NumberFormat.getIntegerInstance(Locale.UK)
-                                    .format(community.optDouble("total_goal")),
-                                11,
-                            )
-                            .apply {
-                                gravity = Gravity.END
-                                layoutParams = LinearLayout.LayoutParams(-2, -2)
-                            }
-                        progress(card, community.optDouble("pct_reached"))
-                        action(card, "Join community") {
-                            communityDetail(community.getString("id"))
-                        }
-                    }
+                    for (community in members) communityCard(cards, community, kind)
                 }
             }
             footer()

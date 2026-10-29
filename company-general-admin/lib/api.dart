@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
-import 'package:crypto/crypto.dart';
 
 typedef Json = Map<String, dynamic>;
 
@@ -53,12 +51,12 @@ class CompanyApi {
     request.followRedirects = false;
     request.headers.contentType = ContentType.json;
     if (_session != null) {
-      request.cookies.add(Cookie('kibbisave_token', _session!));
+      request.cookies.add(Cookie('kibbi_company_token', _session!));
     }
     if (body != null) request.write(jsonEncode(body));
     final response = await request.close().timeout(const Duration(seconds: 30));
     for (final cookie in response.cookies) {
-      if (cookie.name == 'kibbisave_token' &&
+      if (cookie.name == 'kibbi_company_token' &&
           generation == _sessionGeneration) {
         _session = cookie.value.isEmpty ? null : cookie.value;
       }
@@ -85,37 +83,11 @@ class CompanyApi {
     return data;
   }
 
-  Future<void> login(String identifier, String password) async {
+  Future<void> loginWithAccessCode(String code) async {
     await request(
-      '/api/auth/login',
+      '/api/internal/access-code',
       method: 'POST',
-      body: {'identifier': identifier, 'password': password},
-    );
-  }
-
-  Future<DesktopLoginAttempt> beginDesktopLogin() async {
-    final random = Random.secure();
-    final verifier = base64UrlEncode(
-      List<int>.generate(32, (_) => random.nextInt(256)),
-    ).replaceAll('=', '');
-    final challenge = base64UrlEncode(
-      sha256.convert(utf8.encode(verifier)).bytes,
-    ).replaceAll('=', '');
-    final data = await request(
-      '/api/auth/desktop/start',
-      method: 'POST',
-      body: {'challenge': challenge},
-    );
-    final url = Uri.parse(data['browserUrl'] as String);
-    if (url.origin != origin.origin || url.path != '/desktop-sign-in.html') {
-      throw const ApiException('Invalid sign-in destination.', 502);
-    }
-    return DesktopLoginAttempt(
-      this,
-      data['requestId'] as String,
-      verifier,
-      data['displayCode'] as String,
-      url,
+      body: {'code': code},
     );
   }
 
@@ -125,8 +97,8 @@ class CompanyApi {
     // Clear locally first; a failed remote call must never trap the user.
     if (oldSession == null) return;
     try {
-      final req = await _client.postUrl(origin.resolve('/api/auth/logout'));
-      req.cookies.add(Cookie('kibbisave_token', oldSession));
+      final req = await _client.postUrl(origin.resolve('/api/internal/access-code/logout'));
+      req.cookies.add(Cookie('kibbi_company_token', oldSession));
       await (await req.close()).drain<void>().timeout(
         const Duration(seconds: 5),
       );
@@ -138,40 +110,5 @@ class CompanyApi {
   void close() {
     clearSession();
     _client.close(force: true);
-  }
-}
-
-class DesktopLoginAttempt {
-  final CompanyApi api;
-  final String requestId, verifier, displayCode;
-  final Uri browserUrl;
-  bool cancelled = false;
-  DesktopLoginAttempt(
-    this.api,
-    this.requestId,
-    this.verifier,
-    this.displayCode,
-    this.browserUrl,
-  );
-  Future<bool> poll() async {
-    if (cancelled) return false;
-    final data = await api.request(
-      '/api/auth/desktop/exchange',
-      method: 'POST',
-      body: {'requestId': requestId, 'verifier': verifier},
-    );
-    return !cancelled && data['success'] == true;
-  }
-
-  Future<void> cancel() async {
-    cancelled = true;
-    api.clearSession();
-    try {
-      await api.request(
-        '/api/auth/desktop/cancel',
-        method: 'POST',
-        body: {'requestId': requestId, 'verifier': verifier},
-      );
-    } catch (_) {}
   }
 }

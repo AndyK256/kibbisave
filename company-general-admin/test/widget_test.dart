@@ -5,12 +5,14 @@ import 'package:kibbi_company/api.dart';
 import 'package:kibbi_company/message_text.dart';
 
 void main() {
-  testWidgets('desktop starts signed out and requires existing credentials', (
+  testWidgets('desktop starts signed out and requires a CEO access code', (
     tester,
   ) async {
     await tester.pumpWidget(const CompanyApp());
     expect(find.text('KibbiSave Company'), findsOneWidget);
-    expect(find.text('Email or phone'), findsOneWidget);
+    expect(find.text('Access code'), findsOneWidget);
+    expect(find.text('Sign in with Google'), findsNothing);
+    expect(find.text('Email or phone'), findsNothing);
     expect(find.widgetWithText(FilledButton, 'Sign in'), findsOneWidget);
     expect(find.text('Total cash collected'), findsNothing);
     await tester.pumpWidget(const SizedBox());

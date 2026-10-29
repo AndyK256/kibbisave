@@ -5,7 +5,7 @@ import 'package:kibbi_company/main.dart';
 
 class FixtureApi extends CompanyApi {
   @override
-  Future<void> login(String identifier, String password) async {}
+  Future<void> loginWithAccessCode(String code) async {}
   @override
   Future<Json> request(String path, {String method = 'GET', Json? body}) async {
     if (path == '/api/internal/organizations') {
@@ -82,14 +82,7 @@ void main() {
       addTearDown(tester.view.resetPhysicalSize);
       addTearDown(tester.view.resetDevicePixelRatio);
       await tester.pumpWidget(CompanyApp(api: FixtureApi()));
-      await tester.enterText(
-        find.widgetWithText(TextField, 'Email or phone'),
-        'owner@example.test',
-      );
-      await tester.enterText(
-        find.widgetWithText(TextField, 'Password'),
-        'fixture-only',
-      );
+      await tester.enterText(find.widgetWithText(TextField, 'Access code'), 'fixture-only');
       await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
       await tester.pumpAndSettle();
       expect(find.text('Total cash collected'), findsOneWidget);

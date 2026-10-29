@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'api.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'message_text.dart';
 
 const navy = Color(0xff00008b);
@@ -57,10 +56,8 @@ class CompanyDesktop extends StatefulWidget {
 
 class _CompanyDesktopState extends State<CompanyDesktop> {
   late final CompanyApi api;
-  DesktopLoginAttempt? desktopLogin;
   int authVersion = 0;
-  final identifier = TextEditingController(),
-      password = TextEditingController(),
+  final accessCode = TextEditingController(),
       draft = TextEditingController();
   final stream = ScrollController();
   bool signedIn = false, busy = false, sending = false, drawer = false;
@@ -89,8 +86,7 @@ class _CompanyDesktopState extends State<CompanyDesktop> {
   void dispose() {
     poll?.cancel();
     api.close();
-    identifier.dispose();
-    password.dispose();
+    accessCode.dispose();
     draft.dispose();
     stream.dispose();
     super.dispose();
@@ -132,72 +128,12 @@ class _CompanyDesktopState extends State<CompanyDesktop> {
 
   Future<void> signIn() async {
     await run(() async {
-      await api.login(identifier.text.trim(), password.text);
-      password.clear();
+      await api.loginWithAccessCode(accessCode.text);
+      accessCode.clear();
       if (!mounted) return;
       setState(() => signedIn = true);
       await loadCompanies();
     });
-  }
-
-  Future<void> googleSignIn() async {
-    if (busy) return;
-    final ticket = ++authVersion;
-    setState(() {
-      busy = true;
-      error = null;
-    });
-    try {
-      final attempt = await api.beginDesktopLogin();
-      if (!mounted || ticket != authVersion) {
-        await attempt.cancel();
-        return;
-      }
-      setState(() => desktopLogin = attempt);
-      if (!await launchUrl(
-        attempt.browserUrl,
-        mode: LaunchMode.externalApplication,
-      )) {
-        throw const ApiException(
-          'Could not open the browser. Use Open sign-in page to retry.',
-          503,
-        );
-      }
-      for (var i = 0; i < 200; i++) {
-        await Future<void>.delayed(const Duration(seconds: 3));
-        if (!mounted || ticket != authVersion || attempt.cancelled) return;
-        if (await attempt.poll()) {
-          if (!mounted || ticket != authVersion) return;
-          setState(() {
-            signedIn = true;
-            desktopLogin = null;
-          });
-          await loadCompanies();
-          return;
-        }
-      }
-      throw const ApiException('Sign-in expired. Please start again.', 410);
-    } catch (e) {
-      if (ticket == authVersion) fail(e);
-    } finally {
-      if (mounted && ticket == authVersion) {
-        setState(() {
-          busy = false;
-          desktopLogin = null;
-        });
-      }
-    }
-  }
-
-  Future<void> cancelGoogleSignIn() async {
-    authVersion++;
-    final attempt = desktopLogin;
-    setState(() {
-      busy = false;
-      desktopLogin = null;
-      error = null;
-    });
-    if (attempt != null) await attempt.cancel();
   }
 
   Future<void> logout() async {
@@ -214,7 +150,7 @@ class _CompanyDesktopState extends State<CompanyDesktop> {
       error = null;
     });
     draft.clear();
-    password.clear();
+    accessCode.clear();
     await api.logout();
   }
 
@@ -1506,49 +1442,14 @@ class _CompanyDesktopState extends State<CompanyDesktop> {
                   color: navy,
                 ),
               ),
-              const Text('Sign in with your existing company account.'),
+              const Text('CEO access only. Enter your company access code.'),
               const SizedBox(height: 24),
-              OutlinedButton.icon(
-                onPressed: busy ? null : googleSignIn,
-                icon: const Icon(Icons.open_in_browser),
-                label: const Text('Sign in with Google'),
-              ),
-              if (desktopLogin != null) ...[
-                const Text(
-                  'In your browser, sign in and approve only if this code matches:',
-                ),
-                SelectableText(
-                  desktopLogin!.displayCode,
-                  style: const TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 4,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () => launchUrl(
-                    desktopLogin!.browserUrl,
-                    mode: LaunchMode.externalApplication,
-                  ),
-                  child: const Text('Open sign-in page'),
-                ),
-                TextButton(
-                  onPressed: cancelGoogleSignIn,
-                  child: const Text('Cancel Google sign-in'),
-                ),
-              ],
-              const SizedBox(height: 16),
-
               TextField(
-                controller: identifier,
-                decoration: const InputDecoration(labelText: 'Email or phone'),
-                autofillHints: const [AutofillHints.username],
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: password,
+                controller: accessCode,
                 obscureText: true,
-                decoration: const InputDecoration(labelText: 'Password'),
+                autocorrect: false,
+                enableSuggestions: false,
+                decoration: const InputDecoration(labelText: 'Access code'),
                 onSubmitted: (_) => signIn(),
               ),
               const SizedBox(height: 20),
@@ -1624,10 +1525,6 @@ class _CompanyDesktopState extends State<CompanyDesktop> {
                     }
                   },
             icon: const Icon(Icons.refresh),
-          ),
-          TextButton(
-            onPressed: busy ? null : acceptInvitation,
-            child: const Text('Accept invitation'),
           ),
           TextButton.icon(
             onPressed: logout,

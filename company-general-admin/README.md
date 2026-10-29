@@ -4,8 +4,8 @@ Company monitoring app for Windows and Linux. It is separate from the Kotlin cus
 
 ## Features
 
-- Google sign-in through your system browser: compare the code and approve, then return to the desktop. An expiring, single-use proof exchanges for an in-memory session; no browser-cookie copying or embedded Google login.
-- Existing email/phone and password sign-in, immediate local logout, and an assistance form.
+- CEO-only access-code sign-in checked by the server; no Google or email/password screen. The code is not embedded in the executable.
+- Company-scoped, one-hour in-memory sessions, immediate local logout, server-side rate limits and an assistance form.
 - Company registration and verification status, approval of consenting KibbiAdmins, ranked administrators and client portfolios.
 - Daily, weekly, monthly and custom date ranges. Actual cash, expected contributions and recognized advances stay separate. Historical reports use assignment history and exclude later payments.
 - Confirmed same-company portfolio reassignment, new deposit-contact routing, full profiles, recoverable admin trash and session revocation.
@@ -29,9 +29,11 @@ The production API defaults to https://kibbisave.com. For another trusted deploy
 
 ## Company onboarding
 
-Sign in and register the real company. The operator verifies the business before it appears in the admin directory. Request customized terms; approved manager seats become available after the terms are reviewed. An aspiring KibbiAdmin selects the verified company and consents to sharing the KYC summary; the CEO/manager then approves that request. Metrics populate from actual assigned portfolios and approved collection records. No demonstration money or fabricated memberships are supplied.
+The operator must link the access code to the real CEO email and exactly one approved company membership using server-only `COMPANY_ACCESS_CEO_EMAIL` and, if needed, `COMPANY_ACCESS_ORGANIZATION_ID`. Store only the SHA-256 code digest as `COMPANY_ACCESS_CODE_SHA256`. Without this assignment, sign-in reports setup incomplete; the app does not create a company or assign CEO rights from the code alone. Apply `company-access-code.sql` before enabling the endpoint. Rotating the code digest invalidates existing code sessions.
 
-A CEO can copy an invitation code and share it with the intended manager. The manager signs in with the invited email and chooses Accept invitation. Codes expire after seven days. No invitation emails or private messages are sent automatically.
+Company metrics populate from actual portfolios and approved collection records. Custom plan requests remain pending until reviewed.
+
+A CEO can copy an invitation code and share it with the intended manager. Managers use their separately authenticated account; this CEO-only desktop build does not accept manager sign-ins. Codes expire after seven days. No invitation emails or private messages are sent automatically.
 
 ## Operations and verification
 

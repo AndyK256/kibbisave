@@ -11,3 +11,5 @@ Actual approved deposit requests feed idempotent organization cash receipts. A s
 Staff direct messages are company-scoped. Client/community conversations use the same endpoints as the customer and KibbiAdmin apps. Sender roles are server-derived; no client can claim CEO/manager by changing a colour.
 
 Company verification and agreed custom terms require a trusted human operator; no company identity or account privilege is fabricated during setup. This app does not hold provider keys or connect directly to Postgres.
+
+CEO access-code revision: the desktop uses a dedicated `kibbi_company_token` cookie scoped to `/api/internal`. The server checks a configured digest and approved CEO/company assignment; sessions cannot be reused as website login cookies or switch companies. Google browser handoff remains a backend capability for existing clients but is removed from this CEO desktop build.

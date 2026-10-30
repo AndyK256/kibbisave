@@ -1,0 +1,49 @@
+name: KibbiSave general admin desktop
+on:
+  pull_request:
+    paths: ['company-general-admin/**', '.github/workflows/company-desktop.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  desktop:
+    name: Build ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+          - os: ubuntu-latest
+            platform: linux
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: company-general-admin
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          flutter-version: '3.38.3'
+          channel: stable
+          cache: true
+      - if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libstdc++-12-dev
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test --reporter expanded
+      - run: flutter build ${{ matrix.platform }} --release
+      - if: runner.os == 'Windows'
+        shell: pwsh
+        run: Compress-Archive -Path build/windows/x64/runner/Release/* -DestinationPath kibbisave-general-admin-windows.zip
+      - if: runner.os == 'Linux'
+        run: tar -czf kibbisave-general-admin-linux.tar.gz -C build/linux/x64/release/bundle .
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kibbisave-general-admin-${{ matrix.platform }}
+          path: company-general-admin/kibbisave-general-admin-*
+          if-no-files-found: error

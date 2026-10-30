@@ -73,6 +73,29 @@ class FixtureApi extends CompanyApi {
   }
 }
 
+class AuditedFixtureApi extends FixtureApi {
+  final paths = <String>[];
+  @override
+  Future<Json> request(String path, {String method = 'GET', Json? body}) async {
+    paths.add(path);
+    if (path.endsWith('/inbox')) {
+      return {
+        'viewerId': 'fixture-owner',
+        'people': [
+          {
+            'id': 'fixture-admin',
+            'name': 'Fixture admin',
+            'role': 'kibbiadmin',
+            'title': 'Collector',
+            'message_count': 0,
+          },
+        ],
+      };
+    }
+    return super.request(path, method: method, body: body);
+  }
+}
+
 void main() {
   testWidgets(
     'company owner can navigate real dashboard widgets, custom terms, staff and audit',
@@ -82,7 +105,10 @@ void main() {
       addTearDown(tester.view.resetPhysicalSize);
       addTearDown(tester.view.resetDevicePixelRatio);
       await tester.pumpWidget(CompanyApp(api: FixtureApi()));
-      await tester.enterText(find.widgetWithText(TextField, 'Access code'), 'fixture-only');
+      await tester.enterText(
+        find.widgetWithText(TextField, 'Access code'),
+        'fixture-only',
+      );
       await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
       await tester.pumpAndSettle();
       expect(find.text('Total cash collected'), findsOneWidget);
@@ -109,4 +135,51 @@ void main() {
       await tester.pumpWidget(const SizedBox());
     },
   );
+  testWidgets('all company tabs and message panel load scoped endpoints', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1400, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final api = AuditedFixtureApi();
+    await tester.pumpWidget(CompanyApp(api: api));
+    await tester.enterText(
+      find.widgetWithText(TextField, 'Access code'),
+      'fixture-only',
+    );
+    await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
+    await tester.pumpAndSettle();
+    for (final entry in {
+      'Admin approvals': '/requests',
+      'Trash': '/trash',
+      'Company staff': '/staff',
+      'Custom plan & settings': '/settings',
+      'Activity log': '/audit',
+      'Overview': '/dashboard',
+    }.entries) {
+      await tester.tap(find.widgetWithText(ListTile, entry.key));
+      await tester.pumpAndSettle();
+      expect(
+        api.paths.last,
+        '/api/internal/organizations/fixture${entry.value}',
+      );
+      expect(tester.takeException(), isNull);
+    }
+    await tester.tap(find.text('Messages 0'));
+    await tester.pumpAndSettle();
+    expect(find.text('Messages'), findsOneWidget);
+    await tester.tap(find.text('Fixture admin'));
+    await tester.pumpAndSettle();
+    expect(
+      api.paths.last,
+      '/api/internal/organizations/fixture/messages?peer=fixture-admin',
+    );
+    expect(tester.takeException(), isNull);
+    await tester.tap(find.text('Log out'));
+    await tester.pumpAndSettle();
+    expect(find.text('Access code'), findsOneWidget);
+    expect(find.text('Total cash collected'), findsNothing);
+    await tester.pumpWidget(const SizedBox());
+  });
 }

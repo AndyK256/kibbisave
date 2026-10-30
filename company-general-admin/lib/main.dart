@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'api.dart';
 import 'message_text.dart';
+import 'owner_dashboard.dart';
 
 const navy = Color(0xff00008b);
 const paper = Color(0xfff5f7fc);
@@ -57,8 +58,7 @@ class CompanyDesktop extends StatefulWidget {
 class _CompanyDesktopState extends State<CompanyDesktop> {
   late final CompanyApi api;
   int authVersion = 0;
-  final accessCode = TextEditingController(),
-      draft = TextEditingController();
+  final accessCode = TextEditingController(), draft = TextEditingController();
   final stream = ScrollController();
   bool signedIn = false, busy = false, sending = false, drawer = false;
   String? error, organization, viewer, peer, adminId;
@@ -67,6 +67,7 @@ class _CompanyDesktopState extends State<CompanyDesktop> {
   Json? report;
   Json? companySettings;
   bool canManageStaff = false;
+  bool platformOwner = false, ownerCompanyTools = false;
   DateTimeRange? range;
   Timer? poll;
   int version = 0;
@@ -141,6 +142,8 @@ class _CompanyDesktopState extends State<CompanyDesktop> {
     version++;
     setState(() {
       signedIn = false;
+      platformOwner = false;
+      ownerCompanyTools = false;
       report = null;
       contacts = [];
       messages = [];
@@ -157,8 +160,13 @@ class _CompanyDesktopState extends State<CompanyDesktop> {
   Future<void> loadCompanies() async {
     final data = await api.request('/api/internal/organizations');
     if (!mounted || !signedIn) return;
+    platformOwner = data['platformOwner'] == true;
     companies = rows(data['organizations']);
     organization = companies.isEmpty ? null : companies.first['id'] as String;
+    if (platformOwner) {
+      setState(() {});
+      return;
+    }
     if (organization != null) {
       await loadOverview();
       await loadInbox();
@@ -1489,10 +1497,28 @@ class _CompanyDesktopState extends State<CompanyDesktop> {
         ),
       );
     }
+    if (platformOwner && !ownerCompanyTools) {
+      return OwnerDashboard(
+        api: api,
+        onLogout: logout,
+        onCompanyTools: () async {
+          setState(() => ownerCompanyTools = true);
+          await run(() async {
+            await loadOverview();
+            await loadInbox();
+          });
+        },
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(report?['organization']['name'] ?? 'KibbiSave Company'),
         actions: [
+          if (platformOwner)
+            TextButton(
+              onPressed: () => setState(() => ownerCompanyTools = false),
+              child: const Text('Platform overview'),
+            ),
           DropdownButton<String>(
             value: period,
             items: [
